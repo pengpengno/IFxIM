@@ -1,0 +1,28 @@
+{
+  "groups": [
+    {
+      "name": "ifx.connect.socket",
+      "type": "com.ifx.connect.properties.SocketProperties",
+      "sourceType": "com.ifx.connect.properties.SocketProperties"
+    },
+    {
+      "name": "ifx.socket",
+      "type": "com.ifx.connect.properties.SocketProperties",
+      "sourceType": "com.ifx.connect.properties.SocketProperties",
+      "sourceMethod": "getPort()"
+    }
+  ],
+  "properties": [
+    {
+      "name": "ifx.connect.socket.port",
+      "type": "java.lang.Integer",
+      "sourceType": "com.ifx.connect.properties.SocketProperties"
+    },
+    {
+      "name": "ifx.socket.port",
+      "type": "java.lang.Integer",
+      "sourceType": "com.ifx.connect.properties.SocketProperties"
+    }
+  ],
+  "hints": []
+}

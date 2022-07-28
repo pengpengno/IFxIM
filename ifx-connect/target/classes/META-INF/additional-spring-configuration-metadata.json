@@ -1,0 +1,22 @@
+{
+  "groups": [
+    {
+      "name": "ifx.socket",
+      "type": "com.ifx.connect.properties.SocketProperties",
+      "sourceType": "com.ifx.connect.properties.SocketProperties",
+      "sourceMethod": "getPort()"
+    }
+  ],
+  "properties": [
+    {
+      "name": "ifx.socket.port",
+      "type": "java.lang.Integer",
+      "sourceType": "com.ifx.connect.properties.SocketProperties"
+    },
+    {
+      "name": "ifx.connect.socket.port",
+      "type": "java.lang.Integer",
+      "description": "Description for ifx.connect.socket."
+    }
+]
+}
