@@ -12,6 +12,8 @@
       <module fileurl="file://$PROJECT_DIR$/ifx-common/ifx-common.iml" filepath="$PROJECT_DIR$/ifx-common/ifx-common.iml" />
       <module fileurl="file://$PROJECT_DIR$/ifx-connect/ifx-connect.iml" filepath="$PROJECT_DIR$/ifx-connect/ifx-connect.iml" />
       <module fileurl="file://$PROJECT_DIR$/ifx-fxClient/ifx-fxClient.iml" filepath="$PROJECT_DIR$/ifx-fxClient/ifx-fxClient.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ifx-starter/ifx-starter.iml" filepath="$PROJECT_DIR$/ifx-starter/ifx-starter.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ifx-cloudServer/role/role.iml" filepath="$PROJECT_DIR$/ifx-cloudServer/role/role.iml" />
     </modules>
   </component>
 </project>

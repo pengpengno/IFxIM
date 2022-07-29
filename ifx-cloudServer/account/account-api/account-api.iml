@@ -35,7 +35,7 @@
     <orderEntry type="library" name="Maven: org.springframework:spring-jdbc:5.3.9" level="project" />
     <orderEntry type="library" name="Maven: org.springframework:spring-tx:5.3.9" level="project" />
     <orderEntry type="library" name="Maven: cn.hutool:hutool-all:5.8.4" level="project" />
-    <orderEntry type="library" name="Maven: com.ifx.ifx:ifx-starter:1.0-SNAPSHOT" level="project" />
+    <orderEntry type="module" module-name="ifx-starter" />
     <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot-starter-test:2.3.7.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot-test-autoconfigure:2.3.7.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: com.jayway.jsonpath:json-path:2.4.0" level="project" />

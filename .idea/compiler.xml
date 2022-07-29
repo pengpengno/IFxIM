@@ -8,10 +8,12 @@
         <outputRelativeToContentRoot value="true" />
         <module name="IfxServerGateway" />
         <module name="ifx-fxClient" />
+        <module name="role" />
         <module name="account-api" />
         <module name="ifx-connect" />
         <module name="ifx-common" />
         <module name="doc" />
+        <module name="ifx-starter" />
         <module name="account-service" />
       </profile>
     </annotationProcessing>
@@ -25,7 +27,9 @@
       <module name="ifx-common" target="1.8" />
       <module name="ifx-connect" target="1.8" />
       <module name="ifx-fxClient" target="1.5" />
+      <module name="ifx-starter" target="1.8" />
       <module name="IfxServerGateway" target="1.8" />
+      <module name="role" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>

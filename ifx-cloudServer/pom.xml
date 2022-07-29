@@ -14,6 +14,7 @@
         <module>IfxServerGateway</module>
         <module>ifx-socket</module>
         <module>account</module>
+        <module>role</module>
     </modules>
     <dependencies>
         <dependency>
