@@ -13,6 +13,7 @@
     <modules>
         <module>IfxServerGateway</module>
         <module>ifx-socket</module>
+        <module>account</module>
     </modules>
     <dependencies>
         <dependency>

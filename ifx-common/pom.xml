@@ -14,12 +14,19 @@
     <properties>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
+        <mybatis-plu.starter>3.5.2</mybatis-plu.starter>
+        <hutool-all.version>5.8.4</hutool-all.version>
     </properties>
     <dependencies>
         <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-plus-boot-starter</artifactId>
+            <version>${mybatis-plu.starter}</version>
+        </dependency>
+        <dependency>
             <groupId>cn.hutool</groupId>
             <artifactId>hutool-all</artifactId>
-            <version>5.8.4</version>
+            <version>${hutool-all.version}</version>
         </dependency>
     </dependencies>
 

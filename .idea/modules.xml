@@ -4,6 +4,9 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/IFx.iml" filepath="$PROJECT_DIR$/IFx.iml" />
       <module fileurl="file://$PROJECT_DIR$/ifx-cloudServer/IfxServerGateway/IfxServerGateway.iml" filepath="$PROJECT_DIR$/ifx-cloudServer/IfxServerGateway/IfxServerGateway.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ifx-cloudServer/account/account.iml" filepath="$PROJECT_DIR$/ifx-cloudServer/account/account.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ifx-cloudServer/account/account-api/account-api.iml" filepath="$PROJECT_DIR$/ifx-cloudServer/account/account-api/account-api.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ifx-cloudServer/account/account-service/account-service.iml" filepath="$PROJECT_DIR$/ifx-cloudServer/account/account-service/account-service.iml" />
       <module fileurl="file://$PROJECT_DIR$/ifx-cloudServer/cloudServer.iml" filepath="$PROJECT_DIR$/ifx-cloudServer/cloudServer.iml" />
       <module fileurl="file://$PROJECT_DIR$/doc/doc.iml" filepath="$PROJECT_DIR$/doc/doc.iml" />
       <module fileurl="file://$PROJECT_DIR$/ifx-common/ifx-common.iml" filepath="$PROJECT_DIR$/ifx-common/ifx-common.iml" />

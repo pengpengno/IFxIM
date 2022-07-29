@@ -7,13 +7,18 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="IfxServerGateway" />
-        <module name="doc" />
         <module name="ifx-fxClient" />
+        <module name="account-api" />
         <module name="ifx-connect" />
         <module name="ifx-common" />
+        <module name="doc" />
+        <module name="account-service" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="account" target="1.8" />
+      <module name="account-api" target="1.8" />
+      <module name="account-service" target="1.8" />
       <module name="cloudServer" target="1.8" />
       <module name="doc" target="1.5" />
       <module name="IFx" target="1.8" />
