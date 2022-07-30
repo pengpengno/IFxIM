@@ -7,7 +7,6 @@
 database chat_db
 cloud ifx-cloudServer{
     artifact dataParse
-
     artifact configuration
     artifact template
     artifact gateway
