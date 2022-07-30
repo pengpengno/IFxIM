@@ -1,0 +1,33 @@
+{
+  "groups": [
+    {
+      "name": "ifx.jdbc",
+      "type": "com.ifx.starter.properties.JDBCProperties",
+      "sourceType": "com.ifx.starter.properties.JDBCProperties"
+    }
+  ],
+  "properties": [
+    {
+      "name": "jdbc.username",
+      "type": "java.lang.String",
+      "sourceType": "com.ifx.starter.properties.JDBCProperties"
+    },
+    {
+      "name": "jdbc.password",
+      "type": "java.lang.String",
+      "sourceType": "com.ifx.starter.properties.JDBCProperties"
+    },
+    {
+      "name": "jdbc.driver",
+      "type": "java.lang.String",
+      "sourceType": "com.ifx.starter.properties.JDBCProperties"
+    },
+    {
+      "name": "jdbc.url",
+      "type": "java.lang.String",
+      "sourceType": "com.ifx.starter.properties.JDBCProperties"
+    }
+
+
+  ]
+}

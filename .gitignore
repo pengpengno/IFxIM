@@ -20,5 +20,12 @@
 *.tar.gz
 *.rar
 
+.idea/libraries/*
+.idea/compiler.xml
+.idea/dataSources.xml
+.idea/libraries/Maven__org_springframework_spring_beans_5_2_7_RELEASE.xml
+.idea/libraries/Maven__org_springframework_spring_beans_5_2_8_RELEASE.xml
+
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
+

@@ -2,6 +2,7 @@
 <project version="4">
   <component name="CompilerConfiguration">
     <annotationProcessing>
+      <profile default="true" name="Default" enabled="true" />
       <profile name="Maven default annotation processors profile" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
@@ -18,18 +19,18 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="account" target="1.8" />
-      <module name="account-api" target="1.8" />
-      <module name="account-service" target="1.8" />
-      <module name="cloudServer" target="1.8" />
+      <module name="account" target="11" />
+      <module name="account-api" target="11" />
+      <module name="account-service" target="11" />
+      <module name="cloudServer" target="11" />
       <module name="doc" target="1.5" />
-      <module name="IFx" target="1.8" />
-      <module name="ifx-common" target="1.8" />
+      <module name="IFx" target="11" />
+      <module name="ifx-common" target="11" />
       <module name="ifx-connect" target="1.8" />
       <module name="ifx-fxClient" target="1.5" />
-      <module name="ifx-starter" target="1.8" />
-      <module name="IfxServerGateway" target="1.8" />
-      <module name="role" target="1.8" />
+      <module name="ifx-starter" target="11" />
+      <module name="IfxServerGateway" target="11" />
+      <module name="role" target="11" />
     </bytecodeTargetLevel>
   </component>
 </project>
