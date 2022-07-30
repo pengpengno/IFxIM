@@ -19,7 +19,7 @@
 *.zip
 *.tar.gz
 *.rar
-
+*.iml
 .idea/libraries/*
 .idea/compiler.xml
 .idea/dataSources.xml
