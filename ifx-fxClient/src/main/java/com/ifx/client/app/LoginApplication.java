@@ -26,13 +26,8 @@ public class LoginApplication extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         URL resource = getClass().getResource("fxml\\login.fxml");
-//        URL resource = new URL("fxml/login.fxml");
-//        URL resource = new URL("D:\\project\\myproject\\IFx\\ifx-fxClient\\src\\main\\resource\\fxml\\login.fxml");
-//        new URL
-//        new URL()
         FXMLLoader fxmlLoader = new FXMLLoader();
         fxmlLoader.setLocation(resource);
-//        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("D:\\project\\myproject\\IFx\\ifx-fxClient\\src\\main\\resource\\fxml\\login.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
         primaryStage.setScene(scene);
         primaryStage.show();
