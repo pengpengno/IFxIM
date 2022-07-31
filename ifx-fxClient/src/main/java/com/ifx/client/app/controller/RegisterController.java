@@ -1,4 +1,4 @@
-package com.ifx.client.controller;
+package com.ifx.client.app.controller;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;

@@ -53,7 +53,7 @@
             <TextField fx:id="accountField" layoutX="244.0" layoutY="131.0" />
             <Label fx:id="account" layoutX="186.0" layoutY="135.0" text="账号" />
             <CheckBox fx:id="autoLoginCheckBox" layoutX="316.0" layoutY="242.0" mnemonicParsing="false" text="自动登录" />
-            <ImageView fx:id="iconView" fitHeight="105.0" fitWidth="127.0" layoutX="244.0" layoutY="20.0" onDragDetected="#sss" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="iconView" fitHeight="105.0" fitWidth="127.0" layoutX="244.0" layoutY="20.0" pickOnBounds="true" preserveRatio="true" />
             <Label layoutX="28.0" layoutY="343.0" text="忘记密码" />
             <Label fx:id="registerAccount" layoutX="28.0" layoutY="364.0" text="注册账号" />
       </children>
