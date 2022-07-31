@@ -19,18 +19,18 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="account" target="11" />
-      <module name="account-api" target="11" />
-      <module name="account-service" target="11" />
-      <module name="cloudServer" target="11" />
-      <module name="doc" target="1.5" />
-      <module name="IFx" target="11" />
-      <module name="ifx-common" target="11" />
-      <module name="ifx-connect" target="1.8" />
-      <module name="ifx-fxClient" target="1.5" />
-      <module name="ifx-starter" target="11" />
-      <module name="IfxServerGateway" target="11" />
-      <module name="role" target="11" />
+      <module name="account" target="8" />
+      <module name="account-api" target="8" />
+      <module name="account-service" target="8" />
+      <module name="cloudServer" target="8" />
+      <module name="doc" target="8" />
+      <module name="IFx" target="8" />
+      <module name="ifx-common" target="8" />
+      <module name="ifx-connect" target="8" />
+      <module name="ifx-fxClient" target="8" />
+      <module name="ifx-starter" target="8" />
+      <module name="IfxServerGateway" target="8" />
+      <module name="role" target="8" />
     </bytecodeTargetLevel>
   </component>
 </project>
