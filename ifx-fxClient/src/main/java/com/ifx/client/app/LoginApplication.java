@@ -4,7 +4,6 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-
 import java.net.URL;
 
 public class LoginApplication extends Application {
@@ -29,6 +28,7 @@ public class LoginApplication extends Application {
         FXMLLoader fxmlLoader = new FXMLLoader();
         fxmlLoader.setLocation(resource);
         Scene scene = new Scene(fxmlLoader.load());
+//        scene.getStylesheets().add(BootstrapFX.bootstrapFXStylesheet());
         primaryStage.setScene(scene);
         primaryStage.show();
     }
