@@ -23,18 +23,24 @@ and will design the flowing module
 
 实现头像功能
 
+断线重连
+
 更多自定义基本信息 邮箱，工作组等等 （待商议）
 
 ### connect
 
 connect V1版本实现基于TCP 的自定义应用层通讯协议
 
+设计基于netty的通信框架
+
 this is ifx core connection
 ### message
 
-实现系统级别消息（即上线自动拉取）
+实现消息分级（权重）
 
 实现单聊场景下写扩散
+
+实现群聊场景下的读写混合
 
 实现离线写
 

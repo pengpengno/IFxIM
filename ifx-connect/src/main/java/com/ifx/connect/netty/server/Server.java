@@ -1,2 +1,6 @@
-package com.ifx.connect.netty.server;public class Server {
+package com.ifx.connect.netty.server;
+
+@FunctionalInterface
+public interface Server {
+    void startUp();
 }

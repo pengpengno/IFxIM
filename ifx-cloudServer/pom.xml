@@ -13,12 +13,13 @@
     <modules>
         <module>IfxServerGateway</module>
         <module>account</module>
-        <module>role</module>
     </modules>
     <properties>
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
         <mongo.starter>2.5.3</mongo.starter>
+        <dubbo.starter.version>3.0.5</dubbo.starter.version>
+        <dubbo.version>3.0.5</dubbo.version>
     </properties>
     <dependencies>
         <dependency>
@@ -32,11 +33,16 @@
             <artifactId>ifx-starter</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
-<!--        <dependency>-->
-<!--            <groupId>org.springframework.boot</groupId>-->
-<!--            <artifactId>spring-boot-starter-data-mongodb</artifactId>-->
-<!--            <version>${mongo.starter}</version>-->
-<!--        </dependency>-->
+        <dependency>
+            <groupId>org.apache.dubbo</groupId>
+            <artifactId>dubbo-spring-boot-autoconfigure</artifactId>
+            <version>${dubbo.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.dubbo</groupId>
+            <artifactId>dubbo</artifactId>
+            <version>${dubbo.version}</version>
+        </dependency>
     </dependencies>
 
 

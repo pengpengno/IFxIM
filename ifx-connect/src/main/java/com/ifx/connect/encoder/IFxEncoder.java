@@ -1,2 +1,4 @@
-package com.ifx.connect.encoder;public class IFxEncoder {
+package com.ifx.connect.encoder;
+
+public class IFxEncoder {
 }

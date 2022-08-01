@@ -52,7 +52,13 @@ public class LoginController {
     private CheckBox remberPsdCheckBox;
 
     @FXML
-    void sss(MouseEvent event) {
+    void login(MouseEvent event) {
+
+    }
+
+
+    @FXML
+    void cancelLogin(MouseEvent event) {
 
     }
 

@@ -1,0 +1,4 @@
+ifx:
+  connect:
+    socket:
+      port: 8976

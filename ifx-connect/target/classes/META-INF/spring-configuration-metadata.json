@@ -14,8 +14,24 @@
   ],
   "properties": [
     {
+      "name": "ifx.connect.socket.core-active-socket",
+      "type": "java.lang.Integer",
+      "sourceType": "com.ifx.connect.properties.SocketProperties"
+    },
+    {
+      "name": "ifx.connect.socket.host",
+      "type": "java.lang.String",
+      "sourceType": "com.ifx.connect.properties.SocketProperties"
+    },
+    {
+      "name": "ifx.connect.socket.max-active-socket",
+      "type": "java.lang.Integer",
+      "sourceType": "com.ifx.connect.properties.SocketProperties"
+    },
+    {
       "name": "ifx.connect.socket.port",
       "type": "java.lang.Integer",
+      "description": "Description for ifx.connect.socket.",
       "sourceType": "com.ifx.connect.properties.SocketProperties"
     },
     {
