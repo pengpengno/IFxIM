@@ -1,4 +1,4 @@
-package server.netty;
+package com.ifx.server.netty;
 
 import com.ifx.connect.netty.server.Server;
 import com.ifx.connect.netty.server.ServerHandler;
@@ -12,12 +12,7 @@ import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.ApplicationContextInitializer;
-import org.springframework.context.ApplicationListener;
-import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
-
-import javax.annotation.Resource;
 
 @Component
 @Slf4j
@@ -36,9 +31,9 @@ public class StartNettyServer   implements Server {
 
     public void startUp(Integer port) throws InterruptedException {
             ChannelFuture channelFuture = applyChannel(port);
-            // Wait until the server socket is closed.
+            // Wait until the com.ifx.server socket is closed.
                     // In this example, this does not happen, but you can do that to gracefully
-                    // shut down your server.
+                    // shut down your com.ifx.server.
 //            channelFuture.channel().closeFuture().sync();
         }
 
@@ -61,9 +56,9 @@ public class StartNettyServer   implements Server {
 
                 // Bind and start to accept incoming connections.
                 return b.bind("127.0.0.1",port).sync(); // (7)
-                // Wait until the server socket is closed.
+                // Wait until the com.ifx.server socket is closed.
                 // In this example, this does not happen, but you can do that to gracefully
-                // shut down your server.
+                // shut down your com.ifx.server.
 //                f.channel().closeFuture().sync();
             } catch (InterruptedException e) {
                 throw e;
@@ -102,9 +97,9 @@ public class StartNettyServer   implements Server {
             // Bind and start to accept incoming connections.
             ChannelFuture f = b.bind(port).sync(); // (7)
 
-            // Wait until the server socket is closed.
+            // Wait until the com.ifx.server socket is closed.
             // In this example, this does not happen, but you can do that to gracefully
-            // shut down your server.
+            // shut down your com.ifx.server.
                 f.channel().closeFuture().sync();
         } catch (InterruptedException e) {
             throw e;
