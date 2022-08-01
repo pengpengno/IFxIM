@@ -16,50 +16,64 @@ import lombok.Data;
 @Data
 public class Account implements Serializable {
     /**
-     * 
+     *
      */
     @TableId(type = IdType.AUTO)
     private Long id;
 
     /**
-     * 账户密码
+     * 账户id
      */
-    private String accountPsd;
+    @TableField("user_id")
+    private String userId;
 
     /**
-     * 账户名称
+     * 用户名称
      */
-    private String accountName;
+    @TableField("user_name")
+    private String userName;
 
     /**
-     * 创建人编号
+     * 昵称
      */
-    private String createAccount;
+    @TableField("user_nickname")
+    private String user_nickname;
+
+    /**
+     * 密码
+     */
+    @TableField("password")
+    private String password;
+
+    /**
+     * 盐值
+     */
+    @TableField("salt")
+    private String salt;
+
+    /**
+     * 出生日期
+     */
+    @TableField("birthday")
+    private String birthday;
+
+    /**
+     * 居住地址
+     */
+    @TableField("address")
+    private String address;
 
     /**
      * 创建时间
      */
-    private Date createDate;
+    @TableField("create_time")
+    private Date create_time;
 
     /**
-     * 修改人编号
+     * 更新时间
      */
-    private String updateAccount;
-
-    /**
-     * 修改时间
-     */
-    private Date updateDate;
-
-    /**
-     * 删除标志
-     */
-    private Integer active;
-
-    /**
-     * 版本
-     */
-    private Integer version;
+    @TableField("update_time")
+    private Date update_time;
 
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;
