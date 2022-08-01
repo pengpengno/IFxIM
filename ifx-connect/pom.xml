@@ -26,13 +26,13 @@
             <groupId>com.ifx.ifx</groupId>
             <artifactId>ifx-common</artifactId>
             <version>${project.version}</version>
-            <scope>compile</scope>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>com.ifx.ifx</groupId>
             <artifactId>ifx-starter</artifactId>
             <version>1.0-SNAPSHOT</version>
-            <scope>compile</scope>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
     <build>

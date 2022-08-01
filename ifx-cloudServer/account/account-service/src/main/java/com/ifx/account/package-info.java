@@ -1,2 +1,2 @@
 package com.ifx.account;
-// ifx server platform core
+// ifx com.ifx.server platform core

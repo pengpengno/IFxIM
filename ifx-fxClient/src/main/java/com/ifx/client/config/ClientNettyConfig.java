@@ -60,6 +60,6 @@ public class ClientNettyConfig {
 
     public static void main(String[] args) throws Exception
     {
-        new ClientNettyConfig("127.0.0.1",1111).run();
+        new ClientNettyConfig("127.0.0.1",8976).run();
     }
 }
