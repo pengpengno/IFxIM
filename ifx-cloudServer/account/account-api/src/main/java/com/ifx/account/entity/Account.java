@@ -6,7 +6,10 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import java.io.Serializable;
 import java.util.Date;
+
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * 基本用户信息表
@@ -14,6 +17,8 @@ import lombok.Data;
  */
 @TableName(value ="account")
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class Account implements Serializable {
     /**
      *
