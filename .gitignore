@@ -131,3 +131,6 @@ README.html
 hs_err_pid*
 
 /ifx-starter/target/
+.idea/libraries/Maven__com_alibaba_spring_spring_context_support_1_0_8.xml
+.idea/libraries/Maven__com_alibaba_druid_1_2_11.xml
+.idea/libraries/Maven__cn_hutool_hutool_all_5_8_4.xml

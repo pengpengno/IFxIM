@@ -23,7 +23,7 @@ import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
-public class s extends Application {
+public class Demo extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
