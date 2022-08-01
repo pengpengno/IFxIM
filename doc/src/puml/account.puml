@@ -1,0 +1,49 @@
+@startuml
+'https://plantuml.com/use-case-diagram
+skinparam actorStyle awesome
+:user 1: as user1
+:user 2: as user2
+'(账号服务) as (account)
+package accountDataBase{
+    usecase account
+    usecase friend_relation
+    usecase account_login_rec
+    usecase account_
+}
+package login {
+    usecase token
+    usecase roleControl
+    usecase action
+}
+package send{
+
+}
+package receive{
+}
+package {
+}
+
+package addFriend{
+  usecase sysMes
+ userA -> sysMes :发送添加请求
+ sysMes -> userB : 发送系统消息
+ userB --> sysMes : 同意申请
+ sysMes --> userA : 对方已同意
+
+}
+'User -> (Start)
+'User --> (Use)
+'
+'Admin ---> (Use)
+
+'note right of Admin : This is an example.
+
+'note right of (Use)
+'A note can also
+'be on several lines
+'end note
+
+'note "This note is connected\nto several objects." as N2
+'(Start) .. N2
+'N2 .. (Use)
+@enduml

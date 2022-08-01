@@ -12,7 +12,6 @@ import javax.annotation.Resource;
 import java.net.Socket;
 
 @SpringBootApplication(exclude = DubboAutoConfiguration.class)
-//@EnableDubboConfig
 @Slf4j
 public class ConnectApplication {
 
@@ -20,7 +19,5 @@ public class ConnectApplication {
     private SocketProperties socketProperties;
     public static void main(String[] args) {
         SpringApplication.run(ConnectApplication.class, args);
-//        log.info("sss{}",);
-//        System.out.println(socketProperties.getPort());
     }
 }

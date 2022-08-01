@@ -9,5 +9,49 @@
     <version>1.0-SNAPSHOT</version>
 
 
+    <dependencies>
+<!--        TODO  后续使用最新的0.4.0 重写源码 调整框架-->
+<!--        <dependency>-->
+<!--            <groupId>org.kordamp.bootstrapfx</groupId>-->
+<!--            <artifactId>bootstrapfx-core</artifactId>-->
+<!--            <version>0.2.0</version>-->
+<!--        </dependency>-->
+        <dependency>
+            <groupId>com.ifx.ifx</groupId>
+            <artifactId>ifx-starter</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>com.ifx.ifx</groupId>
+            <artifactId>ifx-common</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+    </dependencies>
+    <build>
 
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+<!--                <version>${spring.starter.version}</version>-->
+                <configuration>
+                    <excludes>
+                        <exclude>
+                            <groupId>org.springframework.boot</groupId>
+                            <artifactId>spring-boot-configuration-processor</artifactId>
+                        </exclude>
+                    </excludes>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.8.1</version>
+                <configuration>
+                    <source>8</source>
+                    <target>8</target>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 </project>

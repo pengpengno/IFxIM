@@ -12,8 +12,14 @@
     <packaging>pom</packaging>
     <modules>
         <module>IfxServerGateway</module>
-        <module>ifx-socket</module>
+        <module>account</module>
+        <module>role</module>
     </modules>
+    <properties>
+        <maven.compiler.source>11</maven.compiler.source>
+        <maven.compiler.target>11</maven.compiler.target>
+        <mongo.starter>2.5.3</mongo.starter>
+    </properties>
     <dependencies>
         <dependency>
             <groupId>com.ifx.ifx</groupId>
@@ -26,11 +32,11 @@
             <artifactId>ifx-starter</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
-            <version>2.3.7.RELEASE</version>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>org.springframework.boot</groupId>-->
+<!--            <artifactId>spring-boot-starter-data-mongodb</artifactId>-->
+<!--            <version>${mongo.starter}</version>-->
+<!--        </dependency>-->
     </dependencies>
 
 

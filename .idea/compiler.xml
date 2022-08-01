@@ -2,25 +2,35 @@
 <project version="4">
   <component name="CompilerConfiguration">
     <annotationProcessing>
+      <profile default="true" name="Default" enabled="true" />
       <profile name="Maven default annotation processors profile" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="IfxServerGateway" />
-        <module name="doc" />
         <module name="ifx-fxClient" />
+        <module name="role" />
+        <module name="account-api" />
         <module name="ifx-connect" />
         <module name="ifx-common" />
+        <module name="doc" />
+        <module name="ifx-starter" />
+        <module name="account-service" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="cloudServer" target="1.8" />
-      <module name="doc" target="1.5" />
-      <module name="IFx" target="1.8" />
-      <module name="ifx-common" target="1.8" />
-      <module name="ifx-connect" target="1.8" />
-      <module name="ifx-fxClient" target="1.5" />
-      <module name="IfxServerGateway" target="1.8" />
+      <module name="account" target="8" />
+      <module name="account-api" target="8" />
+      <module name="account-service" target="8" />
+      <module name="cloudServer" target="8" />
+      <module name="doc" target="8" />
+      <module name="IFx" target="8" />
+      <module name="ifx-common" target="8" />
+      <module name="ifx-connect" target="8" />
+      <module name="ifx-fxClient" target="8" />
+      <module name="ifx-starter" target="8" />
+      <module name="IfxServerGateway" target="8" />
+      <module name="role" target="8" />
     </bytecodeTargetLevel>
   </component>
 </project>

@@ -8,8 +8,12 @@ import org.springframework.stereotype.Component;
 @ConfigurationProperties(prefix = "ifx.connect.socket")
 @Data
 public class SocketProperties {
+
     private Integer port;
+
     private String  host;
+
     private Integer maxActiveSocket;
+
     private Integer coreActiveSocket;
 }
