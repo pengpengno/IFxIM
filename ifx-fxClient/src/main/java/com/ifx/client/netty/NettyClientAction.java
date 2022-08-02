@@ -2,17 +2,22 @@ package com.ifx.client.netty;
 
 import com.ifx.connect.netty.client.ClientAction;
 import com.ifx.connect.proto.Protocol;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
+@Component("netty")
 public class NettyClientAction implements ClientAction {
-    private NettyClient nettyClient = NettyClient.getInstance();
-    private static  NettyClientAction instance = null;
-    public  static NettyClientAction getInstance(){
-        if (instance ==null){
-            instance = new NettyClientAction();
-        }
-        return instance;
-    }
 
+//    private NettyClient nettyClient = NettyClient.getInstance();
+//    private static  NettyClientAction instance = null;
+//    public  static NettyClientAction getInstance(){
+//        if (instance ==null){
+//            instance = new NettyClientAction();
+//        }
+//        return instance;
+//    }
+    @Autowired
+    private NettyClient nettyClient;
 
     @Override
     public void sent(String msg) {

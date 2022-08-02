@@ -11,19 +11,22 @@ import io.netty.handler.proxy.Socks5ProxyHandler;
 import io.netty.handler.timeout.IdleStateHandler;
 import io.netty.util.CharsetUtil;
 import lombok.Data;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.UnknownHostException;
 
-
+@Component
+//@Scope()
 public class NettyClient {
 
     private InetSocketAddress address;
 
     private Bootstrap bootstrap;
 
-    private static NettyClient instance ;
+//    private static NettyClient instance ;
 
     private volatile Channel channel;
 
@@ -41,12 +44,30 @@ public class NettyClient {
         address = new InetSocketAddress(InetAddress.getLocalHost().getHostAddress(),port);
         doOpen();
     }
+    public void doOpen(Integer port) throws InterruptedException, UnknownHostException {
+        /**
+         * @Description  配置相应的参数，提供连接到远端的方法
+         **/
+        EventLoopGroup group = new NioEventLoopGroup();   //I/O线程池
+//        try {
+        bootstrap = new Bootstrap();//客户端辅助启动类
+        bootstrap.group(group)
+                .channel(NioSocketChannel.class)//实例化一个Channel
+                .remoteAddress(new InetSocketAddress(InetAddress.getLocalHost().getHostAddress(),port))
+                .handler(new ChannelInitializer<SocketChannel>()//进行通道初始化配置
+                {
+                    @Override
+                    protected void initChannel(SocketChannel socketChannel) throws Exception
+                    {
+                        socketChannel.pipeline().addLast(new ClientHandler());//添加我们自定义的Handler
+                    }
+                });
 
-    public static NettyClient getInstance() {
-        if (instance == null) {
-            instance = new NettyClient();
-        }
-        return instance;
+        //连接到远程节点；等待连接完成
+        ChannelFuture future=bootstrap.connect().sync();
+
+        channel = future.channel();
+
     }
 
     /**
@@ -75,20 +96,11 @@ public class NettyClient {
 
             //连接到远程节点；等待连接完成
             ChannelFuture future=bootstrap.connect().sync();
-//            //发送消息到服务器端，编码格式是utf-8
-//            future.channel().writeAndFlush(Unpooled.copiedBuffer("Hello World", CharsetUtil.UTF_8));
 
             channel = future.channel();
-//        channel.writeAndFlush(Unpooled.copiedBuffer("倒萨倒萨倒萨", CharsetUtil.UTF_8));
-            //阻塞操作，closeFuture()开启了一个channel的监听器（这期间channel在进行各项工作），直到链路断开
-//            future.channel().closeFuture().sync();
-            instance = this;
+
             return future;
 
-
-//        } finally {
-//            group.shutdownGracefully().sync();
-//        }
     }
 
     public void write(String msg){

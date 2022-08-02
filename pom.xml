@@ -23,6 +23,7 @@
         <nacos.starter.version>2021.1</nacos.starter.version>
         <spring.starter.version>2.3.3.RELEASE</spring.starter.version>
         <dubbo.starter.version>3.0.5</dubbo.starter.version>
+        <hutool-all.version>5.8.4</hutool-all.version>
         <dubbo.version>3.0.5</dubbo.version>
     </properties>
     <dependencies>
@@ -77,6 +78,11 @@
     </dependencies>
     <dependencyManagement>
         <dependencies>
+            <dependency>
+                <groupId>cn.hutool</groupId>
+                <artifactId>hutool-all</artifactId>
+                <version>${hutool-all.version}</version>
+            </dependency>
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-configuration-processor</artifactId>
