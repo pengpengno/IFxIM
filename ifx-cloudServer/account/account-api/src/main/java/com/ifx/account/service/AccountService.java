@@ -10,8 +10,9 @@ import com.ifx.account.vo.AccountBaseInfo;
 * @createDate 2022-07-30 16:21:21
 */
 public interface AccountService extends IService<Account> {
+
         public Boolean login(AccountBaseInfo accountBaseInfo);
+
         public String register(AccountBaseInfo accountBaseInfo);
 
-//        public  pullFriReleation
 }

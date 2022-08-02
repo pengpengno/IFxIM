@@ -8,6 +8,7 @@ import com.ifx.account.mapper.AccountMapper;
 import com.ifx.account.service.AccountService;
 import com.ifx.account.vo.AccountBaseInfo;
 import com.ifx.common.Constant.CommonConstant;
+import org.apache.dubbo.config.annotation.DubboService;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +21,7 @@ import java.util.Objects;
 * @createDate 2022-07-30 16:21:21
 */
 @Service
+@DubboService
 public class AccountServiceImpl extends ServiceImpl<AccountMapper, Account>
     implements AccountService{
     @Resource

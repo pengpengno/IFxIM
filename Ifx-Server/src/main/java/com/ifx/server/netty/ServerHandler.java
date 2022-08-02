@@ -1,5 +1,6 @@
 package com.ifx.server.netty;
 
+import com.alibaba.fastjson2.JSONObject;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelDuplexHandler;
@@ -21,7 +22,9 @@ public class ServerHandler extends ChannelDuplexHandler {
 //        TODO  implents netty serial
         //处理收到的数据，并反馈消息到到客户端
         ByteBuf in = (ByteBuf) msg;
-        log.info("收到客户端发过来的消息: {}" , in.toString(CharsetUtil.UTF_8));
+        String req = in.toString(CharsetUtil.UTF_8);
+//        JSONObject.parseObject(s)
+        log.info("收到客户端发过来的消息: {}" , req);
         //写入并发送信息到远端（客户端）
         ctx.writeAndFlush(Unpooled.copiedBuffer("你好，我是服务端，我已经收到你发送的消息", CharsetUtil.UTF_8));
     }

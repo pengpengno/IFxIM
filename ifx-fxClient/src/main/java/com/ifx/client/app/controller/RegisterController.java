@@ -1,56 +1,65 @@
 package com.ifx.client.app.controller;
 
+import cn.hutool.core.io.FileUtil;
+import cn.hutool.extra.spring.SpringUtil;
+import com.alibaba.fastjson2.JSONObject;
+import com.alibaba.fastjson2.JSONWriter;
+import com.ifx.account.vo.AccountBaseInfo;
 import com.ifx.client.netty.NettyClient;
 import com.ifx.client.netty.NettyClientAction;
 import com.ifx.connect.netty.client.ClientAction;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.swing.*;
+import java.io.IOException;
+import java.net.URL;
+
 @Component
 public class RegisterController {
 
     @FXML
-    private TextField regPsdField;
+    private TextField accountField;
 
     @FXML
-    private TextField regPsdField1;
+    private TextField mailField;
 
     @FXML
-    private Label registAccountField;
+    private TextField psdField;
 
     @FXML
-    private Button registBut;
+    private Button cannel;
 
     @FXML
-    private Button registBut1;
+    private Button register;
 
     @FXML
     private VBox registerFrame;
 
-    @Autowired
-    private ClientAction action;
-    //    private ClientAction action = NettyClientAction.getInstance();
-
     @FXML
-    void register(ActionEvent event) {
-//      1. 获取组件信息
-//        2. 发送注册请求
-//        3. 判断注册状态 成功？or失败
-
-//        action.sent();
+    void register(MouseEvent event) {
+        ClientAction bean = SpringUtil.getBean(ClientAction.class);
+        AccountBaseInfo accountBaseInfo = new AccountBaseInfo();
+        accountBaseInfo.setAccount(accountField.getText());
+        accountBaseInfo.setPassword(psdField.getText());
+        accountBaseInfo.setEmail(mailField.getText());
+        bean.sent(JSONObject.toJSONString(accountBaseInfo, JSONWriter.Feature.FieldBased));
     }
 
     @FXML
-    void toLoginFrame(ActionEvent event) {
-//        1. 判断是否完成信息录入
-//        跳转到loginFrame
+    void toLoginFrame(ActionEvent event) throws IOException {
+
     }
+
 
 }
