@@ -1,6 +1,6 @@
 package com.ifx.client.config;
 
-import com.ifx.connect.netty.client.ClientHandler;
+import com.ifx.client.netty.ClientHandler;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelFuture;
@@ -46,13 +46,13 @@ public class ClientNettyConfig {
                     });
 
             //连接到远程节点；等待连接完成
-            ChannelFuture future=bs.connect().sync();
+            ChannelFuture future = bs.connect().sync();
 
             //发送消息到服务器端，编码格式是utf-8
-            future.channel().writeAndFlush(Unpooled.copiedBuffer("Hello World", CharsetUtil.UTF_8));
+//            future.channel().writeAndFlush(Unpooled.copiedBuffer("Hello World", CharsetUtil.UTF_8));
 
             //阻塞操作，closeFuture()开启了一个channel的监听器（这期间channel在进行各项工作），直到链路断开
-            future.channel().closeFuture().sync();
+//            future.channel().closeFuture().sync();
 
         } finally {
             group.shutdownGracefully().sync();

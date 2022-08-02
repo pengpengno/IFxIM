@@ -1,9 +1,14 @@
 package com.ifx.client.app;
 
+import cn.hutool.core.exceptions.ExceptionUtil;
+import com.ifx.client.netty.NettyClient;
+import io.netty.channel.ChannelFuture;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import lombok.SneakyThrows;
+
 import java.net.URL;
 
 public class LoginApplication extends Application {
@@ -22,8 +27,20 @@ public class LoginApplication extends Application {
      *                     Applications may create other stages, if needed, but they will not be
      *                     primary stages and will not be embedded in the browser.
      */
+    @SneakyThrows
     @Override
     public void start(Stage primaryStage) throws Exception {
+        try{
+            NettyClient nettyClient = new NettyClient(8976);
+//            init.channel().writeAndFlush("standardised");
+            nettyClient.write("ewqeqweq");
+        }
+        catch (Throwable e ){
+            System.out.println(ExceptionUtil.stacktraceToString(e));
+            System.out.println("服务器链接失败！");
+        }
+
+
         URL resource = getClass().getResource("fxml\\login.fxml");
         FXMLLoader fxmlLoader = new FXMLLoader();
         fxmlLoader.setLocation(resource);

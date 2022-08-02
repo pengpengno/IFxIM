@@ -1,4 +1,4 @@
-package com.ifx.connect.netty.client;
+package com.ifx.client.netty;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandler;
@@ -35,5 +35,12 @@ public class ClientHandler extends SimpleChannelInboundHandler<ByteBuf> {
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
         super.channelActive(ctx);
         log.info("【netty】服务已连接");
+        ctx.channel().writeAndFlush("sdasdasda");
+    }
+
+    @Override
+    public void userEventTriggered(ChannelHandlerContext ctx, Object evt) throws Exception {
+        super.userEventTriggered(ctx, evt);
+//        if(evt instanceof  )
     }
 }

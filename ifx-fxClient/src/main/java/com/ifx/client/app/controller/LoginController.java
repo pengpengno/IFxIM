@@ -1,5 +1,7 @@
 package com.ifx.client.app.controller;
 
+import com.ifx.client.netty.NettyClientAction;
+import com.ifx.connect.netty.client.ClientAction;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
@@ -51,9 +53,13 @@ public class LoginController {
     @FXML
     private CheckBox remberPsdCheckBox;
 
+    private ClientAction clientAction = new NettyClientAction();
+
     @FXML
     void login(MouseEvent event) {
-
+        CharSequence characters = accountField.getCharacters();
+        String s = characters.toString();
+        clientAction.sent(s);
     }
 
 

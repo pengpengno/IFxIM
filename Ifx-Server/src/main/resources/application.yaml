@@ -1,4 +1,5 @@
 ifx:
   connect:
-    socket:
-      port: 8976
+    netty:
+      server:
+        port: 8976

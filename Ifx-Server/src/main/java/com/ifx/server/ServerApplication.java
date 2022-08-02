@@ -29,7 +29,7 @@ public class ServerApplication implements CommandLineRunner {
         String hostAddress = InetAddress.getLocalHost().getHostAddress();
         log.info("netty 启动地址为 {} port {}",hostAddress, serverNettyConfigProperties.getPort());
         InetSocketAddress address = new InetSocketAddress(hostAddress, serverNettyConfigProperties.getPort());
-        ChannelFuture channelFuture = nettyServer.bing(address);
+        ChannelFuture channelFuture = nettyServer.bind(address);
         Runtime.getRuntime().addShutdownHook(new Thread(() -> nettyServer.destroy()));
         channelFuture.channel().closeFuture().syncUninterruptibly();
 //        // 开启服务

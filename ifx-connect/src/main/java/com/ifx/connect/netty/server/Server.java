@@ -1,6 +1,7 @@
 package com.ifx.connect.netty.server;
 
-@FunctionalInterface
+//@FunctionalInterface
 public interface Server {
     void startUp(Integer port) throws  Exception;
+
 }
