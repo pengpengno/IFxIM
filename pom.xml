@@ -21,17 +21,37 @@
         <maven.compiler.target>1.8</maven.compiler.target>
         <nacos.starter.version>2021.1</nacos.starter.version>
         <spring.starter.version>2.3.3.RELEASE</spring.starter.version>
-<!--        <dubbo.starter.version>3.0.5</dubbo.starter.version>-->
-<!--        <dubbo.version>3.0.5</dubbo.version>-->
+        <dubbo.starter.version>3.0.5</dubbo.starter.version>
+        <dubbo.version>3.0.5</dubbo.version>
     </properties>
     <dependencies>
-
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <version>RELEASE</version>
+<!--            <scope>compile</scope>-->
         </dependency>
-
+<!--        <dependency>-->
+<!--            <groupId>org.projectlombok</groupId>-->
+<!--            <artifactId>lombok</artifactId>-->
+<!--            <version>RELEASE</version>-->
+<!--        </dependency>-->
+<!--        <dependency>-->
+<!--            <groupId>org.springframework.boot</groupId>-->
+<!--            <artifactId>spring-boot-starter</artifactId>-->
+<!--            <version>${spring.starter.version}</version>-->
+<!--        </dependency>-->
+<!--        <dependency>-->
+<!--            <groupId>org.springframework.boot</groupId>-->
+<!--            <artifactId>spring-boot-starter-test</artifactId>-->
+<!--            <version>${spring.starter.version}</version>-->
+<!--        </dependency>-->
+<!--        <dependency>-->
+<!--            <groupId>org.springframework.boot</groupId>-->
+<!--            <artifactId>spring-boot-configuration-processor</artifactId>-->
+<!--            <version>${spring.starter.version}</version>-->
+<!--            <optional>true</optional>-->
+<!--        </dependency>-->
     </dependencies>
     <dependencyManagement>
         <dependencies>
@@ -61,10 +81,14 @@
                 <artifactId>spring-boot-starter-jdbc</artifactId>
                 <version>${spring.starter.version}</version>
             </dependency>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>${spring.starter.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
     <build>
-
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>

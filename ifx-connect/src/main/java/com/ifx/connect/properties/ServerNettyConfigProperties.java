@@ -5,9 +5,9 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
 @Component
-@ConfigurationProperties(prefix = "ifx.connect.socket")
+@ConfigurationProperties(prefix = "ifx.connect.netty.server")
 @Data
-public class SocketProperties {
+public class ServerNettyConfigProperties {
 
     private Integer port;
 

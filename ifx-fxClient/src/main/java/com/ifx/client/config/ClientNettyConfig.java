@@ -11,6 +11,7 @@ import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
 import io.netty.util.CharsetUtil;
 
+import java.net.InetAddress;
 import java.net.InetSocketAddress;
 
 public class ClientNettyConfig {
@@ -29,7 +30,7 @@ public class ClientNettyConfig {
         /**
          * @Description  配置相应的参数，提供连接到远端的方法
          **/
-        EventLoopGroup group = new NioEventLoopGroup();//I/O线程池
+        EventLoopGroup group = new NioEventLoopGroup();   //I/O线程池
         try {
             Bootstrap bs = new Bootstrap();//客户端辅助启动类
             bs.group(group)
@@ -60,6 +61,7 @@ public class ClientNettyConfig {
 
     public static void main(String[] args) throws Exception
     {
-        new ClientNettyConfig("127.0.0.1",8976).run();
+        String hostAddress = InetAddress.getLocalHost().getHostAddress();
+        new ClientNettyConfig(hostAddress,8976).run();
     }
 }

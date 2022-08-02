@@ -1,6 +1,6 @@
 package com.ifx.server.config;
 
-import com.ifx.connect.properties.SocketProperties;
+import com.ifx.connect.properties.ServerNettyConfigProperties;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.event.ContextStartedEvent;
 
 @Configuration
-@EnableConfigurationProperties(SocketProperties.class)
+@EnableConfigurationProperties(ServerNettyConfigProperties.class)
 @Slf4j
 //public class ServerConfig implements ApplicationListener<ContextStartedEvent> {
 public class ServerConfig{
