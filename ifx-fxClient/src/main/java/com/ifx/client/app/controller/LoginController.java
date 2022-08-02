@@ -1,5 +1,6 @@
 package com.ifx.client.app.controller;
 
+import cn.hutool.extra.spring.SpringUtil;
 import com.ifx.client.netty.NettyClientAction;
 import com.ifx.connect.netty.client.ClientAction;
 import javafx.fxml.FXML;
@@ -12,10 +13,13 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
+import javax.annotation.Resource;
+
+@Component
 public class LoginController {
-
-
 
     @FXML
     private Label account;
@@ -53,13 +57,18 @@ public class LoginController {
     @FXML
     private CheckBox remberPsdCheckBox;
 
-    private ClientAction clientAction = new NettyClientAction();
+    @Resource(name = "netty")
+    private ClientAction clientAction;
+    //    private ClientAction action = NettyClientAction.getInstance();
 
     @FXML
     void login(MouseEvent event) {
+        ClientAction bean = SpringUtil.getBean(ClientAction.class);
         CharSequence characters = accountField.getCharacters();
-        String s = characters.toString();
-        clientAction.sent(s);
+        String psd = passwordField.getCharacters().toString();
+        String  account = characters.toString();
+        bean.sent(account);
+
     }
 
 

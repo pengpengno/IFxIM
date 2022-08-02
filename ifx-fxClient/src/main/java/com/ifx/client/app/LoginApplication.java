@@ -1,6 +1,7 @@
 package com.ifx.client.app;
 
 import cn.hutool.core.exceptions.ExceptionUtil;
+import cn.hutool.core.io.FileUtil;
 import com.ifx.client.netty.NettyClient;
 import io.netty.channel.ChannelFuture;
 import javafx.application.Application;
@@ -41,7 +42,10 @@ public class LoginApplication extends Application {
         }
 
 
-        URL resource = getClass().getResource("fxml\\login.fxml");
+//        URL resource = getClass().getResource("fxml\\login.fxml");
+//        new URL()
+//        URL resource = FileUtil.file("classpath*:**\\fxml\\login.xml").toURI().toURL();
+        URL resource = FileUtil.file("com\\ifx\\client\\app\\fxml\\login.fxml").toURI().toURL();
         FXMLLoader fxmlLoader = new FXMLLoader();
         fxmlLoader.setLocation(resource);
         Scene scene = new Scene(fxmlLoader.load());

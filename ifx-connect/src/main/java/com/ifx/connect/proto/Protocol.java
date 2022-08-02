@@ -28,6 +28,8 @@ public class Protocol<T> implements Serializable {
 
     private String  route;   // 路由下一版本设计
 
+    private String clientSDKVersion;
+
     private List<T> data;  //数据结构则自行序列化
 
 }
