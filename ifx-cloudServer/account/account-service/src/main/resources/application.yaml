@@ -1,10 +1,17 @@
+
 dubbo:
   application:
     name: accountService
+  registry:
+    address: nacos://124.221.168.200:8848?username=ifx2022?password=ifx2022?namespce=ccfffa41-d050-42eb-b29b-037ac8b43fc9
+    password: ifx2022
+    username: ifx2022
+
+  protocol:
+    port: 20891
+    name: dubbo
+
 spring:
-  datasource:
-    druid:
-      db-type: mysql
   data:
     mongodb:
       host: 124.221.168.200
@@ -12,9 +19,15 @@ spring:
       username: admin
       password: admin
       database: ifx
-jdbc:
-  driver: com.mysql.dj.jdbc.Driver
-  url: jdbc:mysql:/124.221.168.200/ifx?useUnicode=true&characterEncoding=utf-8&txcAppName=account
-  username: ifx
-  password: ifx2022in
-
+  datasource:
+#    driver-class-name: com.alibaba.druid.proxy.DruidDriver
+    druid:
+      username: root
+      password: root
+      url: jdbc:mysql://124.221.168.200/ifx?useUnicode=true&characterEncoding=utf-8&txcAppName=account
+      driver-class-name: com.mysql.jdbc.Driver
+#jdbc:
+#  driver: com.mysql.jdbc.Driver
+#  url: jdbc:mysql:/124.221.168.200/ifx?useUnicode=true&characterEncoding=utf-8&txcAppName=account
+#  username: root
+#  password: root

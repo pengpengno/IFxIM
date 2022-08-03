@@ -19,7 +19,7 @@
         <maven.compiler.target>11</maven.compiler.target>
         <mongo.starter>2.5.3</mongo.starter>
         <dubbo.starter.version>3.0.5</dubbo.starter.version>
-        <dubbo.version>3.0.5</dubbo.version>
+<!--        <dubbo.version>3.0.5</dubbo.version>-->
     </properties>
     <dependencies>
         <dependency>
@@ -27,6 +27,11 @@
             <artifactId>ifx-common</artifactId>
             <version>1.0-SNAPSHOT</version>
             <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.dubbo</groupId>
+            <artifactId>dubbo-registry-nacos</artifactId>
+            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>com.ifx.ifx</groupId>
@@ -43,8 +48,8 @@
         <dependency>
             <groupId>org.apache.dubbo</groupId>
             <artifactId>dubbo</artifactId>
-            <version>${dubbo.version}</version>
-            <scope>provided</scope>
+<!--            <version>${dubbo.version}</version>-->
+<!--            <scope>provided</scope>-->
         </dependency>
     </dependencies>
 

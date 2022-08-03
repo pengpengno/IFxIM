@@ -3,18 +3,21 @@ package com.ifx.server;
 import com.ifx.connect.properties.ServerNettyConfigProperties;
 import io.netty.channel.ChannelFuture;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.dubbo.config.spring.context.annotation.EnableDubbo;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import com.ifx.server.netty.StartNettyServer;
+import org.springframework.context.annotation.ComponentScan;
 
 import javax.annotation.Resource;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
 
-//@SpringBootApplication(scanBasePackages = {"com.ifx"})
-@SpringBootApplication()
+@SpringBootApplication(scanBasePackages = {"com.ifx"})
+@ComponentScan(basePackages = {"com.ifx"})
 @Slf4j
+@EnableDubbo
 public class ServerApplication implements CommandLineRunner {
 //public class ServerApplication   {
 
