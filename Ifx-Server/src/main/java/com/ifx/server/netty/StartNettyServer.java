@@ -29,6 +29,7 @@ public class StartNettyServer {
                     .option(ChannelOption.SO_BACKLOG, 128)
                     .childHandler(serverHandler);
             channelFuture = b.bind(address).syncUninterruptibly();
+
             channel = channelFuture.channel();
         } catch (Exception e) {
             log.error(e.getMessage());

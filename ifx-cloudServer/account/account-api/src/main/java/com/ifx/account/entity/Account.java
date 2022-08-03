@@ -4,22 +4,35 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import java.io.Serializable;
-import java.util.Date;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
+import java.util.Date;
+import java.util.UUID;
+
 /**
  * 基本用户信息表
+ *
  * @TableName account
  */
-@TableName(value ="account")
+@TableName(value = "account")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class Account implements Serializable {
+
+    public static Account instance = getInstance();
+
+    public static Account getInstance() {
+        Date now = new Date();
+        String uuid = UUID.randomUUID().toString().replace("-", "");
+        return new Account(null, uuid, null, null, null, null, null, now, null, null, now, now);
+    }
+
+
+
     /**
      *
      */
@@ -27,10 +40,17 @@ public class Account implements Serializable {
     private Long id;
 
     /**
-     * 账户id
+     * 用户id
      */
     @TableField("user_id")
     private String userId;
+
+
+    /**
+     * 账号
+     */
+    @TableField("account")
+    private String account;
 
     /**
      * 用户名称
@@ -60,7 +80,14 @@ public class Account implements Serializable {
      * 出生日期
      */
     @TableField("birthday")
-    private String birthday;
+    private Date birthday;
+
+
+    /**
+     * 邮箱
+     */
+    @TableField("email")
+    private String email;
 
     /**
      * 居住地址

@@ -14,6 +14,7 @@
         <module>ifx-common</module>
         <module>ifx-connect</module>
         <module>Ifx-Server</module>
+        <module>ifx-starter</module>
     </modules>
     <packaging>pom</packaging>
     <properties>
@@ -24,13 +25,42 @@
         <dubbo.starter.version>3.0.5</dubbo.starter.version>
         <hutool-all.version>5.8.4</hutool-all.version>
         <dubbo.version>3.0.5</dubbo.version>
+        <fastjson2.version>2.0.8</fastjson2.version>
     </properties>
     <dependencies>
+        <!-- https://mvnrepository.com/artifact/com.alibaba.fastjson2/fastjson2 -->
+        <dependency>
+            <groupId>com.alibaba.fastjson2</groupId>
+            <artifactId>fastjson2</artifactId>
+            <version>${fastjson2.version}</version>
+        </dependency>
+
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <version>RELEASE</version>
 <!--            <scope>compile</scope>-->
+        </dependency>
+        <!--mapstruct核心-->
+        <dependency>
+            <groupId>org.mapstruct</groupId>
+            <artifactId>mapstruct</artifactId>
+            <version>1.5.0.Beta1</version>
+        </dependency>
+        <!-- mapStruct-lombok -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok-mapstruct-binding</artifactId>
+            <version>0.2.0</version>
+            <scope>provided</scope>
+        </dependency>
+
+
+        <!--mapstruct编译-->
+        <dependency>
+            <groupId>org.mapstruct</groupId>
+            <artifactId>mapstruct-processor</artifactId>
+            <version>1.5.0.Beta1</version>
         </dependency>
 <!--        <dependency>-->
 <!--            <groupId>org.projectlombok</groupId>-->

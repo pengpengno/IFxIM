@@ -6,13 +6,14 @@ import java.io.Serializable;
 @Data
 public class AccountBaseInfo implements Serializable {
 
-    private String accountId;
+    private String userId;
 
-    private String accountName;
+    private String account;
 
-    private String age;
+    private String userName;
+
+    private String password;
 
     private String email;
-
 
 }
