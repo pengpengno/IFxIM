@@ -59,3 +59,7 @@ this is ifx core connection
 实现基本群聊功能
 
 其他待商议
+
+
+
+### V2Plan

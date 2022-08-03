@@ -14,7 +14,7 @@ spring:
       database: ifx
 jdbc:
   driver: com.mysql.dj.jdbc.Driver
-  url: jdbc:mysql:/124.221.168.200/ifx-develop?useUnicode=true&characterEncoding=utf-8&txcAppName=account
+  url: jdbc:mysql:/124.221.168.200/ifx?useUnicode=true&characterEncoding=utf-8&txcAppName=account
   username: ifx
   password: ifx2022in
 

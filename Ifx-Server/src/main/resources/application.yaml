@@ -3,3 +3,8 @@ ifx:
     netty:
       server:
         port: 8976
+dubbo:
+  application:
+    id: ifx-server
+    name: ifx-server
+
