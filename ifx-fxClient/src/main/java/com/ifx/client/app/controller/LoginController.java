@@ -2,9 +2,13 @@ package com.ifx.client.app.controller;
 
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.extra.spring.SpringUtil;
+import com.alibaba.fastjson2.JSON;
+import com.alibaba.fastjson2.JSONObject;
 import com.ifx.account.vo.AccountBaseInfo;
 import com.ifx.client.netty.NettyClientAction;
 import com.ifx.connect.netty.client.ClientAction;
+import io.netty.channel.ChannelFuture;
+import io.netty.channel.ChannelFutureListener;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -70,15 +74,21 @@ public class LoginController {
     //    private ClientAction action = NettyClientAction.getInstance();
 
     @FXML
-    void login(MouseEvent event) {
-
-
+    public void login(MouseEvent event) {
         ClientAction bean = SpringUtil.getBean(ClientAction.class);
         CharSequence characters = accountField.getCharacters();
         String psd = passwordField.getCharacters().toString();
         String  account = characters.toString();
+        AccountBaseInfo accountBaseInfo = new AccountBaseInfo();
+        accountBaseInfo.setAccount(account);
+        accountBaseInfo.setPassword(psd);
+        ChannelFuture sent = clientAction.sent(JSON.toJSONString(accountBaseInfo));
+//        sent.addListener((ChannelFutureListener) future -> {
+//
+//        })
+//        clientAction.sent(bean);
 
-        bean.sent(account);
+//        bean.sent(account);
 
     }
 

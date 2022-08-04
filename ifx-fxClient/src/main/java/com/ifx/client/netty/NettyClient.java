@@ -31,6 +31,9 @@ public class NettyClient {
     private volatile Channel channel;
 
 
+    public Channel getChannel() {
+        return channel;
+    }
 
     private NettyClient(){
     }
@@ -103,9 +106,8 @@ public class NettyClient {
 
     }
 
-    public void write(String msg){
-        channel.writeAndFlush(Unpooled.copiedBuffer(msg, CharsetUtil.UTF_8));
-        channel.write(msg);
+    public ChannelFuture write(String msg){
+        return channel.writeAndFlush(Unpooled.copiedBuffer(msg, CharsetUtil.UTF_8));
     }
 
 

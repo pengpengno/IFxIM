@@ -18,7 +18,7 @@ public interface ClientAction {
      */
     public Protocol sendJsonMsg(Protocol protocol);
 
-    public void sent(String msg);
+    public ChannelFuture sent(String msg);
 
     /**
      * 心跳包机制

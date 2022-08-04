@@ -14,16 +14,16 @@ import java.net.ServerSocket;
 @Configuration
 @EnableConfigurationProperties(ServerNettyConfigProperties.class)
 public class SocketConfig {
+//
+//    @Resource
+//    private ServerNettyConfigProperties serverNettyConfigProperties;
 
-    @Resource
-    private ServerNettyConfigProperties serverNettyConfigProperties;
-
-    @Bean
-    public ServerConnect<ServerSocket> applySocketConnect() throws IOException {
-        ServerSocket serverSocket = new ServerSocket(serverNettyConfigProperties.getPort());
-        ServerConnect<ServerSocket> socketConnect = new SocketConnect();
-        return socketConnect;
-    }
+//    @Bean
+//    public ServerConnect<ServerSocket> applySocketConnect() throws IOException {
+//        ServerSocket serverSocket = new ServerSocket(serverNettyConfigProperties.getPort());
+//        ServerConnect<ServerSocket> socketConnect = new SocketConnect();
+//        return socketConnect;
+//    }
 
 
 }

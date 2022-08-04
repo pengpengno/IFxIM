@@ -2,6 +2,7 @@ package com.ifx.client.netty;
 
 import com.ifx.connect.netty.client.ClientAction;
 import com.ifx.connect.proto.Protocol;
+import io.netty.channel.ChannelFuture;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -20,8 +21,8 @@ public class NettyClientAction implements ClientAction {
     private NettyClient nettyClient;
 
     @Override
-    public void sent(String msg) {
-        nettyClient.write(msg);
+    public ChannelFuture sent(String msg) {
+        return  nettyClient.write(msg);
     }
 
     @Override
