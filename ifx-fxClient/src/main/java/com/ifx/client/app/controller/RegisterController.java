@@ -1,29 +1,19 @@
 package com.ifx.client.app.controller;
 
-import cn.hutool.core.io.FileUtil;
 import cn.hutool.extra.spring.SpringUtil;
 import com.alibaba.fastjson2.JSONObject;
 import com.alibaba.fastjson2.JSONWriter;
 import com.ifx.account.vo.AccountBaseInfo;
-import com.ifx.client.netty.NettyClient;
-import com.ifx.client.netty.NettyClientAction;
 import com.ifx.connect.netty.client.ClientAction;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import javax.swing.*;
 import java.io.IOException;
-import java.net.URL;
 
 @Component
 public class RegisterController {

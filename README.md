@@ -15,6 +15,7 @@ and will design the flowing module
 4. meeting room
 5. connection
 ## V1 plan
+实现IM系统基本功能的实现
 ### account 
 
 账户基本功能 
@@ -56,10 +57,24 @@ this is ifx core connection
 
 ### meeting room
 
-实现基本群聊功能
-
-其他待商议
+使用多人群聊下的 读写混合（超大群 使用读扩散， 量级百人以下使用写扩散）
 
 
 
 ### V2Plan
+对后台功能进行封装设计
+### 通信模块
+封装netty 模块，避免```IFX```通信模块对netty的强依赖  （可以调整到V3）
+#### 解析层、 传输层
+使用```Protocol Buffers``` 实现消息的序列化传输
+#### 转发层
+### 客户端
+#### 视图层
+1. 重构 视图展示底层逻辑，将沿用Spring设计思想 将视图控制权 交给容器
+实现 javafx-spring-starter
+2. 使用css  以及外部组件美化样式 ，对UI 进行美化
+### 解析层
+实现与客户端通信时的数据传输，兼容dubbo协议进行，避免通过 使用枚举 ```command ```指令进行业务模块解析
+
+
+

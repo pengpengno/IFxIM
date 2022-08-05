@@ -10,6 +10,7 @@ import java.util.List;
 public class ClientFileUtil {
     /**
      * 获取路劲下所有的fxml
+     * 用作 自动化装配
      *
      * @param path
      * @return 返回fxml文件

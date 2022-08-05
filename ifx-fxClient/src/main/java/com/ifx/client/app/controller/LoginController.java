@@ -3,12 +3,10 @@ package com.ifx.client.app.controller;
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.extra.spring.SpringUtil;
 import com.alibaba.fastjson2.JSON;
-import com.alibaba.fastjson2.JSONObject;
 import com.ifx.account.vo.AccountBaseInfo;
-import com.ifx.client.netty.NettyClientAction;
 import com.ifx.connect.netty.client.ClientAction;
+//import de.felixroske.jfxsupport.FXMLController;
 import io.netty.channel.ChannelFuture;
-import io.netty.channel.ChannelFutureListener;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -22,17 +20,27 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.concurrent.Callable;
 
+//@FXMLController
+//public class LoginController implements Initializable {
 @Component
-public class LoginController {
+@Slf4j
+public class LoginController  {
+//    @Override
+//    public void initialize(URL location, ResourceBundle resources) {
+//
+//    }
 
+    private LoginController(){
+      log.info(LoginController.log.getName());
+    }
     @FXML
     private Label account;
 
@@ -82,7 +90,15 @@ public class LoginController {
         AccountBaseInfo accountBaseInfo = new AccountBaseInfo();
         accountBaseInfo.setAccount(account);
         accountBaseInfo.setPassword(psd);
-        ChannelFuture sent = clientAction.sent(JSON.toJSONString(accountBaseInfo));
+        ChannelFuture sent = bean.sent(JSON.toJSONString(accountBaseInfo));
+        new Callable<Boolean>() {
+            @Override
+            public Boolean call() throws Exception {
+                return null;
+            }
+        }
+        clientAction.isActive();
+
 //        sent.addListener((ChannelFutureListener) future -> {
 //
 //        })

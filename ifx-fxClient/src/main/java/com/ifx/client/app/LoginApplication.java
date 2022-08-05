@@ -2,8 +2,7 @@ package com.ifx.client.app;
 
 import cn.hutool.core.exceptions.ExceptionUtil;
 import cn.hutool.core.io.FileUtil;
-import com.ifx.client.netty.NettyClient;
-import io.netty.channel.ChannelFuture;
+import com.ifx.client.connect.netty.NettyClient;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;

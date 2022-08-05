@@ -5,6 +5,10 @@ import io.netty.channel.ChannelFuture;
 
 public interface ClientAction {
 
+    public void connect();
+
+    public void reConnect();
+
     public void init ();
 
     public void retry();
@@ -30,6 +34,6 @@ public interface ClientAction {
      */
     public void releaseChannel();
 
-    public void isClosed();
+    public Boolean isActive();
 
 }

@@ -1,4 +1,4 @@
-package com.ifx.client.netty;
+package com.ifx.client.connect.netty;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandler;

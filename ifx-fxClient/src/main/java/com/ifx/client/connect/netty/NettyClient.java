@@ -1,17 +1,12 @@
-package com.ifx.client.netty;
+package com.ifx.client.connect.netty;
 
 import io.netty.bootstrap.Bootstrap;
-import io.netty.buffer.PooledByteBufAllocator;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
-import io.netty.handler.proxy.Socks5ProxyHandler;
-import io.netty.handler.timeout.IdleStateHandler;
 import io.netty.util.CharsetUtil;
-import lombok.Data;
-import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import java.net.InetAddress;
@@ -19,10 +14,9 @@ import java.net.InetSocketAddress;
 import java.net.UnknownHostException;
 
 @Component
-//@Scope()
 public class NettyClient {
 
-    private InetSocketAddress address;
+    private InetSocketAddress address = new InetSocketAddress(InetAddress.getLocalHost().getHostAddress(),8976);  //
 
     private Bootstrap bootstrap;
 
@@ -30,12 +24,17 @@ public class NettyClient {
 
     private volatile Channel channel;
 
+//    private Integer port;
 
     public Channel getChannel() {
         return channel;
     }
 
-    private NettyClient(){
+
+    public InetSocketAddress getAddress(){
+        return address;
+    }
+    private NettyClient() throws UnknownHostException {
     }
 
     public NettyClient(String host,Integer port) throws Throwable {
@@ -107,6 +106,10 @@ public class NettyClient {
     }
 
     public ChannelFuture write(String msg){
+        if (channel== null || !channel.isActive()){
+//            TODO fix this null
+            return null;
+        }
         return channel.writeAndFlush(Unpooled.copiedBuffer(msg, CharsetUtil.UTF_8));
     }
 
