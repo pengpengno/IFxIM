@@ -7,6 +7,7 @@ import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
 import io.netty.util.CharsetUtil;
+import io.netty.util.concurrent.DefaultEventExecutorGroup;
 import org.springframework.stereotype.Component;
 
 import java.net.InetAddress;
@@ -82,6 +83,8 @@ public class NettyClient {
          * @Description  配置相应的参数，提供连接到远端的方法
          **/
         EventLoopGroup group = new NioEventLoopGroup();   //I/O线程池
+        DefaultEventExecutorGroup eventExecutors = new DefaultEventExecutorGroup();
+
 //        try {
         bootstrap = new Bootstrap();//客户端辅助启动类
         bootstrap.group(group)

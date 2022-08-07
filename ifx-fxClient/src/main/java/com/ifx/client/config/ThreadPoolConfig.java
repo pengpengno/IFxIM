@@ -10,12 +10,12 @@ import java.util.concurrent.TimeUnit;
 
 public class ThreadPoolConfig {
     /**
-     * theadPool client business
+     * theadPool  client  main business
      * @return
      */
     @Bean("clientPool")
     public ExecutorService initSocketThreadPool(){
-        return new ThreadPoolExecutor(150, 300, 1, TimeUnit.SECONDS, new LinkedBlockingQueue<>(1024),
+        return new ThreadPoolExecutor(50, 300, 1, TimeUnit.SECONDS, new LinkedBlockingQueue<>(1024),
                 new ThreadFactoryBuilder().setNamePrefix("client-business-%d").build(), new ThreadPoolExecutor.CallerRunsPolicy());
     }
 }
