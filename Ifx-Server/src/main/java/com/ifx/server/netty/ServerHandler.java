@@ -19,7 +19,7 @@ public class ServerHandler extends ChannelDuplexHandler {
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
 //        super.channelRead(ctx, msg);
-//        TODO  implents netty serial
+//        TODO  implents netty serial   will use Extueor do work
         //处理收到的数据，并反馈消息到到客户端
         ByteBuf in = (ByteBuf) msg;
         String req = in.toString(CharsetUtil.UTF_8);
