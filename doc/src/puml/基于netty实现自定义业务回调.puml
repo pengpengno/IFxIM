@@ -2,8 +2,8 @@
 'https://plantuml.com/sequence-diagram
 title  netty 业务串行业务的设计与实现
 autonumber
-actor 客户端 as client
 Queue 客户端任务队列 as task
+actor 客户端 as client
 participant 服务端 as server
 Queue 服务端任务队列 as serverTask
 == request ==
@@ -20,6 +20,7 @@ group response
 serverTask --> server : work done respose
 server -> client : 使用客户端的 协议header taskId\n加入response header 返回
 client -> task : 解析header  根据taskId 在用户线程池处理业务 回调通知客户端业务方
+task ->task : 业务处理完毕 通知调用方
 end group
 
 @enduml
