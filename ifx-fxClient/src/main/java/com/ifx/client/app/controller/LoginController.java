@@ -1,12 +1,12 @@
 package com.ifx.client.app.controller;
 
 import cn.hutool.core.io.FileUtil;
-import cn.hutool.extra.spring.SpringUtil;
 import com.alibaba.fastjson2.JSON;
 import com.ifx.account.vo.AccountBaseInfo;
 import com.ifx.connect.netty.client.ClientAction;
+import com.ifx.connect.proto.Protocol;
+import com.ifx.connect.task.Task;
 //import de.felixroske.jfxsupport.FXMLController;
-import io.netty.channel.ChannelFuture;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -26,7 +26,7 @@ import org.springframework.stereotype.Component;
 import javax.annotation.Resource;
 import java.io.IOException;
 import java.net.URL;
-import java.util.concurrent.Callable;
+import java.util.List;
 
 //@FXMLController
 //public class LoginController implements Initializable {
@@ -79,25 +79,30 @@ public class LoginController  {
 
     @Resource(name = "netty")
     private ClientAction clientAction;
+//    private Abstract clientAction;
     //    private ClientAction action = NettyClientAction.getInstance();
 
     @FXML
     public void login(MouseEvent event) {
-        ClientAction bean = SpringUtil.getBean(ClientAction.class);
+//        ClientAction bean = SpringUtil.getBean(ClientAction.class);
         CharSequence characters = accountField.getCharacters();
         String psd = passwordField.getCharacters().toString();
         String  account = characters.toString();
         AccountBaseInfo accountBaseInfo = new AccountBaseInfo();
         accountBaseInfo.setAccount(account);
         accountBaseInfo.setPassword(psd);
-        ChannelFuture sent = bean.sent(JSON.toJSONString(accountBaseInfo));
-        new Callable<Boolean>() {
-            @Override
-            public Boolean call() throws Exception {
-                return null;
+        Protocol<AccountBaseInfo> logBase = new Protocol<>();
+        logBase.setBody(JSON.toJSONString(accountBaseInfo));
+        Task task = protocol -> {
+            int code = protocol.getRes().getCode();
+            List data = protocol.getRes().getData();
+            Boolean o = (Boolean)data.get(0);
+            if (o){
+                log.info("login success ");
             }
-        }
-        clientAction.isActive();
+        };
+        clientAction.sendJsonMsg(logBase,task);
+//        clientAction.isActive();
 
 //        sent.addListener((ChannelFutureListener) future -> {
 //

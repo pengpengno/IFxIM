@@ -18,6 +18,8 @@ public class Protocol<T> implements Serializable {
 
     private Long serial;  //包 syn
 
+    private String taskCode;  //taskCode
+
     private Long  length; // 包大小
 
 //    private String from;
@@ -39,4 +41,5 @@ public class Protocol<T> implements Serializable {
 //    private List<T> data;  //数据结构则自行序列化
 
     private Result<T> res;
+    private String body;
 }

@@ -21,11 +21,9 @@ public class NettyClient {
 
     private Bootstrap bootstrap;
 
-//    private static NettyClient instance ;
 
     private volatile Channel channel;
 
-//    private Integer port;
 
     public Channel getChannel() {
         return channel;
@@ -47,6 +45,7 @@ public class NettyClient {
         address = new InetSocketAddress(InetAddress.getLocalHost().getHostAddress(),port);
         doOpen();
     }
+
     public void doOpen(Integer port) throws InterruptedException, UnknownHostException {
         /**
          * @Description  配置相应的参数，提供连接到远端的方法
@@ -83,7 +82,7 @@ public class NettyClient {
          * @Description  配置相应的参数，提供连接到远端的方法
          **/
         EventLoopGroup group = new NioEventLoopGroup();   //I/O线程池
-        DefaultEventExecutorGroup eventExecutors = new DefaultEventExecutorGroup();
+//        DefaultEventExecutorGroup eventExecutors = new DefaultEventExecutorGroup();
 
 //        try {
         bootstrap = new Bootstrap();//客户端辅助启动类
@@ -110,7 +109,6 @@ public class NettyClient {
 
     public ChannelFuture write(String msg){
         if (channel== null || !channel.isActive()){
-//            TODO fix this null
             return null;
         }
         return channel.writeAndFlush(Unpooled.copiedBuffer(msg, CharsetUtil.UTF_8));

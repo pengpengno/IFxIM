@@ -1,5 +1,9 @@
 package com.ifx.client.connect.netty;
 
+import cn.hutool.core.exceptions.ExceptionUtil;
+import com.alibaba.fastjson2.JSONObject;
+import com.ifx.connect.task.Task;
+import com.ifx.connect.proto.Protocol;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
@@ -8,18 +12,28 @@ import io.netty.util.CharsetUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.Resource;
+import java.util.concurrent.ExecutorService;
+
 @Slf4j
 @Component
 @ChannelHandler.Sharable
 public class ClientHandler extends SimpleChannelInboundHandler<ByteBuf> {
-
+    @Resource(name = "clientPool")
+    private ExecutorService clientServer;
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, ByteBuf byteBuf) throws Exception {
         /**
          * @Description  处理接收到的消息
          **/
         log.info("receive msg from server-side {}, data package {}",ctx.channel().localAddress().toString(),byteBuf);
-        System.out.println("接收到的消息："+byteBuf.toString(CharsetUtil.UTF_8));
+        String res = byteBuf.toString(CharsetUtil.UTF_8);
+        Protocol protocol = JSONObject.parseObject(res, Protocol.class);
+
+        clientServer.submit(() -> k.notify(protocol));
+        System.out.println("接收到的消息："+ res);
+        super.channelRead(ctx,byteBuf);
+
     }
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception
@@ -27,6 +41,7 @@ public class ClientHandler extends SimpleChannelInboundHandler<ByteBuf> {
         /**
          * @Description  处理I/O事件的异常
          **/
+        log.error(ExceptionUtil.getMessage(cause));
         cause.printStackTrace();
         ctx.close();
     }
@@ -34,8 +49,7 @@ public class ClientHandler extends SimpleChannelInboundHandler<ByteBuf> {
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
         super.channelActive(ctx);
-        log.info("【netty】服务已连接");
-        ctx.channel().writeAndFlush("sdasdasda");
+        log.info("【netty】 已连接Server {}" ,ctx.channel().remoteAddress().toString());
     }
 
     @Override
