@@ -11,11 +11,11 @@ public class NettyTask extends AbstractTask{
     @Autowired
     private NettyClient nettyClient;
 
-
+    //  TODO
     @Override
     public void doBioWork(Protocol protocol) {
 //        super.doBioWork(protocol);
-        nettyClient.write()
+//        nettyClient.write()
     }
 
     @Override
@@ -25,7 +25,7 @@ public class NettyTask extends AbstractTask{
 
     @Override
     public Protocol doBioReq(Protocol protocol) {
-
+        return null;
     }
 
     @Override

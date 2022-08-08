@@ -34,7 +34,7 @@ public class ServerApplication implements CommandLineRunner {
         InetSocketAddress address = new InetSocketAddress(hostAddress, serverNettyConfigProperties.getPort());
         ChannelFuture channelFuture = nettyServer.bind(address);
         Runtime.getRuntime().addShutdownHook(new Thread(() -> nettyServer.destroy()));
-        channelFuture.channel().closeFuture().syncUninterruptibly();
+//        channelFuture.channel().closeFuture().syncUninterruptibly();
 //        // 开启服务
 //        log.info("正在初始化Netty port {}",socketProperties.getPort());
 //        ChannelFuture future = nettyServer.applyChannel( socketProperties.getPort());

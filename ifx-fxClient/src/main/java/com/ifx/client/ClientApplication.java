@@ -44,9 +44,9 @@ public class ClientApplication extends Application{
 //        launch(ClientApplication.class, LoginView.class,args);
         ClientAction clientAction = SpringUtil.getBean(ClientAction.class);  // 启动netty
         clientAction.connect();
-//        if (!clientAction.isActive()){
-//            clientAction.reConnect();
-//        }
+        if (!clientAction.isActive()){
+            clientAction.reConnect();
+        }
 
 //        try{
 //            NettyClient bean = SpringUtil.getBean(NettyClient.class);  // 启动netty

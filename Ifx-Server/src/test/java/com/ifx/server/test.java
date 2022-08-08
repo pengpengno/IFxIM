@@ -19,10 +19,20 @@ public class test {
     @Test
     public void test (){
         AccountBaseInfo accountBaseInfo = new AccountBaseInfo();
-        accountBaseInfo.setAccount("ewqewqeqwe");
+        accountBaseInfo.setAccount("wangpeng");
         accountBaseInfo.setPassword("111111");
         accountBaseInfo.setUserName("wangpeng");
         String register = accountService.register(accountBaseInfo);
         System.out.println(register);
+    }
+
+    @Test
+    public void login (){
+        AccountBaseInfo accountBaseInfo = new AccountBaseInfo();
+        accountBaseInfo.setAccount("wangpeng");
+        accountBaseInfo.setPassword("111111");
+//        accountBaseInfo.setUserName("wangpeng");
+        Boolean login = accountService.login(accountBaseInfo);
+        System.out.println(login);
     }
 }

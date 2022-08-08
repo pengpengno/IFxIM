@@ -3,6 +3,7 @@ package com.ifx.client.app.controller;
 import cn.hutool.core.io.FileUtil;
 import com.alibaba.fastjson2.JSON;
 import com.ifx.account.vo.AccountBaseInfo;
+import com.ifx.connect.enums.CommandEnum;
 import com.ifx.connect.netty.client.ClientAction;
 import com.ifx.connect.proto.Protocol;
 import com.ifx.connect.task.Task;
@@ -93,6 +94,7 @@ public class LoginController  {
         accountBaseInfo.setPassword(psd);
         Protocol<AccountBaseInfo> logBase = new Protocol<>();
         logBase.setBody(JSON.toJSONString(accountBaseInfo));
+        logBase.setCommand(CommandEnum.LOGIN.name());
         Task task = protocol -> {
             int code = protocol.getRes().getCode();
             List data = protocol.getRes().getData();

@@ -25,6 +25,8 @@ public interface ClientAction {
 
     public Protocol sendJsonMsg(Protocol protocol, Task task);
 
+    public Task getTask(Protocol protocol);
+
     public Protocol doBioReq(Protocol protocol);
 
     public ChannelFuture sent(String msg);

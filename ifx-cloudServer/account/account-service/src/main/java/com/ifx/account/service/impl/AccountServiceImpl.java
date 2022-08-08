@@ -21,7 +21,7 @@ import java.util.Objects;
 * @createDate 2022-07-30 16:21:21
 */
 @Service
-@DubboService
+@DubboService(version = "1.0.0")
 public class AccountServiceImpl extends ServiceImpl<AccountMapper, Account>
     implements AccountService{
     @Resource

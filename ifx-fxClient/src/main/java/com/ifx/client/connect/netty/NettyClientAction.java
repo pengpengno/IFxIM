@@ -12,6 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.nio.charset.StandardCharsets;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -102,8 +103,16 @@ public class NettyClientAction implements ClientAction {
         sendJsonMsg(protocol);
         return null;
     }
+
+    @Override
+    public Task getTask(Protocol protocol) {
+        return getTask(protocol.getTaskCode());
+    }
+
     public Task getTask(String protocolCode){
-        return nettyMsgMap.get(protocolCode);
+        return nettyMsgMap.computeIfAbsent(protocolCode,(key)-> (Task) protocol -> {
+            log.info( "空Task操作 不存在taskcode {}", protocol.getTaskCode() );
+        });
     }
 
     @Override
