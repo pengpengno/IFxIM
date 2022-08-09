@@ -2,9 +2,15 @@ package com.ifx.connect.task;
 
 import com.ifx.connect.proto.Protocol;
 
-@FunctionalInterface
-public interface Task  {
+import java.util.function.Consumer;
 
-    public void doTask(Protocol protocol);
+@FunctionalInterface
+public interface Task  extends Consumer<Protocol>{
+    @Override
+    void accept(Protocol o);
+
+    default void doTask(Protocol protocol){
+        accept(protocol);
+    }
 
 }

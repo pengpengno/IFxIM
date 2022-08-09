@@ -41,5 +41,6 @@ public class Protocol<T> implements Serializable {
 //    private List<T> data;  //数据结构则自行序列化
 
     private Result<T> res;
+
     private String body;
 }
