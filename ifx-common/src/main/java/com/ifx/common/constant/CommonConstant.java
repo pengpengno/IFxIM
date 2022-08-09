@@ -1,4 +1,4 @@
-package com.ifx.common.Constant;
+package com.ifx.common.constant;
 
 /**
  * Created with IntelliJ IDEA.
@@ -10,4 +10,8 @@ package com.ifx.common.Constant;
 public class CommonConstant {
 
     public static int SUCCESS = 1;
+
+    public static String ACCOUNT_EXIT = "账号已存在";
+
+    public static String PASSWORD_ERROR = "密码错误";
 }
