@@ -13,6 +13,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.Resource;
 import java.io.IOException;
 
 @Component
@@ -36,14 +37,16 @@ public class RegisterController {
     @FXML
     private VBox registerFrame;
 
+    @Resource
+    private ClientAction clientAction;
     @FXML
     void register(MouseEvent event) {
-        ClientAction bean = SpringUtil.getBean(ClientAction.class);
         AccountBaseInfo accountBaseInfo = new AccountBaseInfo();
         accountBaseInfo.setAccount(accountField.getText());
         accountBaseInfo.setPassword(psdField.getText());
         accountBaseInfo.setEmail(mailField.getText());
-        bean.sent(JSONObject.toJSONString(accountBaseInfo, JSONWriter.Feature.FieldBased));
+        clientAction.sent(JSONObject.toJSONString(accountBaseInfo, JSONWriter.Feature.FieldBased));
+
     }
 
     @FXML
