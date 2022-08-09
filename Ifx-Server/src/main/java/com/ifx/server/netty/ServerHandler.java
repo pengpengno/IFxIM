@@ -51,5 +51,9 @@ public class ServerHandler extends ChannelDuplexHandler {
         throw cause;
     }
 
-
+    @Override
+    public void channelActive(ChannelHandlerContext ctx) throws Exception {
+        log.info(" 开启了 来自 {}的链接请求，channel 已打开 ",ctx.channel().remoteAddress());
+        super.channelActive(ctx);
+    }
 }

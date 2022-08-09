@@ -28,20 +28,20 @@ public class ClientApplication extends Application{
     public void start(Stage stage) throws Exception {
         springFxmlLoader = SpringUtil.getBean(SpringFxmlLoader.class);
         URL resource = FileUtil.file("com\\ifx\\client\\app\\fxml\\login.fxml").toURI().toURL();
-        Scene scene = springFxmlLoader.applyStage(resource);
-
-//        FXMLLoader fxmlLoader = new FXMLLoader();
-//        fxmlLoader.setLocation(resource);
-//        fxmlLoader.setControllerFactory(SpringUtil::getBean);
+        Scene scene = springFxmlLoader.applyScene(resource);
+//        Stage LoginStage = springFxmlLoader.applySinStage("com\\ifx\\client\\app\\fxml\\login.fxml");
+        FXMLLoader fxmlLoader = new FXMLLoader();
+        fxmlLoader.setLocation(resource);
+        fxmlLoader.setControllerFactory(SpringUtil::getBean);
 //        Scene scene = new Scene(fxmlLoader.load());
         stage.setScene(scene);
+//        stage.setScene(LoginStage.getScene());
         stage.show();
     }
 
 
     public static void main(String[] args){
         SpringApplication.run(ClientApplication.class);
-        Application.launch(ClientApplication.class);
 
         ClientAction clientAction = SpringUtil.getBean(ClientAction.class);  // 启动netty
         clientAction.connect();
@@ -49,6 +49,7 @@ public class ClientApplication extends Application{
             clientAction.reConnect();
         }
 
+        Application.launch(ClientApplication.class);
 
     }
 }

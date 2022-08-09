@@ -117,8 +117,11 @@ public class NettyClientAction implements ClientAction {
 
     @Override
     public Protocol sendJsonMsg(Protocol protocol) {
-
         if (protocol == null){
+            return null;
+        }
+        if (!nettyClient.getChannel().isActive()) {
+            log.error("netty Channel is close");
             return null;
         }
         String taskCode = IdUtil.fastSimpleUUID();

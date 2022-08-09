@@ -30,16 +30,11 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.List;
 
-//@FXMLController
-//public class LoginController implements Initializable {
+
 @Component
 @Slf4j
 public class LoginController  {
-//    @Override
-//    public void initialize(URL location, ResourceBundle resources) {
-//
-//    }
-    private Stage stage;
+
 
     private LoginController(){
       log.info(LoginController.log.getName());
@@ -131,20 +126,15 @@ public class LoginController  {
     @FXML
     void toRegister(MouseEvent event) throws IOException {
 //        Stage stage = new Stage();
-
-        URL resource = FileUtil.file("com\\ifx\\client\\app\\fxml\\register.fxml").toURI().toURL();
-        Scene scene = springFxmlLoader.applyStage(resource);
-        Stage stage = new Stage();
-        stage.setScene(scene);
+//        URL resource = FileUtil.file("com\\ifx\\client\\app\\fxml\\register.fxml").toURI().toURL();
+//        Scene scene = springFxmlLoader.applyScene(resource);
+//        Stage stage = new Stage();
+        Stage stage = springFxmlLoader.applySinStage("com\\ifx\\clie nt\\app\\fxml\\register.fxml");
+//        stage.setScene(scene);
         log.info("prepare to  show  register");
         stage.show();
         stage.setTitle("zhuce");
-//        FXMLLoader fxmlLoader = new FXMLLoader();
-//        fxmlLoader.setLocation(resource);
-//        Scene scene = new Scene(fxmlLoader.load());
-////        scene.getStylesheets().add(BootstrapFX.bootstrapFXStylesheet());
-//        stage.setScene(scene);
-//        stage.show();
+
     }
 
 
