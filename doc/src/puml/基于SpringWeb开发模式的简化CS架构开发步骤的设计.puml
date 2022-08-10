@@ -4,18 +4,26 @@
 autonumber
 skinparam backgroundColor #EEEBDC
 skinparam handwritten true
-participant ifxclient
-participant ifxserver
-participant dubboServer
+participant ifxClient
+participant ifxServer
 participant parseFactory
 participant routeHandler
-== TwoWay ==
-ifxclient-> ifxserver : send protocol package;
-ifxserver -> ifxserver : parse package;
+participant dubboServer
+
+== oneWay ==
+ifxClient-> ifxServer : send protocol package;
+ifxServer -> ifxServer : parse package;
 group parse
-ifxserver -> parseFactory : get protocol command
+ifxServer -> parseFactory : get protocol command
 note left : command will be like as flowing\n/account/login\nit seems like web develop model
-loop find
-end loop
-end group
+
+parseFactory -> parseFactory : parse to dubboMeta
+note left: the dubboMeta is dubboConfig which used to generic server\nand this model will be convenient to maintain
+parseFactory --> ifxServer : dubboMeta
+ifxServer -> routeHandler : route request
+note left : routing layer ,and  can be replace with dubboFilter\nbecasue dubbo3 has community to reslove unpredictable problem
+end grou
+== TwoWay ==
+dubboServer -> dubboServer : bussiness work done
+dubboServer --> ifxServer : return result；
 @enduml
