@@ -7,12 +7,12 @@ import com.ifx.client.ClientApplication;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.concurrent.ConcurrentHashMap;
@@ -24,51 +24,8 @@ public class SpringFxmlLoader {
     private final ConcurrentHashMap<String,Stage> stageMap = new ConcurrentHashMap<>();
     private final ConcurrentHashMap<String,Scene> sceneMap = new ConcurrentHashMap<>();
 
-    public Object load(String url, String resources) {
 
-        FXMLLoader loader = new FXMLLoader();
-
-        loader.setControllerFactory(SpringUtil::getBean);
-
-        loader.setLocation(getClass().getResource(url));
-
-        loader.setResources(ResourceBundle.getBundle(resources));
-
-        try {
-
-            return loader.load();
-
-        } catch (IOException e) {
-
-            e.printStackTrace();
-
-        }
-
-        return null;
-
-    }
-    public Object load(URL url) {
-        FXMLLoader loader = new FXMLLoader();
-        loader.setControllerFactory(SpringUtil::getBean);
-        loader.setLocation(url);
-        try {
-            return loader.load();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return null;
-
-    }
-
-    public FXMLLoader applyLoad(URL url) {
-        FXMLLoader loader = new FXMLLoader();
-        loader.setControllerFactory(SpringUtil::getBean);
-        loader.setLocation(url);
-//        loader.setResources(ResourceBundle.getBundle(resources));
-        return loader;
-    }
-
-    public Scene applyScene(URL url) {
+    private Scene applyScene(URL url) {
         try{
             FXMLLoader fxmlLoader = new FXMLLoader();
             fxmlLoader.setLocation(url);
@@ -83,11 +40,19 @@ public class SpringFxmlLoader {
         }
         return null;
     }
-    
-    public Scene applyScene(String classPath) {
+
+
+    public Scene applySinScene(String classPath) {
         try{
-            URL resource = FileUtil.file(classPath).toURI().toURL();
-            Scene scene = applyScene(resource);
+            Scene scene = sceneMap.computeIfAbsent(classPath, (k) -> {
+                URL resource = null;
+                try {
+                    resource = FileUtil.file(classPath).toURI().toURL();
+                } catch (Exception e) {
+                    log.info(ExceptionUtil.stacktraceToString(e));
+                }
+                return applyScene(resource);
+            });
             sceneMap.put(classPath,scene);
             return scene;
         }
@@ -97,6 +62,7 @@ public class SpringFxmlLoader {
         return null;
     }
 
+
     /**
      * 获取单例的Stage
      * @param classPath
@@ -105,26 +71,19 @@ public class SpringFxmlLoader {
     public Stage applySinStage(String classPath){
         Stage resStage = stageMap.computeIfAbsent(classPath, (path) -> {
             Stage stage = new Stage();
-            stage.setScene(sceneMap.computeIfAbsent(classPath, (v) -> applyScene(v)));
+            Scene scene = applySinScene(classPath);
+            stage.setScene(scene);
             return stage;
         });
+//        if windows is do close request  handler will close
+        resStage.addEventHandler(WindowEvent.WINDOW_CLOSE_REQUEST,(evt)-> {
+            log.info("{} frame  is doing {} event",evt.getSource(),evt.getEventType());
+            stageMap.remove(classPath);
+        });
+
         stageMap.put(classPath,resStage);
         return resStage;
     }
 
-//    /**
-//     * 获取单例的 Stage
-//     * @param url
-//     * @return
-//     */
-//    public Stage applySinStage(URL url){
-//
-//        Stage resStage = stageMap.computeIfAbsent(url.getPath(), (path) -> {
-//            Stage stage = new Stage();
-//            stage.setScene(sceneMap.computeIfAbsent(classPath, (v) -> applyScene(v)));
-//            return stage;
-//        });
-//        stageMap.put(classPath,resStage);
-//        return resStage;
-//    }
+
 }

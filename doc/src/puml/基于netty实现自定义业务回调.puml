@@ -1,6 +1,8 @@
 @startuml
 'https://plantuml.com/sequence-diagram
 title  netty 业务串行业务的设计与实现
+skinparam backgroundColor #EEEBDC
+skinparam handwritten true
 autonumber
 Queue 客户端任务队列 as task
 actor 客户端 as client

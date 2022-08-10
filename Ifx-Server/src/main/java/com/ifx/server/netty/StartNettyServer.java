@@ -4,6 +4,7 @@ import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
+import io.netty.handler.timeout.IdleStateHandler;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
@@ -27,9 +28,9 @@ public class StartNettyServer {
             b.group(parentGroup, childGroup)
                     .channel(NioServerSocketChannel.class)    //非阻塞模式
                     .option(ChannelOption.SO_BACKLOG, 128)
+//                    .childHandler(new IdleStateHandler(20,20,20)) //  free channel  checkout
                     .childHandler(serverHandler);
             channelFuture = b.bind(address).syncUninterruptibly();
-
             channel = channelFuture.channel();
         } catch (Exception e) {
             log.error(e.getMessage());

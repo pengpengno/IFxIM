@@ -2,6 +2,7 @@ package com.ifx.client.app.controller;
 
 import cn.hutool.core.io.FileUtil;
 import com.alibaba.fastjson2.JSON;
+import com.ifx.account.service.AccountService;
 import com.ifx.account.vo.AccountBaseInfo;
 import com.ifx.client.util.SpringFxmlLoader;
 import com.ifx.connect.enums.CommandEnum;
@@ -9,6 +10,8 @@ import com.ifx.connect.netty.client.ClientAction;
 import com.ifx.connect.proto.Protocol;
 import com.ifx.connect.task.Task;
 //import de.felixroske.jfxsupport.FXMLController;
+import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXDialogLayout;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -27,6 +30,7 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
 import java.io.IOException;
+import java.lang.reflect.Method;
 import java.net.URL;
 import java.util.List;
 
@@ -55,6 +59,7 @@ public class LoginController  {
     private ImageView iconView;
 
     @FXML
+//    private JFXButton loginBut;
     private Button loginBut;
 
     @FXML
@@ -77,10 +82,10 @@ public class LoginController  {
 
     @Resource(name = "netty")
     private ClientAction clientAction;
+
     @Resource
     private SpringFxmlLoader springFxmlLoader;
-//    private Abstract clientAction;
-    //    private ClientAction action = NettyClientAction.getInstance();
+
     public void init(){
 //        SpringFxmlLoader
     }
@@ -88,32 +93,26 @@ public class LoginController  {
     @FXML
     public void login(MouseEvent event) {
 //        ClientAction bean = SpringUtil.getBean(ClientAction.class);
-        CharSequence characters = accountField.getCharacters();
-        String psd = passwordField.getCharacters().toString();
-        String  account = characters.toString();
+        String account = accountField.getText();
+        String psd = passwordField.getText();
+//        String  account = characters.toString();
         AccountBaseInfo accountBaseInfo = new AccountBaseInfo();
         accountBaseInfo.setAccount(account);
         accountBaseInfo.setPassword(psd);
+        Method[] methods = AccountService.class.getMethods();
+
         Protocol<AccountBaseInfo> logBase = new Protocol<>();
         logBase.setBody(JSON.toJSONString(accountBaseInfo));
         logBase.setCommand(CommandEnum.LOGIN.name());
         Task task = protocol -> {
-            int code = protocol.getRes().getCode();
+//            int code = protocol.getRes().getCode();
             List data = protocol.getRes().getData();
-            Boolean o = (Boolean)data.get(0);
-            if (o){
+            Boolean loginStatus = (Boolean)data.get(0);
+            if (loginStatus){
                 log.info("login success ");
             }
         };
         clientAction.sendJsonMsg(logBase,task);
-//        clientAction.isActive();
-
-//        sent.addListener((ChannelFutureListener) future -> {
-//
-//        })
-//        clientAction.sent(bean);
-
-//        bean.sent(account);
 
     }
 
@@ -124,14 +123,9 @@ public class LoginController  {
     }
 
     @FXML
-    void toRegister(MouseEvent event) throws IOException {
-//        Stage stage = new Stage();
-//        URL resource = FileUtil.file("com\\ifx\\client\\app\\fxml\\register.fxml").toURI().toURL();
-//        Scene scene = springFxmlLoader.applyScene(resource);
-//        Stage stage = new Stage();
-        Stage stage = springFxmlLoader.applySinStage("com\\ifx\\clie nt\\app\\fxml\\register.fxml");
-//        stage.setScene(scene);
-        log.info("prepare to  show  register");
+    void toRegister(MouseEvent event)   {
+        Stage stage = springFxmlLoader.applySinStage("com\\ifx\\client\\app\\fxml\\register.fxml");
+        log.info("prepare to show  register");
         stage.show();
         stage.setTitle("zhuce");
 

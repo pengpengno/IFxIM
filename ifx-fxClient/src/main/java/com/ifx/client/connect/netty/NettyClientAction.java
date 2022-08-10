@@ -127,6 +127,10 @@ public class NettyClientAction implements ClientAction {
         String taskCode = IdUtil.fastSimpleUUID();
         if (protocol.getTaskCode() == null )
             protocol.setTaskCode(taskCode);
+        if (nettyClient.getChannel() == null){
+            log.error("channel is close ,please start server ");
+            return null;
+        }
         ChannelFuture write = nettyClient.write(JSON.toJSONString(protocol));
         write.addListener(future -> {
             if (future.isSuccess())

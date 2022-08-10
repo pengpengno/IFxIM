@@ -19,7 +19,6 @@ import java.net.InetSocketAddress;
 @Slf4j
 @EnableDubbo
 public class ServerApplication implements CommandLineRunner {
-//public class ServerApplication   {
 
     @Resource
     private StartNettyServer nettyServer;
@@ -34,20 +33,6 @@ public class ServerApplication implements CommandLineRunner {
         InetSocketAddress address = new InetSocketAddress(hostAddress, serverNettyConfigProperties.getPort());
         ChannelFuture channelFuture = nettyServer.bind(address);
         Runtime.getRuntime().addShutdownHook(new Thread(() -> nettyServer.destroy()));
-//        channelFuture.channel().closeFuture().syncUninterruptibly();
-//        // 开启服务
-//        log.info("正在初始化Netty port {}",socketProperties.getPort());
-//        ChannelFuture future = nettyServer.applyChannel( socketProperties.getPort());
-//        log.info("Netty 启动完成 port {}",socketProperties.getPort());
-//        // 在JVM销毁前关闭服务
-//        Runtime.getRuntime().addShutdownHook(new Thread() {
-//            @Override
-//            public void run() {
-//                log.info("Netty 正在关闭 ");
-//                nettyServer.close();
-//            }
-//        });
-//        future.channel().closeFuture().sync();
     }
     public static void main(String[] args) {
             SpringApplication.run(ServerApplication.class);

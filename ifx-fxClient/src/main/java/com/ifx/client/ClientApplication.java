@@ -1,25 +1,18 @@
 package com.ifx.client;
 
-import cn.hutool.core.io.FileUtil;
+
 import cn.hutool.extra.spring.SpringUtil;
-//import com.ifx.client.util.SpringFxmlLoader;
-//import com.ifx.client.view.LoginView;
-//import de.felixroske.jfxsupport.AbstractJavaFxApplicationSupport;
 import com.ifx.client.util.SpringFxmlLoader;
 import com.ifx.connect.netty.client.ClientAction;
 import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-
 import javax.annotation.Resource;
-import java.net.URL;
 
 
 @SpringBootApplication(scanBasePackages = {"com.ifx"})
-//public class ClientApplication extends AbstractJavaFxApplicationSupport {
 public class ClientApplication extends Application{
 
     @Resource
@@ -27,15 +20,9 @@ public class ClientApplication extends Application{
     @Override
     public void start(Stage stage) throws Exception {
         springFxmlLoader = SpringUtil.getBean(SpringFxmlLoader.class);
-        URL resource = FileUtil.file("com\\ifx\\client\\app\\fxml\\login.fxml").toURI().toURL();
-        Scene scene = springFxmlLoader.applyScene(resource);
-//        Stage LoginStage = springFxmlLoader.applySinStage("com\\ifx\\client\\app\\fxml\\login.fxml");
-        FXMLLoader fxmlLoader = new FXMLLoader();
-        fxmlLoader.setLocation(resource);
-        fxmlLoader.setControllerFactory(SpringUtil::getBean);
-//        Scene scene = new Scene(fxmlLoader.load());
+        String path = "com\\ifx\\client\\app\\fxml\\login.fxml";
+        Scene scene = springFxmlLoader.applySinScene(path);
         stage.setScene(scene);
-//        stage.setScene(LoginStage.getScene());
         stage.show();
     }
 
@@ -43,13 +30,19 @@ public class ClientApplication extends Application{
     public static void main(String[] args){
         SpringApplication.run(ClientApplication.class);
 
-        ClientAction clientAction = SpringUtil.getBean(ClientAction.class);  // 启动netty
-        clientAction.connect();
-        if (!clientAction.isActive()){
-            clientAction.reConnect();
-        }
-
         Application.launch(ClientApplication.class);
+        Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                ClientAction clientAction = SpringUtil.getBean(ClientAction.class);  // 启动netty
+                clientAction.connect();
+                if (!clientAction.isActive()) {
+                    clientAction.reConnect();
+                }
+            }
+        };
+        runnable.run();
+
 
     }
 }

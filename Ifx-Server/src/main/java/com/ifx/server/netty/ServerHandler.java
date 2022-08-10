@@ -1,5 +1,6 @@
 package com.ifx.server.netty;
 
+import cn.hutool.core.exceptions.ExceptionUtil;
 import com.alibaba.fastjson2.JSONObject;
 import com.ifx.connect.proto.Protocol;
 import com.ifx.server.invoke.ServerProtoReceive;
@@ -46,9 +47,12 @@ public class ServerHandler extends ChannelDuplexHandler {
     {
 
         //出现异常的时候执行的动作（打印并关闭通道）
-        cause.printStackTrace();
+        log.info("business error {}  ", ExceptionUtil.stacktraceToString(cause));
         ctx.close();
-        throw cause;
+        log.info("{} channel will be shutdown ",ctx.channel().remoteAddress());
+
+        //        ctx.close();
+//        throw cause;
     }
 
     @Override

@@ -35,7 +35,6 @@ public class ServerProtoReceive {
                     protocol.setRes(res);
                     Channel channel = ctx.channel();
                     channel.writeAndFlush(Unpooled.copiedBuffer(JSON.toJSONString(protocol), CharsetUtil.UTF_8));
-//                ctx.writeAndFlush(JSON.toJSONString(protocol));
                     log.info("服务端业务处理完毕  登录状态为{} ", login);
                 default:
                     break;

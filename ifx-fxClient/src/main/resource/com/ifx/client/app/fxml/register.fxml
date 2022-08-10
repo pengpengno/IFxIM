@@ -13,7 +13,7 @@
             <Button fx:id="register" layoutX="186.0" layoutY="278.0" mnemonicParsing="false" onMouseClicked="#register" text="注册" />
             <TextField fx:id="psdField" layoutX="253.0" layoutY="201.0" />
             <Label layoutX="160.0" layoutY="205.0" text="密码" />
-            <Button fx:id="cannel" layoutX="301.0" layoutY="278.0" mnemonicParsing="false" onKeyPressed="#toLoginFrame" text="取消" />
+            <Button fx:id="cancel" layoutX="301.0" layoutY="278.0" mnemonicParsing="false" onMouseClicked="#cancel" text="取消" />
             <TextField fx:id="mailField" layoutX="253.0" layoutY="137.0" />
             <Label layoutX="160.0" layoutY="141.0" text="邮箱" />
             <TextField fx:id="accountField" layoutX="253.0" layoutY="89.0" />

@@ -1,0 +1,21 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+autonumber
+skinparam backgroundColor #EEEBDC
+skinparam handwritten true
+participant ifxclient
+participant ifxserver
+participant dubboServer
+participant parseFactory
+participant routeHandler
+== TwoWay ==
+ifxclient-> ifxserver : send protocol package;
+ifxserver -> ifxserver : parse package;
+group parse
+ifxserver -> parseFactory : get protocol command
+note left : command will be like as flowing\n/account/login\nit seems like web develop model
+loop find
+end loop
+end group
+@enduml
