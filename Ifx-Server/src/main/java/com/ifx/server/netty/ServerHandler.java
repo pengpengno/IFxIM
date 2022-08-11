@@ -28,7 +28,6 @@ public class ServerHandler extends ChannelDuplexHandler {
     private ServerProtoReceive serverProtoReceive;
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
-//        super.channelRead(ctx, msg);
 //        TODO  implents netty serial   will use Extueor do work
         //处理收到的数据，并反馈消息到到客户端
         ByteBuf in = (ByteBuf) msg;
@@ -39,6 +38,7 @@ public class ServerHandler extends ChannelDuplexHandler {
         log.info("receive msg from server-side {}, data package {}",ctx.channel().localAddress().toString(),protocol);
         serverService.submit(()-> serverProtoReceive.received(ctx,protocol));
         //写入并发送信息到远端（客户端）
+        super.channelRead(ctx, msg);
 //        ctx.writeAndFlush(Unpooled.copiedBuffer("你好，我是服务端，我已经收到你发送的消息", CharsetUtil.UTF_8));
     }
     @SneakyThrows
