@@ -5,7 +5,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
 @Component
-@ConfigurationProperties("ifx.connect.server.port")
+@ConfigurationProperties("ifx.connect.com.ifx.server.port")
 @Data
 public class ClientSocketProperties {
 

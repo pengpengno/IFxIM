@@ -4,62 +4,108 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import java.io.Serializable;
 import java.util.Date;
-import lombok.Data;
+import java.util.UUID;
 
 /**
  * 基本用户信息表
+ *
  * @TableName account
  */
-@TableName(value ="account")
+@TableName(value = "account")
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class Account implements Serializable {
+
+    public static Account instance = getInstance();
+
+    public static Account getInstance() {
+        Date now = new Date();
+        String uuid = UUID.randomUUID().toString().replace("-", "");
+        return new Account(null, uuid, null, null, null, null, null, now, null, null, now, now);
+    }
+
+
+
     /**
-     * 
+     *
      */
     @TableId(type = IdType.AUTO)
     private Long id;
 
     /**
-     * 账户密码
+     * 用户id
      */
-    private String accountPsd;
+    @TableField("user_id")
+    private String userId;
+
 
     /**
-     * 账户名称
+     * 账号
      */
-    private String accountName;
+    @TableField("account")
+    private String account;
 
     /**
-     * 创建人编号
+     * 用户名称
      */
-    private String createAccount;
+    @TableField("user_name")
+    private String userName;
+
+    /**
+     * 昵称
+     */
+    @TableField("user_nickname")
+    private String user_nickname;
+
+    /**
+     * 密码
+     */
+    @TableField("password")
+    private String password;
+
+    /**
+     * 盐值
+     */
+    @TableField("salt")
+    private String salt;
+
+    /**
+     * 出生日期
+     */
+    @TableField("birthday")
+    private Date birthday;
+
+
+    /**
+     * 邮箱
+     */
+    @TableField("email")
+    private String email;
+
+    /**
+     * 居住地址
+     */
+    @TableField("address")
+    private String address;
 
     /**
      * 创建时间
      */
-    private Date createDate;
+    @TableField("create_time")
+    private Date create_time;
 
     /**
-     * 修改人编号
+     * 更新时间
      */
-    private String updateAccount;
-
-    /**
-     * 修改时间
-     */
-    private Date updateDate;
-
-    /**
-     * 删除标志
-     */
-    private Integer active;
-
-    /**
-     * 版本
-     */
-    private Integer version;
+    @TableField("update_time")
+    private Date update_time;
 
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;

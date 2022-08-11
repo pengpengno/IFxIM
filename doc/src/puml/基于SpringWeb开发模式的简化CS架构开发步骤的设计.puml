@@ -1,0 +1,29 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+autonumber
+skinparam backgroundColor #EEEBDC
+skinparam handwritten true
+participant ifxClient
+participant ifxServer
+participant parseFactory
+participant routeHandler
+participant dubboServer
+
+== oneWay ==
+ifxClient-> ifxServer : send protocol package;
+ifxServer -> ifxServer : parse package;
+group parse
+ifxServer -> parseFactory : get protocol command
+note left : command will be like as flowing\n/account/login\nit seems like web develop model
+
+parseFactory -> parseFactory : parse to dubboMeta
+note left: the dubboMeta is dubboConfig which used to generic server\nand this model will be convenient to maintain
+parseFactory --> ifxServer : dubboMeta
+ifxServer -> routeHandler : route request
+note left : routing layer ,and  can be replace with dubboFilter\nbecasue dubbo3 has community to reslove unpredictable problem
+end grou
+== TwoWay ==
+dubboServer -> dubboServer : bussiness work done
+dubboServer --> ifxServer : return result；
+@enduml

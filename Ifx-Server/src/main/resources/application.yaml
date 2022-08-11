@@ -1,0 +1,17 @@
+ifx:
+  connect:
+    netty:
+      server:
+        port: 8976
+dubbo:
+  registry:
+    address: nacos://124.221.168.200:8848
+    username: ifx2022
+    password: ifx2022
+    check: false
+  consumer:
+    check: false
+  application:
+    id: ifx-server
+    name: ifx-server
+

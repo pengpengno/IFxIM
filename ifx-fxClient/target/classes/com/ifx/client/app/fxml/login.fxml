@@ -41,11 +41,12 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox fx:id="loginFrame" prefHeight="400.0" prefWidth="590.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
+<?import com.jfoenix.controls.JFXButton?>
+<VBox fx:id="loginFrame" prefHeight="400.0" prefWidth="590.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ifx.client.app.controller.LoginController">
   <children>
     <AnchorPane fx:id="loginPane" maxHeight="-1.0" maxWidth="-1.0" prefHeight="375.0" prefWidth="577.0" VBox.vgrow="ALWAYS">
       <children>
-            <Button fx:id="loginBut" layoutX="201.0" layoutY="290.0" mnemonicParsing="false" text="登录" />
+            <Button fx:id="loginBut" layoutX="201.0" layoutY="290.0" mnemonicParsing="false" onMouseClicked="#login" text="登录" />
             <Button fx:id="canel" layoutX="331.0" layoutY="290.0" mnemonicParsing="false" text="取消" />
             <CheckBox fx:id="remberPsdCheckBox" layoutX="186.0" layoutY="242.0" mnemonicParsing="false" text="记住密码" />
             <PasswordField fx:id="passwordField" layoutX="244.0" layoutY="192.0" />
@@ -55,7 +56,7 @@
             <CheckBox fx:id="autoLoginCheckBox" layoutX="316.0" layoutY="242.0" mnemonicParsing="false" text="自动登录" />
             <ImageView fx:id="iconView" fitHeight="105.0" fitWidth="127.0" layoutX="244.0" layoutY="20.0" pickOnBounds="true" preserveRatio="true" />
             <Label layoutX="28.0" layoutY="343.0" text="忘记密码" />
-            <Label fx:id="registerAccount" layoutX="28.0" layoutY="364.0" text="注册账号" />
+            <Label fx:id="registerAccount" layoutX="28.0" layoutY="364.0" onMouseClicked="#toRegister" text="注册账号" />
       </children>
     </AnchorPane>
   </children>
