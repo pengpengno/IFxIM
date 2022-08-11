@@ -31,6 +31,7 @@ import java.util.concurrent.CountDownLatch;
 public class ServerProtoReceive implements ApplicationListener<ContextRefreshedEvent> {
     @Value("${dubbo.registry.address}")
     private String address;
+
     private static GenericService genericService;
 
     @Override

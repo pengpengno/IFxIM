@@ -49,7 +49,7 @@ public class DubboServiceInvokeFactory {
 
 
     public <T> Object genericInvoke(String interfaceClass, String methodName, String version, LinkedHashMap<String, Object> parametersMap) throws Exception {
-        logger.info("interfaceClass{},methodName{},parametersMap{}", interfaceClass, methodName, parametersMap);
+//        logger.info("interfaceClass{},methodName{},parametersMap{}", interfaceClass, methodName, parametersMap);
         RegistryConfig registryConfig = new RegistryConfig();
         registryConfig.setAddress(address);
         registryConfig.setPort(protocolPort);
