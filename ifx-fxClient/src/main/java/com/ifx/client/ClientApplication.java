@@ -29,19 +29,16 @@ public class ClientApplication extends Application{
 
     public static void main(String[] args){
         SpringApplication.run(ClientApplication.class);
-
-        Application.launch(ClientApplication.class);
-        Runnable runnable = new Runnable() {
-            @Override
-            public void run() {
-                ClientAction clientAction = SpringUtil.getBean(ClientAction.class);  // 启动netty
-                clientAction.connect();
-                if (!clientAction.isActive()) {
-                    clientAction.reConnect();
-                }
+        Runnable runnable = () -> {
+            ClientAction clientAction = SpringUtil.getBean(ClientAction.class);  // 启动netty
+            clientAction.connect();
+            if (!clientAction.isActive()) {
+                clientAction.reConnect();
             }
         };
         runnable.run();
+        Application.launch(ClientApplication.class);
+
 
 
     }

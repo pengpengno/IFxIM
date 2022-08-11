@@ -37,7 +37,7 @@ public class NettyClientAction implements ClientAction {
         try{
 //            NettyClient bean = SpringUtil.getBean(NettyClient.class);  // 启动netty
             nettyClient.doOpen();
-            log.error("netty connect succ ！ host :  {}   posrt : {} ",nettyClient.getAddress().getHostName(), nettyClient.getAddress().getPort());
+            log.info("netty connect succ ！ host :  {}   posrt : {} ",nettyClient.getAddress().getHostName(), nettyClient.getAddress().getPort());
         }
         catch (Throwable e ){
            log.error("服务器链接失败！ {}",ExceptionUtil.stacktraceToString(e));
