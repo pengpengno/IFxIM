@@ -1,10 +1,15 @@
 package com.ifx.server;
 
 import com.ifx.account.vo.AccountBaseInfo;
+import javafx.application.Application;
 import org.apache.dubbo.config.ApplicationConfig;
 import org.apache.dubbo.config.ReferenceConfig;
 import org.apache.dubbo.config.RegistryConfig;
 import org.apache.dubbo.rpc.RpcContext;
+import org.apache.dubbo.rpc.model.ApplicationModel;
+import org.apache.dubbo.rpc.model.FrameworkModel;
+import org.apache.dubbo.rpc.model.ModuleModel;
+import org.apache.dubbo.rpc.model.ScopeModelUtil;
 import org.apache.dubbo.rpc.service.GenericService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -37,7 +42,6 @@ public class GenericTest {
         referenceConfig.setInterface("com.ifx.account.service.AccountService");
         applicationConfig.setRegistry(registryConfig);
         referenceConfig.setApplication(applicationConfig);
-//            referenceConfig.setScopeModel();
         //重点：设置为泛化调用
         //注：不再推荐使用参数为布尔值的setGeneric函数
         //应该使用referenceConfig.setGeneric("true")代替

@@ -1,7 +1,9 @@
 package com.ifx.client.app.controller;
 
+import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.io.FileUtil;
 import com.alibaba.fastjson2.JSON;
+import com.alibaba.fastjson2.JSONObject;
 import com.ifx.account.service.AccountService;
 import com.ifx.account.vo.AccountBaseInfo;
 import com.ifx.client.util.SpringFxmlLoader;
@@ -32,6 +34,7 @@ import javax.annotation.Resource;
 import java.io.IOException;
 import java.lang.reflect.Method;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -92,20 +95,19 @@ public class LoginController  {
 
     @FXML
     public void login(MouseEvent event) {
-//        ClientAction bean = SpringUtil.getBean(ClientAction.class);
         String account = accountField.getText();
         String psd = passwordField.getText();
-//        String  account = characters.toString();
         AccountBaseInfo accountBaseInfo = new AccountBaseInfo();
         accountBaseInfo.setAccount(account);
         accountBaseInfo.setPassword(psd);
-        Method[] methods = AccountService.class.getMethods();
-
+        ArrayList<Object> args = CollectionUtil.newArrayList();
+        args.add(accountBaseInfo);
         Protocol<AccountBaseInfo> logBase = new Protocol<>();
-        logBase.setBody(JSON.toJSONString(accountBaseInfo));
-        logBase.setCommand(CommandEnum.LOGIN.name());
+//        logBase.setProtocol(JSON.toJSONString());
+//        logBase.setBody(JSON.toJSONString(accountBaseInfo));
+//        logBase.setCommand(CommandEnum.LOGIN.name());
+
         Task task = protocol -> {
-//            int code = protocol.getRes().getCode();
             List data = protocol.getRes().getData();
             Boolean loginStatus = (Boolean)data.get(0);
             if (loginStatus){
