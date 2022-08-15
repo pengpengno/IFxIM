@@ -1,5 +1,7 @@
 package com.ifx.common.res;
 
+import cn.hutool.core.collection.CollectionUtil;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -81,6 +83,12 @@ public class Result<T> implements Serializable {
     public static <T> Result<T> ok() {
         Result<T> Result = new Result();
         Result.setCode(0);
+        return Result;
+    }
+    public static <T> Result<T> ok(T data) {
+        Result<T> Result = new Result();
+        Result.setCode(0);
+        Result.setData(CollectionUtil.newArrayList(data));
         return Result;
     }
 

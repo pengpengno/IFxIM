@@ -1,6 +1,8 @@
 package com.ifx.account.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.ifx.account.Helper.AccountHelper;
 import com.ifx.account.entity.Account;
@@ -9,11 +11,14 @@ import com.ifx.account.service.AccountService;
 import com.ifx.account.vo.AccountBaseInfo;
 import com.ifx.common.constant.CommonConstant;
 import org.apache.dubbo.config.annotation.DubboService;
+import org.checkerframework.checker.units.qual.A;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 /**
  * @author wangpeng
@@ -21,7 +26,6 @@ import java.util.Objects;
  * @createDate 2022-07-30 16:21:21
  */
 @Service
-//@DubboService(version = "1.0.0")
 @DubboService
 public class AccountServiceImpl extends ServiceImpl<AccountMapper, Account>
         implements AccountService {
@@ -73,6 +77,13 @@ public class AccountServiceImpl extends ServiceImpl<AccountMapper, Account>
             return account.getAccount();
         }
         return null;
+    }
+
+    @Override
+    public List<AccountBaseInfo> listAllAccoutInfo() {
+        Page<Account> page = page(new Page<>(), new QueryWrapper<Account>().eq("account", "wangpeng"));
+        List<AccountBaseInfo> collect = page.getRecords().stream().map(e -> AccountHelper.INSTANCE.transform4Init(e)).collect(Collectors.toList());
+        return collect;
     }
 }
 

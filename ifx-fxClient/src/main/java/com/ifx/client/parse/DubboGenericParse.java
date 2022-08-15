@@ -1,9 +1,13 @@
 package com.ifx.client.parse;
 
+import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.util.StrUtil;
+import com.alibaba.fastjson.JSON;
 import com.ifx.account.service.AccountService;
 import com.ifx.account.vo.AccountBaseInfo;
+import com.ifx.connect.proto.Protocol;
 import com.ifx.connect.proto.dubbo.DubboApiMetaData;
+import com.ifx.connect.proto.dubbo.DubboProtocol;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -11,6 +15,7 @@ import org.springframework.stereotype.Component;
 import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
 
@@ -32,11 +37,11 @@ public class DubboGenericParse {
      * @return
      */
     @SneakyThrows
-    public DubboApiMetaData applyMeta(Class interFaceClass, String methodName , List<Object> args){
+    public static DubboApiMetaData applyMeta(Class interFaceClass, String methodName , List<Object> args){
 
-        String name = interFaceClass.getPackage().getName();
+        String name = interFaceClass.getName();
 
-        Method method = Arrays.stream(interFaceClass.getMethods()).filter(meNa -> StrUtil.equals(meNa.getName(), methodName)).
+        Method method = Arrays.stream(interFaceClass.getMethods()).filter(meNa -> StrUtil.equalsIgnoreCase(meNa.getName(), methodName)).
                 findFirst().
                 orElseThrow(() -> {
                     log.error("  {}  can not find method {} ", name, methodName);
@@ -47,7 +52,7 @@ public class DubboGenericParse {
         String[] paramTypes = Arrays.stream(parameterTypes).map(paramType -> {
             return paramType.getName();
         }).toArray(size-> new String[size]);
-        Object[] objects = args.stream().toArray(size -> new String[size]);
+        Object[] objects = Optional.ofNullable(args).orElse(CollectionUtil.newArrayList()).toArray();
         DubboApiMetaData metaData = new DubboApiMetaData();
         metaData.setApiInterFacePath(name);
         metaData.setArgsType(paramTypes);
@@ -59,10 +64,9 @@ public class DubboGenericParse {
     }
 
     @SneakyThrows
-    public DubboApiMetaData applyMeta(Class interFaceClass, Method method, List<Object> args){
+    public static DubboApiMetaData applyMeta(Class interFaceClass, Method method, List<Object> args){
 
         String name = interFaceClass.getName();
-        String methodName = method.getName();
         Class<?>[] parameterTypes = method.getParameterTypes();
         String[] paramTypes = Arrays.stream(parameterTypes).map(paramType -> {
             return paramType.getName();
@@ -74,7 +78,14 @@ public class DubboGenericParse {
         metaData.setMethod(method.getName());
         metaData.setArgs(objects);
         return metaData;
+    }
 
+
+    public static Protocol applyProtocol(Class clazz,String method,List object){
+        DubboApiMetaData metaData = DubboGenericParse.applyMeta(clazz, method, object);
+        Protocol protocol = new DubboProtocol();
+        protocol.setBody(JSON.toJSONString(metaData));
+        return protocol;
     }
 
     public static void main(String[] args) {

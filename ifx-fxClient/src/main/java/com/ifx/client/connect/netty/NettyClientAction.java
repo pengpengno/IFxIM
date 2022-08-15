@@ -15,6 +15,7 @@ import org.springframework.stereotype.Component;
 import java.nio.charset.StandardCharsets;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ThreadPoolExecutor;
 
 @Component("netty")
 @Slf4j
@@ -99,10 +100,25 @@ public class NettyClientAction implements ClientAction {
 
     @Override
     public Protocol sendJsonMsg(Protocol protocol, Task task) {
-        nettyMsgMap.put(Optional.ofNullable(protocol.getTaskCode()).orElse(IdUtil.fastSimpleUUID()), task);
+        nettyMsgMap.put(Optional.ofNullable(protocol.getTaskCode()).orElseGet(()->{
+            String taskCode = IdUtil.fastSimpleUUID();
+            protocol.setTaskCode(taskCode);
+            return taskCode;
+        }), task);
         sendJsonMsg(protocol);
         return null;
     }
+
+    public Protocol sendJsonMsg(Protocol protocol, Task task, ThreadPoolExecutor executor) {
+        nettyMsgMap.put(Optional.ofNullable(protocol.getTaskCode()).orElseGet(()->{
+            String taskCode = IdUtil.fastSimpleUUID();
+            protocol.setTaskCode(taskCode);
+            return taskCode;
+        }), task);
+        sendJsonMsg(protocol);
+        return null;
+    }
+
 
     @Override
     public Task getTask(Protocol protocol) {
@@ -111,7 +127,7 @@ public class NettyClientAction implements ClientAction {
 
     public Task getTask(String protocolCode){
         return nettyMsgMap.computeIfAbsent(protocolCode,(key)-> (Task) protocol -> {
-            log.info( "空Task操作 不存在taskcode {}", protocol.getTaskCode() );
+            log.info( "空Task操作 不存在 taskcode {}", protocol.getTaskCode() );
         });
     }
 
@@ -124,9 +140,9 @@ public class NettyClientAction implements ClientAction {
             log.error("netty Channel is close");
             return null;
         }
-        String taskCode = IdUtil.fastSimpleUUID();
-        if (protocol.getTaskCode() == null )
-            protocol.setTaskCode(taskCode);
+//        String taskCode = IdUtil.fastSimpleUUID();
+//        if (protocol.getTaskCode() == null )
+//            protocol.setTaskCode(taskCode);
         if (nettyClient.getChannel() == null){
             log.error("channel is close ,please start server ");
             return null;
@@ -136,7 +152,7 @@ public class NettyClientAction implements ClientAction {
             if (future.isSuccess())
                 log.info("client send success ");
         });
-        return null;
+        return protocol;
     }
 
     @Override

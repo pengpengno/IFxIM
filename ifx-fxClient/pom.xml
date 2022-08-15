@@ -16,33 +16,13 @@
             <version>8.0.10</version>
         </dependency>
 <!--        TODO  后续使用最新的0.4.0 重写源码 调整框架-->
-<!--        <dependency>-->
-<!--            <groupId>org.kordamp.bootstrapfx</groupId>-->
-<!--            <artifactId>bootstrapfx-core</artifactId>-->
-<!--            <version>0.2.0</version>-->
-<!--        </dependency>-->
-<!--        <dependency>-->
-<!--            <groupId>org.springframework.boot</groupId>-->
-<!--            <artifactId>spring-boot-starter</artifactId>-->
-<!--        </dependency>-->
+
         <dependency>
             <groupId>com.ifx.ifx</groupId>
             <artifactId>account-api</artifactId>
             <version>1.0-SNAPSHOT</version>
 <!--            <scope>runtime</scope>-->
         </dependency>
-
-
-<!--        <dependency>-->
-<!--            <groupId>org.springframework.boot</groupId>-->
-<!--            <artifactId>spring-boot-starter-web</artifactId>-->
-<!--        </dependency>-->
-<!--        Spring JavaFx Jar-->
-<!--        <dependency>-->
-<!--            <groupId>de.roskenet</groupId>-->
-<!--            <artifactId>springboot-javafx-support</artifactId>-->
-<!--            <version>2.1.6</version>-->
-<!--        </dependency>-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter</artifactId>

@@ -5,7 +5,7 @@ import com.ifx.connect.proto.Protocol;
 import java.util.function.Consumer;
 
 @FunctionalInterface
-public interface Task  extends Consumer<Protocol>{
+public interface Task  extends Consumer<Protocol> {
     @Override
     void accept(Protocol o);
 

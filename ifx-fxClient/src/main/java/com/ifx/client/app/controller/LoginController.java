@@ -1,27 +1,16 @@
 package com.ifx.client.app.controller;
 
-import cn.hutool.core.collection.CollectionUtil;
-import cn.hutool.core.io.FileUtil;
-import com.alibaba.fastjson2.JSON;
-import com.alibaba.fastjson2.JSONObject;
+
 import com.ifx.account.service.AccountService;
 import com.ifx.account.vo.AccountBaseInfo;
+import com.ifx.client.parse.DubboGenericParse;
+import com.ifx.client.service.LoginService;
 import com.ifx.client.util.SpringFxmlLoader;
-import com.ifx.connect.enums.CommandEnum;
 import com.ifx.connect.netty.client.ClientAction;
 import com.ifx.connect.proto.Protocol;
 import com.ifx.connect.task.Task;
-//import de.felixroske.jfxsupport.FXMLController;
-import com.jfoenix.controls.JFXButton;
-import com.jfoenix.controls.JFXDialogLayout;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
@@ -29,12 +18,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
-
 import javax.annotation.Resource;
-import java.io.IOException;
-import java.lang.reflect.Method;
-import java.net.URL;
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -89,33 +73,39 @@ public class LoginController  {
     @Resource
     private SpringFxmlLoader springFxmlLoader;
 
+    @Resource
+    private LoginService loginService;
+
     public void init(){
 //        SpringFxmlLoader
     }
 
     @FXML
     public void login(MouseEvent event) {
-        String account = accountField.getText();
-        String psd = passwordField.getText();
         AccountBaseInfo accountBaseInfo = new AccountBaseInfo();
-        accountBaseInfo.setAccount(account);
-        accountBaseInfo.setPassword(psd);
-        ArrayList<Object> args = CollectionUtil.newArrayList();
-        args.add(accountBaseInfo);
-        Protocol<AccountBaseInfo> logBase = new Protocol<>();
-//        logBase.setProtocol(JSON.toJSONString());
-//        logBase.setBody(JSON.toJSONString(accountBaseInfo));
-//        logBase.setCommand(CommandEnum.LOGIN.name());
-
+        accountBaseInfo.setAccount( accountField.getText());
+        accountBaseInfo.setPassword(passwordField.getText());
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("11111");
+        alert.contentTextProperty().addListener((a1,a2,a3)-> {
+            alert.show();
+        });
         Task task = protocol -> {
             List data = protocol.getRes().getData();
             Boolean loginStatus = (Boolean)data.get(0);
+            log.info("login status {}",loginStatus);
             if (loginStatus){
+                alert.setContentText("登录成功");
                 log.info("login success ");
+            }else{
+                alert.setContentText("登录失败");
             }
+//            alert.show();
         };
-        clientAction.sendJsonMsg(logBase,task);
-
+        Protocol listAllProtocol = DubboGenericParse.applyProtocol(AccountService.class, "listAllAccoutInfo", null);
+        clientAction.sendJsonMsg(listAllProtocol);
+        Protocol login = loginService.applyLogins(accountBaseInfo);
+        clientAction.sendJsonMsg(login,task);
     }
 
 
@@ -129,7 +119,7 @@ public class LoginController  {
         Stage stage = springFxmlLoader.applySinStage("com\\ifx\\client\\app\\fxml\\register.fxml");
         log.info("prepare to show  register");
         stage.show();
-        stage.setTitle("zhuce");
+        stage.setTitle("注册");
 
     }
 

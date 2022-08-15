@@ -15,6 +15,4 @@ public class DubboApiMetaData implements Serializable {
 
     private Object[]  args;
 
-
-
 }

@@ -22,7 +22,7 @@ public class NettyClient {
     private Bootstrap bootstrap;
 
 
-    private volatile Channel channel;
+    private Channel channel;
 
 
     public Channel getChannel() {
