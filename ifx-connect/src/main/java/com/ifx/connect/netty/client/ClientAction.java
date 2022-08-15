@@ -24,6 +24,7 @@ public interface ClientAction {
     public Protocol sendJsonMsg(Protocol protocol);
 
     public Protocol sendJsonMsg(Protocol protocol, Task task);
+    public Protocol sendJsonMsg(Protocol protocol, Task task,Thread thread);
 
     public Task getTask(Protocol protocol);
 
