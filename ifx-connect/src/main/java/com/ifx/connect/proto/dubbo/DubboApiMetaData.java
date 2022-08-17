@@ -7,12 +7,11 @@ import java.io.Serializable;
 @Data
 public class DubboApiMetaData implements Serializable {
 
-    private String apiInterFacePath;
+    private String apiInterFacePath;  // 接口全限定类名
 
-    private String method;
+    private String method;   // 方法名称
 
-    private String[] argsType;
+    private String[] argsType;  // 接口签名参数
 
-    private Object[]  args;
 
 }

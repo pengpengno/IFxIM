@@ -39,11 +39,6 @@ public class LoginApplication extends Application {
             System.out.println(ExceptionUtil.stacktraceToString(e));
             System.out.println("服务器链接失败！");
         }
-
-
-//        URL resource = getClass().getResource("fxml\\login.fxml");
-//        new URL()
-//        URL resource = FileUtil.file("classpath*:**\\fxml\\login.xml").toURI().toURL();
         URL resource = FileUtil.file("com\\ifx\\client\\app\\fxml\\login.fxml").toURI().toURL();
         FXMLLoader fxmlLoader = new FXMLLoader();
         fxmlLoader.setLocation(resource);
