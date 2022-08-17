@@ -14,6 +14,7 @@ import javax.annotation.Resource;
 
 @SpringBootApplication(scanBasePackages = {"com.ifx"})
 public class ClientApplication extends Application{
+//public class ClientApplication {
 
     @Resource
     private SpringFxmlLoader springFxmlLoader;
@@ -36,6 +37,7 @@ public class ClientApplication extends Application{
                 clientAction.reConnect();
             }
         };
+
         runnable.run();
         Application.launch(ClientApplication.class);
 

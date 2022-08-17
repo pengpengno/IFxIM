@@ -11,6 +11,7 @@ import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.util.CharsetUtil;
+import javafx.application.Platform;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
@@ -45,9 +46,7 @@ public class ClientHandler extends SimpleChannelInboundHandler<ByteBuf> implemen
         String res = byteBuf.toString(CharsetUtil.UTF_8);
         log.info("received msg package {}",res);
         Protocol protocol = JSONObject.parseObject(res, Protocol.class);
-        clientServer.submit(() -> clientAction.getTask(protocol).doTask(protocol));
-//        super.channelRead(ctx,byteBuf);
-
+        clientServer.submit(() -> Platform.runLater(()->clientAction.getTask(protocol).doTask(protocol)));
     }
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception

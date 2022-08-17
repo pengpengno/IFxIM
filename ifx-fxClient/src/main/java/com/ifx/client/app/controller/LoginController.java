@@ -9,6 +9,9 @@ import com.ifx.client.util.SpringFxmlLoader;
 import com.ifx.connect.netty.client.ClientAction;
 import com.ifx.connect.proto.Protocol;
 import com.ifx.connect.task.Task;
+import com.sun.javafx.tk.quantum.QuantumToolkit;
+import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
@@ -86,7 +89,7 @@ public class LoginController  {
         accountBaseInfo.setAccount( accountField.getText());
         accountBaseInfo.setPassword(passwordField.getText());
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("11111");
+        alert.setTitle("登录状态");
         alert.contentTextProperty().addListener((a1,a2,a3)-> {
             alert.show();
         });
@@ -99,9 +102,10 @@ public class LoginController  {
                 log.info("login success ");
             }else{
                 alert.setContentText("登录失败");
+                log.info("登录失败！");
             }
-//            alert.show();
         };
+        log.info("启动登录");
         Protocol listAllProtocol = DubboGenericParse.applyProtocol(AccountService.class, "listAllAccoutInfo", null);
         clientAction.sendJsonMsg(listAllProtocol);
         Protocol login = loginService.applyLogins(accountBaseInfo);
@@ -111,7 +115,9 @@ public class LoginController  {
 
     @FXML
     void cancelLogin(MouseEvent event) {
-
+        log.info("正在关闭客户端程序-----");
+        Platform.exit();
+        System.exit(0);
     }
 
     @FXML
