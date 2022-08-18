@@ -10,6 +10,7 @@ import com.ifx.account.mapper.AccountMapper;
 import com.ifx.account.service.AccountService;
 import com.ifx.account.vo.AccountBaseInfo;
 import com.ifx.common.constant.CommonConstant;
+import lombok.SneakyThrows;
 import org.apache.dubbo.config.annotation.DubboService;
 import org.checkerframework.checker.units.qual.A;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -64,7 +65,7 @@ public class AccountServiceImpl extends ServiceImpl<AccountMapper, Account>
         Account instance = Account.getInstance();
         Account account = AccountHelper.INSTANCE.transform4(accountBaseInfo, instance);
 
-        QueryWrapper queryWrapper = new QueryWrapper();
+        QueryWrapper<Account> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("account", accountBaseInfo.getAccount());
         queryWrapper.or();
         queryWrapper.eq("email", accountBaseInfo.getAccount());
@@ -76,7 +77,7 @@ public class AccountServiceImpl extends ServiceImpl<AccountMapper, Account>
         if (row == CommonConstant.SUCCESS) {
             return account.getAccount();
         }
-        return null;
+        return CommonConstant.ACCOUNT_EXIT;
     }
 
     @Override

@@ -13,5 +13,5 @@ public class DubboApiMetaData implements Serializable {
 
     private String[] argsType;  // 接口签名参数
 
-
+    private Object[] args;
 }

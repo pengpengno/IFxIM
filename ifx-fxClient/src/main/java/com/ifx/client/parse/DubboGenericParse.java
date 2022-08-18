@@ -87,24 +87,7 @@ public class DubboGenericParse {
         protocol.setBody(JSON.toJSONString(metaData));
         return protocol;
     }
-    @SneakyThrows
-    public DubboApiMetaData applyMeta(Class interFaceClass, Method method, List<Object> args){
 
-        String name = interFaceClass.getName();
-        String methodName = method.getName();
-        Class<?>[] parameterTypes = method.getParameterTypes();
-        String[] paramTypes = Arrays.stream(parameterTypes).map(paramType -> {
-            return paramType.getName();
-        }).toArray(size-> new String[size]);
-        Object[] objects = args.stream().toArray(size -> new String[size]);
-        DubboApiMetaData metaData = new DubboApiMetaData();
-        metaData.setApiInterFacePath(name);
-        metaData.setArgsType(paramTypes);
-        metaData.setMethod(method.getName());
-        metaData.setArgs(objects);
-        return metaData;
-
-    }
     @SneakyThrows
     public DubboApiMetaData applyMeta(Class interFaceClass, Method method){
 
