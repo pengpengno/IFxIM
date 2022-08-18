@@ -1,7 +1,6 @@
 package com.ifx.account.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.ifx.account.Helper.AccountHelper;
@@ -10,9 +9,7 @@ import com.ifx.account.mapper.AccountMapper;
 import com.ifx.account.service.AccountService;
 import com.ifx.account.vo.AccountBaseInfo;
 import com.ifx.common.constant.CommonConstant;
-import lombok.SneakyThrows;
 import org.apache.dubbo.config.annotation.DubboService;
-import org.checkerframework.checker.units.qual.A;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Service;
 
@@ -73,11 +70,8 @@ public class AccountServiceImpl extends ServiceImpl<AccountMapper, Account>
         if (!Objects.isNull(accountInfo)) {
             return CommonConstant.ACCOUNT_EXIT;
         }
-        int row = accountMapper.insert(account);
-        if (row == CommonConstant.SUCCESS) {
-            return account.getAccount();
-        }
-        return CommonConstant.ACCOUNT_EXIT;
+        accountMapper.insert(account);
+        return account.getAccount();
     }
 
     @Override

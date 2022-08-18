@@ -36,7 +36,7 @@ public class Account implements Serializable {
     /**
      *
      */
-    @TableId(type = IdType.AUTO)
+    @TableId(value = "id",type = IdType.AUTO)
     private Long id;
 
     /**
