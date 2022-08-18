@@ -9,19 +9,16 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>account</artifactId>
+    <artifactId>session</artifactId>
     <packaging>pom</packaging>
     <modules>
-        <module>account-api</module>
-        <module>account-service</module>
+        <module>serssion-api</module>
+        <module>session-service</module>
     </modules>
 
     <properties>
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
     </properties>
-    <dependencies>
-
-    </dependencies>
 
 </project>

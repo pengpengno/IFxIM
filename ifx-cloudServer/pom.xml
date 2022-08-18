@@ -13,6 +13,7 @@
     <modules>
         <module>IfxServerGateway</module>
         <module>account</module>
+        <module>session</module>
     </modules>
     <properties>
         <maven.compiler.source>8</maven.compiler.source>
