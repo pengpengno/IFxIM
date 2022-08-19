@@ -3,10 +3,15 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
+<!--    <parent>-->
+<!--        <groupId>com.ifx.ifx</groupId>-->
+<!--        <artifactId>IFx</artifactId>-->
+<!--        <version>1.0-SNAPSHOT</version>-->
+<!--    </parent>    -->
     <parent>
-        <groupId>com.ifx.ifx</groupId>
-        <artifactId>IFx</artifactId>
-        <version>1.0-SNAPSHOT</version>
+        <groupId>org.openjfx</groupId>
+        <artifactId>javafx</artifactId>
+        <version>18.0.1</version>
     </parent>
     <artifactId>ifx-fxClient</artifactId>
     <dependencies>
@@ -16,13 +21,25 @@
             <version>8.0.10</version>
         </dependency>
 <!--        TODO  后续使用最新的0.4.0 重写源码 调整框架-->
+<!--        <dependency>-->
+<!--            <groupId>org.openjfx</groupId>-->
+<!--            <artifactId>javafx</artifactId>-->
+<!--            <version>18.0.1</version>-->
+<!--            <type>pom</type>-->
+<!--            <scope>compile</scope>-->
+<!--        </dependency>-->
 
         <dependency>
             <groupId>com.ifx.ifx</groupId>
             <artifactId>account-api</artifactId>
             <version>1.0-SNAPSHOT</version>
-<!--            <scope>runtime</scope>-->
+            <scope>provided</scope>
         </dependency>
+<!--        <dependency>-->
+<!--            <groupId>org.openjfx</groupId>-->
+<!--            <artifactId>javafx-base</artifactId>-->
+<!--            <version>18.0.1</version>-->
+<!--        </dependency>-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter</artifactId>
@@ -31,7 +48,7 @@
             <groupId>com.ifx.ifx</groupId>
             <artifactId>ifx-common</artifactId>
             <version>1.0-SNAPSHOT</version>
-<!--            <scope>provided</scope>-->
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>com.alibaba.fastjson2</groupId>

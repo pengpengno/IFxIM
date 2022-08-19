@@ -1,7 +1,7 @@
 
 dubbo:
   application:
-    name: accountService
+    name: sessionService
     dump-directory: /data/dump
   consumer:
     check: false
@@ -10,7 +10,7 @@ dubbo:
     password: ifx2022
     username: ifx2022
   protocol:
-    port: 20891
+    port: 20893
     name: dubbo
 
 spring:

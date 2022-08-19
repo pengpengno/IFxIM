@@ -1,0 +1,42 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+title 会话设计
+skinparam backgroundColor #EEEBDC
+skinparam handwritten true
+autonumber
+participant 客户端 as client
+participant 网关 as gateway
+participant 账号服务 as account
+participant 会话服务 as session
+participant 持久层 as mysql
+participant 缓存层 as redis
+
+== 登录 ==
+group login
+client -> gateway : 登录请求
+gateway -> account : 登录校验
+alt succ
+account -> gateway : true
+gateway -> gateway:  绑定 UserContext 到 请求的 channel 下
+end login
+== 拉取上次会话 ==
+group 获取会话
+client -> gateway : 请求最近的会话
+gateway -> session : 查询会话请求
+session -> db : 拉取历史会话
+group 拉取历史会话
+db -> db : 账户下所有的session
+db -> session : 会话列表
+session ->gateway : 回传session
+== 拉取消息 ==
+client -> gateway: 查询session 下的消息
+== 发送消息 ==
+
+
+== 消息状态回执 ==
+
+== 会话新消息通知 ==
+
+
+
+@enduml
