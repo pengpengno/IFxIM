@@ -12,7 +12,7 @@
     <artifactId>session</artifactId>
     <packaging>pom</packaging>
     <modules>
-        <module>serssion-api</module>
+        <module>session-api</module>
         <module>session-service</module>
     </modules>
 
