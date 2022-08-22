@@ -23,19 +23,19 @@ end login
 group 获取会话
 client -> gateway : 请求最近的会话
 gateway -> session : 查询会话请求
-session -> db : 拉取历史会话
+session -> mysql : 拉取历史会话
 group 拉取历史会话
-db -> db : 账户下所有的session
-db -> session : 会话列表
-session ->gateway : 回传session
-== 拉取消息 ==
-client -> gateway: 查询session 下的消息
+mysql -> mysql : 账户下所有的session
+mysql --> session : 回传 会话列表
+session --> gateway : 回传 session
+== 拉取历史消息 ==
+client -> gateway: 查询 session 下的消息
+note left :分页设计 查询近期100条
+gateway -> session : query
+seesion -> mysql : 查询数据信息
 == 发送消息 ==
+client -> gateway : msg
 
-
-== 消息状态回执 ==
-
-== 会话新消息通知 ==
 
 
 
