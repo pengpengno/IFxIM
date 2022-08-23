@@ -2,6 +2,7 @@ package com.ifx.session.service;
 
 public interface IChatAction {
 
+
     public void pushMsg(String fromAccount,String session,String msg);
 
 
@@ -9,6 +10,9 @@ public interface IChatAction {
 
 
     public void pullHisMsg(String session);
+
+
+
 
 
 }

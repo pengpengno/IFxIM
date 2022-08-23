@@ -1,9 +1,6 @@
 package com.ifx.account.service;
 
-import com.baomidou.mybatisplus.extension.service.IService;
-import com.ifx.account.entity.Account;
 import com.ifx.account.vo.AccountBaseInfo;
-import com.ifx.common.ann.IFxApiPath;
 
 import java.util.List;
 

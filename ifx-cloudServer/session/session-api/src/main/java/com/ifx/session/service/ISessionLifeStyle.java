@@ -7,9 +7,15 @@ public interface ISessionLifeStyle {
 
     public void start();
 
-    public void stop();
+    public void add();
+
+    public void hangOn();
 
     public void reConnect();
+
+    public void release();
+
+
 
 
 }

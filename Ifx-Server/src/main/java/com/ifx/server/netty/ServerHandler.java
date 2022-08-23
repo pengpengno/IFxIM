@@ -26,6 +26,8 @@ public class ServerHandler extends ChannelDuplexHandler {
     private ExecutorService serverService;
     @Resource
     private ServerProtoReceive serverProtoReceive;
+
+
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
 //        TODO  implents netty serial   will use Extueor do work
@@ -39,25 +41,20 @@ public class ServerHandler extends ChannelDuplexHandler {
         serverService.submit(()-> serverProtoReceive.received(ctx,protocol));
         //写入并发送信息到远端（客户端）
         super.channelRead(ctx, msg);
-//        ctx.writeAndFlush(Unpooled.copiedBuffer("你好，我是服务端，我已经收到你发送的消息", CharsetUtil.UTF_8));
     }
     @SneakyThrows
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause)
     {
-
-        //出现异常的时候执行的动作（打印并关闭通道）
+        //出现异常
         log.info("business error {}  ", ExceptionUtil.stacktraceToString(cause));
-        ctx.close();
-        log.info("{} channel will be shutdown ",ctx.channel().remoteAddress());
 
-        //        ctx.close();
-//        throw cause;
     }
 
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
         log.info(" 开启了 来自 {}的链接请求，channel 已打开 ",ctx.channel().remoteAddress());
+        log.info("登录成功 {} ",ctx.channel().remoteAddress());
         super.channelActive(ctx);
     }
 }

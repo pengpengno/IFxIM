@@ -26,7 +26,6 @@ public class ServerApplication implements CommandLineRunner {
     @Resource
     private ServerNettyConfigProperties serverNettyConfigProperties;
 
-
     public void run(String... args) throws Exception {
         String hostAddress = InetAddress.getLocalHost().getHostAddress();
         log.info("netty 启动地址为 {} port {}",hostAddress, serverNettyConfigProperties.getPort());
@@ -34,6 +33,7 @@ public class ServerApplication implements CommandLineRunner {
         ChannelFuture channelFuture = nettyServer.bind(address);
         Runtime.getRuntime().addShutdownHook(new Thread(() -> nettyServer.destroy()));
     }
+
     public static void main(String[] args) {
             SpringApplication.run(ServerApplication.class);
     }

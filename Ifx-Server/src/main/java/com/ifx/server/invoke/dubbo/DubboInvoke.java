@@ -70,7 +70,7 @@ public class DubboInvoke implements GateInvoke , ApplicationListener<ContextRefr
             //使用CountDownLatch，如果使用同步调用则不需要这么做。
             CountDownLatch latch = new CountDownLatch(1);
             //获取结果
-            CompletableFuture future = RpcContext.getContext().getCompletableFuture();
+            CompletableFuture future = RpcContext.getServerContext().getCompletableFuture();
             future.whenComplete((value, t) -> {
                 Result<Object> ok = Result.ok(value);
                 protocol.setRes(ok);
@@ -78,14 +78,6 @@ public class DubboInvoke implements GateInvoke , ApplicationListener<ContextRefr
                 System.err.println("doWork(whenComplete): " + value);
                 latch.countDown();
             });
-            //打印结果
-//            System.out.println("doWork(return): " + result);
-//            channel.channel().writeAndFlush()
-//            new Result<>()
-//            Result.ok
-//            latch.await();
-
-
         } catch (Exception e) {
             log.error(ExceptionUtil.stacktraceToString(e));
         }

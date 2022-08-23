@@ -37,13 +37,12 @@ public class NettyClientAction implements ClientAction {
     @Override
     public void connect() {
         try{
-//            NettyClient bean = SpringUtil.getBean(NettyClient.class);  // 启动netty
             nettyClient.doOpen();
             log.info("netty connect succ ！ host :  {}   posrt : {} ",nettyClient.getAddress().getHostName(), nettyClient.getAddress().getPort());
         }
         catch (Throwable e ){
            log.error("服务器链接失败！ {}",ExceptionUtil.stacktraceToString(e));
-        }//启动Spring容器
+        }
     }
 
     @Override
@@ -75,7 +74,6 @@ public class NettyClientAction implements ClientAction {
         if (protocol == null){
             return null;
         }
-//        if ()
         ChannelFuture write = nettyClient.write(JSON.toJSONString(protocol));
         write.addListener(future -> {
             if (future.isSuccess())
@@ -169,7 +167,7 @@ public class NettyClientAction implements ClientAction {
 
     @Override
     public void releaseChannel() {
-
+        nettyClient.release();
     }
 
     @Override

@@ -68,10 +68,8 @@ public class DubboGenericParse {
 
         String name = interFaceClass.getName();
         Class<?>[] parameterTypes = method.getParameterTypes();
-        String[] paramTypes = Arrays.stream(parameterTypes).map(paramType -> {
-            return paramType.getName();
-        }).toArray(size-> new String[size]);
-        Object[] objects = args.stream().toArray(size -> new String[size]);
+        String[] paramTypes = Arrays.stream(parameterTypes).map(Class::getName).toArray(String[]::new);
+        Object[] objects = args.toArray(Object[]::new);
         DubboApiMetaData metaData = new DubboApiMetaData();
         metaData.setApiInterFacePath(name);
         metaData.setArgsType(paramTypes);
@@ -94,9 +92,7 @@ public class DubboGenericParse {
         String name = interFaceClass.getName();
         String methodName = method.getName();
         Class<?>[] parameterTypes = method.getParameterTypes();
-        String[] paramTypes = Arrays.stream(parameterTypes).map(paramType -> {
-            return paramType.getName();
-        }).toArray(size-> new String[size]);
+        String[] paramTypes = Arrays.stream(parameterTypes).map(Class::getName).toArray(String[]::new);
         DubboApiMetaData metaData = new DubboApiMetaData();
         metaData.setApiInterFacePath(name);
         metaData.setArgsType(paramTypes);
@@ -109,10 +105,8 @@ public class DubboGenericParse {
 
     public static void main(String[] args) {
         Integer[] integers = new Integer[]{12,34,4,5,5,5};
-        String[] strings = Arrays.stream(integers).map(k -> k.toString()).toArray(size -> new String[size]);
+        String[] strings = Arrays.stream(integers).map(Object::toString).toArray(String[]::new);
         Arrays.stream(strings).forEach(System.out::print);
-
-        System.out.println(strings);
 
         System.out.println(AccountService.class.getPackage().getName());
         System.out.println(AccountService.class.getPackage().getName());

@@ -14,8 +14,6 @@ public interface ClientAction {
 
     public void retry();
 
-//    public void autoReConnect();
-
     public void resetConnect();
     /**
      * 发送信息机制
@@ -43,10 +41,6 @@ public interface ClientAction {
 
     public Boolean isActive();
 
-//
-//    /**=== 请求模式 是否 归属 ClientAction 模块？？ ==*/
-//    public void oneWay();
-//
-//    public void twoWay();
+
 
 }

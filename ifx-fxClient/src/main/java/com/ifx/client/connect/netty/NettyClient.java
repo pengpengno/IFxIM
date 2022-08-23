@@ -61,15 +61,20 @@ public class NettyClient {
                     @Override
                     protected void initChannel(SocketChannel socketChannel) throws Exception
                     {
-                        socketChannel.pipeline().addLast(new ClientHandler());//添加我们自定义的Handler
+                        socketChannel.pipeline().addLast(new ClientHandler());//添加自定义的Handler
                     }
+
                 });
 
         //连接到远程节点；等待连接完成
-        ChannelFuture future=bootstrap.connect().sync();
+        ChannelFuture future = bootstrap.connect().sync();
 
         channel = future.channel();
 
+    }
+
+    protected void release(){
+        channel.close();
     }
 
     /**

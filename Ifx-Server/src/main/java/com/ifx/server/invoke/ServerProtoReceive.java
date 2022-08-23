@@ -11,14 +11,16 @@ import javax.annotation.Resource;
 @Component
 @Slf4j
 public class ServerProtoReceive  {
+
     @Resource
-    private DubboInvoke dubboInvoke;
+    private GateInvoke gateInvoke;
 
     public void received(ChannelHandlerContext ctx, Protocol protocol){
+//        1.接收协议 解析规则
         String header = protocol.getProtocol();
         if (header.startsWith(ProtocolHeaderConst.DUBBO_PROTOCOL_HEADER)){
             log.info("执行【dubbo】 方法");
-            dubboInvoke.doWork(ctx, protocol);
+            gateInvoke.doWork(ctx, protocol);
         }
     }
 }
