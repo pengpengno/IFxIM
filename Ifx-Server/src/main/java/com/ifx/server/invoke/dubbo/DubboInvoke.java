@@ -7,6 +7,7 @@ import com.ifx.common.res.Result;
 import com.ifx.connect.proto.Protocol;
 import com.ifx.connect.proto.dubbo.DubboApiMetaData;
 import com.ifx.server.invoke.GateInvoke;
+import com.ifx.server.s2c.IServer2ClientAction;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.util.CharsetUtil;
@@ -21,22 +22,25 @@ import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.Resource;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CountDownLatch;
 
 @Component
 @Slf4j
-public class DubboInvoke implements GateInvoke , ApplicationListener<ContextRefreshedEvent> {
+//public class DubboInvoke implements GateInvoke , ApplicationListener<ContextRefreshedEvent> {
+public class DubboInvoke implements GateInvoke {
     @Value("${dubbo.registry.address}")
     private String address;
     @Value("${dubbo.application.name}")
     private String dubboServiceName;
+    @Resource
+    private IServer2ClientAction server2ClientAction;
 
     private RegistryConfig registryConfig;
 
     private ApplicationConfig applicationConfig;
 
-    @Override
     public void onApplicationEvent(ContextRefreshedEvent event) {
         log.info("spring start / update succ ");
         //创建注册中心配置
@@ -74,13 +78,18 @@ public class DubboInvoke implements GateInvoke , ApplicationListener<ContextRefr
             future.whenComplete((value, t) -> {
                 Result<Object> ok = Result.ok(value);
                 protocol.setRes(ok);
-                channel.channel().writeAndFlush(Unpooled.copiedBuffer(JSON.toJSONString(protocol), CharsetUtil.UTF_8));
-                System.err.println("doWork(whenComplete): " + value);
+                server2ClientAction.sendProtoCol(channel.channel(),protocol);
+                log.info("doWork(whenComplete): " + value);
                 latch.countDown();
             });
         } catch (Exception e) {
             log.error(ExceptionUtil.stacktraceToString(e));
         }
+    }
+
+    @Override
+    public void doException(Throwable e) {
+
     }
 }
 

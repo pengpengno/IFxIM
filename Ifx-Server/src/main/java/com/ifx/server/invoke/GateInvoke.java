@@ -13,6 +13,8 @@ public interface GateInvoke {
 
     public void doWork(ChannelHandlerContext channel, Protocol protocol);
 
+    public void doException(Throwable e);
+
 
 
 

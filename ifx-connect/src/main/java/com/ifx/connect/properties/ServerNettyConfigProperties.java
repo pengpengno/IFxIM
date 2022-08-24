@@ -16,4 +16,6 @@ public class ServerNettyConfigProperties {
     private Integer maxActiveSocket;
 
     private Integer coreActiveSocket;
+
+    private Integer maxTimeOut;
 }

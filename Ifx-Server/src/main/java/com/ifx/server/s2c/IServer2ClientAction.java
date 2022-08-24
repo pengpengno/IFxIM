@@ -8,6 +8,8 @@ public interface IServer2ClientAction {
 
     public void sendProtoCol(Channel channel,Protocol protocol);
 
+    public void sendProtoCol(String account,Protocol protocol);
+
     public void closeChanel(Channel channel);
 
 

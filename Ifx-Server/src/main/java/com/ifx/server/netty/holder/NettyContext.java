@@ -5,9 +5,9 @@ import org.springframework.stereotype.Component;
 
 import java.util.concurrent.ConcurrentHashMap;
 
-@Component
+//@Component
 public class NettyContext {
-    private ConcurrentHashMap<String, Channel> channelMap ;
+    private static ConcurrentHashMap<String, Channel> channelMap ;
 
     public void addAccount(Channel channel ,String account){
         if (channelMap == null ){

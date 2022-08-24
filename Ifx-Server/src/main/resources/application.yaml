@@ -3,15 +3,21 @@ ifx:
     netty:
       server:
         port: 8976
+
 dubbo:
-  registry:
-    address: nacos://124.221.168.200:8848
-    username: ifx2022
-    password: ifx2022
-    check: false
+  application:
+    name: ifx-server
+    dump-directory: /data/dump
   consumer:
     check: false
-  application:
-    id: ifx-server
-    name: ifx-server
+  registry:
+    address: nacos://124.221.168.200:8848?username=ifx2022?password=ifx2022?namespce=ccfffa41-d050-42eb-b29b-037ac8b43fc9
+    password: ifx2022
+    username: ifx2022
+  protocol:
+    port: 20892
+    name: dubbo
 
+spring:
+  application:
+    name: ifx-server

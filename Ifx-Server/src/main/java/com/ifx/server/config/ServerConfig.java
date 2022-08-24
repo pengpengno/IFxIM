@@ -18,7 +18,6 @@ import java.net.UnknownHostException;
 @Configuration
 @EnableConfigurationProperties(ServerNettyConfigProperties.class)
 @Slf4j
-//public class ServerConfig implements ApplicationListener<ContextStartedEvent> {
 public class ServerConfig{
 
 

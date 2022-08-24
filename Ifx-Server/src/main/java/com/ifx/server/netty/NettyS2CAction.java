@@ -14,10 +14,9 @@ import javax.annotation.Resource;
 @Component
 @Slf4j
 public class NettyS2CAction implements IServer2ClientAction {
-    @Resource
+//    @Resource
     private NettyContext nettyContext;
 
-    @Override
     public void sendProtoCol(Channel channel ,Protocol protocol) {
         if (channel== null || !channel.isActive()){
             log.warn("channel is close can not send message");
@@ -27,7 +26,7 @@ public class NettyS2CAction implements IServer2ClientAction {
     }
 
 
-    protected void sendProtocol(String account , Protocol protocol){
+    public void sendProtoCol(String account , Protocol protocol){
         sendProtoCol(findChannel(account),protocol);
     }
 
