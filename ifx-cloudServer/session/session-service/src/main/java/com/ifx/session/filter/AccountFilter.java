@@ -15,8 +15,8 @@ public class AccountFilter implements Filter {
     public Result invoke(Invoker<?> invoker, Invocation invocation) throws RpcException {
         RpcContext clientAttachment = RpcContext.getClientAttachment();
 //        clientAttachment.setAttachment(IFxCommonConstants.ACCOUNT, )
+        Result invoke = invoker.invoke(invocation);
 
-
-        return null;
+        return invoke;
     }
 }
