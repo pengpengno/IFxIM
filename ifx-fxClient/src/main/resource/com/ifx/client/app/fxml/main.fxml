@@ -17,7 +17,7 @@
             <Button mnemonicParsing="false" text="close" />
         </items>
       </ToolBar>
-      <TextField fx:id="searchField" layoutX="189.0" layoutY="9.0" />
+      <TextField fx:id="searchField" layoutX="220.0" layoutY="10.0" />
       <VBox fx:id="mainChatBox" layoutX="83.0" layoutY="94.0" prefHeight="306.0" prefWidth="435.0">
          <children>
             <Pane prefHeight="179.0" prefWidth="435.0">
