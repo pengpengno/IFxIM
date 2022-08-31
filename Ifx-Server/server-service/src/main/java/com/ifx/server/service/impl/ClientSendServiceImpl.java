@@ -18,4 +18,12 @@ public class ClientSendServiceImpl implements ClientSendService {
         protocol.setBody(msg);
         nettyS2CAction.sendProtoCol(accountId,protocol);
     }
+
+
+    public void sendClient(String accountId, String formAccount,String msg) {
+        Protocol<Object> protocol = new Protocol<>();
+        protocol.setBody(msg);
+//        protocol.set
+        nettyS2CAction.sendProtoCol(accountId,protocol);
+    }
 }
