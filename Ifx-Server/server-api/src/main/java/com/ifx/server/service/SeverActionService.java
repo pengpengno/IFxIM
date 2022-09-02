@@ -12,9 +12,12 @@ public interface SeverActionService {
     public void AccountChannelActive(String account,String requestId);
 
     /**
-     * 强制离线
+     * 释放用户 channel 资源
      * 用户channel 释放
      * @param account
      */
     public void AccountChannelRelease(String account);
+
+
+
 }

@@ -7,6 +7,8 @@ import com.ifx.server.service.ClientSendService;
 import org.apache.dubbo.config.annotation.DubboService;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.List;
+
 @DubboService
 public class ClientSendServiceImpl implements ClientSendService {
     @Autowired
@@ -23,7 +25,12 @@ public class ClientSendServiceImpl implements ClientSendService {
     public void sendClient(String accountId, String formAccount,String msg) {
         Protocol<Object> protocol = new Protocol<>();
         protocol.setBody(msg);
-//        protocol.set
+
         nettyS2CAction.sendProtoCol(accountId,protocol);
+    }
+
+    @Override
+    public void sendClientBatch(String accountId, List<String> msgs) {
+
     }
 }

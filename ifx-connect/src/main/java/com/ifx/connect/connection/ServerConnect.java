@@ -1,4 +1,5 @@
 package com.ifx.connect.connection;
+
 @FunctionalInterface
 public interface ServerConnect<T> {
 

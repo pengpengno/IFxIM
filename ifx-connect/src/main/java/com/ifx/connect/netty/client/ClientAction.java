@@ -10,11 +10,15 @@ public interface ClientAction {
 
     public void reConnect();
 
-    public void init ();
+    public void init ();  // 初始化连接
 
     public void retry();
 
     public void resetConnect();
+
+
+
+
     /**
      * 发送信息机制
      * @param protocol

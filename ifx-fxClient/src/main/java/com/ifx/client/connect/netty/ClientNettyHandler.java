@@ -23,7 +23,7 @@ import java.util.concurrent.ExecutorService;
 @Slf4j
 @Component
 @ChannelHandler.Sharable
-public class ClientHandler extends SimpleChannelInboundHandler<ByteBuf> implements  ApplicationListener<ContextRefreshedEvent> {
+public class ClientNettyHandler extends SimpleChannelInboundHandler<ByteBuf> implements  ApplicationListener<ContextRefreshedEvent> {
     @Resource(name = "clientPool")
     private ExecutorService clientServer;
     @Resource

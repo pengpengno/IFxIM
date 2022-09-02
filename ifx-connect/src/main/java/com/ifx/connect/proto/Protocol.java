@@ -9,9 +9,11 @@ import java.util.List;
 @Data
 public class Protocol<T> implements Serializable {
 
-    private String protocol;
+    private String protocol;   //协议头
 
     private Long serial;  //包syn序列号
+
+    private String clientUUId;  // 客户端 唯一标识 用于再服务端建立与channel的绑定关系
 
     private String taskCode;  //taskCode
 

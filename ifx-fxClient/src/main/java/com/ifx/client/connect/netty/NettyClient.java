@@ -7,7 +7,6 @@ import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
 import io.netty.util.CharsetUtil;
-import io.netty.util.concurrent.DefaultEventExecutorGroup;
 import org.springframework.stereotype.Component;
 
 import java.net.InetAddress;
@@ -61,7 +60,7 @@ public class NettyClient {
                     @Override
                     protected void initChannel(SocketChannel socketChannel) throws Exception
                     {
-                        socketChannel.pipeline().addLast(new ClientHandler());//添加自定义的Handler
+                        socketChannel.pipeline().addLast(new ClientNettyHandler());//添加自定义的Handler
                     }
 
                 });
@@ -99,7 +98,7 @@ public class NettyClient {
                         @Override
                         protected void initChannel(SocketChannel socketChannel) throws Exception
                         {
-                            socketChannel.pipeline().addLast(new ClientHandler());//添加我们自定义的Handler
+                            socketChannel.pipeline().addLast(new ClientNettyHandler());//添加我们自定义的Handler
                         }
                     });
 

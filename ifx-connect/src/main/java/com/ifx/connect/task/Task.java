@@ -13,10 +13,10 @@ public interface Task  extends Consumer<Protocol> {
     public ConcurrentHashMap<String,Object> attrTaskMap = new ConcurrentHashMap<>();
 
 
-
     default void attrKey(String key,Object value){
         attrTaskMap.put(key, value);
     }
+
     default Object getAttrValue(String key){
         return attrTaskMap.get(key);
     }
