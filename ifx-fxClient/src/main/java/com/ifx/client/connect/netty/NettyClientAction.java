@@ -1,38 +1,33 @@
 package com.ifx.client.connect.netty;
 
 import cn.hutool.core.exceptions.ExceptionUtil;
-import cn.hutool.core.util.IdUtil;
 import com.alibaba.fastjson.JSON;
 import com.ifx.connect.netty.client.ClientAction;
+import com.ifx.connect.netty.client.ClientLifeStyle;
 import com.ifx.connect.proto.Protocol;
-import com.ifx.connect.task.Task;
-import com.ifx.connect.task.TaskManager;
+import com.ifx.connect.task.TaskHandler;
+import com.ifx.client.task.TaskManager;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelFuture;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.nio.charset.StandardCharsets;
-import java.util.Optional;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ThreadPoolExecutor;
 
 @Component("netty")
 @Slf4j
-public class NettyClientAction implements ClientAction {
+public class NettyClientAction implements ClientAction, ClientLifeStyle {
 
 
     @Autowired
     private NettyClient nettyClient;
+    @Autowired
+    private TaskManager taskManager;
+
+//    private final ConcurrentHashMap<String,Task> nettyMsgMap = new ConcurrentHashMap<>();
 
 
-    private final ConcurrentHashMap<String,Task> nettyMsgMap = new ConcurrentHashMap<>();
-
-    @Override
-    public ChannelFuture sent(String msg) {
-        return  nettyClient.write(msg);
-    }
 
     @Override
     public void connect() {
@@ -69,28 +64,13 @@ public class NettyClientAction implements ClientAction {
         }
     }
 
-    @Override
-    public Protocol doBioReq(Protocol protocol) {
-        if (protocol == null){
-            return null;
-        }
-        ChannelFuture write = nettyClient.write(JSON.toJSONString(protocol));
-        write.addListener(future -> {
-            if (future.isSuccess())
-            log.info("client send succ ");
-        });
-        return null;
-    }
 
     @Override
     public void init()  {
        connect();
     }
 
-    @Override
-    public void retry() {
 
-    }
 
     @Override
     public void resetConnect() {
@@ -98,66 +78,44 @@ public class NettyClientAction implements ClientAction {
     }
 
     @Override
-    public Protocol sendJsonMsg(Protocol protocol, Task task) {
-        nettyMsgMap.put(Optional.ofNullable(protocol.getTaskCode()).orElseGet(()->{
-            String taskCode = IdUtil.fastSimpleUUID();
-            protocol.setTaskCode(taskCode);
-            return taskCode;
-        }), task);
+    public void sendJsonMsg(Protocol protocol, TaskHandler taskHandler) {
         sendJsonMsg(protocol);
-        return null;
     }
 
-    public Protocol sendJsonMsg(Protocol protocol, Task task, ThreadPoolExecutor executor) {
-        nettyMsgMap.put(Optional.ofNullable(protocol.getTaskCode()).orElseGet(()->{
-            String taskCode = IdUtil.fastSimpleUUID();
-            protocol.setTaskCode(taskCode);
-            return taskCode;
-        }), task);
+    public void sendJsonMsg(Protocol protocol, TaskHandler taskHandler, ThreadPoolExecutor executor) {
         sendJsonMsg(protocol);
-        return null;
     }
 
 
     @Override
-    public Task getTask(Protocol protocol) {
-        return getTask(protocol.getTaskCode());
+    public void receive(Protocol protocol) {
+
     }
 
-    public Task getTask(String protocolCode){
-        if (protocolCode == null){
-            return TaskManager.DEFAULT_TASK;
-        }
-        return nettyMsgMap.computeIfAbsent(protocolCode,(key)-> protocol -> {
-            if (protocol == null){
-                log.info( "心跳包 无操作");
-            }
-            log.info( "空Task操作 不存在 taskcode {}", protocol.getTaskCode() );
-        });
-    }
+
 
     @Override
-    public Protocol sendJsonMsg(Protocol protocol) {
+    public void sendJsonMsg(Protocol protocol) {
         if (protocol == null){
-            return null;
+            return ;
         }
         if (!nettyClient.getChannel().isActive()) {
             log.error("netty Channel is close");
-            return null;
+            return ;
         }
 //        String taskCode = IdUtil.fastSimpleUUID();
 //        if (protocol.getTaskCode() == null )
 //            protocol.setTaskCode(taskCode);
         if (nettyClient.getChannel() == null){
             log.error("channel is close ,please start server ");
-            return null;
+            return ;
         }
         ChannelFuture write = nettyClient.write(JSON.toJSONString(protocol));
         write.addListener(future -> {
             if (future.isSuccess())
                 log.info("client send success ");
         });
-        return protocol;
+        return ;
     }
 
     @Override
@@ -170,8 +128,7 @@ public class NettyClientAction implements ClientAction {
         nettyClient.release();
     }
 
-    @Override
-    public Boolean isActive() {
+    public Boolean isAlive() {
         Channel channel = nettyClient.getChannel();
         return channel != null && channel.isActive();
     }

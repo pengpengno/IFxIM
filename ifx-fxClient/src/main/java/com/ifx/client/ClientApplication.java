@@ -4,6 +4,7 @@ package com.ifx.client;
 import cn.hutool.extra.spring.SpringUtil;
 import com.ifx.client.util.SpringFxmlLoader;
 import com.ifx.connect.netty.client.ClientAction;
+import com.ifx.connect.netty.client.ClientLifeStyle;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -31,9 +32,9 @@ public class ClientApplication extends Application{
     public static void main(String[] args){
         SpringApplication.run(ClientApplication.class);
         Runnable runnable = () -> {
-            ClientAction clientAction = SpringUtil.getBean(ClientAction.class);  // 启动netty
+            ClientLifeStyle clientAction = SpringUtil.getBean(ClientLifeStyle.class);  // 启动netty
             clientAction.connect();
-            if (!clientAction.isActive()) {
+            if (!clientAction.isAlive()) {
                 clientAction.reConnect();
             }
         };

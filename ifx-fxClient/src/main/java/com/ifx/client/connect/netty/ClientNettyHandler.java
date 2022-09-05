@@ -3,8 +3,8 @@ package com.ifx.client.connect.netty;
 import cn.hutool.core.exceptions.ExceptionUtil;
 import cn.hutool.extra.spring.SpringUtil;
 import com.alibaba.fastjson2.JSONObject;
+import com.ifx.client.task.TaskManager;
 import com.ifx.connect.netty.client.ClientAction;
-import com.ifx.connect.task.Task;
 import com.ifx.connect.proto.Protocol;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandler;
@@ -29,6 +29,9 @@ public class ClientNettyHandler extends SimpleChannelInboundHandler<ByteBuf> imp
     @Resource
     private ClientAction clientAction;
 
+    @Resource
+    private TaskManager taskManager;
+
     @Override
     public void onApplicationEvent(ContextRefreshedEvent event) {
         clientServer = SpringUtil.getBean("clientPool");
@@ -46,7 +49,7 @@ public class ClientNettyHandler extends SimpleChannelInboundHandler<ByteBuf> imp
         String res = byteBuf.toString(CharsetUtil.UTF_8);
         log.info("received msg package {}",res);
         Protocol protocol = JSONObject.parseObject(res, Protocol.class);
-        clientServer.submit(() -> Platform.runLater(()->clientAction.getTask(protocol).doTask(protocol)));
+        clientServer.submit(() -> Platform.runLater(()-> clientAction.getTask(protocol).doTask(protocol)));
     }
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception
@@ -62,12 +65,11 @@ public class ClientNettyHandler extends SimpleChannelInboundHandler<ByteBuf> imp
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
         super.channelActive(ctx);
-        log.info("【netty】 已连接Server {}" ,ctx.channel().remoteAddress().toString());
+        log.info("【netty】 已连接 Server host{}" ,ctx.channel().remoteAddress().toString());
     }
 
     @Override
     public void userEventTriggered(ChannelHandlerContext ctx, Object evt) throws Exception {
         super.userEventTriggered(ctx, evt);
-//        if(evt instanceof  )
     }
 }

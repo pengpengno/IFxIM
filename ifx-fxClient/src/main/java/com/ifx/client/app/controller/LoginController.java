@@ -8,9 +8,7 @@ import com.ifx.client.service.LoginService;
 import com.ifx.client.util.SpringFxmlLoader;
 import com.ifx.connect.netty.client.ClientAction;
 import com.ifx.connect.proto.Protocol;
-import com.ifx.connect.task.Task;
-import com.sun.javafx.tk.quantum.QuantumToolkit;
-import javafx.application.Application;
+import com.ifx.connect.task.TaskHandler;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -93,7 +91,7 @@ public class LoginController  {
         alert.contentTextProperty().addListener((a1,a2,a3)-> {
             alert.show();
         });
-        Task task = protocol -> {
+        TaskHandler taskHandler = protocol -> {
             List data = protocol.getRes().getData();
             Boolean loginStatus = (Boolean)data.get(0);
             log.info("login status {}",loginStatus);
@@ -109,7 +107,7 @@ public class LoginController  {
         Protocol listAllProtocol = DubboGenericParse.applyProtocol(AccountService.class, "listAllAccoutInfo", null);
         clientAction.sendJsonMsg(listAllProtocol);
         Protocol login = loginService.applyLogins(accountBaseInfo);
-        clientAction.sendJsonMsg(login,task);
+        clientAction.sendJsonMsg(login, taskHandler);
     }
 
 
