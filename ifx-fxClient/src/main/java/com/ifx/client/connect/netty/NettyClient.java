@@ -1,5 +1,6 @@
 package com.ifx.client.connect.netty;
 
+import com.ifx.connect.properties.ClientNettyConfigProperties;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.*;
@@ -7,19 +8,39 @@ import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
 import io.netty.util.CharsetUtil;
+import lombok.SneakyThrows;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.BeansException;
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
+import org.springframework.context.ApplicationContextInitializer;
+import org.springframework.context.ApplicationListener;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.Resource;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.UnknownHostException;
+import java.util.Optional;
 
 @Component
-public class NettyClient {
+@Slf4j
+@EnableConfigurationProperties({ClientNettyConfigProperties.class})
+public class NettyClient implements ApplicationListener<ContextRefreshedEvent>
+{
 
-    private InetSocketAddress address = new InetSocketAddress(InetAddress.getLocalHost().getHostAddress(),8976);  //
+//    private InetSocketAddress address = new InetSocketAddress(InetAddress.getLocalHost().getHostAddress(),8976);  //
+//    @Resource
+    private InetSocketAddress address;
+
+    @Resource
+    private ClientNettyConfigProperties clientNettyConfigProperties;
 
     private Bootstrap bootstrap;
-
 
     private Channel channel;
 
@@ -28,14 +49,28 @@ public class NettyClient {
         return channel;
     }
 
+    @SneakyThrows
+    @Override
+    public void onApplicationEvent(ContextRefreshedEvent contextRefreshedEvent) {
+        String serverHost = clientNettyConfigProperties.getServerHost();
+        log.info("客户端netty 配置为  server host{}  port{}",
+                serverHost,clientNettyConfigProperties.getServerPort());
+        address =  new InetSocketAddress(Optional.ofNullable(serverHost).orElse(InetAddress.getLocalHost().getHostAddress() ),
+                clientNettyConfigProperties.getServerPort());
+    }
+
+
+
 
     public InetSocketAddress getAddress(){
         return address;
     }
+
     private NettyClient() throws UnknownHostException {
     }
 
     public NettyClient(String host,Integer port) throws Throwable {
+
         address = new InetSocketAddress(host,port);
         doOpen();
     }
@@ -54,7 +89,8 @@ public class NettyClient {
         bootstrap = new Bootstrap();//客户端辅助启动类
         bootstrap.group(group)
                 .channel(NioSocketChannel.class)//实例化一个Channel
-                .remoteAddress(new InetSocketAddress(InetAddress.getLocalHost().getHostAddress(),port))
+                .remoteAddress(new InetSocketAddress(clientNettyConfigProperties.getServerHost(),
+                        clientNettyConfigProperties.getServerPort()))
                 .handler(new ChannelInitializer<SocketChannel>()//进行通道初始化配置
                 {
                     @Override

@@ -9,6 +9,8 @@ import org.apache.dubbo.config.spring.context.annotation.EnableDubbo;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceProperties;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 
 import javax.annotation.Resource;
 import java.net.InetAddress;
@@ -17,6 +19,7 @@ import java.net.InetSocketAddress;
 @SpringBootApplication
 @Slf4j
 @DubboComponentScan
+@EnableConfigurationProperties({ServerNettyConfigProperties.class})
 @EnableDubbo
 public class ServerApplication implements CommandLineRunner {
 
@@ -27,7 +30,8 @@ public class ServerApplication implements CommandLineRunner {
     private ServerNettyConfigProperties serverNettyConfigProperties;
 
     public void run(String... args) throws Exception {
-        String hostAddress = InetAddress.getLocalHost().getHostAddress();
+//        String hostAddress = InetAddress.getLocalHost().getHostAddress();
+        String hostAddress =serverNettyConfigProperties.getHost();
         log.info("netty 启动地址为 {} port {}",hostAddress, serverNettyConfigProperties.getPort());
         InetSocketAddress address = new InetSocketAddress(hostAddress, serverNettyConfigProperties.getPort());
         ChannelFuture channelFuture = nettyServer.bind(address);

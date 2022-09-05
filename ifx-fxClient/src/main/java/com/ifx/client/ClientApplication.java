@@ -3,22 +3,31 @@ package com.ifx.client;
 
 import cn.hutool.extra.spring.SpringUtil;
 import com.ifx.client.util.SpringFxmlLoader;
-import com.ifx.connect.netty.client.ClientAction;
 import com.ifx.connect.netty.client.ClientLifeStyle;
+import com.ifx.connect.properties.ClientNettyConfigProperties;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
+
 import javax.annotation.Resource;
 
 
-@SpringBootApplication(scanBasePackages = {"com.ifx"})
+@SpringBootApplication
+
+@EnableConfigurationProperties({ClientNettyConfigProperties.class})
+@Slf4j
 public class ClientApplication extends Application{
 //public class ClientApplication {
 
     @Resource
     private SpringFxmlLoader springFxmlLoader;
+    @Resource
+    private ClientNettyConfigProperties clientNettyConfigProperties;
     @Override
     public void start(Stage stage) throws Exception {
         springFxmlLoader = SpringUtil.getBean(SpringFxmlLoader.class);

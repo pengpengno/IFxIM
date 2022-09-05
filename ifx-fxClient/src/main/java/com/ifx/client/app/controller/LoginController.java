@@ -8,6 +8,7 @@ import com.ifx.client.service.LoginService;
 import com.ifx.client.util.SpringFxmlLoader;
 import com.ifx.connect.netty.client.ClientAction;
 import com.ifx.connect.proto.Protocol;
+import com.ifx.client.service.ClientService;
 import com.ifx.connect.task.TaskHandler;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -77,6 +78,9 @@ public class LoginController  {
     @Resource
     private LoginService loginService;
 
+    @Resource
+    private ClientService clientService;
+
     public void init(){
 //        SpringFxmlLoader
     }
@@ -104,10 +108,8 @@ public class LoginController  {
             }
         };
         log.info("启动登录");
-        Protocol listAllProtocol = DubboGenericParse.applyProtocol(AccountService.class, "listAllAccoutInfo", null);
-        clientAction.sendJsonMsg(listAllProtocol);
         Protocol login = loginService.applyLogins(accountBaseInfo);
-        clientAction.sendJsonMsg(login, taskHandler);
+        clientService.send(login,taskHandler);
     }
 
 

@@ -1,19 +1,25 @@
-spring:
-  application:
-    name: ifx-client-service
-  profiles:
-        # 环境配置
-    active: ifx
-  cloud:
-    nacos:
-      discovery:
-        server-addr: 124.221.168.200:8848
-      config:
-        # 配置中心地址
-        server-addr: 124.221.168.200:8848
-        # 配置文件格式
-        file-extension: yml
-        # 共享配置
-        shared-configs:
-          - ${spring.application.name}.${spring.cloud.nacos.config.file-extension}
-
+#ifx:
+#  connect:
+#    client:
+#      serverHost: 192.168.1.6
+#      serverPort: 8099
+#      connectTimeOut: 60000
+#spring:
+#  application:
+#    name: ifx-client-service
+#  profiles:
+#        # 环境配置
+#    active: ifx
+#  cloud:
+#    nacos:
+#      discovery:
+#        server-addr: 124.221.168.200:8848
+#      config:
+#        # 配置中心地址
+#        server-addr: 124.221.168.200:8848
+#        # 配置文件格式
+#        file-extension: yml
+#        # 共享配置
+#        shared-configs:
+#          - ${spring.application.name}.${spring.cloud.nacos.config.file-extension}
+#

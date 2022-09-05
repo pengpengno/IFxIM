@@ -34,8 +34,9 @@ public class ClientNettyHandler extends SimpleChannelInboundHandler<ByteBuf> imp
 
     @Override
     public void onApplicationEvent(ContextRefreshedEvent event) {
-        clientServer = SpringUtil.getBean("clientPool");
-        clientAction = SpringUtil.getBean(ClientAction.class);
+//        clientServer = SpringUtil.getBean("clientPool");
+//        clientAction = SpringUtil.getBean(ClientAction.class);
+//        taskManager = SpringUtil.getBean(TaskManager.class);
     }
 
     @Override
@@ -46,10 +47,11 @@ public class ClientNettyHandler extends SimpleChannelInboundHandler<ByteBuf> imp
         log.info("receive msg from server-side {}, data package {}",ctx.channel().localAddress().toString(),byteBuf);
         clientServer = SpringUtil.getBean("clientPool");
         clientAction = SpringUtil.getBean(ClientAction.class);
+        taskManager = SpringUtil.getBean(TaskManager.class);
         String res = byteBuf.toString(CharsetUtil.UTF_8);
         log.info("received msg package {}",res);
         Protocol protocol = JSONObject.parseObject(res, Protocol.class);
-        clientServer.submit(() -> Platform.runLater(()-> clientAction.getTask(protocol).doTask(protocol)));
+        clientServer.submit(() -> Platform.runLater(()-> taskManager.doTask(protocol)));
     }
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception

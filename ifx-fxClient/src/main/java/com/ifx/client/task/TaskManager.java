@@ -1,5 +1,6 @@
 package com.ifx.client.task;
 
+import cn.hutool.core.collection.CollectionUtil;
 import com.ifx.connect.proto.Protocol;
 import com.ifx.connect.task.TaskHandler;
 import lombok.extern.slf4j.Slf4j;
@@ -23,7 +24,7 @@ public class TaskManager {
 //     任务上下文管理器
     private ConcurrentHashMap<String, ConcurrentLinkedDeque<TaskHandler>> taskManager ;
 
-    private ConcurrentLinkedDeque<TaskHandler> taskHandlerLinkedDeque;
+//    private ConcurrentLinkedDeque<TaskHandler> taskHandlerLinkedDeque;
 
     public void init(){
         if (taskManager == null){
@@ -41,37 +42,56 @@ public class TaskManager {
         return  new ConcurrentLinkedDeque<TaskHandler>();
     }
 
-    public void attrTask(String key, TaskHandler value){
+    private void attrTask(String key, TaskHandler value){
          init();
-        ConcurrentLinkedDeque<TaskHandler> taskHandlers = taskManager.putIfAbsent(key, initTaskDeque());
+         taskManager.putIfAbsent(key, initTaskDeque());
+        ConcurrentLinkedDeque<TaskHandler> taskHandlers = getTaskHandlers(key);
         assert taskHandlers != null;
-        taskHandlers.add(value);
+        taskHandlers.addLast(value);
     }
 
     public void addTaskHandler(String key, TaskHandler value){
+        addTask(key,value);
+    }
 
+    public TaskManager addTask(String key, TaskHandler value) {
+        init();
+        ConcurrentLinkedDeque<TaskHandler> taskHandlers = taskManager.get(key);
+        if (taskHandlers == null) {
+            attrTask(key, value);
+        } else {
+            taskHandlers.addLast(value);
+        }
+        return this;
+    }
+
+    public ConcurrentLinkedDeque<TaskHandler> getTaskHandlers(String key){
+        return taskManager.get(key);
     }
 
 
 
-    //指定线程处理
-    public void doTask(TaskHandler taskHandler, Thread thread){
 
-    }
 
 // 指定线程池处理
     public void doTask(TaskHandler taskHandler, ThreadPoolExecutor executor){
-//        executor.submit()
+        executor.submit(()->taskHandler);
     }
+    public void doTask(Protocol protocol){
+        ConcurrentLinkedDeque<TaskHandler> taskHandlers = getTaskHandlers(protocol.getTrace());
+        if (CollectionUtil.isNotEmpty(taskHandlers)){
+            while(!taskHandlers.isEmpty()){
+                taskHandlers.poll().doTask(protocol);
+            }
+
+        }
+    }
+
 
 // 指定协议处理
     public void doTask(TaskHandler taskHandler, Protocol protocol, ThreadPoolExecutor executor){
         executor.submit(()-> taskHandler.doTask(protocol));
     }
-
-
-
-
 
 
 }

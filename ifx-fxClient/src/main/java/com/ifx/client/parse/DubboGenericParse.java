@@ -69,7 +69,7 @@ public class DubboGenericParse {
         String name = interFaceClass.getName();
         Class<?>[] parameterTypes = method.getParameterTypes();
         String[] paramTypes = Arrays.stream(parameterTypes).map(Class::getName).toArray(String[]::new);
-        Object[] objects = args.toArray(Object[]::new);
+        Object[] objects = args.toArray();
         DubboApiMetaData metaData = new DubboApiMetaData();
         metaData.setApiInterFacePath(name);
         metaData.setArgsType(paramTypes);

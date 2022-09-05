@@ -17,6 +17,8 @@ public class Protocol<T> implements Serializable {
 
     private String taskCode;  //taskCode
 
+    private String trace;  // trace
+
     private Long  length; // 数据包大小
 
     private String clientSDKVersion;   // 客户端版本类类型
