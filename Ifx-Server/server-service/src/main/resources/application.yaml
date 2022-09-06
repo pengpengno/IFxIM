@@ -1,5 +1,8 @@
 
+
 dubbo:
+  config:
+    ignore-duplicated-interface: true
   application:
     name: server-service
     dump-directory: /data/dump

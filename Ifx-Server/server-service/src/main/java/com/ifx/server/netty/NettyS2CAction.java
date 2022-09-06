@@ -10,10 +10,12 @@ import io.netty.util.CharsetUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.Resource;
+
 @Component
 @Slf4j
 public class NettyS2CAction implements IServer2ClientAction {
-//    @Resource
+    @Resource
     private NettyContext nettyContext;
 
     public void sendProtoCol(Channel channel ,Protocol protocol) {
@@ -24,6 +26,10 @@ public class NettyS2CAction implements IServer2ClientAction {
          channel.writeAndFlush(Unpooled.copiedBuffer(JSON.toJSONString(protocol), CharsetUtil.UTF_8));
     }
 
+    @Override
+    public Boolean hasAccount(Channel channel) {
+        return channel == null && nettyContext.getCurrentAcc(channel)!=null;
+    }
 
     public void sendProtoCol(String account , Protocol protocol){
         sendProtoCol(findChannel(account),protocol);

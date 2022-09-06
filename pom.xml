@@ -28,6 +28,7 @@
         <druid.stater.version>1.2.11</druid.stater.version>
         <dubbo.registry.version>3.0.2</dubbo.registry.version>
         <fastjson2.version>2.0.8</fastjson2.version>
+        <hippo4j.version>1.4.0-RC</hippo4j.version>
         <mysql.connector.version>8.0.28</mysql.connector.version>
     </properties>
     <dependencies>
@@ -54,16 +55,28 @@
             <scope>provided</scope>
         </dependency>
 
-
         <!--mapstruct编译-->
         <dependency>
             <groupId>org.mapstruct</groupId>
             <artifactId>mapstruct-processor</artifactId>
             <version>1.5.0.Beta1</version>
         </dependency>
+
     </dependencies>
     <dependencyManagement>
         <dependencies>
+            <!--            动态线程池-->
+            <dependency>
+                <groupId>cn.hippo4j</groupId>
+                <artifactId>hippo4j-config-spring-boot-starter</artifactId>
+                <version>${hippo4j.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-data-redis</artifactId>
+                <version>${spring.starter.version}</version>
+            </dependency>
+
             <dependency>
                 <groupId>mysql</groupId>
                 <artifactId>mysql-connector-java</artifactId>

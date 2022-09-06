@@ -1,6 +1,9 @@
 package com.ifx.client;
 
 
+import cn.edu.scau.biubiusuisui.annotation.FXScan;
+import cn.edu.scau.biubiusuisui.config.FXPlusApplication;
+import cn.edu.scau.biubiusuisui.factory.BeanBuilder;
 import cn.hutool.extra.spring.SpringUtil;
 import com.ifx.client.util.SpringFxmlLoader;
 import com.ifx.connect.netty.client.ClientLifeStyle;
@@ -13,6 +16,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.context.ApplicationContext;
 
 import javax.annotation.Resource;
 
@@ -21,6 +25,7 @@ import javax.annotation.Resource;
 
 @EnableConfigurationProperties({ClientNettyConfigProperties.class})
 @Slf4j
+@FXScan(base = "com.ifx.client")
 public class ClientApplication extends Application{
 //public class ClientApplication {
 
@@ -29,12 +34,9 @@ public class ClientApplication extends Application{
     @Resource
     private ClientNettyConfigProperties clientNettyConfigProperties;
     @Override
-    public void start(Stage stage) throws Exception {
-        springFxmlLoader = SpringUtil.getBean(SpringFxmlLoader.class);
-        String path = "com\\ifx\\client\\app\\fxml\\login.fxml";
-        Scene scene = springFxmlLoader.applySinScene(path);
-        stage.setScene(scene);
-        stage.show();
+    public void start(Stage stage)   {
+        //接管FXPlus属性的创建
+        FXPlusApplication.start(ClientApplication.class, SpringUtil::getBean);
     }
 
 
@@ -47,9 +49,8 @@ public class ClientApplication extends Application{
                 clientAction.reConnect();
             }
         };
-
         runnable.run();
-        Application.launch(ClientApplication.class);
+//        Application.launch(ClientApplication.class);
 
 
 

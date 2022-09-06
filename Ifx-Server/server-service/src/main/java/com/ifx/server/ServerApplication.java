@@ -29,7 +29,7 @@ public class ServerApplication implements CommandLineRunner {
     @Resource
     private ServerNettyConfigProperties serverNettyConfigProperties;
 
-    public void run(String... args) throws Exception {
+    public void run(String... args)  {
 //        String hostAddress = InetAddress.getLocalHost().getHostAddress();
         String hostAddress =serverNettyConfigProperties.getHost();
         log.info("netty 启动地址为 {} port {}",hostAddress, serverNettyConfigProperties.getPort());

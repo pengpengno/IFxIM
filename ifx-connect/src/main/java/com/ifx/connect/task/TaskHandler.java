@@ -18,10 +18,24 @@ public interface TaskHandler extends Consumer<Protocol> {
         accept(protocol);
     }
 
+    /**
+     * 预留初始化 Task
+     */
     default void init(){
 
     }
 
+    /**
+     * 任务执行前置操作
+     */
+    default void prevDoWork(){
+
+    }
+
+    /**
+     *
+     * 释放 Task 的操作
+     */
     default void release(){
     }
 

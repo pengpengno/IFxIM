@@ -1,6 +1,7 @@
 package com.ifx.account.service;
 
 import com.ifx.account.vo.AccountBaseInfo;
+import com.ifx.common.base.AccountInfo;
 
 import java.util.List;
 
@@ -13,9 +14,13 @@ public interface AccountService  {
 
         public Boolean login(AccountBaseInfo accountBaseInfo);
 
+        public AccountInfo loginAndGetCur(AccountBaseInfo accountBaseInfo) ;
+
+
         public String register(AccountBaseInfo accountBaseInfo);
 
         public List<AccountBaseInfo>  listAllAccoutInfo();
+
 
 
 

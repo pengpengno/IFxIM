@@ -1,11 +1,15 @@
 package com.ifx.server.invoke.dubbo;
 
 import cn.hutool.core.exceptions.ExceptionUtil;
+import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONObject;
+import com.ifx.common.base.AccountInfo;
 import com.ifx.common.res.Result;
 import com.ifx.connect.proto.Protocol;
 import com.ifx.connect.proto.dubbo.DubboApiMetaData;
+import com.ifx.connect.proto.ifx.IFxMsgProtocol;
 import com.ifx.server.invoke.GateInvoke;
+import com.ifx.server.netty.holder.NettyContext;
 import com.ifx.server.s2c.IServer2ClientAction;
 import io.netty.channel.ChannelHandlerContext;
 import lombok.extern.slf4j.Slf4j;
@@ -32,6 +36,8 @@ public class DubboInvoke implements GateInvoke {
     private String dubboServiceName;
     @Resource
     private IServer2ClientAction server2ClientAction;
+    @Resource
+    private NettyContext nettyContext;
 
     private RegistryConfig registryConfig;
 
@@ -50,19 +56,19 @@ public class DubboInvoke implements GateInvoke {
 
     @Override
     public void doWork(ChannelHandlerContext channel, Protocol protocol) {
+        ReferenceConfig<GenericService> referenceConfig = new ReferenceConfig<>();
         try {
             //创建服务引用配置
-            ReferenceConfig<GenericService> referenceConfig = new ReferenceConfig<>();
             DubboApiMetaData metaData = JSONObject.parseObject(protocol.getBody(), DubboApiMetaData.class);
             //设置接口
             referenceConfig.setInterface(metaData.getApiInterFacePath());
             referenceConfig.setApplication(applicationConfig);
             referenceConfig.setGeneric("true");
-
+            referenceConfig.setSticky(false);
             //设置异步，不必须，根据业务而定。 TODO 设计为动态
             referenceConfig.setAsync(true);
             //设置超时时间 TODO 设计动态
-            referenceConfig.setTimeout(7000);
+            referenceConfig.setTimeout(6000);
             //获取服务，由于是泛化调用，所以获取的一定是GenericService类型
             GenericService genericService = referenceConfig.get();
 //            protocol.get
@@ -73,13 +79,18 @@ public class DubboInvoke implements GateInvoke {
             CompletableFuture future = RpcContext.getServerContext().getCompletableFuture();
             future.whenComplete((value, t) -> {
                 Result<Object> ok = Result.ok(value);
+                if (protocol.getType().startsWith(IFxMsgProtocol.LOGIN_MSG_HEADER) && value !=null){
+                    nettyContext.addAccount(channel.channel(), JSONObject.parseObject(JSON.toJSONString(value),AccountInfo.class));
+                }
                 protocol.setRes(ok);
                 server2ClientAction.sendProtoCol(channel.channel(),protocol);
                 log.info("doWork(whenComplete): " + value);
                 latch.countDown();
+                referenceConfig.destroy();
             });
         } catch (Exception e) {
             log.error(ExceptionUtil.stacktraceToString(e));
+            referenceConfig.destroy();
         }
     }
 

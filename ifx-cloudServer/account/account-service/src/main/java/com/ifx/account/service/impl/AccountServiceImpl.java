@@ -1,5 +1,7 @@
 package com.ifx.account.service.impl;
 
+import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -8,6 +10,7 @@ import com.ifx.account.entity.Account;
 import com.ifx.account.mapper.AccountMapper;
 import com.ifx.account.service.AccountService;
 import com.ifx.account.vo.AccountBaseInfo;
+import com.ifx.common.base.AccountInfo;
 import com.ifx.common.constant.CommonConstant;
 import org.apache.dubbo.config.annotation.DubboService;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -56,6 +59,36 @@ public class AccountServiceImpl extends ServiceImpl<AccountMapper, Account>
         }
         return isLogin;
     }
+
+    public AccountInfo loginAndGetCur(AccountBaseInfo accountBaseInfo) {
+        if (Objects.isNull(accountBaseInfo)) {
+            return null;
+        }
+        if (Objects.isNull(accountBaseInfo.getPassword())) {
+            return null;
+        }
+
+        Account account = accountMapper.selectOne(new QueryWrapper<Account>().
+                eq("account", accountBaseInfo.getAccount())
+                .or()
+                .eq("email", accountBaseInfo.getAccount())
+        );
+//                .and(i -> i.eq("password",accountBaseInfo.getPassword())));
+//                .and(i -> i.eq("password",accountBaseInfo.getPassword())));
+        if (Objects.isNull(account)) {
+            return null;
+        }
+        if (StrUtil.equals(account.getPassword(),accountBaseInfo.getPassword())){
+            AccountInfo accountInfoVo = new AccountInfo();
+            BeanUtil.copyProperties(account,accountInfoVo);
+            return accountInfoVo;
+        }
+//        AccountInfo accountInfoVo = new AccountInfo();
+        return null;
+//        return accountInfoVo;
+    }
+
+
 
     @Override
     public String register(AccountBaseInfo accountBaseInfo) {

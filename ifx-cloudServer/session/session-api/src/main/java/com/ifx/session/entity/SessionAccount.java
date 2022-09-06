@@ -9,12 +9,12 @@ import java.util.Date;
 import lombok.Data;
 
 /**
- * 会话表
- * @TableName session
+ * 会话账户中间表
+ * @TableName session_account
  */
-@TableName(value ="session")
+@TableName(value ="session_account")
 @Data
-public class Session implements Serializable {
+public class SessionAccount implements Serializable {
     /**
      * 
      */
@@ -22,16 +22,14 @@ public class Session implements Serializable {
     private Long id;
 
     /**
-     * 会话名称（系统预定义）
+     * 会话
      */
-    private String sessionName;
+    private Long sessionId;
 
-//    private String sessionId;
-
-//    /**
-//     * 会话名称（应用层自定义）
-//     */
-//    private String sessionNickName;
+    /**
+     * 会话下所有账号
+     */
+    private String account;
 
     /**
      * 创建时间

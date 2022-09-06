@@ -9,9 +9,11 @@ import com.ifx.client.parse.DubboGenericParse;
 import com.ifx.connect.proto.IProtocolParse;
 import com.ifx.connect.proto.Protocol;
 import com.ifx.connect.proto.ProtocolHeaderConst;
+import com.ifx.connect.proto.ReqProtocol;
 import com.ifx.connect.proto.dubbo.DubboApiConst;
 import com.ifx.connect.proto.dubbo.DubboApiMetaData;
 import com.ifx.connect.proto.dubbo.DubboProtocol;
+import com.ifx.connect.proto.ifx.IFxMsgProtocol;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -23,11 +25,20 @@ public class LoginService {
 
     @SneakyThrows
     public Protocol applyLogins(AccountBaseInfo vo){
-        DubboApiMetaData metaData = DubboGenericParse.applyMeta(AccountService.class, "login", CollectionUtil.newArrayList(vo));
+        DubboApiMetaData metaData = DubboGenericParse.applyMeta(AccountService.class, "loginAndGetCur", CollectionUtil.newArrayList(vo));
         Protocol protocol = new DubboProtocol();
         protocol.setBody(JSON.toJSONString(metaData));
+        protocol.setType(IFxMsgProtocol.LOGIN_MSG_HEADER);
         return protocol;
     }
+
+//    @SneakyThrows
+//    public ReqProtocol applyLogins(AccountBaseInfo vo){
+//        DubboApiMetaData metaData = DubboGenericParse.applyMeta(AccountService.class, "login", CollectionUtil.newArrayList(vo));
+//        Protocol protocol = new DubboProtocol();
+//        protocol.setBody(JSON.toJSONString(metaData));
+//        return protocol;
+//    }
 
     public void sendLogin(){
 

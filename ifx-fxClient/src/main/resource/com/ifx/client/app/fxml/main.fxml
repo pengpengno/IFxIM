@@ -6,9 +6,9 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.ToolBar?>
 <?import javafx.scene.layout.Pane?>
-<?import javafx.scene.layout.VBox?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.ifx.client.app.controller.MainController">
    <children>
       <ToolBar layoutX="447.0" layoutY="1.0" prefHeight="40.0" prefWidth="153.0">
         <items>
@@ -18,15 +18,16 @@
         </items>
       </ToolBar>
       <TextField fx:id="searchField" layoutX="220.0" layoutY="10.0" />
-      <VBox fx:id="mainChatBox" layoutX="83.0" layoutY="94.0" prefHeight="306.0" prefWidth="435.0">
+      <Pane layoutX="79.0" layoutY="63.0" prefHeight="337.0" prefWidth="442.0">
          <children>
-            <Pane prefHeight="179.0" prefWidth="435.0">
+            <TextArea fx:id="msgTextArea" layoutX="-3.0" layoutY="193.0" prefHeight="139.0" prefWidth="449.0" />
+            <Button layoutX="388.0" layoutY="300.0" mnemonicParsing="false" onMouseClicked="#sendMsg" text="发送" />
+            <Pane layoutX="-3.0" prefHeight="191.0" prefWidth="449.0">
                <children>
-                  <ScrollBar fx:id="mainMsgFxml" layoutX="414.0" orientation="VERTICAL" prefHeight="176.0" prefWidth="14.0" />
+                  <ScrollBar fx:id="mainMsgFxml" layoutX="428.0" orientation="VERTICAL" prefHeight="150.0" prefWidth="14.0" />
                </children>
             </Pane>
-            <TextArea fx:id="msgTextArea" prefHeight="128.0" prefWidth="413.0" />
          </children>
-      </VBox>
+      </Pane>
    </children>
 </Pane>

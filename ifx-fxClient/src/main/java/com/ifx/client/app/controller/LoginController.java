@@ -1,11 +1,17 @@
 package com.ifx.client.app.controller;
 
 
+import cn.edu.scau.biubiusuisui.annotation.FXController;
+import cn.edu.scau.biubiusuisui.annotation.FXWindow;
+import cn.edu.scau.biubiusuisui.entity.FXBaseController;
+import com.alibaba.fastjson2.JSONObject;
 import com.ifx.account.service.AccountService;
 import com.ifx.account.vo.AccountBaseInfo;
 import com.ifx.client.parse.DubboGenericParse;
 import com.ifx.client.service.LoginService;
 import com.ifx.client.util.SpringFxmlLoader;
+import com.ifx.common.base.AccountInfo;
+import com.ifx.common.context.AccountContext;
 import com.ifx.connect.netty.client.ClientAction;
 import com.ifx.connect.proto.Protocol;
 import com.ifx.client.service.ClientService;
@@ -26,12 +32,14 @@ import java.util.List;
 
 @Component
 @Slf4j
-public class LoginController  {
+@FXWindow(mainStage = true, title = "login")
+@FXController(path = "com/ifx/client/app/fxml/login.fxml")
+public class LoginController   extends FXBaseController {
 
 
-    private LoginController(){
-      log.info(LoginController.log.getName());
-    }
+//    private LoginController(){
+//      log.info(LoginController.log.getName());
+//    }
     @FXML
     private Label account;
 
@@ -97,11 +105,23 @@ public class LoginController  {
         });
         TaskHandler taskHandler = protocol -> {
             List data = protocol.getRes().getData();
-            Boolean loginStatus = (Boolean)data.get(0);
-            log.info("login status {}",loginStatus);
-            if (loginStatus){
-                alert.setContentText("登录成功");
+            Object o = data.get(0);
+            if (o == null){
+                log.warn("登录失败！");
+                return;
+            }
+            AccountInfo accountInfo = JSONObject.parseObject(o.toString(), AccountInfo.class);
+            log.info("login status {}",accountInfo);
+            if (accountInfo!=null){
+                AccountContext.setCurAccount(accountInfo);
+//                alert.setContentText("登录成功");
                 log.info("login success ");
+                Stage stage = springFxmlLoader.applySinStage("com\\ifx\\client\\app\\fxml\\main.fxml");
+                Stage login = springFxmlLoader.applySinStage("com\\ifx\\client\\app\\fxml\\login.fxml");
+                login.hide();
+                log.info("prepare to show  main");
+                stage.show();
+                stage.setTitle("IFX");
             }else{
                 alert.setContentText("登录失败");
                 log.info("登录失败！");
@@ -126,7 +146,6 @@ public class LoginController  {
         log.info("prepare to show  register");
         stage.show();
         stage.setTitle("注册");
-
     }
 
 

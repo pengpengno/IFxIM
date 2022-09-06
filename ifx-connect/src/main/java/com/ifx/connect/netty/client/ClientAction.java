@@ -17,8 +17,4 @@ public interface ClientAction {
     public void receive(Protocol protocol);
 
 
-
-
-
-
 }

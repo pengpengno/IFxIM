@@ -1,14 +1,16 @@
 package com.ifx.session.vo;
 
-import java.io.Serializable;
+import lombok.Data;
 
+import java.io.Serializable;
+@Data
 public class ChatMsgVo implements Serializable {
 
     private String content;  // 消息文本
 
-    private String formAccount;  //  发送者
+    private String fromAccount;  //  发送者
 
-    private String toSession;  // 会话
+    private Long toSession;  // 会话
 
     private String createDate;  // 创建时间
 

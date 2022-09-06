@@ -25,9 +25,6 @@ public class NettyClientAction implements ClientAction, ClientLifeStyle {
     @Autowired
     private TaskManager taskManager;
 
-//    private final ConcurrentHashMap<String,Task> nettyMsgMap = new ConcurrentHashMap<>();
-
-
 
     @Override
     public void connect() {
@@ -45,6 +42,10 @@ public class NettyClientAction implements ClientAction, ClientLifeStyle {
         ((Runnable) () -> {
             reConnectTimeOut(5000L,3);
         }).run();
+    }
+
+    public void reConnectBlock() {
+        reConnectTimeOut(5000L,3);
     }
 
     public void reConnectTimeOut(Long timeout,Integer retryTimes){
@@ -99,13 +100,14 @@ public class NettyClientAction implements ClientAction, ClientLifeStyle {
         if (protocol == null){
             return ;
         }
+        if (!isAlive()){
+            log.info("和服务器断开链接，正在阻塞式尝试重新链接！");
+            reConnectBlock();
+        }
         if (!nettyClient.getChannel().isActive()) {
             log.error("netty Channel is close");
             return ;
         }
-//        String taskCode = IdUtil.fastSimpleUUID();
-//        if (protocol.getTaskCode() == null )
-//            protocol.setTaskCode(taskCode);
         if (nettyClient.getChannel() == null){
             log.error("channel is close ,please start server ");
             return ;
@@ -120,7 +122,8 @@ public class NettyClientAction implements ClientAction, ClientLifeStyle {
 
     @Override
     public void keepAlive() {
-
+//        心跳包机制
+        sendJsonMsg(new Protocol(),taskManager.defaultTaskHandler);
     }
 
     @Override

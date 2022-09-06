@@ -101,8 +101,6 @@ public class DubboGenericParse {
 
     }
 
-
-
     public static void main(String[] args) {
         Integer[] integers = new Integer[]{12,34,4,5,5,5};
         String[] strings = Arrays.stream(integers).map(Object::toString).toArray(String[]::new);
