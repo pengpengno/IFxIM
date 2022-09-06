@@ -13,8 +13,8 @@ import org.springframework.stereotype.Component;
 
 @Component
 @Slf4j
-@FXWindow(mainStage = false, title = "RegisterController")
-@FXController(path = "com/ifx/client/app/fxml/main.fxml")
+//@FXWindow(mainStage = false, title = "RegisterController")
+//@FXController(path = "com/ifx/client/app/fxml/main.fxml")
 public class MainController  extends FXBaseController {
 
     @FXML

@@ -24,8 +24,8 @@ import javax.annotation.Resource;
 
 @Component
 @Slf4j
-@FXWindow(mainStage = false, title = "RegisterController")
-@FXController(path = "com/ifx/client/app/fxml/register.fxml")
+//@FXWindow(mainStage = false, title = "RegisterController")
+//@FXController(path = "com/ifx/client/app/fxml/register.fxml")
 public class RegisterController  extends FXBaseController {
 
     @FXML

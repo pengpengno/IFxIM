@@ -32,14 +32,22 @@ import java.util.List;
 
 @Component
 @Slf4j
-@FXWindow(mainStage = true, title = "login")
-@FXController(path = "com/ifx/client/app/fxml/login.fxml")
-public class LoginController   extends FXBaseController {
+//@FXController(path = "com/ifx/client/app/fxml/login.fxml")
+//@FXWindow(mainStage = true, title = "login")
+public class LoginController extends FXBaseController {
+    @Override
+    public void onLoad() throws Exception {
+        log.info("  LoginController  load----------");
+        super.onLoad();
+    }
 
+    @Override
+    public void initialize() throws Exception {
+        log.info("  LoginController  intit----------");
 
-//    private LoginController(){
-//      log.info(LoginController.log.getName());
-//    }
+        super.initialize();
+    }
+
     @FXML
     private Label account;
 
@@ -89,9 +97,6 @@ public class LoginController   extends FXBaseController {
     @Resource
     private ClientService clientService;
 
-    public void init(){
-//        SpringFxmlLoader
-    }
 
     @FXML
     public void login(MouseEvent event) {
@@ -116,10 +121,13 @@ public class LoginController   extends FXBaseController {
                 AccountContext.setCurAccount(accountInfo);
 //                alert.setContentText("登录成功");
                 log.info("login success ");
+                Stage window = (Stage) account.getScene().getWindow();
+                window.hide();
+
                 Stage stage = springFxmlLoader.applySinStage("com\\ifx\\client\\app\\fxml\\main.fxml");
-                Stage login = springFxmlLoader.applySinStage("com\\ifx\\client\\app\\fxml\\login.fxml");
-                login.hide();
-                log.info("prepare to show  main");
+//                Stage login = springFxmlLoader.applySinStage("com\\ifx\\client\\app\\fxml\\login.fxml");
+//                login.hide();
+//                log.info("prepare to show  main");
                 stage.show();
                 stage.setTitle("IFX");
             }else{
