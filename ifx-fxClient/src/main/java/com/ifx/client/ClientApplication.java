@@ -22,17 +22,10 @@ import javax.annotation.Resource;
 
 
 @SpringBootApplication
-
-@EnableConfigurationProperties({ClientNettyConfigProperties.class})
 @Slf4j
 @FXScan(base = "com.ifx.client")
 public class ClientApplication extends Application{
-//public class ClientApplication {
 
-    @Resource
-    private SpringFxmlLoader springFxmlLoader;
-    @Resource
-    private ClientNettyConfigProperties clientNettyConfigProperties;
     @Override
     public void start(Stage stage)   {
         //接管FXPlus属性的创建
@@ -50,9 +43,5 @@ public class ClientApplication extends Application{
             }
         };
         runnable.run();
-//        Application.launch(ClientApplication.class);
-
-
-
     }
 }
