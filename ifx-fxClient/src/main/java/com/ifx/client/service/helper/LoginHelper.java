@@ -34,9 +34,17 @@ public class LoginHelper {
         protocol.setType(IFxMsgProtocol.LOGIN_MSG_HEADER);
         return protocol;
     }
-    @SneakyThrows
-    public Protocol applyLog(AccountSearchVo vo){
 
+    /**
+     * 废弃 请使用下方接口实现
+     * {@link ProtocolHelper}
+     * @see ProtocolHelper
+     * @param vo
+     * @return
+     */
+    @SneakyThrows
+    @Deprecated
+    public Protocol applyLog(AccountSearchVo vo){
         Method search = AccountService.class.getMethod("search", AccountSearchVo.class);
         Class<?> returnType = search.getReturnType();
         DubboApiMetaData metaData = DubboGenericParse.applyMeta(AccountService.class, "search", CollectionUtil.newArrayList(vo));
