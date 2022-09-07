@@ -28,7 +28,6 @@ public final class RedisUtil implements CacheUtil {
 
 	// =============================common============================
 
-
 	@Override
 	public Boolean set(String key, String value) {
 		return null;

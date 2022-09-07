@@ -1,4 +1,4 @@
-package com.ifx.client.service;
+package com.ifx.client.service.helper;
 
 import cn.hutool.core.collection.CollectionUtil;
 import com.alibaba.fastjson.JSON;
@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @Slf4j
-public class RegisterService {
+public class RegisterHelper {
 
     public Protocol applyRegister(AccountBaseInfo vo){
         DubboApiMetaData metaData = DubboGenericParse.applyMeta(AccountService.class, "register", CollectionUtil.newArrayList(vo));

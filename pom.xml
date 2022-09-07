@@ -15,6 +15,7 @@
         <module>ifx-connect</module>
         <module>Ifx-Server</module>
         <module>ifx-starter</module>
+        <module>fx-boot-starter</module>
     </modules>
     <packaging>pom</packaging>
     <properties>
@@ -39,7 +40,6 @@
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <version>RELEASE</version>
-<!--            <scope>compile</scope>-->
         </dependency>
         <!--mapstruct核心-->
         <dependency>

@@ -80,6 +80,7 @@ public class DubboInvoke implements GateInvoke {
             future.whenComplete((value, t) -> {
                 Result<Object> ok = Result.ok(value);
                 if (protocol.getType().startsWith(IFxMsgProtocol.LOGIN_MSG_HEADER) && value !=null){
+                    log.info("用户登录系统成功，正在建立 channel 绑定关系");
                     nettyContext.addAccount(channel.channel(), JSONObject.parseObject(JSON.toJSONString(value),AccountInfo.class));
                 }
                 protocol.setRes(ok);

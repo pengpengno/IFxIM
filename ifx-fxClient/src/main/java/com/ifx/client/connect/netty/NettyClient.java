@@ -53,7 +53,7 @@ public class NettyClient implements ApplicationListener<ContextRefreshedEvent>
     @Override
     public void onApplicationEvent(ContextRefreshedEvent contextRefreshedEvent) {
         String serverHost = clientNettyConfigProperties.getServerHost();
-        log.info("客户端netty 配置为  server host{}  port{}",
+        log.info("客户端【netty】配置为serverHost {}port{}",
                 serverHost,clientNettyConfigProperties.getServerPort());
         address =  new InetSocketAddress(Optional.ofNullable(serverHost).orElse(InetAddress.getLocalHost().getHostAddress() ),
                 clientNettyConfigProperties.getServerPort());

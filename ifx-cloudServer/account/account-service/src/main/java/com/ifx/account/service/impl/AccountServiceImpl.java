@@ -5,11 +5,12 @@ import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.ifx.account.Helper.AccountHelper;
+import com.ifx.account.helper.AccountHelper;
 import com.ifx.account.entity.Account;
 import com.ifx.account.mapper.AccountMapper;
 import com.ifx.account.service.AccountService;
 import com.ifx.account.vo.AccountBaseInfo;
+import com.ifx.account.vo.AccountSearchVo;
 import com.ifx.common.base.AccountInfo;
 import com.ifx.common.constant.CommonConstant;
 import org.apache.dubbo.config.annotation.DubboService;
@@ -44,13 +45,10 @@ public class AccountServiceImpl extends ServiceImpl<AccountMapper, Account>
         if (Objects.isNull(accountBaseInfo.getPassword())) {
             return isLogin;
         }
-        QueryWrapper queryWrapper = new QueryWrapper();
-
-
-        queryWrapper.eq("account", accountBaseInfo.getAccount());
-        queryWrapper.or();
-        queryWrapper.eq("email", accountBaseInfo.getAccount());
-        Account account = accountMapper.selectOne(queryWrapper);
+        Account account = accountMapper.selectOne( new QueryWrapper<Account>().
+                eq("account", accountBaseInfo.getAccount())
+        .or()
+        .eq("email", accountBaseInfo.getAccount()));
         if (Objects.isNull(account)) {
             return isLogin;
         }
@@ -67,14 +65,11 @@ public class AccountServiceImpl extends ServiceImpl<AccountMapper, Account>
         if (Objects.isNull(accountBaseInfo.getPassword())) {
             return null;
         }
-
         Account account = accountMapper.selectOne(new QueryWrapper<Account>().
                 eq("account", accountBaseInfo.getAccount())
                 .or()
                 .eq("email", accountBaseInfo.getAccount())
         );
-//                .and(i -> i.eq("password",accountBaseInfo.getPassword())));
-//                .and(i -> i.eq("password",accountBaseInfo.getPassword())));
         if (Objects.isNull(account)) {
             return null;
         }
@@ -83,18 +78,26 @@ public class AccountServiceImpl extends ServiceImpl<AccountMapper, Account>
             BeanUtil.copyProperties(account,accountInfoVo);
             return accountInfoVo;
         }
-//        AccountInfo accountInfoVo = new AccountInfo();
         return null;
-//        return accountInfoVo;
     }
 
+    @Override
+    public List<AccountInfo> search(AccountSearchVo searchVo) {
+        List<Account> accounts = accountMapper.selectList(new QueryWrapper<Account>()
+//                .eq(searchVo.getMail()!=null && StrUtil.isNotBlank(searchVo.getAccount()),"account",searchVo.getAccount())
+                        .eq(searchVo.getMail() != null && StrUtil.isNotBlank(searchVo.getMail()), "email", searchVo.getMail())
+                        .or()
+                        .like(searchVo.getMail() != null && StrUtil.isNotBlank(searchVo.getAccount()), "account", searchVo.getLikeName())
 
+        );
+
+        return null;
+    }
 
     @Override
     public String register(AccountBaseInfo accountBaseInfo) {
         Account instance = Account.getInstance();
         Account account = AccountHelper.INSTANCE.transform4(accountBaseInfo, instance);
-
         QueryWrapper<Account> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("account", accountBaseInfo.getAccount());
         queryWrapper.or();

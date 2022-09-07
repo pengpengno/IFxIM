@@ -1,6 +1,7 @@
 package com.ifx.account.service;
 
 import com.ifx.account.vo.AccountBaseInfo;
+import com.ifx.account.vo.AccountSearchVo;
 import com.ifx.common.base.AccountInfo;
 
 import java.util.List;
@@ -16,10 +17,11 @@ public interface AccountService  {
 
         public AccountInfo loginAndGetCur(AccountBaseInfo accountBaseInfo) ;
 
-
         public String register(AccountBaseInfo accountBaseInfo);
 
-        public List<AccountBaseInfo>  listAllAccoutInfo();
+        public List<AccountInfo> search(AccountSearchVo accountSearchVo);  // 条件查询用户信息
+
+        public List<AccountBaseInfo>  listAllAccoutInfo(); // 查询所有的账户
 
 
 

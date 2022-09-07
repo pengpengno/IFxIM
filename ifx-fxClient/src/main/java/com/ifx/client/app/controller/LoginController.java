@@ -1,14 +1,10 @@
 package com.ifx.client.app.controller;
 
 
-import cn.edu.scau.biubiusuisui.annotation.FXController;
-import cn.edu.scau.biubiusuisui.annotation.FXWindow;
-import cn.edu.scau.biubiusuisui.entity.FXBaseController;
+
 import com.alibaba.fastjson2.JSONObject;
-import com.ifx.account.service.AccountService;
 import com.ifx.account.vo.AccountBaseInfo;
-import com.ifx.client.parse.DubboGenericParse;
-import com.ifx.client.service.LoginService;
+import com.ifx.client.service.helper.LoginHelper;
 import com.ifx.client.util.SpringFxmlLoader;
 import com.ifx.common.base.AccountInfo;
 import com.ifx.common.context.AccountContext;
@@ -25,6 +21,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.stereotype.Component;
 import javax.annotation.Resource;
 import java.util.List;
@@ -32,21 +29,8 @@ import java.util.List;
 
 @Component
 @Slf4j
-//@FXController(path = "com/ifx/client/app/fxml/login.fxml")
-//@FXWindow(mainStage = true, title = "login")
-public class LoginController extends FXBaseController {
-    @Override
-    public void onLoad() throws Exception {
-        log.info("  LoginController  load----------");
-        super.onLoad();
-    }
+public class LoginController  {
 
-    @Override
-    public void initialize() throws Exception {
-        log.info("  LoginController  intit----------");
-
-        super.initialize();
-    }
 
     @FXML
     private Label account;
@@ -92,7 +76,7 @@ public class LoginController extends FXBaseController {
     private SpringFxmlLoader springFxmlLoader;
 
     @Resource
-    private LoginService loginService;
+    private LoginHelper loginHelper;
 
     @Resource
     private ClientService clientService;
@@ -123,11 +107,10 @@ public class LoginController extends FXBaseController {
                 log.info("login success ");
                 Stage window = (Stage) account.getScene().getWindow();
                 window.hide();
-
                 Stage stage = springFxmlLoader.applySinStage("com\\ifx\\client\\app\\fxml\\main.fxml");
-//                Stage login = springFxmlLoader.applySinStage("com\\ifx\\client\\app\\fxml\\login.fxml");
-//                login.hide();
-//                log.info("prepare to show  main");
+                Stage login = springFxmlLoader.applySinStage("com\\ifx\\client\\app\\fxml\\login.fxml");
+                login.hide();
+                log.info("prepare to show  main");
                 stage.show();
                 stage.setTitle("IFX");
             }else{
@@ -136,7 +119,7 @@ public class LoginController extends FXBaseController {
             }
         };
         log.info("启动登录");
-        Protocol login = loginService.applyLogins(accountBaseInfo);
+        Protocol login = loginHelper.applyLogins(accountBaseInfo);
         clientService.send(login,taskHandler);
     }
 

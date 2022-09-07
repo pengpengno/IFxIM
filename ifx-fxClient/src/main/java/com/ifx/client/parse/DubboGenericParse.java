@@ -38,16 +38,13 @@ public class DubboGenericParse {
      */
     @SneakyThrows
     public static DubboApiMetaData applyMeta(Class interFaceClass, String methodName , List<Object> args){
-
         String name = interFaceClass.getName();
-
         Method method = Arrays.stream(interFaceClass.getMethods()).filter(meNa -> StrUtil.equalsIgnoreCase(meNa.getName(), methodName)).
                 findFirst().
                 orElseThrow(() -> {
                     log.error("  {}  can not find method {} ", name, methodName);
                     return new Exception();
                 });
-
         Class<?>[] parameterTypes = method.getParameterTypes();
         String[] paramTypes = Arrays.stream(parameterTypes).map(paramType -> {
             return paramType.getName();
@@ -59,8 +56,28 @@ public class DubboGenericParse {
         metaData.setArgs(objects);
         metaData.setMethod(methodName);
         return metaData;
+    }
 
 
+    @SneakyThrows
+    public static DubboApiMetaData applyMeta(Class interFaceClass, String methodName ,Object[] args){
+        String name = interFaceClass.getName();
+        Method method = Arrays.stream(interFaceClass.getMethods()).filter(meNa -> StrUtil.equalsIgnoreCase(meNa.getName(), methodName)).
+                findFirst().
+                orElseThrow(() -> {
+                    log.error("  {}  can not find method {} ", name, methodName);
+                    return new Exception();
+                });
+        Class<?>[] parameterTypes = method.getParameterTypes();
+        String[] paramTypes = Arrays.stream(parameterTypes).map(paramType -> {
+            return paramType.getName();
+        }).toArray(size-> new String[size]);
+        DubboApiMetaData metaData = new DubboApiMetaData();
+        metaData.setApiInterFacePath(name);
+        metaData.setArgsType(paramTypes);
+        metaData.setArgs(args);
+        metaData.setMethod(methodName);
+        return metaData;
     }
 
     @SneakyThrows

@@ -30,7 +30,7 @@ public class NettyClientAction implements ClientAction, ClientLifeStyle {
     public void connect() {
         try{
             nettyClient.doOpen();
-            log.info("netty connect succ ！ host :  {}   posrt : {} ",nettyClient.getAddress().getHostName(), nettyClient.getAddress().getPort());
+            log.info("netty connect succ ！ host :  {}  posrt : {} ",nettyClient.getAddress().getHostName(), nettyClient.getAddress().getPort());
         }
         catch (Throwable e ){
            log.error("服务器链接失败！ {}",ExceptionUtil.stacktraceToString(e));

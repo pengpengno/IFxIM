@@ -13,6 +13,7 @@ import javax.annotation.Resource;
 @DubboService
 @Slf4j
 public class SessionLifeStyle implements ISessionLifeStyle {
+
     @Resource(name = "Memory")
     private CacheUtil cacheUtil;
 

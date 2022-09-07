@@ -1,48 +1,40 @@
-package com.ifx.client.util;
+package com.ifx.fxstarter.loader;
 
 import cn.hutool.core.exceptions.ExceptionUtil;
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.extra.spring.SpringUtil;
-import com.ifx.client.ClientApplication;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Component;
-
-import java.io.IOException;
-import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.ResourceBundle;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Slf4j
-@Component
 public class SpringFxmlLoader {
 
-    private final ConcurrentHashMap<String,Stage> stageMap = new ConcurrentHashMap<>();
-    private final ConcurrentHashMap<String,Scene> sceneMap = new ConcurrentHashMap<>();
+    private static final ConcurrentHashMap<String,Stage> stageMap = new ConcurrentHashMap<>();
+
+    private static final ConcurrentHashMap<String,Scene> sceneMap = new ConcurrentHashMap<>();
 
 
-    private Scene applyScene(URL url) {
+    private static Scene applyScene(URL url) {
         try{
             FXMLLoader fxmlLoader = new FXMLLoader();
             fxmlLoader.setLocation(url);
             fxmlLoader.setControllerFactory(SpringUtil::getBean);
             Scene scene = new Scene(fxmlLoader.load());
-//        loader.setResources(ResourceBundle.getBundle(resources));
             return scene;
         }
         catch (Exception e){
             log.error("create stage fail {}", ExceptionUtil.stacktraceToString(e));
-//            throw e;
         }
         return null;
     }
 
 
-    public Scene applySinScene(String classPath) {
+    public static Scene applySinScene(String classPath) {
         try{
             Scene scene = sceneMap.computeIfAbsent(classPath, (k) -> {
                 URL resource = null;
@@ -68,7 +60,7 @@ public class SpringFxmlLoader {
      * @param classPath
      * @return
      */
-    public Stage applySinStage(String classPath){
+    public static Stage applySinStage(String classPath){
         Stage resStage = stageMap.computeIfAbsent(classPath, (path) -> {
             Stage stage = new Stage();
             Scene scene = applySinScene(classPath);

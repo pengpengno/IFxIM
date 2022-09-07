@@ -1,12 +1,8 @@
 package com.ifx.client.app.controller;
 
-import cn.edu.scau.biubiusuisui.annotation.FXController;
-import cn.edu.scau.biubiusuisui.annotation.FXWindow;
-import cn.edu.scau.biubiusuisui.entity.FXBaseController;
-import cn.edu.scau.biubiusuisui.entity.FXPlusLocale;
 import cn.hutool.core.util.StrUtil;
 import com.ifx.account.vo.AccountBaseInfo;
-import com.ifx.client.service.RegisterService;
+import com.ifx.client.service.helper.RegisterHelper;
 import com.ifx.client.util.SpringFxmlLoader;
 import com.ifx.connect.netty.client.ClientAction;
 import com.ifx.connect.proto.Protocol;
@@ -24,9 +20,7 @@ import javax.annotation.Resource;
 
 @Component
 @Slf4j
-//@FXWindow(mainStage = false, title = "RegisterController")
-//@FXController(path = "com/ifx/client/app/fxml/register.fxml")
-public class RegisterController  extends FXBaseController {
+public class RegisterController  {
 
     @FXML
     private TextField accountField;
@@ -53,7 +47,7 @@ public class RegisterController  extends FXBaseController {
     private SpringFxmlLoader springFxmlLoader;
 
     @Resource
-    private RegisterService registerService;
+    private RegisterHelper registerHelper;
     @FXML
     void register(MouseEvent event) {
         AccountBaseInfo accountBaseInfo = new AccountBaseInfo();
@@ -68,7 +62,7 @@ public class RegisterController  extends FXBaseController {
             }
 
         };
-        Protocol registerProtocol = registerService.applyRegister(accountBaseInfo);
+        Protocol registerProtocol = registerHelper.applyRegister(accountBaseInfo);
         clientAction.sendJsonMsg(registerProtocol, taskHandler);
     }
 

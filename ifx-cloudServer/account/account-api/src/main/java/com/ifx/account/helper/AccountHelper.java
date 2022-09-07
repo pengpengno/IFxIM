@@ -1,4 +1,4 @@
-package com.ifx.account.Helper;
+package com.ifx.account.helper;
 
 import com.ifx.account.entity.Account;
 import com.ifx.account.vo.AccountBaseInfo;
