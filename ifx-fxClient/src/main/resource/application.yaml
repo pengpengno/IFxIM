@@ -1,2 +1,6 @@
-server:
-  port: 10043
+ifx:
+  connect:
+    client:
+      serverHost: 192.168.1.6
+      serverPort: 8099
+      connectTimeOut: 60000

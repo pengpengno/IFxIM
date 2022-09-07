@@ -1,19 +1,26 @@
 package com.ifx.account.service.impl;
 
+import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.ifx.account.Helper.AccountHelper;
+import com.ifx.account.helper.AccountHelper;
 import com.ifx.account.entity.Account;
 import com.ifx.account.mapper.AccountMapper;
 import com.ifx.account.service.AccountService;
 import com.ifx.account.vo.AccountBaseInfo;
+import com.ifx.account.vo.AccountSearchVo;
+import com.ifx.common.base.AccountInfo;
 import com.ifx.common.constant.CommonConstant;
 import org.apache.dubbo.config.annotation.DubboService;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 /**
  * @author wangpeng
@@ -21,7 +28,6 @@ import java.util.Objects;
  * @createDate 2022-07-30 16:21:21
  */
 @Service
-//@DubboService(version = "1.0.0")
 @DubboService
 public class AccountServiceImpl extends ServiceImpl<AccountMapper, Account>
         implements AccountService {
@@ -39,13 +45,10 @@ public class AccountServiceImpl extends ServiceImpl<AccountMapper, Account>
         if (Objects.isNull(accountBaseInfo.getPassword())) {
             return isLogin;
         }
-        QueryWrapper queryWrapper = new QueryWrapper();
-
-
-        queryWrapper.eq("account", accountBaseInfo.getAccount());
-        queryWrapper.or();
-        queryWrapper.eq("email", accountBaseInfo.getAccount());
-        Account account = accountMapper.selectOne(queryWrapper);
+        Account account = accountMapper.selectOne( new QueryWrapper<Account>().
+                eq("account", accountBaseInfo.getAccount())
+        .or()
+        .eq("email", accountBaseInfo.getAccount()));
         if (Objects.isNull(account)) {
             return isLogin;
         }
@@ -55,12 +58,47 @@ public class AccountServiceImpl extends ServiceImpl<AccountMapper, Account>
         return isLogin;
     }
 
+    public AccountInfo loginAndGetCur(AccountBaseInfo accountBaseInfo) {
+        if (Objects.isNull(accountBaseInfo)) {
+            return null;
+        }
+        if (Objects.isNull(accountBaseInfo.getPassword())) {
+            return null;
+        }
+        Account account = accountMapper.selectOne(new QueryWrapper<Account>().
+                eq("account", accountBaseInfo.getAccount())
+                .or()
+                .eq("email", accountBaseInfo.getAccount())
+        );
+        if (Objects.isNull(account)) {
+            return null;
+        }
+        if (StrUtil.equals(account.getPassword(),accountBaseInfo.getPassword())){
+            AccountInfo accountInfoVo = new AccountInfo();
+            BeanUtil.copyProperties(account,accountInfoVo);
+            return accountInfoVo;
+        }
+        return null;
+    }
+
+    @Override
+    public List<AccountInfo> search(AccountSearchVo searchVo) {
+        List<Account> accounts = accountMapper.selectList(new QueryWrapper<Account>()
+//                .eq(searchVo.getMail()!=null && StrUtil.isNotBlank(searchVo.getAccount()),"account",searchVo.getAccount())
+                        .eq(searchVo.getMail() != null && StrUtil.isNotBlank(searchVo.getMail()), "email", searchVo.getMail())
+                        .or()
+                        .like(searchVo.getMail() != null && StrUtil.isNotBlank(searchVo.getAccount()), "account", searchVo.getLikeName())
+
+        );
+
+        return null;
+    }
+
     @Override
     public String register(AccountBaseInfo accountBaseInfo) {
         Account instance = Account.getInstance();
         Account account = AccountHelper.INSTANCE.transform4(accountBaseInfo, instance);
-
-        QueryWrapper queryWrapper = new QueryWrapper();
+        QueryWrapper<Account> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("account", accountBaseInfo.getAccount());
         queryWrapper.or();
         queryWrapper.eq("email", accountBaseInfo.getAccount());
@@ -68,11 +106,15 @@ public class AccountServiceImpl extends ServiceImpl<AccountMapper, Account>
         if (!Objects.isNull(accountInfo)) {
             return CommonConstant.ACCOUNT_EXIT;
         }
-        int row = accountMapper.insert(account);
-        if (row == CommonConstant.SUCCESS) {
-            return account.getAccount();
-        }
-        return null;
+        accountMapper.insert(account);
+        return account.getAccount();
+    }
+
+    @Override
+    public List<AccountBaseInfo> listAllAccoutInfo() {
+        Page<Account> page = page(new Page<>(), new QueryWrapper<Account>().eq("account", "wangpeng"));
+        List<AccountBaseInfo> collect = page.getRecords().stream().map(e -> AccountHelper.INSTANCE.transform4Init(e)).collect(Collectors.toList());
+        return collect;
     }
 }
 

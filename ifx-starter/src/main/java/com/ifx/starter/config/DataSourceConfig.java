@@ -13,7 +13,7 @@
 //    public DruidDataSource applyDruid(JDBCProperties jdbcProperties){
 //        DruidDataSource druidDataSource = new DruidDataSource();
 //        druidDataSource.setDriverClassName(jdbcProperties.getDriver());
-//        druidDataSource.setUrl(jdbcProperties.getUrl());
+//        druidDataSource.setUrl(jdbcProperties.gtUrl());
 //        druidDataSource.setPassword(jdbcProperties.getPassword());
 //        druidDataSource.setUsername(jdbcProperties.getUsername());
 //        return druidDataSource;

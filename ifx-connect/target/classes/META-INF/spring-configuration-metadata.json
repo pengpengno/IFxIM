@@ -81,6 +81,11 @@
       "sourceType": "com.ifx.connect.properties.ServerNettyConfigProperties"
     },
     {
+      "name": "ifx.connect.netty.server.max-time-out",
+      "type": "java.lang.Integer",
+      "sourceType": "com.ifx.connect.properties.ServerNettyConfigProperties"
+    },
+    {
       "name": "ifx.connect.netty.server.port",
       "type": "java.lang.Integer",
       "sourceType": "com.ifx.connect.properties.ServerNettyConfigProperties"

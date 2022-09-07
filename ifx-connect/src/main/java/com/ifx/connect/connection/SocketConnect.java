@@ -13,6 +13,7 @@ import java.util.concurrent.ExecutorService;
 
 @Service
 @Slf4j
+@Deprecated
 public class SocketConnect implements ServerConnect<ServerSocket> {
     @Resource(name = "socketPool")
     private ExecutorService socketPool;

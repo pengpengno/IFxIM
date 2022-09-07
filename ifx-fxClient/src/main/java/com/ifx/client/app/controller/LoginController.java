@@ -1,37 +1,29 @@
 package com.ifx.client.app.controller;
 
-import cn.hutool.core.io.FileUtil;
-import com.alibaba.fastjson2.JSON;
-import com.ifx.account.service.AccountService;
+
+
+import com.alibaba.fastjson2.JSONObject;
 import com.ifx.account.vo.AccountBaseInfo;
+import com.ifx.client.service.helper.LoginHelper;
 import com.ifx.client.util.SpringFxmlLoader;
-import com.ifx.connect.enums.CommandEnum;
+import com.ifx.common.base.AccountInfo;
+import com.ifx.common.context.AccountContext;
 import com.ifx.connect.netty.client.ClientAction;
 import com.ifx.connect.proto.Protocol;
-import com.ifx.connect.task.Task;
-//import de.felixroske.jfxsupport.FXMLController;
-import com.jfoenix.controls.JFXButton;
-import com.jfoenix.controls.JFXDialogLayout;
+import com.ifx.client.service.ClientService;
+import com.ifx.connect.task.TaskHandler;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Component;
 
+import org.springframework.stereotype.Component;
 import javax.annotation.Resource;
-import java.io.IOException;
-import java.lang.reflect.Method;
-import java.net.URL;
 import java.util.List;
 
 
@@ -40,9 +32,6 @@ import java.util.List;
 public class LoginController  {
 
 
-    private LoginController(){
-      log.info(LoginController.log.getName());
-    }
     @FXML
     private Label account;
 
@@ -86,40 +75,60 @@ public class LoginController  {
     @Resource
     private SpringFxmlLoader springFxmlLoader;
 
-    public void init(){
-//        SpringFxmlLoader
-    }
+    @Resource
+    private LoginHelper loginHelper;
+
+    @Resource
+    private ClientService clientService;
+
 
     @FXML
     public void login(MouseEvent event) {
-//        ClientAction bean = SpringUtil.getBean(ClientAction.class);
-        String account = accountField.getText();
-        String psd = passwordField.getText();
-//        String  account = characters.toString();
         AccountBaseInfo accountBaseInfo = new AccountBaseInfo();
-        accountBaseInfo.setAccount(account);
-        accountBaseInfo.setPassword(psd);
-        Method[] methods = AccountService.class.getMethods();
-
-        Protocol<AccountBaseInfo> logBase = new Protocol<>();
-        logBase.setBody(JSON.toJSONString(accountBaseInfo));
-        logBase.setCommand(CommandEnum.LOGIN.name());
-        Task task = protocol -> {
-//            int code = protocol.getRes().getCode();
+        accountBaseInfo.setAccount( accountField.getText());
+        accountBaseInfo.setPassword(passwordField.getText());
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("登录状态");
+        alert.contentTextProperty().addListener((a1,a2,a3)-> {
+            alert.show();
+        });
+        TaskHandler taskHandler = protocol -> {
             List data = protocol.getRes().getData();
-            Boolean loginStatus = (Boolean)data.get(0);
-            if (loginStatus){
+            Object o = data.get(0);
+            if (o == null){
+                log.warn("登录失败！");
+                return;
+            }
+            AccountInfo accountInfo = JSONObject.parseObject(o.toString(), AccountInfo.class);
+            log.info("login status {}",accountInfo);
+            if (accountInfo!=null){
+                AccountContext.setCurAccount(accountInfo);
+//                alert.setContentText("登录成功");
                 log.info("login success ");
+                Stage window = (Stage) account.getScene().getWindow();
+                window.hide();
+                Stage stage = springFxmlLoader.applySinStage("com\\ifx\\client\\app\\fxml\\main.fxml");
+                Stage login = springFxmlLoader.applySinStage("com\\ifx\\client\\app\\fxml\\login.fxml");
+                login.hide();
+                log.info("prepare to show  main");
+                stage.show();
+                stage.setTitle("IFX");
+            }else{
+                alert.setContentText("登录失败");
+                log.info("登录失败！");
             }
         };
-        clientAction.sendJsonMsg(logBase,task);
-
+        log.info("启动登录");
+        Protocol login = loginHelper.applyLogins(accountBaseInfo);
+        clientService.send(login,taskHandler);
     }
 
 
     @FXML
     void cancelLogin(MouseEvent event) {
-
+        log.info("正在关闭客户端程序-----");
+        Platform.exit();
+        System.exit(0);
     }
 
     @FXML
@@ -127,8 +136,7 @@ public class LoginController  {
         Stage stage = springFxmlLoader.applySinStage("com\\ifx\\client\\app\\fxml\\register.fxml");
         log.info("prepare to show  register");
         stage.show();
-        stage.setTitle("zhuce");
-
+        stage.setTitle("注册");
     }
 
 

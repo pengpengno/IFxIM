@@ -14,9 +14,9 @@ import java.net.ServerSocket;
 @Configuration
 @EnableConfigurationProperties(ServerNettyConfigProperties.class)
 public class SocketConfig {
-//
-//    @Resource
-//    private ServerNettyConfigProperties serverNettyConfigProperties;
+
+    @Resource
+    private ServerNettyConfigProperties serverNettyConfigProperties;
 
 //    @Bean
 //    public ServerConnect<ServerSocket> applySocketConnect() throws IOException {
@@ -24,6 +24,10 @@ public class SocketConfig {
 //        ServerConnect<ServerSocket> socketConnect = new SocketConnect();
 //        return socketConnect;
 //    }
+    @Bean
+    public ServerNettyConfigProperties apply(ServerNettyConfigProperties serverNettyConfigProperties){
+        return serverNettyConfigProperties;
+    }
 
 
 }

@@ -1,0 +1,16 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+title 通讯业务设计
+skinparam backgroundColor #EEEBDC
+skinparam handwritten true
+autonumber
+participant 客户端 as client
+participant 服务网关 as server
+participant 会话服务 as session
+participant 中间件 as redis
+
+== 发送消息 ==
+client -> server : send msg
+server --> session
+@enduml

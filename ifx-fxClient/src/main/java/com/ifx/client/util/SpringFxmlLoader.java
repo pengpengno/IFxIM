@@ -20,7 +20,7 @@ import java.util.concurrent.ConcurrentHashMap;
 @Slf4j
 @Component
 public class SpringFxmlLoader {
-    
+
     private final ConcurrentHashMap<String,Stage> stageMap = new ConcurrentHashMap<>();
     private final ConcurrentHashMap<String,Scene> sceneMap = new ConcurrentHashMap<>();
 

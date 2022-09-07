@@ -19,9 +19,6 @@ public class FrameViewer {
 
     private FrameViewer(){}
 
-//    public void showFrame();
-//
-//    public void hideFrame();
 
 
 }

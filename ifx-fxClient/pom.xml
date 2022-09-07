@@ -8,8 +8,33 @@
         <artifactId>IFx</artifactId>
         <version>1.0-SNAPSHOT</version>
     </parent>
+<!--    <parent>-->
+<!--        <groupId>org.openjfx</groupId>-->
+<!--        <artifactId>javafx</artifactId>-->
+<!--        <version>17.0.2</version>-->
+<!--    </parent>-->
     <artifactId>ifx-fxClient</artifactId>
+    <properties>
+        <openJfx.version>17.0.2</openJfx.version>
+        <javafx-plus.version>1.2.1-RELEASE</javafx-plus.version>
+    </properties>
     <dependencies>
+<!--        <dependency>-->
+<!--            <groupId>com.gitee.Biubiuyuyu</groupId>-->
+<!--            <artifactId>javafx-plus</artifactId>-->
+<!--            <version>${javafx-plus.version}</version>-->
+<!--            <exclusions>-->
+<!--                <exclusion>-->
+<!--                    <artifactId>log4j</artifactId>-->
+<!--                    <groupId>log4j</groupId>-->
+<!--                </exclusion>-->
+<!--                <exclusion>-->
+<!--                    <artifactId>slf4j-log4j12</artifactId>-->
+<!--                    <groupId>org.slf4j</groupId>-->
+<!--                </exclusion>-->
+<!--            </exclusions>-->
+<!--        </dependency>-->
+
         <dependency>
             <groupId>com.jfoenix</groupId>
             <artifactId>jfoenix</artifactId>
@@ -17,37 +42,54 @@
         </dependency>
 <!--        TODO  后续使用最新的0.4.0 重写源码 调整框架-->
 <!--        <dependency>-->
-<!--            <groupId>org.kordamp.bootstrapfx</groupId>-->
-<!--            <artifactId>bootstrapfx-core</artifactId>-->
-<!--            <version>0.2.0</version>-->
-<!--        </dependency>-->
-<!--        <dependency>-->
-<!--            <groupId>org.springframework.boot</groupId>-->
-<!--            <artifactId>spring-boot-starter</artifactId>-->
+<!--            <groupId>org.openjfx</groupId>-->
+<!--            <artifactId>javafx</artifactId>-->
+<!--            <version>${openJfx.version}</version>-->
+<!--            <type>pom</type>-->
 <!--        </dependency>-->
         <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-base</artifactId>
+            <version>${openJfx.version}</version>
+<!--            <scope>runtime</scope>-->
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/org.openjfx/javafx-controls -->
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-controls</artifactId>
+            <version>${openJfx.version}</version>
+<!--            <scope>runtime</scope>-->
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/org.openjfx/javafx-fxml -->
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-fxml</artifactId>
+            <version>${openJfx.version}</version>
+<!--            <scope>runtime</scope>-->
+        </dependency>
+        <dependency>
             <groupId>com.ifx.ifx</groupId>
-            <artifactId>account-api</artifactId>
+            <artifactId>session-api</artifactId>
             <version>1.0-SNAPSHOT</version>
-            <scope>provided</scope>
+            <!--            <scope>provided</scope>-->
         </dependency>
 
         <dependency>
             <groupId>com.ifx.ifx</groupId>
             <artifactId>account-api</artifactId>
             <version>1.0-SNAPSHOT</version>
-            <scope>provided</scope>
+<!--            <scope>provided</scope>-->
+            <exclusions>
+                <exclusion>
+                    <artifactId>dubbo-registry-nacos</artifactId>
+                    <groupId>org.apache.dubbo</groupId>
+                </exclusion>
+            </exclusions>
         </dependency>
-
 <!--        <dependency>-->
-<!--            <groupId>org.springframework.boot</groupId>-->
-<!--            <artifactId>spring-boot-starter-web</artifactId>-->
-<!--        </dependency>-->
-<!--        Spring JavaFx Jar-->
-<!--        <dependency>-->
-<!--            <groupId>de.roskenet</groupId>-->
-<!--            <artifactId>springboot-javafx-support</artifactId>-->
-<!--            <version>2.1.6</version>-->
+<!--            <groupId>com.ifx.ifx</groupId>-->
+<!--            <artifactId>fx-boot-starter</artifactId>-->
+<!--            <version>1.0-SNAPSHOT</version>-->
 <!--        </dependency>-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -57,7 +99,7 @@
             <groupId>com.ifx.ifx</groupId>
             <artifactId>ifx-common</artifactId>
             <version>1.0-SNAPSHOT</version>
-            <scope>provided</scope>
+<!--            <scope>provided</scope>-->
         </dependency>
         <dependency>
             <groupId>com.alibaba.fastjson2</groupId>
@@ -74,12 +116,19 @@
         </dependency>
     </dependencies>
     <build>
-
         <plugins>
+            <plugin>
+                <groupId>org.openjfx</groupId>
+                <artifactId>javafx-maven-plugin</artifactId>
+                <version>0.0.8</version>
+                <configuration>
+                    <mainClass>com.ifx.client.ClientApplication</mainClass>
+                </configuration>
+            </plugin>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
-<!--                <version>${spring.starter.version}</version>-->
+                <version>${spring.starter.version}</version>
                 <configuration>
                     <excludes>
                         <exclude>
