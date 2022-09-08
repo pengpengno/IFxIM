@@ -4,7 +4,7 @@ package com.ifx.client.app.controller;
 
 import com.alibaba.fastjson2.JSONObject;
 import com.ifx.account.vo.AccountBaseInfo;
-import com.ifx.client.service.helper.LoginHelper;
+import com.ifx.client.service.helper.AccountHelper;
 import com.ifx.client.util.SpringFxmlLoader;
 import com.ifx.common.base.AccountInfo;
 import com.ifx.common.context.AccountContext;
@@ -76,7 +76,7 @@ public class LoginController  {
     private SpringFxmlLoader springFxmlLoader;
 
     @Resource
-    private LoginHelper loginHelper;
+    private AccountHelper accountHelper;
 
     @Resource
     private ClientService clientService;
@@ -119,7 +119,7 @@ public class LoginController  {
             }
         };
         log.info("启动登录");
-        Protocol login = loginHelper.applyLogins(accountBaseInfo);
+        Protocol login = accountHelper.applyLogins(accountBaseInfo);
         clientService.send(login,taskHandler);
     }
 

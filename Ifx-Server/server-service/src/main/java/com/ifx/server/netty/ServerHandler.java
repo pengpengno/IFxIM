@@ -8,6 +8,7 @@ import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelDuplexHandler;
 import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
+import io.netty.channel.ChannelPromise;
 import io.netty.util.CharsetUtil;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
@@ -40,13 +41,19 @@ public class ServerHandler extends ChannelDuplexHandler {
         //写入并发送信息到远端（客户端）
         super.channelRead(ctx, msg);
     }
+
+
+    @Override
+    public void write(ChannelHandlerContext ctx, Object msg, ChannelPromise promise) throws Exception {
+        super.write(ctx, msg, promise);
+    }
+
     @SneakyThrows
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause)
     {
         //出现异常
         log.info("business error {}  ", ExceptionUtil.stacktraceToString(cause));
-
     }
 
     @Override

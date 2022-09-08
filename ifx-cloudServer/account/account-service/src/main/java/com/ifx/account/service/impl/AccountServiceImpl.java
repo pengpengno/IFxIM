@@ -85,13 +85,19 @@ public class AccountServiceImpl extends ServiceImpl<AccountMapper, Account>
     public List<AccountInfo> search(AccountSearchVo searchVo) {
         List<Account> accounts = accountMapper.selectList(new QueryWrapper<Account>()
 //                .eq(searchVo.getMail()!=null && StrUtil.isNotBlank(searchVo.getAccount()),"account",searchVo.getAccount())
-                        .eq(searchVo.getMail() != null && StrUtil.isNotBlank(searchVo.getMail()), "email", searchVo.getMail())
+                        .eq(searchVo.getMail() != null && StrUtil.isNotBlank(searchVo.getMail()),
+                                "email", searchVo.getMail())
                         .or()
-                        .like(searchVo.getMail() != null && StrUtil.isNotBlank(searchVo.getAccount()), "account", searchVo.getLikeName())
+                        .like(searchVo.getLikeAccount() != null && StrUtil.isNotBlank(searchVo.getLikeAccount()),
+                                "account", searchVo.getLikeAccount())
 
         );
-
-        return null;
+        List<AccountInfo> accountInfos = accounts.stream().map(e -> {
+            AccountInfo accountInfo = new AccountInfo();
+            BeanUtil.copyProperties(e, accountInfo);
+            return accountInfo;
+        }).collect(Collectors.toList());
+        return accountInfos;
     }
 
     @Override

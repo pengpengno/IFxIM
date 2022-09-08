@@ -20,7 +20,9 @@ public class ClientService {
     @Resource
     private TaskManager taskManager;
     public void send(Protocol protocol){
-
+        String trace = IdUtil.fastSimpleUUID();
+        protocol.setTrace(trace);
+        clientAction.sendJsonMsg(protocol);
     }
 
     public void send(Protocol protocol, TaskHandler taskHandler){

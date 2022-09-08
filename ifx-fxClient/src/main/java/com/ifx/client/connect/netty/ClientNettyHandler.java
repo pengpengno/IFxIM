@@ -50,6 +50,7 @@ public class ClientNettyHandler extends SimpleChannelInboundHandler<ByteBuf> imp
         taskManager = SpringUtil.getBean(TaskManager.class);
         String res = byteBuf.toString(CharsetUtil.UTF_8);
         log.info("received msg package {}",res);
+
         Protocol protocol = JSONObject.parseObject(res, Protocol.class);
         clientServer.submit(() -> Platform.runLater(()-> taskManager.doTask(protocol)));
     }

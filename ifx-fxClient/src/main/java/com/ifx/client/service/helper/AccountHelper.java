@@ -24,7 +24,7 @@ import java.lang.reflect.Method;
 
 @Service
 @Slf4j
-public class LoginHelper {
+public class AccountHelper {
 
     @SneakyThrows
     public Protocol applyLogins(AccountBaseInfo vo){
@@ -44,7 +44,7 @@ public class LoginHelper {
      */
     @SneakyThrows
     @Deprecated
-    public Protocol applyLog(AccountSearchVo vo){
+    public Protocol applySearch(AccountSearchVo vo){
         Method search = AccountService.class.getMethod("search", AccountSearchVo.class);
         Class<?> returnType = search.getReturnType();
         DubboApiMetaData metaData = DubboGenericParse.applyMeta(AccountService.class, "search", CollectionUtil.newArrayList(vo));
@@ -53,6 +53,7 @@ public class LoginHelper {
         protocol.setType(IFxMsgProtocol.LOGIN_MSG_HEADER);
         return protocol;
     }
+
 
 
     public void sendLogin(){

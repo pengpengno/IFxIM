@@ -31,3 +31,5 @@ spring:
     host: r-bp1qa05yeerb7tul4hpd.redis.rds.aliyuncs.com
     port: 6379
     timeout: 5000ms
+    password: Wal@!123
+    client-name: ifx

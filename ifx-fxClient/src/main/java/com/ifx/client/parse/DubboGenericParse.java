@@ -5,6 +5,7 @@ import cn.hutool.core.util.StrUtil;
 import com.alibaba.fastjson.JSON;
 import com.ifx.account.service.AccountService;
 import com.ifx.account.vo.AccountBaseInfo;
+import com.ifx.account.vo.AccountSearchVo;
 import com.ifx.connect.proto.Protocol;
 import com.ifx.connect.proto.dubbo.DubboApiMetaData;
 import com.ifx.connect.proto.dubbo.DubboProtocol;
@@ -31,6 +32,7 @@ public class DubboGenericParse {
      * 上面的接口只有一个参数 那么在注入 args 的时候就需要 做如下操作
      * AccountBaseInfo accBaseInfo = new AccountBaseInfo()
      * List<Object>
+     * @see DubboGenericParse#applyMeta0(java.lang.Class, java.lang.reflect.Method, java.lang.Object...)
      * @param interFaceClass
      * @param methodName
      * @param args
@@ -79,6 +81,27 @@ public class DubboGenericParse {
         metaData.setMethod(methodName);
         return metaData;
     }
+    @SneakyThrows
+    public static DubboApiMetaData applyMeta0(Class interFaceClass, Method method ,Object... arg){
+        String name = interFaceClass.getName();
+//        Method method = Arrays.stream(interFaceClass.getMethods()).filter(meNa -> StrUtil.equalsIgnoreCase(meNa.getName(), methodName)).
+//                findFirst().
+//                orElseThrow(() -> {
+//                    log.error("  {}  can not find method {} ", name, methodName);
+//                    return new Exception();
+//                });
+        Object[] args = Arrays.stream(arg).toArray();
+        Class<?>[] parameterTypes = method.getParameterTypes();
+        String[] paramTypes = Arrays.stream(parameterTypes).map(paramType -> {
+            return paramType.getName();
+        }).toArray(size-> new String[size]);
+        DubboApiMetaData metaData = new DubboApiMetaData();
+        metaData.setApiInterFacePath(name);
+        metaData.setArgsType(paramTypes);
+        metaData.setArgs(args);
+        metaData.setMethod(method.getName());
+        return metaData;
+    }
 
     @SneakyThrows
     public static DubboApiMetaData applyMeta(Class interFaceClass, Method method, List<Object> args){
@@ -102,6 +125,8 @@ public class DubboGenericParse {
         protocol.setBody(JSON.toJSONString(metaData));
         return protocol;
     }
+
+
 
     @SneakyThrows
     public DubboApiMetaData applyMeta(Class interFaceClass, Method method){
