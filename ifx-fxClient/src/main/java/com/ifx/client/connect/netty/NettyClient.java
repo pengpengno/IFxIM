@@ -1,12 +1,16 @@
 package com.ifx.client.connect.netty;
 
+import com.ifx.connect.decoder.ProtocolDecoder;
+import com.ifx.connect.encoder.ProtocolEncoder;
 import com.ifx.connect.properties.ClientNettyConfigProperties;
+import com.ifx.connect.proto.Protocol;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
+import io.netty.handler.codec.LengthFieldBasedFrameDecoder;
 import io.netty.util.CharsetUtil;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
@@ -39,6 +43,12 @@ public class NettyClient implements ApplicationListener<ContextRefreshedEvent>
 
     @Resource
     private ClientNettyConfigProperties clientNettyConfigProperties;
+
+//    @Resource
+//    private ProtocolDecoder protocolDecoder;
+//
+//    @Resource
+//    private ProtocolEncoder protocolEncoder;
 
     private Bootstrap bootstrap;
 
@@ -96,7 +106,11 @@ public class NettyClient implements ApplicationListener<ContextRefreshedEvent>
                     @Override
                     protected void initChannel(SocketChannel socketChannel) throws Exception
                     {
-                        socketChannel.pipeline().addLast(new ClientNettyHandler());//添加自定义的Handler
+                        socketChannel.pipeline()
+                                .addLast(new ProtocolEncoder())
+                                .addLast(new ProtocolDecoder())
+                                .addLast(new ClientNettyHandler())
+                                ;//添加自定义的Handler
                     }
 
                 });
@@ -134,7 +148,12 @@ public class NettyClient implements ApplicationListener<ContextRefreshedEvent>
                         @Override
                         protected void initChannel(SocketChannel socketChannel) throws Exception
                         {
-                            socketChannel.pipeline().addLast(new ClientNettyHandler());//添加我们自定义的Handler
+                            socketChannel.pipeline()
+                                    .addLast(new ProtocolEncoder())
+                                    .addLast(new ProtocolDecoder())
+                                    .addLast(new ClientNettyHandler())//添加我们自定义的Handler
+                                    ;//添加自定义的Handler
+
                         }
                     });
 
@@ -152,6 +171,13 @@ public class NettyClient implements ApplicationListener<ContextRefreshedEvent>
             return null;
         }
         return channel.writeAndFlush(Unpooled.copiedBuffer(msg, CharsetUtil.UTF_8));
+    }
+
+    public ChannelFuture write(Protocol protocol){
+        if (channel== null || !channel.isActive()){
+            return null;
+        }
+        return channel.writeAndFlush(protocol);
     }
 
 

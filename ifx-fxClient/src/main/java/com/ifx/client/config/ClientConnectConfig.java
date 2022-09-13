@@ -18,8 +18,8 @@ public class ClientConnectConfig {
 //    private String host ;
     /** server  port  C2S /C2C   */
 //    private Long port ;
-    @Resource
-    private ClientNettyConfigProperties configProperties;
+//    @Resource
+//    private ClientNettyConfigProperties configProperties;
 
 
 //    @Bean

@@ -16,7 +16,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import javax.annotation.Resource;
 
 
-@SpringBootApplication
+@SpringBootApplication(scanBasePackages = "com.ifx")
 @Slf4j
 //@FXScan(base = "com.ifx.client")
 public class ClientApplication extends Application{

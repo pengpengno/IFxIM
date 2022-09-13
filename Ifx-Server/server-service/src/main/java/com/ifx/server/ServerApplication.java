@@ -16,7 +16,7 @@ import javax.annotation.Resource;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
 
-@SpringBootApplication
+@SpringBootApplication(scanBasePackages = "com.ifx")
 @Slf4j
 @DubboComponentScan
 @EnableConfigurationProperties({ServerNettyConfigProperties.class})

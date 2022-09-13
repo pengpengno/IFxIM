@@ -1,5 +1,7 @@
 package com.ifx.server.netty;
 
+import com.ifx.connect.decoder.ProtocolDecoder;
+import com.ifx.connect.encoder.ProtocolEncoder;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
@@ -21,7 +23,7 @@ import java.net.InetSocketAddress;
 @Slf4j
 public class StartNettyServer {
 
-    private static final int MAX_FRAME_DATA_SIZE = 10240;
+    private static final int MAX_FRAME_DATA_SIZE = 102400;
 
     private static  final int LENGTH_OFFSET = 0;
 
@@ -35,6 +37,11 @@ public class StartNettyServer {
 
     @Resource
     private ServerHandler serverHandler;
+
+//    @Resource
+//    private ProtocolDecoder protocolDecoder;
+//    @Resource
+//    private ProtocolEncoder protocolEncoder;
     //配置服务端NIO线程组
     private final EventLoopGroup parentGroup = new NioEventLoopGroup(); //NioEventLoopGroup extends MultithreadEventLoopGroup Math.max(1, SystemPropertyUtil.getInt("io.netty.eventLoopThreads", NettyRuntime.availableProcessors() * 2));
     private final EventLoopGroup childGroup = new NioEventLoopGroup();
@@ -52,14 +59,9 @@ public class StartNettyServer {
                         @Override
                         protected void initChannel(NioSocketChannel ch) {
                             ch.pipeline()
+                                    .addLast(new ProtocolEncoder())
+                                    .addLast(new ProtocolDecoder())
                                     .addLast(new LoggingHandler())
-                                    .addLast(new LengthFieldBasedFrameDecoder(
-                                            MAX_FRAME_DATA_SIZE,
-                                            LENGTH_OFFSET,
-                                            PROTOCOL_BODY_LENGTH,
-                                            LENGTH_ADJUSTMENT,
-                                            HEADER_LENGTH_SIZE
-                                    ))
                                     .addLast(serverHandler);
                         }
                     });

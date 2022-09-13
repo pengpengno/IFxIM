@@ -31,10 +31,11 @@ public class ServerHandler extends ChannelDuplexHandler {
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
 //        TODO  implents netty serial   will use Extueor do work
         //处理收到的数据，并反馈消息到到客户端
-        ByteBuf in = (ByteBuf) msg;
-        String req = in.toString(CharsetUtil.UTF_8);
-        Protocol protocol = JSONObject.parseObject(req, Protocol.class);
-        log.info("收到客户端发过来的消息: {}" , req);
+//        ByteBuf in = (ByteBuf) msg;
+        Protocol protocol = (Protocol) msg;
+//        String req = in.toString(CharsetUtil.UTF_8);
+//        Protocol protocol = JSONObject.parseObject(req, Protocol.class);
+        log.info("收到客户端发过来的消息: {}" , JSONObject.toJSONString(protocol));
 //        ctx.writeAndFlush()
         log.info("receive msg from server-side {}, data package {}",ctx.channel().localAddress().toString(),protocol);
         serverService.submit(()-> serverProtoReceive.received(ctx,protocol));

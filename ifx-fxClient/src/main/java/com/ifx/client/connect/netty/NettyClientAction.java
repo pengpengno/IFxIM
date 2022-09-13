@@ -112,7 +112,8 @@ public class NettyClientAction implements ClientAction, ClientLifeStyle {
             log.error("channel is close ,please start server ");
             return ;
         }
-        ChannelFuture write = nettyClient.write(JSON.toJSONString(protocol));
+//        ChannelFuture write = nettyClient.write(JSON.toJSONString(protocol));
+        ChannelFuture write = nettyClient.write(protocol);
         write.addListener(future -> {
             if (future.isSuccess())
                 log.info("client send success ");
