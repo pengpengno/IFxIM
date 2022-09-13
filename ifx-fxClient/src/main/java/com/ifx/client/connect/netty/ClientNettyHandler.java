@@ -23,7 +23,7 @@ import java.util.concurrent.ExecutorService;
 @Slf4j
 @Component
 @ChannelHandler.Sharable
-public class ClientNettyHandler extends SimpleChannelInboundHandler<ByteBuf> implements  ApplicationListener<ContextRefreshedEvent> {
+public class ClientNettyHandler extends SimpleChannelInboundHandler<Protocol> implements  ApplicationListener<ContextRefreshedEvent> {
     @Resource(name = "clientPool")
     private ExecutorService clientServer;
     @Resource
@@ -40,7 +40,7 @@ public class ClientNettyHandler extends SimpleChannelInboundHandler<ByteBuf> imp
     }
 
     @Override
-    protected void channelRead0(ChannelHandlerContext ctx, ByteBuf byteBuf) throws Exception {
+    protected void channelRead0(ChannelHandlerContext ctx, Protocol byteBuf) throws Exception {
         /**
          * @Description  处理接收到的消息
          **/
@@ -48,11 +48,12 @@ public class ClientNettyHandler extends SimpleChannelInboundHandler<ByteBuf> imp
         clientServer = SpringUtil.getBean("clientPool");
         clientAction = SpringUtil.getBean(ClientAction.class);
         taskManager = SpringUtil.getBean(TaskManager.class);
-        String res = byteBuf.toString(CharsetUtil.UTF_8);
-        log.info("received msg package {}",res);
+//        String res = byteBuf.toString(CharsetUtil.UTF_8);
+        log.info("received msg package {}",byteBuf);
 
-        Protocol protocol = JSONObject.parseObject(res, Protocol.class);
-        clientServer.submit(() -> Platform.runLater(()-> taskManager.doTask(protocol)));
+//        Protocol protocol = JSONObject.parseObject(res, Protocol.class);
+        clientServer.submit(() -> Platform.runLater(()-> taskManager.doTask(byteBuf)));
+//        clientServer.submit(() -> Platform.runLater(()-> taskManager.doTask(protocol)));
     }
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception

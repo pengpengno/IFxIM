@@ -28,6 +28,7 @@ public class ProtocolEncoder extends MessageToByteEncoder<Protocol> {
         assert msg != null;
         byte[] bytes = JSON.toJSONString(msg).getBytes(StandardCharsets.UTF_8);
         out.writeInt(bytes.length);
+        log.info("传输数据大小为 {} bytes",bytes.length);
         out.writeBytes(bytes);
     }
 }

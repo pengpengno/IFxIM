@@ -23,7 +23,8 @@ public class NettyS2CAction implements IServer2ClientAction {
             log.warn("channel is close can not send message");
           return;
         }
-         channel.writeAndFlush(Unpooled.copiedBuffer(JSON.toJSONString(protocol), CharsetUtil.UTF_8));
+//         channel.writeAndFlush(Unpooled.copiedBuffer(JSON.toJSONString(protocol), CharsetUtil.UTF_8));
+         channel.writeAndFlush(protocol);
     }
 
     @Override

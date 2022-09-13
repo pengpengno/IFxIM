@@ -92,11 +92,6 @@ public class MainController   {
         Protocol query = accountService.query(accountSearchVo);
         clientService.send(query,(protoCol -> {
             List data = protoCol.getRes().getData();
-//            Object o = data.get(0);
-//            if (o == null){
-//                log.warn("登录失败！");
-//                return;
-//            }
             List<AccountInfo> accountInfos = JSON.parseArray(JSON.toJSONString(data), AccountInfo.class);
 //            AccountInfo accountInfo = JSONObject.parseObject(data.toString(), AccountInfo.class);
             accountInfos.stream().forEach(e-> {
