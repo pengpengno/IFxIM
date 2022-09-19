@@ -19,6 +19,8 @@ import java.nio.charset.StandardCharsets;
 @ChannelHandler.Sharable
 public class ProtocolEncoder extends MessageToByteEncoder<Protocol> {
 
+    public static Byte BUS_FLAG = 2 ;
+
     @Override
     protected void encode(ChannelHandlerContext ctx, Protocol msg, ByteBuf out) throws Exception {
         if (msg == null ){
@@ -27,6 +29,7 @@ public class ProtocolEncoder extends MessageToByteEncoder<Protocol> {
         }
         assert msg != null;
         byte[] bytes = JSON.toJSONString(msg).getBytes(StandardCharsets.UTF_8);
+        out.writeByte(BUS_FLAG);
         out.writeInt(bytes.length);
         log.info("传输数据大小为 {} bytes",bytes.length);
         out.writeBytes(bytes);

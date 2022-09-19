@@ -14,6 +14,7 @@ public class Result<T> implements Serializable {
     private int total;
     private int totalpage;
     private List<T> data;
+    private T resData;
 
     public Result() {
         this.data = new ArrayList();

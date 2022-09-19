@@ -1,6 +1,7 @@
 package com.ifx.connect.decoder;
 
 import com.alibaba.fastjson.JSON;
+import com.ifx.connect.encoder.ProtocolEncoder;
 import com.ifx.connect.proto.Protocol;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandler;
@@ -30,12 +31,15 @@ public class ProtocolDecoder extends ByteToMessageDecoder {
             return;
         }
 //        TODO 待添加业务表示区分是否为netty 通讯
-        int length = in.readInt();
-        if (in.readableBytes() >= length){
-            ByteBuf byteBuf = in.readBytes(length);
-            log.info("接受到的数据大小为 {} bytes",length);
-            Protocol protocol = JSON.parseObject(byteBuf.toString(StandardCharsets.UTF_8), Protocol.class);
-            out.add(protocol);
+        int flag = in.readByte();
+        if (flag == ProtocolEncoder.BUS_FLAG){
+            int length = in.readInt();
+            if (in.readableBytes() >= length){
+                ByteBuf byteBuf = in.readBytes(length);
+                log.info("接受到的数据大小为 {} bytes",length);
+                Protocol protocol = JSON.parseObject(byteBuf.toString(StandardCharsets.UTF_8), Protocol.class);
+                out.add(protocol);
+            }
         }
     }
 
