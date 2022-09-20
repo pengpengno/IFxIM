@@ -3,7 +3,7 @@
 
     <!--在没有定义${LOG_HOME}系统变量的时候，可以设置此本地变量。提交测试、上线时，要将其注释掉，使用系统变量。-->
     <!-- 本地环境  -->
-    <!-- 内测环境 q
+    <!-- 内测环境
     <property name="LOG_HOME" value="/opt/logs" /> -->
     <!-- SIT环境
     <property name="LOG_HOME" value="/home/application/webapps/logs" />

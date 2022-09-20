@@ -59,7 +59,7 @@ public class DubboInvoke implements GateInvoke {
         ReferenceConfig<GenericService> referenceConfig = new ReferenceConfig<>();
         try {
             //创建服务引用配置
-            DubboApiMetaData metaData = JSONObject.parseObject(protocol.getBody(), DubboApiMetaData.class);
+            DubboApiMetaData metaData = JSONObject.parseObject(protocol.getProtocolBody(), DubboApiMetaData.class);
             //设置接口
             referenceConfig.setInterface(metaData.getApiInterFacePath());
             referenceConfig.setApplication(applicationConfig);

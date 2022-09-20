@@ -30,10 +30,6 @@ public class ClientApplication extends Application{
         Scene stage1 = springFxmlLoader.applySinScene("com/ifx/client/app/fxml/login.fxml");
         stage.setScene(stage1);
         stage.show();
-//        ApplicationContext context = new ClassPathXmlApplicationContext("application.yaml"); //启动spring
-//        ApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml.bak"); //启动spring
-//        FXPlusApplication.start(ClientApplication.class, SpringUtil::getBean);
-//        FXPlusApplication.start(ClientApplication.class, ApplicationContext::getBean);
     }
 
 

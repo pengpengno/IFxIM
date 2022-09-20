@@ -16,6 +16,7 @@
         <module>Ifx-Server</module>
         <module>ifx-starter</module>
         <module>fx-boot-starter</module>
+        <module>ifx-exc</module>
     </modules>
     <packaging>pom</packaging>
     <properties>

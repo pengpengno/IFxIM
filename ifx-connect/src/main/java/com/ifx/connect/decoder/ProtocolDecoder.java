@@ -16,7 +16,7 @@ import java.util.List;
 
 //@Component
 @Slf4j
-//@ChannelHandler.Sharable
+@ChannelHandler.Sharable
 //public class ProtocolDecoder extends LengthFieldBasedFrameDecoder {
 public class ProtocolDecoder extends ByteToMessageDecoder {
 

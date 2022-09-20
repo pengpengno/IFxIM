@@ -1,15 +1,21 @@
 package com.ifx.connect.proto;
 
+import com.alibaba.fastjson2.JSONObject;
 import com.ifx.common.res.Result;
+import com.ifx.connect.proto.dubbo.DubboApiMetaData;
+import com.ifx.connect.proto.dubbo.DubboProtocol;
 import lombok.Data;
 
 import java.io.Serializable;
 
 @Data
-public class Protocol<T> implements Serializable {
+public class Protocol implements Serializable {
 
     private String protocol;   //协议头
-
+    /**
+     * 请求体
+     * @see DubboApiMetaData
+     */
     private String protocolBody; // 协议体
 
     private Long serial;  //包syn序列号
@@ -29,10 +35,14 @@ public class Protocol<T> implements Serializable {
 
     private String clientSDKVersion;   // 客户端版本类类型
 
-    private Result<T> res;
+    @Deprecated
+    private Result res;
 
     private String content;
-    @Deprecated
-    private String body;
+
+    public <T> T  getRes(Class<T> tClass){
+        return null;
+    }
+
 
 }

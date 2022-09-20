@@ -48,10 +48,11 @@ public class DubboGenericParse {
                     return new Exception();
                 });
         Class<?>[] parameterTypes = method.getParameterTypes();
-        String[] paramTypes = Arrays.stream(parameterTypes).map(paramType -> {
-            return paramType.getName();
-        }).toArray(size-> new String[size]);
-        Object[] objects = Optional.ofNullable(args).orElse(CollectionUtil.newArrayList()).toArray();
+        String[] paramTypes = Arrays.stream(parameterTypes).
+                map(Class::getName).
+                toArray(String[]::new);
+        Object[] objects = Optional.ofNullable(args).
+                orElse(CollectionUtil.newArrayList()).toArray();
         DubboApiMetaData metaData = new DubboApiMetaData();
         metaData.setApiInterFacePath(name);
         metaData.setArgsType(paramTypes);
@@ -122,7 +123,7 @@ public class DubboGenericParse {
     public static Protocol applyProtocol(Class clazz,String method,List object){
         DubboApiMetaData metaData = DubboGenericParse.applyMeta(clazz, method, object);
         Protocol protocol = new DubboProtocol();
-        protocol.setBody(JSON.toJSONString(metaData));
+        protocol.setProtocolBody(JSON.toJSONString(metaData));
         return protocol;
     }
 
