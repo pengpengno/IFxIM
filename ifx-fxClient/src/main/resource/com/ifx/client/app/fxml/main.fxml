@@ -29,6 +29,6 @@
             </Pane>
          </children>
       </Pane>
-      <ListView fx:id="listView" layoutX="220.0" layoutY="34.0" prefHeight="130.0" prefWidth="161.0" visible="false" />
+      <ListView fx:id="listView" layoutX="220.0" layoutY="34.0" prefHeight="130.0" prefWidth="161.0" visible="true" />
    </children>
 </Pane>

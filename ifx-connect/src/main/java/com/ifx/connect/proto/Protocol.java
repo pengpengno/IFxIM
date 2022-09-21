@@ -1,9 +1,7 @@
 package com.ifx.connect.proto;
 
-import com.alibaba.fastjson2.JSONObject;
 import com.ifx.common.res.Result;
 import com.ifx.connect.proto.dubbo.DubboApiMetaData;
-import com.ifx.connect.proto.dubbo.DubboProtocol;
 import lombok.Data;
 
 import java.io.Serializable;

@@ -2,18 +2,21 @@ package com.ifx.client.app.controller;
 
 
 
+import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONObject;
 import com.ifx.account.vo.AccountBaseInfo;
 import com.ifx.client.service.helper.AccountHelper;
 import com.ifx.client.util.SpringFxmlLoader;
 import com.ifx.common.base.AccountInfo;
 import com.ifx.common.context.AccountContext;
+import com.ifx.common.res.Result;
 import com.ifx.connect.netty.client.ClientAction;
 import com.ifx.connect.proto.Protocol;
 import com.ifx.client.service.ClientService;
 import com.ifx.connect.task.TaskHandler;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -24,12 +27,14 @@ import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.stereotype.Component;
 import javax.annotation.Resource;
+import java.net.URL;
 import java.util.List;
+import java.util.ResourceBundle;
 
 
 @Component
 @Slf4j
-public class LoginController  {
+public class LoginController  implements Initializable {
 
 
     @FXML
@@ -81,6 +86,10 @@ public class LoginController  {
     @Resource
     private ClientService clientService;
 
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        log.info ("initialing login controller ");
+    }
 
     @FXML
     public void login(MouseEvent event) {
@@ -93,7 +102,9 @@ public class LoginController  {
             alert.show();
         });
         TaskHandler taskHandler = protocol -> {
-            List data = protocol.getRes().getData();
+            Result result = JSON.parseObject(protocol.getContent(), Result.class);
+//            List data = protocol.getRes().getData();
+            List data = result.getData();
             Object o = data.get(0);
             if (o == null){
                 log.warn("登录失败！");

@@ -2,17 +2,15 @@ package com.ifx.client.app.controller;
 
 
 import com.alibaba.fastjson2.JSON;
-import com.alibaba.fastjson2.JSONArray;
-import com.alibaba.fastjson2.JSONObject;
 import com.ifx.account.vo.AccountSearchVo;
 import com.ifx.client.service.AccountService;
 import com.ifx.client.service.ClientService;
 import com.ifx.client.service.helper.MainHelper;
 import com.ifx.common.base.AccountInfo;
+import com.ifx.common.res.Result;
 import com.ifx.connect.proto.Protocol;
 import javafx.application.ConditionalFeature;
 import javafx.application.Platform;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ListView;
@@ -28,7 +26,6 @@ import javax.annotation.Resource;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
-import java.util.function.Consumer;
 
 @Component
 @Slf4j
@@ -69,21 +66,7 @@ public class MainController implements Initializable {
     void sendMsg(MouseEvent event) {
         log.info("send button");
         boolean supported = Platform.isSupported(ConditionalFeature.INPUT_METHOD);
-//        searchField.textProperty().addListener((obs-> {
-//            String text = searchField.getText();
-//            log.info("当前文本为 {} ",text);
-//            AccountSearchVo accountSearchVo = new AccountSearchVo();
-//            accountSearchVo.setAccount(text);
-//            Protocol query = accountService.query(accountSearchVo);
-//            clientService.send(query,(protoCol -> {
-//                List data = protoCol.getRes().getData();
-//                log.info(JSON.toJSONString(protoCol));
-//                List<AccountInfo> accountInfos = JSON.parseArray(JSON.toJSONString(data), AccountInfo.class);
-//                accountInfos.stream().forEach(e-> {
-//                    listView.getItems().add(e.getAccount());
-//                });
-//            }));
-//        }));
+
 //        1. 发送信息
         String text = msgTextArea.getText();
         boolean empty = text.isEmpty();
@@ -99,9 +82,11 @@ public class MainController implements Initializable {
             accountSearchVo.setAccount(text);
             Protocol query = accountService.query(accountSearchVo);
             clientService.send(query,(protoCol -> {
-                List data = protoCol.getRes().getData();
+                String content = protoCol.getContent();
+                Result result = JSON.parseObject(content, Result.class);
+                List<AccountInfo> accountInfos = result.getData(AccountInfo.class);
                 log.info(JSON.toJSONString(protoCol));
-                List<AccountInfo> accountInfos = JSON.parseArray(JSON.toJSONString(data), AccountInfo.class);
+//                List<AccountInfo> accountInfos = JSON.parseArray(JSON.toJSONString(data), AccountInfo.class);
                 accountInfos.stream().forEach(e-> {
                     listView.getItems().add(e.getAccount());
                 });
@@ -115,7 +100,6 @@ public class MainController implements Initializable {
 //        2. 用户列表回传
         String text = searchField.getText();
         log.info("当前文本为 {} ",text);
-//        searchField.
         AccountSearchVo accountSearchVo = new AccountSearchVo();
         accountSearchVo.setAccount(text);
         Protocol query = accountService.query(accountSearchVo);

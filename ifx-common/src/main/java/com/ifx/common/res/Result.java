@@ -1,6 +1,7 @@
 package com.ifx.common.res;
 
 import cn.hutool.core.collection.CollectionUtil;
+import com.alibaba.fastjson2.JSON;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -58,6 +59,11 @@ public class Result<T> implements Serializable {
 
     public List<T> getData() {
         return this.data;
+    }
+    public List<T> getData(Class<T> tclass){
+        String jsonString = JSON.toJSONString(data);
+        return JSON.parseArray(jsonString,tclass);
+
     }
 
     public void setData(List<T> data) {

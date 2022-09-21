@@ -101,6 +101,11 @@ public class AccountServiceImpl extends ServiceImpl<AccountMapper, Account>
     }
 
     @Override
+    public List<AccountInfo> search(Long accountSearchVo) {
+        return null;
+    }
+
+    @Override
     public String register(AccountBaseInfo accountBaseInfo) {
         Account instance = Account.getInstance();
         Account account = AccountHelper.INSTANCE.transform4(accountBaseInfo, instance);

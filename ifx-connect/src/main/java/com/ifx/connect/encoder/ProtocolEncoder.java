@@ -1,16 +1,12 @@
 package com.ifx.connect.encoder;
 
-import cn.hutool.core.util.StrUtil;
 import com.alibaba.fastjson.JSON;
 import com.ifx.connect.proto.Protocol;
 import io.netty.buffer.ByteBuf;
-import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.MessageToByteEncoder;
-import io.netty.util.CharsetUtil;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Component;
 
 import java.nio.charset.StandardCharsets;
 

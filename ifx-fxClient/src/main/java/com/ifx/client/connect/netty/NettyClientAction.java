@@ -1,7 +1,6 @@
 package com.ifx.client.connect.netty;
 
 import cn.hutool.core.exceptions.ExceptionUtil;
-import com.alibaba.fastjson.JSON;
 import com.ifx.connect.netty.client.ClientAction;
 import com.ifx.connect.netty.client.ClientLifeStyle;
 import com.ifx.connect.proto.Protocol;

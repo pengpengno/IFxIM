@@ -3,7 +3,6 @@ package com.ifx.connect.proto.dubbo;
 import lombok.Data;
 
 import java.io.Serializable;
-import java.lang.reflect.Method;
 
 @Data
 public class DubboApiMetaData implements Serializable {

@@ -2,15 +2,12 @@ package com.ifx.client.connect.netty;
 
 import cn.hutool.core.exceptions.ExceptionUtil;
 import cn.hutool.extra.spring.SpringUtil;
-import com.alibaba.fastjson2.JSONObject;
 import com.ifx.client.task.TaskManager;
 import com.ifx.connect.netty.client.ClientAction;
 import com.ifx.connect.proto.Protocol;
-import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
-import io.netty.util.CharsetUtil;
 import javafx.application.Platform;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationListener;
