@@ -42,6 +42,23 @@ public class SpringFxmlLoader {
     }
 
 
+    public Scene load(URL url) {
+        try{
+            FXMLLoader fxmlLoader = new FXMLLoader();
+            fxmlLoader.setLocation(url);
+            fxmlLoader.setControllerFactory(SpringUtil::getBean);
+            Scene scene = new Scene(fxmlLoader.load());
+//        loader.setResources(ResourceBundle.getBundle(resources));
+            return scene;
+        }
+        catch (Exception e){
+            log.error("create stage fail {}", ExceptionUtil.stacktraceToString(e));
+//            throw e;
+        }
+        return null;
+    }
+
+
     public Scene applySinScene(String classPath) {
         try{
             Scene scene = sceneMap.computeIfAbsent(classPath, (k) -> {

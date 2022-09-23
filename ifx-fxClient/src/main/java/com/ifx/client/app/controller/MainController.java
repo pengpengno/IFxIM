@@ -3,9 +3,11 @@ package com.ifx.client.app.controller;
 
 import com.alibaba.fastjson2.JSON;
 import com.ifx.account.vo.AccountSearchVo;
+import com.ifx.client.app.pane.SearchPane;
 import com.ifx.client.service.AccountService;
 import com.ifx.client.service.ClientService;
 import com.ifx.client.service.helper.MainHelper;
+import com.ifx.client.util.SpringFxmlLoader;
 import com.ifx.common.base.AccountInfo;
 import com.ifx.common.res.Result;
 import com.ifx.connect.proto.Protocol;
@@ -13,12 +15,15 @@ import javafx.application.ConditionalFeature;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.ListView;
-import javafx.scene.control.ScrollBar;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
+import javafx.scene.Group;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.*;
 import javafx.scene.input.InputMethodEvent;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.FlowPane;
+import javafx.scene.layout.Pane;
+import javafx.stage.Stage;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
@@ -29,8 +34,6 @@ import java.util.ResourceBundle;
 
 @Component
 @Slf4j
-//@FXWindow(mainStage = false, title = "RegisterController")
-//@FXController(path = "com/ifx/client/app/fxml/main.fxml")
 public class MainController implements Initializable {
 
     @FXML
@@ -38,6 +41,9 @@ public class MainController implements Initializable {
 
     @FXML
     private TextArea msgTextArea;
+
+    @FXML
+    private FlowPane searchPane;
 
     @FXML
     private TextField searchField;
@@ -51,22 +57,32 @@ public class MainController implements Initializable {
     @Resource
     private ClientService clientService;
 
+    @Resource
+    private SpringFxmlLoader springFxmlLoader;
+
     @FXML
     private ListView<String> listView;
 
     private AccountInfo chatAcc; // 正在发起会话的用户
 
+    private volatile Scene scene;
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         log.info("{} is loading ...",getClass().getName());
         initSearch();
+        Group group = new Group();
+//        group.getChildren().add(listView)
+        scene = msgTextArea.getScene();
+        searchPane.setVgap(8);
+        searchPane.setHgap(4);
+//        s.getChildren().add()
     }
 
     @FXML
     void sendMsg(MouseEvent event) {
         log.info("send button");
         boolean supported = Platform.isSupported(ConditionalFeature.INPUT_METHOD);
-
 //        1. 发送信息
         String text = msgTextArea.getText();
         boolean empty = text.isEmpty();
@@ -86,9 +102,15 @@ public class MainController implements Initializable {
                 Result result = JSON.parseObject(content, Result.class);
                 List<AccountInfo> accountInfos = result.getData(AccountInfo.class);
                 log.info(JSON.toJSONString(protoCol));
-//                List<AccountInfo> accountInfos = JSON.parseArray(JSON.toJSONString(data), AccountInfo.class);
+//                添加数据
+//                SearchPane searchPane = new SearchPane();
+//                searchPane.setAccountInfoList(accountInfos);
+//                Parent root = scene.getRoot();
+//                scene = searchField.getScene();
+//                searchPane.show();
                 accountInfos.stream().forEach(e-> {
-                    listView.getItems().add(e.getAccount());
+                    searchPane.getChildren().add(new SearchPane.AccountMiniPane(e));
+                    searchPane.getChildren().add(new Label("2222"));
                 });
             }));
         }));
@@ -105,8 +127,9 @@ public class MainController implements Initializable {
         Protocol query = accountService.query(accountSearchVo);
         clientService.send(query,(protoCol -> {
             List data = protoCol.getRes().getData();
-            List<AccountInfo> accountInfos = JSON.parseArray(JSON.toJSONString(data), AccountInfo.class);
-//            AccountInfo accountInfo = JSONObject.parseObject(data.toString(), AccountInfo.class);
+            String content = protoCol.getContent();
+            Result result = JSON.parseObject(content, Result.class);
+            List<AccountInfo> accountInfos = result.getData(AccountInfo.class);
             accountInfos.stream().forEach(e-> {
                 listView.getItems().add(e.getAccount());
             });

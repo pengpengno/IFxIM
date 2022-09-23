@@ -1,6 +1,7 @@
 package com.ifx.server.invoke.dubbo;
 
 import cn.hutool.core.exceptions.ExceptionUtil;
+import cn.hutool.core.util.StrUtil;
 import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONObject;
 import com.ifx.common.base.AccountInfo;
@@ -23,6 +24,7 @@ import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CountDownLatch;
 
@@ -78,7 +80,18 @@ public class DubboInvoke implements GateInvoke {
             //获取结果
             CompletableFuture future = RpcContext.getServerContext().getCompletableFuture();
             future.whenComplete((value, t) -> {
-                Result<Object> ok = Result.ok(value);
+                Result<Object> ok = new Result<>();
+                if (value instanceof List ){
+                    ok.setData(JSON.parseArray(JSON.toJSONString(value),Object.class));
+                }
+//                boolean validArray = JSON.isValidArray(StrUtil.bytes(value.toString()));
+//                if (validArray){
+//                    ok.setData(JSON.parseArray(JSON.toJSONString(value),Object.class));
+//                }
+                else {
+                    ok.addData(value);
+                }
+
                 if (protocol.getType().startsWith(IFxMsgProtocol.LOGIN_MSG_HEADER) && value !=null){
                     log.info("用户登录系统成功，正在建立 channel 绑定关系");
                     nettyContext.addAccount(channel.channel(), JSONObject.parseObject(JSON.toJSONString(value),AccountInfo.class));

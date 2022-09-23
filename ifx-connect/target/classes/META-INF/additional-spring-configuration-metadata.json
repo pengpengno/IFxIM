@@ -2,26 +2,26 @@
   "groups": [
     {
       "name": "ifx.client.netty",
-      "type": "com.ifx.fxclient.properties.ServerNettyConfigProperties",
-      "sourceType": "com.ifx.fxclient.properties.ServerNettyConfigProperties",
+      "type": "com.ifx.connect.properties.ServerNettyConfigProperties",
+      "sourceType": "com.ifx.connect.properties.ServerNettyConfigProperties",
       "sourceMethod": "getPort()"
     },
 
     {
       "name": "ifx.server.netty",
-      "type": "com.ifx.fxclient.properties.ClientNettyConfigProperties",
-      "sourceType": "com.ifx.fxclient.properties.ClientNettyConfigProperties"
+      "type": "com.ifx.connect.properties.ClientNettyConfigProperties",
+      "sourceType": "com.ifx.connect.properties.ClientNettyConfigProperties"
     }
   ],
   "properties": [
     {
       "name": "ifx.connect.server.host",
       "type": "java.lang.String",
-      "sourceType": "com.ifx.fxclient.properties.ServerNettyConfigProperties"
+      "sourceType": "com.ifx.connect.properties.ServerNettyConfigProperties"
     },
     {
       "name": "ifx.connect.server.port",
-      "sourceType": "com.ifx.fxclient.properties.ServerNettyConfigProperties",
+      "sourceType": "com.ifx.connect.properties.ServerNettyConfigProperties",
       "type": "java.lang.Integer",
       "description": "Description for ifx.connect.socket."
     },
@@ -29,20 +29,20 @@
     {
       "name": "ifx.connect.client.serverPort",
       "type": "java.lang.Integer",
-      "sourceType": "com.ifx.fxclient.properties.ClientNettyConfigProperties"
+      "sourceType": "com.ifx.connect.properties.ClientNettyConfigProperties"
     },
 
     {
       "name": "ifx.connect.client.serverHost",
       "type": "java.lang.String",
-      "sourceType": "com.ifx.fxclient.properties.ClientNettyConfigProperties",
+      "sourceType": "com.ifx.connect.properties.ClientNettyConfigProperties",
       "description": "server deploy host such as  127.0.0.0.1  and  default is same"
     },
 
     {
       "name": "ifx.connect.client.connectTimeOut",
       "type": "java.lang.Integer",
-      "sourceType": "com.ifx.fxclient.properties.ClientNettyConfigProperties",
+      "sourceType": "com.ifx.connect.properties.ClientNettyConfigProperties",
       "description": "connect timeout ; after the point time , if server has no responese ,connect channel will disConnect"
     },
     {

@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.ScrollBar?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.ToolBar?>
 <?import javafx.scene.layout.Pane?>
 
+<?import javafx.scene.layout.FlowPane?>
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ifx.client.app.controller.MainController">
    <children>
       <ToolBar layoutX="447.0" layoutY="1.0" prefHeight="40.0" prefWidth="153.0">
@@ -29,6 +29,6 @@
             </Pane>
          </children>
       </Pane>
-      <ListView fx:id="listView" layoutX="220.0" layoutY="34.0" prefHeight="130.0" prefWidth="161.0" visible="true" />
+      <FlowPane fx:id="searchPane" layoutX="225.0" layoutY="48.0" prefHeight="162.0" prefWidth="161.0" />
    </children>
 </Pane>
