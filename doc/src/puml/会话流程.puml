@@ -1,0 +1,46 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+autonumber
+title  netty 业务串行业务的设计与实现
+skinparam backgroundColor #EEEBDC
+skinparam handwritten true
+autonumber
+actor 客户端 as client
+participant 服务端 as server
+participant 账号服务 as account
+participant 会话服务 as session
+== 搜索用户 ==
+client -> server:查询账号服务
+server -> account : 查询账号服务
+account-> server:res
+server --> client:res
+client -> client :渲染搜索框
+== 初始化会话 ==
+client -> client:选中会话对象
+client -> server : 开始初始化会话
+server -> session : 缓存创建
+session --> server
+server -->client
+== 发送消息 & 会话持久化 & 写扩散方式==
+client -> server : msg
+server -> session : msg
+'group 是否已完成会话的持久化
+' alt session缓存中不存在且存在于db
+'    session -> s
+session -> session :持久化会话
+session -> account :搜索会话账户
+account --> session : 返回账户
+group 用户信息通知
+session -> server : 在线用户搜索
+server -> server : 账户标识搜索 底层Channel
+server --> session : 在线用户列表
+alt 用户在线:
+    session -> server: 通知all 会话下在线用户
+    else if 用户离线:
+        session -> session :持久化db:
+end alt
+end group
+
+
+@enduml

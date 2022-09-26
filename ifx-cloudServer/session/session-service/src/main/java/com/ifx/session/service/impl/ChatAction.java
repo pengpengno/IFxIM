@@ -1,5 +1,6 @@
 package com.ifx.session.service.impl;
 
+import com.alibaba.fastjson2.JSON;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.ifx.server.service.Server2ClientService;
 import com.ifx.session.entity.Session;
@@ -48,6 +49,15 @@ public class ChatAction implements IChatAction {
 //        投递消息
         accs.stream().forEach(e -> server2ClientService.sendClient(e,msg));
 
+    }
+
+    @Override
+    public void pushMsg(ChatMsgVo chatMsgVo) {
+//        查询会话下用户
+//        不存在会话状态
+        List<String> accs = sessionAccountService.listSessionAccs(chatMsgVo.getSessionId());
+
+        accs.stream().forEach(e-> server2ClientService.sendClient(e, JSON.toJSONString(chatMsgVo)));
     }
 
     @Override

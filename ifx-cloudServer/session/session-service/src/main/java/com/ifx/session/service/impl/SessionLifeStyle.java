@@ -1,5 +1,6 @@
 package com.ifx.session.service.impl;
 
+import com.ifx.common.base.AccountInfo;
 import com.ifx.common.utils.CacheUtil;
 import com.ifx.session.service.ISessionLifeStyle;
 import com.ifx.session.service.SessionService;
@@ -32,14 +33,13 @@ public class SessionLifeStyle implements ISessionLifeStyle {
     }
 
     @Override
-    public void add() {
-
-    }
-
-    @Override
     public void hangOn() {
-
+        log.info("正在创建会话！");
+        Long id = sessionService.newSession();
+        log.info("成功创建会话 {}！",id);
     }
+
+
 
     @Override
     public void reConnect() {

@@ -9,13 +9,13 @@ import java.util.concurrent.TimeUnit;
 @Slf4j
 public class MemoryCacheUtil implements CacheUtil{
 
-    private LRUCache<String,String> lruCache;
+    private LRUCache<String,Object> lruCache;
 
     private static Integer cacheCapacity = 1000;
 
     public void initCache(){
         if (lruCache == null){
-            lruCache = new LRUCache(cacheCapacity);
+            lruCache = new LRUCache<>(cacheCapacity);
         }
     }
 
@@ -25,7 +25,7 @@ public class MemoryCacheUtil implements CacheUtil{
     }
 
     @Override
-    public Boolean set(String key, String value) {
+    public Boolean set(String key, Object value) {
         initCache();
         lruCache.put(key,value);
         return Boolean.TRUE;
@@ -37,8 +37,14 @@ public class MemoryCacheUtil implements CacheUtil{
     }
 
     @Override
+    public Boolean expire(String key, Object value, Long expireTime, TimeUnit timeUnit) {
+        return null;
+    }
+
+
+    @Override
     public Object get(String key) {
-        String value = lruCache.get(key);
+        Object value = lruCache.get(key);
         return value;
     }
 }

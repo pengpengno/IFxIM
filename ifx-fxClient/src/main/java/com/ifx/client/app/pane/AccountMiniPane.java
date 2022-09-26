@@ -14,6 +14,9 @@ import java.util.ResourceBundle;
 
 
 @Slf4j
+/**
+ * 查询面板
+ */
 public class AccountMiniPane extends Pane implements Initializable {
 
     public AccountInfo accountInfo;

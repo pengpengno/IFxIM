@@ -1,5 +1,6 @@
 package com.ifx.client.service;
 
+import com.ifx.common.base.AccountInfo;
 import com.ifx.session.service.ISessionLifeStyle;
 
 public class SessionService  implements ISessionLifeStyle {
@@ -14,10 +15,6 @@ public class SessionService  implements ISessionLifeStyle {
 
     }
 
-    @Override
-    public void add() {
-
-    }
 
     @Override
     public void hangOn() {

@@ -67,16 +67,15 @@ public class MainController implements Initializable {
 
     private volatile Scene scene;
 
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         log.info("{} is loading ...",getClass().getName());
         initSearch();
         Group group = new Group();
-//        group.getChildren().add(listView)
         scene = msgTextArea.getScene();
         searchPane.setVgap(8);
         searchPane.setHgap(4);
-//        s.getChildren().add()
     }
 
     @FXML
@@ -103,11 +102,6 @@ public class MainController implements Initializable {
                 List<AccountInfo> accountInfos = result.getData(AccountInfo.class);
                 log.info(JSON.toJSONString(protoCol));
 //                添加数据
-//                SearchPane searchPane = new SearchPane();
-//                searchPane.setAccountInfoList(accountInfos);
-//                Parent root = scene.getRoot();
-//                scene = searchField.getScene();
-//                searchPane.show();
                 accountInfos.stream().forEach(e-> {
                     searchPane.getChildren().add(new SearchPane.AccountMiniPane(e));
                     searchPane.getChildren().add(new Label("2222"));

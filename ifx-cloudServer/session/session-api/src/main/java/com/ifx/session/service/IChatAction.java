@@ -9,6 +9,8 @@ public interface IChatAction {
 
     public void pushMsg(String fromAccount,Long sessionId,String msg);
 
+    public void pushMsg(ChatMsgVo chatMsgVo);
+
 
     /**
      * 拉取会话中最新消息

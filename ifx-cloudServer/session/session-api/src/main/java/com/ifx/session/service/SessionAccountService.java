@@ -7,7 +7,7 @@ import com.ifx.account.entity.Account;
 import java.util.List;
 
 /**
-* @author HP
+* @author
 * @description 针对表【session_account(会话账户中间表)】的数据库操作Service
 * @createDate 2022-09-06 11:51:33
 */

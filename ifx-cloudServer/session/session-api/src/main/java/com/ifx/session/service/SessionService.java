@@ -1,5 +1,6 @@
 package com.ifx.session.service;
 
+import com.ifx.common.base.AccountInfo;
 import com.ifx.session.entity.Session;
 //import com.baomidou.mybatisplus.extension.service.IService;
 
@@ -12,5 +13,9 @@ public interface SessionService  {
 
 
     public Long newSession();
+
+    public Boolean addAcc(Long sessionId,AccountInfo accountInfo);
+
+
 
 }

@@ -7,11 +7,14 @@ import java.util.concurrent.TimeUnit;
  */
 public interface CacheUtil {
 
-    public Boolean set(String  key,String value);
+    public Boolean set(String  key,Object value);
 
     public Boolean expire(String  key, String value, Long expireTime, TimeUnit timeUnit);
 
+    public Boolean expire(String  key, Object value, Long expireTime, TimeUnit timeUnit);
+
     public String getStr(String key);
+
     public Object get(String key);
 
 }

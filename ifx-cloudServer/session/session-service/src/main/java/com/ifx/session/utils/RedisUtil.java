@@ -1,5 +1,6 @@
 package com.ifx.session.utils;
 
+import cn.hutool.core.exceptions.ExceptionUtil;
 import com.ifx.common.utils.CacheUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -28,10 +29,7 @@ public final class RedisUtil implements CacheUtil {
 
 	// =============================common============================
 
-	@Override
-	public Boolean set(String key, String value) {
-		return null;
-	}
+
 
 	@Override
 	public String getStr(String key) {
@@ -69,6 +67,7 @@ public final class RedisUtil implements CacheUtil {
 	public Boolean expire(String key, String value ,Long time, TimeUnit timeUnit) {
 		try {
 //			FIFOCache
+			set(key, value);
 			if (time > 0) {
 				redisTemplate.expire(key, time, timeUnit);
 			}
@@ -77,6 +76,11 @@ public final class RedisUtil implements CacheUtil {
 			e.printStackTrace();
 			return false;
 		}
+	}
+
+	@Override
+	public Boolean expire(String key, Object value, Long expireTime, TimeUnit timeUnit) {
+		return null;
 	}
 
 	/**
@@ -156,7 +160,7 @@ public final class RedisUtil implements CacheUtil {
 			redisTemplate.opsForValue().set(key, value);
 			return true;
 		} catch (Exception e) {
-			e.printStackTrace();
+			log.info(ExceptionUtil.stacktraceToString(e));
 			return false;
 		}
 	}
