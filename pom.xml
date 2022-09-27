@@ -31,6 +31,7 @@
         <dubbo.registry.version>3.0.2</dubbo.registry.version>
         <fastjson2.version>2.0.8</fastjson2.version>
         <hippo4j.version>1.4.0-RC</hippo4j.version>
+        <cglib.version>3.3.0</cglib.version>
         <mysql.connector.version>8.0.28</mysql.connector.version>
     </properties>
     <dependencies>
@@ -76,6 +77,12 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter-data-redis</artifactId>
                 <version>${spring.starter.version}</version>
+            </dependency>
+            <!-- https://mvnrepository.com/artifact/cglib/cglib  cglib 依赖 -->
+            <dependency>
+                <groupId>cglib</groupId>
+                <artifactId>cglib</artifactId>
+                <version>${cglib.version}</version>
             </dependency>
 
             <dependency>

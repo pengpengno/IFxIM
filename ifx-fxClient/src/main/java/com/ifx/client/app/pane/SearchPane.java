@@ -10,6 +10,8 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.Pane;
 import lombok.extern.slf4j.Slf4j;
+import net.sf.cglib.proxy.Enhancer;
+
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -97,8 +99,8 @@ public class SearchPane extends FlowPane {
 
         @Override
         public void initialize(URL location, ResourceBundle resources) {
-            init();
-//            log.info("load {}  account {}" ,this.getClass().getName(),accountInfo);
+//            init();
+            log.info("load {}  account {}" ,this.getClass().getName(),accountInfo);
         }
 
         public void init(){
