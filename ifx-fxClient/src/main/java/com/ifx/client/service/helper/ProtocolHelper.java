@@ -1,6 +1,6 @@
 package com.ifx.client.service.helper;
 
-import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson2.JSON;
 import com.ifx.client.parse.DubboGenericParse;
 import com.ifx.connect.proto.Protocol;
 import com.ifx.connect.proto.dubbo.DubboApiMetaData;

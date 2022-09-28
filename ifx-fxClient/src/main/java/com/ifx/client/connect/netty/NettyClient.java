@@ -37,11 +37,6 @@ public class NettyClient implements ApplicationListener<ContextRefreshedEvent>
     @Resource
     private ClientNettyConfigProperties clientNettyConfigProperties;
 
-//    @Resource
-//    private ProtocolDecoder protocolDecoder;
-//
-//    @Resource
-//    private ProtocolEncoder protocolEncoder;
 
     private Bootstrap bootstrap;
 
@@ -168,6 +163,7 @@ public class NettyClient implements ApplicationListener<ContextRefreshedEvent>
 
     public ChannelFuture write(Protocol protocol){
         if (channel== null || !channel.isActive()){
+            log.info( "channel  is null  or invaild");
             return null;
         }
         return channel.writeAndFlush(protocol);

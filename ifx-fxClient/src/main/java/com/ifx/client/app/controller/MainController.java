@@ -6,7 +6,6 @@ import com.ifx.account.vo.AccountSearchVo;
 import com.ifx.client.app.pane.SearchPane;
 import com.ifx.client.service.AccountService;
 import com.ifx.client.service.ClientService;
-import com.ifx.client.service.helper.MainHelper;
 import com.ifx.client.util.SpringFxmlLoader;
 import com.ifx.common.base.AccountInfo;
 import com.ifx.common.res.Result;
@@ -16,14 +15,11 @@ import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Group;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.InputMethodEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.FlowPane;
-import javafx.scene.layout.Pane;
-import javafx.stage.Stage;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
@@ -47,9 +43,6 @@ public class MainController implements Initializable {
 
     @FXML
     private TextField searchField;
-
-    @Resource
-    private MainHelper mainHelper;
 
     @Resource
     private AccountService accountService;
@@ -104,7 +97,6 @@ public class MainController implements Initializable {
 //                添加数据
                 accountInfos.stream().forEach(e-> {
                     searchPane.getChildren().add(new SearchPane.AccountMiniPane(e));
-                    searchPane.getChildren().add(new Label("2222"));
                 });
             }));
         }));
@@ -120,7 +112,6 @@ public class MainController implements Initializable {
         accountSearchVo.setAccount(text);
         Protocol query = accountService.query(accountSearchVo);
         clientService.send(query,(protoCol -> {
-            List data = protoCol.getRes().getData();
             String content = protoCol.getContent();
             Result result = JSON.parseObject(content, Result.class);
             List<AccountInfo> accountInfos = result.getData(AccountInfo.class);

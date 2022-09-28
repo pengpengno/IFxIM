@@ -1,6 +1,6 @@
 package com.ifx.connect.decoder;
 
-import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson2.JSON;
 import com.ifx.connect.encoder.ProtocolEncoder;
 import com.ifx.connect.proto.Protocol;
 import io.netty.buffer.ByteBuf;
@@ -11,15 +11,9 @@ import lombok.extern.slf4j.Slf4j;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 
-//@Component
 @Slf4j
-//@ChannelHandler.Sharable
-//public class ProtocolDecoder extends LengthFieldBasedFrameDecoder {
 public class ProtocolDecoder extends ByteToMessageDecoder {
 
-//    public ProtocolDecoder(int maxFrameLength, int lengthFieldOffset, int lengthFieldLength, int lengthAdjustment, int initialBytesToStrip, boolean failFast) {
-//        super(maxFrameLength, lengthFieldOffset, lengthFieldLength, lengthAdjustment, initialBytesToStrip, failFast);
-//    }
 
     private static final int PROTOCOL_HEADER_SIZE = 4;
     @Override

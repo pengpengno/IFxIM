@@ -29,7 +29,8 @@ import java.util.stream.Collectors;
  */
 @Service
 @DubboService
-public class AccountServiceImpl extends ServiceImpl<AccountMapper, Account>
+public class AccountServiceImpl
+        extends ServiceImpl<AccountMapper, Account>
         implements AccountService {
     @Resource
     private MongoTemplate mongoTemplate;
@@ -53,7 +54,7 @@ public class AccountServiceImpl extends ServiceImpl<AccountMapper, Account>
             return isLogin;
         }
         if (accountBaseInfo.getPassword().equals(account.getPassword())) {
-            return !isLogin;
+            return true;
         }
         return isLogin;
     }

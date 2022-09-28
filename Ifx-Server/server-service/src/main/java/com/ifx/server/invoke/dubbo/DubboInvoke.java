@@ -1,7 +1,6 @@
 package com.ifx.server.invoke.dubbo;
 
 import cn.hutool.core.exceptions.ExceptionUtil;
-import cn.hutool.core.util.StrUtil;
 import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONObject;
 import com.ifx.common.base.AccountInfo;
@@ -78,16 +77,12 @@ public class DubboInvoke implements GateInvoke {
             //使用CountDownLatch，如果使用同步调用则不需要这么做。
             CountDownLatch latch = new CountDownLatch(1);
             //获取结果
-            CompletableFuture future = RpcContext.getServerContext().getCompletableFuture();
+            CompletableFuture<Object> future = RpcContext.getServerContext().getCompletableFuture();
             future.whenComplete((value, t) -> {
                 Result<Object> ok = new Result<>();
                 if (value instanceof List ){
                     ok.setData(JSON.parseArray(JSON.toJSONString(value),Object.class));
                 }
-//                boolean validArray = JSON.isValidArray(StrUtil.bytes(value.toString()));
-//                if (validArray){
-//                    ok.setData(JSON.parseArray(JSON.toJSONString(value),Object.class));
-//                }
                 else {
                     ok.addData(value);
                 }

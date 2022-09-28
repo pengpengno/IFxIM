@@ -1,7 +1,15 @@
 package com.ifx.client.app.pane;
 
-import com.alibaba.fastjson.JSON;
+import cn.hutool.core.collection.CollectionUtil;
+import cn.hutool.core.util.ObjectUtil;
+import cn.hutool.core.util.ReflectUtil;
+import com.alibaba.fastjson2.JSON;
+import com.ifx.client.proxy.ProxyBean;
+import com.ifx.common.ann.client.Proxy;
 import com.ifx.common.base.AccountInfo;
+import com.ifx.common.context.AccountContext;
+import com.ifx.session.service.ISessionAction;
+import com.ifx.session.service.ISessionLifeStyle;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.scene.control.Label;
@@ -9,17 +17,19 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.Pane;
+import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
-import net.sf.cglib.proxy.Enhancer;
 
+import java.lang.reflect.Field;
 import java.net.URL;
-import java.util.List;
-import java.util.ResourceBundle;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 
 @Slf4j
 public class SearchPane extends FlowPane {
+
+
 
     private List<AccountInfo> accountInfoList;
 
@@ -64,7 +74,6 @@ public class SearchPane extends FlowPane {
         if (concurrentHashMap == null){
             concurrentHashMap = new ConcurrentHashMap<>();
         }
-        return;
     }
     public void setAccountInfoList(List<AccountInfo> accountInfos){
         accountInfoList = accountInfos;
@@ -80,7 +89,12 @@ public class SearchPane extends FlowPane {
     /**
      * 用户基本面板
      */
+    @Data
     public static class AccountMiniPane extends Pane implements Initializable {
+        @Proxy
+        public ISessionLifeStyle lifeStyle;
+        @Proxy
+        public ISessionAction sessionAction;
 
         public AccountInfo accountInfo;
 
@@ -101,6 +115,23 @@ public class SearchPane extends FlowPane {
         public void initialize(URL location, ResourceBundle resources) {
 //            init();
             log.info("load {}  account {}" ,this.getClass().getName(),accountInfo);
+            Arrays.stream(this.getClass().getFields())
+                    .filter(e-> ObjectUtil.equal(e.getAnnotatedType().getClass() ,Proxy.class))
+                    .forEach(k-> {
+                        k.setAccessible(true);
+                        ReflectUtil.setFieldValue(this,k,ProxyBean.getProxyBean(k.getDeclaringClass()));
+                    });
+        }
+
+        public static void main(String[] args) {
+            AccountMiniPane accountMiniPane = new AccountMiniPane();
+            Arrays.stream(AccountMiniPane.class.getFields())
+                    .filter(e-> ObjectUtil.isNotNull(e.getAnnotationsByType(Proxy.class)))
+                    .forEach(k-> {
+                        k.setAccessible(true);
+                        ReflectUtil.setFieldValue(accountMiniPane,k,ProxyBean.getProxyBean(k.getDeclaringClass()));
+                    });
+            System.out.println(accountMiniPane);
         }
 
         public void init(){
@@ -114,6 +145,10 @@ public class SearchPane extends FlowPane {
             this.getChildren().add(name);
             this.addEventHandler(MouseEvent.MOUSE_CLICKED,(mouse)->{
                 log.debug("click button the account is {}", JSON.toJSONString(accountInfo));
+                HashSet<String> accountSet = CollectionUtil.newHashSet
+                        (AccountContext.getCurAccount().getAccount(), accountInfo.getAccount());
+                Long sessionId = lifeStyle.initialize(accountSet);
+                log.info("创建session会话 {} ",sessionId);
             });
             log.info("load {}  account {}" ,this.getClass().getName(),accountInfo);
 

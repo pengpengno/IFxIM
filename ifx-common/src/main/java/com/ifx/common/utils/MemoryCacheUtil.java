@@ -31,7 +31,7 @@ public class MemoryCacheUtil implements CacheUtil{
         return Boolean.TRUE;
     }
 
-    @Override
+//    @Override
     public Boolean expire(String key, String value, Long expireTime, TimeUnit timeUnit) {
         return null;
     }

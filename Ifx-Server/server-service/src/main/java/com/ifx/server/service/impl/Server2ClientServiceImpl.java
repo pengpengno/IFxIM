@@ -13,6 +13,7 @@ import java.util.List;
 @DubboService
 @Service
 public class Server2ClientServiceImpl implements Server2ClientService {
+
     @Autowired
     private NettyS2CAction  nettyS2CAction;
 

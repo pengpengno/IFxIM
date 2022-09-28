@@ -103,7 +103,6 @@ public class LoginController  implements Initializable {
         });
         TaskHandler taskHandler = protocol -> {
             Result result = JSON.parseObject(protocol.getContent(), Result.class);
-//            List data = protocol.getRes().getData();
             List data = result.getData();
             Object o = data.get(0);
             if (o == null){

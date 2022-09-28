@@ -42,32 +42,32 @@ public class Account implements Serializable {
     /**
      * 用户id
      */
-    @TableField("user_id")
+    @TableField(value = "user_id")
     private String userId;
 
 
     /**
      * 账号
      */
-    @TableField("account")
+    @TableField(value = "account")
     private String account;
 
     /**
      * 用户名称
      */
-    @TableField("user_name")
+    @TableField(value = "user_name")
     private String userName;
 
     /**
      * 昵称
      */
-    @TableField("user_nickname")
+    @TableField(value = "user_nickname")
     private String user_nickname;
 
     /**
      * 密码
      */
-    @TableField("password")
+    @TableField(value = "password")
     private String password;
 
     /**

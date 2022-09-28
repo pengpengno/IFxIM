@@ -25,6 +25,10 @@ public class NettyClientAction implements ClientAction, ClientLifeStyle {
     private TaskManager taskManager;
 
 
+    private Long connectTimeout;  // 连接时间延
+
+    private Long reConnectDelay; // 重试时延
+
     @Override
     public void connect() {
         try{
@@ -97,10 +101,11 @@ public class NettyClientAction implements ClientAction, ClientLifeStyle {
     @Override
     public void sendJsonMsg(Protocol protocol) {
         if (protocol == null){
+            log.warn("protocol is  null  ");
             return ;
         }
         if (!isAlive()){
-            log.info("和服务器断开链接，正在阻塞式尝试重新链接！");
+            log.warn("和服务器断开链接，正在阻塞式尝试重新链接！");
             reConnectBlock();
         }
         if (!nettyClient.getChannel().isActive()) {
@@ -111,7 +116,7 @@ public class NettyClientAction implements ClientAction, ClientLifeStyle {
             log.error("channel is close ,please start server ");
             return ;
         }
-//        ChannelFuture write = nettyClient.write(JSON.toJSONString(protocol));
+        log.info("sending msg to server ");
         ChannelFuture write = nettyClient.write(protocol);
         write.addListener(future -> {
             if (future.isSuccess())

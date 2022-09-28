@@ -60,7 +60,6 @@ public class RegisterController  {
             if (StrUtil.isNotBlank(account)){
                 log.info("注册成功！");
             }
-
         };
         Protocol registerProtocol = registerHelper.applyRegister(accountBaseInfo);
         clientAction.sendJsonMsg(registerProtocol, taskHandler);

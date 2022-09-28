@@ -12,7 +12,8 @@ dubbo:
   protocol:
     port: 20893
     name: dubbo
-
+mybatis:
+  mapper-location: classpath*:**/mapper/*.xml
 spring:
   data:
     mongodb:

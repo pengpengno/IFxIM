@@ -16,8 +16,10 @@ public class ClientService {
 
     @Resource
     private ClientAction clientAction;
+
     @Resource
     private TaskManager taskManager;
+
     public void send(Protocol protocol){
         String trace = IdUtil.fastSimpleUUID();
         protocol.setTrace(trace);
