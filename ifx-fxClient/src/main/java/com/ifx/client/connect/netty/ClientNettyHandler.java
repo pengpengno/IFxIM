@@ -2,15 +2,12 @@ package com.ifx.client.connect.netty;
 
 import cn.hutool.core.exceptions.ExceptionUtil;
 import cn.hutool.extra.spring.SpringUtil;
-import com.alibaba.fastjson2.JSONObject;
 import com.ifx.client.task.TaskManager;
 import com.ifx.connect.netty.client.ClientAction;
 import com.ifx.connect.proto.Protocol;
-import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
-import io.netty.util.CharsetUtil;
 import javafx.application.Platform;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationListener;
@@ -23,7 +20,7 @@ import java.util.concurrent.ExecutorService;
 @Slf4j
 @Component
 @ChannelHandler.Sharable
-public class ClientNettyHandler extends SimpleChannelInboundHandler<ByteBuf> implements  ApplicationListener<ContextRefreshedEvent> {
+public class ClientNettyHandler extends SimpleChannelInboundHandler<Protocol> implements  ApplicationListener<ContextRefreshedEvent> {
     @Resource(name = "clientPool")
     private ExecutorService clientServer;
     @Resource
@@ -40,7 +37,7 @@ public class ClientNettyHandler extends SimpleChannelInboundHandler<ByteBuf> imp
     }
 
     @Override
-    protected void channelRead0(ChannelHandlerContext ctx, ByteBuf byteBuf) throws Exception {
+    protected void channelRead0(ChannelHandlerContext ctx, Protocol byteBuf) throws Exception {
         /**
          * @Description  处理接收到的消息
          **/
@@ -48,10 +45,12 @@ public class ClientNettyHandler extends SimpleChannelInboundHandler<ByteBuf> imp
         clientServer = SpringUtil.getBean("clientPool");
         clientAction = SpringUtil.getBean(ClientAction.class);
         taskManager = SpringUtil.getBean(TaskManager.class);
-        String res = byteBuf.toString(CharsetUtil.UTF_8);
-        log.info("received msg package {}",res);
-        Protocol protocol = JSONObject.parseObject(res, Protocol.class);
-        clientServer.submit(() -> Platform.runLater(()-> taskManager.doTask(protocol)));
+//        String res = byteBuf.toString(CharsetUtil.UTF_8);
+        log.info("received msg package {}",byteBuf);
+
+//        Protocol protocol = JSONObject.parseObject(res, Protocol.class);
+        clientServer.submit(() -> Platform.runLater(()-> taskManager.doTask(byteBuf)));
+//        clientServer.submit(() -> Platform.runLater(()-> taskManager.doTask(protocol)));
     }
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception

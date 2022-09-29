@@ -1,15 +1,11 @@
 package com.ifx.connect.config;
 
-import com.ifx.connect.connection.ServerConnect;
-import com.ifx.connect.connection.SocketConnect;
 import com.ifx.connect.properties.ServerNettyConfigProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import javax.annotation.Resource;
-import java.io.IOException;
-import java.net.ServerSocket;
 
 @Configuration
 @EnableConfigurationProperties(ServerNettyConfigProperties.class)

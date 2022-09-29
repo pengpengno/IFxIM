@@ -1,8 +1,7 @@
 package com.ifx.session.service.impl;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.alibaba.fastjson2.JSON;
 import com.ifx.server.service.Server2ClientService;
-import com.ifx.session.entity.Session;
 import com.ifx.session.mapper.SessionMapper;
 import com.ifx.session.service.IChatAction;
 import com.ifx.session.service.SessionAccountService;
@@ -13,6 +12,7 @@ import org.apache.dubbo.config.annotation.DubboService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.List;
 
 @DubboService
@@ -22,7 +22,7 @@ public class ChatAction implements IChatAction {
 
     @Autowired
     SessionServiceImpl sessionService;
-    @Autowired
+    @Resource
     SessionMapper sessionMapper;
     @Autowired
     SessionAccountService sessionAccountService;
@@ -41,13 +41,22 @@ public class ChatAction implements IChatAction {
 //            1.2 存储 msg 消息
 //        投递成功则将消息持久化，
 //        投递失败则落入存储库
-        List<String> accs = sessionAccountService.listSessionAccs(sessionId);
-        log.info("正在投递----消息");
-
-        ChatMsgVo chatMsgVo = new ChatMsgVo();
+//        List<String> accs = sessionAccountService.listSessionAccs(sessionId);
+//        log.info("正在投递----消息");
+//
+//        ChatMsgVo chatMsgVo = new ChatMsgVo();
 //        投递消息
-        accs.stream().forEach(e -> server2ClientService.sendClient(e,msg));
+//        accs.stream().forEach(e -> server2ClientService.sendClient(e,msg));
 
+    }
+
+    @Override
+    public void pushMsg(ChatMsgVo chatMsgVo) {
+//        查询会话下用户
+//        不存在会话状态
+//        List<String> accs = sessionAccountService.listSessionAccs(chatMsgVo.getSessionId());
+//
+//        accs.stream().forEach(e-> server2ClientService.sendClient(e, JSON.toJSONString(chatMsgVo)));
     }
 
     @Override

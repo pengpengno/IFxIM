@@ -1,16 +1,19 @@
 package com.ifx.session.service;
 
+import com.baomidou.mybatisplus.extension.service.IService;
 import com.ifx.session.entity.Session;
-//import com.baomidou.mybatisplus.extension.service.IService;
 
 /**
 * @author HP
 * @description 针对表【session(会话表)】的数据库操作Service
-* @createDate 2022-08-23 15:19:23
+* @createDate 2022-09-28 16:28:00
 */
-public interface SessionService  {
+public interface SessionService extends IService<Session> {
 
-
-    public Long newSession();
+    /**
+     * 创建会话
+     * @return
+     */
+    Long newSession();
 
 }

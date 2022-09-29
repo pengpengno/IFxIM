@@ -1,14 +1,9 @@
 package com.ifx.client.config;
 
-import com.ifx.client.connect.netty.NettyClient;
 import com.ifx.connect.properties.ClientNettyConfigProperties;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import javax.annotation.Resource;
-import java.net.InetSocketAddress;
 
 @Configuration
 @EnableConfigurationProperties({ClientNettyConfigProperties.class})
@@ -18,8 +13,8 @@ public class ClientConnectConfig {
 //    private String host ;
     /** server  port  C2S /C2C   */
 //    private Long port ;
-    @Resource
-    private ClientNettyConfigProperties configProperties;
+//    @Resource
+//    private ClientNettyConfigProperties configProperties;
 
 
 //    @Bean

@@ -34,7 +34,19 @@
 <!--                </exclusion>-->
 <!--            </exclusions>-->
 <!--        </dependency>-->
-
+        <dependency>
+            <groupId>com.ifx.ifx</groupId>
+            <artifactId>ifx-common</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>cglib</groupId>
+            <artifactId>cglib</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.alibaba.fastjson2</groupId>
+            <artifactId>fastjson2</artifactId>
+        </dependency>
         <dependency>
             <groupId>com.jfoenix</groupId>
             <artifactId>jfoenix</artifactId>
@@ -68,7 +80,7 @@
 <!--            <scope>runtime</scope>-->
         </dependency>
         <dependency>
-            <groupId>com.ifx.ifx</groupId>
+            <groupId>com.ifx.session</groupId>
             <artifactId>session-api</artifactId>
             <version>1.0-SNAPSHOT</version>
             <!--            <scope>provided</scope>-->
@@ -113,6 +125,12 @@
             <groupId>com.ifx.ifx</groupId>
             <artifactId>ifx-connect</artifactId>
             <version>1.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <version>RELEASE</version>
+            <scope>test</scope>
         </dependency>
     </dependencies>
     <build>

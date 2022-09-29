@@ -8,6 +8,8 @@ public class AccountSearchVo implements Serializable {
 
     private String account;
 
+    private String likeAccount;
+
     private String name;
 
     private String likeName;

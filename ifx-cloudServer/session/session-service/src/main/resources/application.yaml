@@ -12,7 +12,8 @@ dubbo:
   protocol:
     port: 20893
     name: dubbo
-
+mybatis:
+  mapper-location: classpath*:**/mapper/*.xml
 spring:
   data:
     mongodb:
@@ -31,3 +32,5 @@ spring:
     host: r-bp1qa05yeerb7tul4hpd.redis.rds.aliyuncs.com
     port: 6379
     timeout: 5000ms
+    password: Wal@!123
+    client-name: ifx

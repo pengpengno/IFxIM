@@ -1,19 +1,21 @@
 package com.ifx.session.service;
 
+import java.util.Set;
+
 public interface ISessionLifeStyle {
 
 
-    public void initialize();
+    public Long initialize();
+
+    public Long initialize(Set<String> accounts);
 
     public void start();
 
-    public void add();
-
     public void hangOn();
 
-    public void reConnect();
+    public Boolean reConnect();
 
-    public void release();
+    public Boolean release();
 
 
 

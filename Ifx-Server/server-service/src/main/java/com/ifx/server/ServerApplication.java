@@ -9,14 +9,12 @@ import org.apache.dubbo.config.spring.context.annotation.EnableDubbo;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.jdbc.DataSourceProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 
 import javax.annotation.Resource;
-import java.net.InetAddress;
 import java.net.InetSocketAddress;
 
-@SpringBootApplication
+@SpringBootApplication(scanBasePackages = "com.ifx")
 @Slf4j
 @DubboComponentScan
 @EnableConfigurationProperties({ServerNettyConfigProperties.class})

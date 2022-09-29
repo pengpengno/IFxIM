@@ -12,7 +12,7 @@ public class DubboProtocol extends Protocol {
 
     public DubboProtocol(DubboApiMetaData data){
         super.setProtocol(ProtocolHeaderConst.DUBBO_PROTOCOL_HEADER);
-        super.setBody(JSON.toJSONString(data));
+        super.setProtocolBody(JSON.toJSONString(data));
     }
 
 

@@ -5,6 +5,7 @@ import com.ifx.account.vo.AccountSearchVo;
 import com.ifx.common.base.AccountInfo;
 
 import java.util.List;
+import java.util.Map;
 
 /**
 * @author wangpeng
@@ -19,7 +20,13 @@ public interface AccountService  {
 
         public String register(AccountBaseInfo accountBaseInfo);
 
-        public List<AccountInfo> search(AccountSearchVo accountSearchVo);  // 条件查询用户信息
+        default List<Map<String,Long>> test(Long s){
+                return null;
+        }
+
+        public List<AccountInfo> search(AccountSearchVo accountSearchVo);
+        // 条件查询用户信息
+        public List<AccountInfo> search(Long accountSearchVo);  // 条件查询用户信息
 
         public List<AccountBaseInfo>  listAllAccoutInfo(); // 查询所有的账户
 

@@ -1,12 +1,9 @@
 package com.ifx.server.netty;
 
-import com.alibaba.fastjson2.JSON;
 import com.ifx.connect.proto.Protocol;
 import com.ifx.server.netty.holder.NettyContext;
 import com.ifx.server.s2c.IServer2ClientAction;
-import io.netty.buffer.Unpooled;
 import io.netty.channel.Channel;
-import io.netty.util.CharsetUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
@@ -23,7 +20,8 @@ public class NettyS2CAction implements IServer2ClientAction {
             log.warn("channel is close can not send message");
           return;
         }
-         channel.writeAndFlush(Unpooled.copiedBuffer(JSON.toJSONString(protocol), CharsetUtil.UTF_8));
+//         channel.writeAndFlush(Unpooled.copiedBuffer(JSON.toJSONString(protocol), CharsetUtil.UTF_8));
+         channel.writeAndFlush(protocol);
     }
 
     @Override

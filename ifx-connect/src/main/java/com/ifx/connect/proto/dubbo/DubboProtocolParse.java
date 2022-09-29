@@ -7,6 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public class DubboProtocolParse implements IProtocolParse {
+
     @Override
     public Protocol parseProtocol(String protocolHeader, Object data) {
         if (!protocolHeader.startsWith(ProtocolHeaderConst.DUBBO_PROTOCOL_HEADER)){
@@ -22,6 +23,8 @@ public class DubboProtocolParse implements IProtocolParse {
 
         return null;
     }
+
+
 
 
 //    public Protocol parseProtocol()

@@ -1,6 +1,5 @@
 package com.ifx.connect.proto;
 
-import com.ifx.connect.proto.Protocol;
 /** 协议序列化工厂 */
 public interface IProtocolParse {
     /**

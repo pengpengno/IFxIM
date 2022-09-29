@@ -1,11 +1,10 @@
 package com.ifx.session.entity;
 
-import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDateTime;
 import lombok.Data;
 
 /**
@@ -18,30 +17,33 @@ public class Session implements Serializable {
     /**
      * 
      */
-    @TableId(type = IdType.AUTO)
+    @TableId
     private Long id;
+
+    /**
+     * 会话标识
+     */
+    private Long session_id;
 
     /**
      * 会话名称（系统预定义）
      */
-    private String sessionName;
+    private String session_name;
 
-//    private String sessionId;
-
-//    /**
-//     * 会话名称（应用层自定义）
-//     */
-//    private String sessionNickName;
+    /**
+     * 会话名称（应用层自定义）
+     */
+    private String session_nick_name;
 
     /**
      * 创建时间
      */
-    private Date createTime;
+    private LocalDateTime create_time;
 
     /**
      * 修改时间
      */
-    private Date updateTime;
+    private LocalDateTime update_time;
 
     /**
      * 删除标志

@@ -23,6 +23,7 @@ import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CountDownLatch;
 
@@ -59,7 +60,7 @@ public class DubboInvoke implements GateInvoke {
         ReferenceConfig<GenericService> referenceConfig = new ReferenceConfig<>();
         try {
             //创建服务引用配置
-            DubboApiMetaData metaData = JSONObject.parseObject(protocol.getBody(), DubboApiMetaData.class);
+            DubboApiMetaData metaData = JSONObject.parseObject(protocol.getProtocolBody(), DubboApiMetaData.class);
             //设置接口
             referenceConfig.setInterface(metaData.getApiInterFacePath());
             referenceConfig.setApplication(applicationConfig);
@@ -76,16 +77,24 @@ public class DubboInvoke implements GateInvoke {
             //使用CountDownLatch，如果使用同步调用则不需要这么做。
             CountDownLatch latch = new CountDownLatch(1);
             //获取结果
-            CompletableFuture future = RpcContext.getServerContext().getCompletableFuture();
+            CompletableFuture<Object> future = RpcContext.getServerContext().getCompletableFuture();
             future.whenComplete((value, t) -> {
-                Result<Object> ok = Result.ok(value);
+                Result<Object> ok = new Result<>();
+                if (value instanceof List ){
+                    ok.setData(JSON.parseArray(JSON.toJSONString(value),Object.class));
+                }
+                else {
+                    ok.addData(value);
+                }
+
                 if (protocol.getType().startsWith(IFxMsgProtocol.LOGIN_MSG_HEADER) && value !=null){
                     log.info("用户登录系统成功，正在建立 channel 绑定关系");
                     nettyContext.addAccount(channel.channel(), JSONObject.parseObject(JSON.toJSONString(value),AccountInfo.class));
                 }
-                protocol.setRes(ok);
-                server2ClientAction.sendProtoCol(channel.channel(),protocol);
+//                protocol.setRes(ok);
+                protocol.setContent(JSON.toJSONString(ok));
                 log.info("doWork(whenComplete): " + value);
+                server2ClientAction.sendProtoCol(channel.channel(),protocol);
                 latch.countDown();
                 referenceConfig.destroy();
             });

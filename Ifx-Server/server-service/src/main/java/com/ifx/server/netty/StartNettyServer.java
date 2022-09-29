@@ -1,12 +1,14 @@
 package com.ifx.server.netty;
 
+import com.ifx.connect.decoder.ProtocolDecoder;
+import com.ifx.connect.encoder.ProtocolEncoder;
 import io.netty.bootstrap.ServerBootstrap;
-import io.netty.channel.Channel;
-import io.netty.channel.ChannelFuture;
-import io.netty.channel.ChannelOption;
-import io.netty.channel.EventLoopGroup;
+import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
+import io.netty.channel.socket.nio.NioSocketChannel;
+import io.netty.handler.logging.LoggingHandler;
+import io.netty.handler.timeout.IdleStateHandler;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
@@ -17,8 +19,25 @@ import java.net.InetSocketAddress;
 @Slf4j
 public class StartNettyServer {
 
+    private static final int MAX_FRAME_DATA_SIZE = 102400;
+
+    private static  final int LENGTH_OFFSET = 0;
+
+    private static  final int PROTOCOL_BODY_LENGTH = 8;
+
+    private static  final int LENGTH_ADJUSTMENT  = 8;
+
+    private static  final int HEADER_LENGTH_SIZE  = 8;
+
+
+
     @Resource
     private ServerHandler serverHandler;
+
+//    @Resource
+//    private ProtocolDecoder protocolDecoder;
+//    @Resource
+//    private ProtocolEncoder protocolEncoder;
     //配置服务端NIO线程组
     private final EventLoopGroup parentGroup = new NioEventLoopGroup(); //NioEventLoopGroup extends MultithreadEventLoopGroup Math.max(1, SystemPropertyUtil.getInt("io.netty.eventLoopThreads", NettyRuntime.availableProcessors() * 2));
     private final EventLoopGroup childGroup = new NioEventLoopGroup();
@@ -30,8 +49,18 @@ public class StartNettyServer {
             b.group(parentGroup, childGroup)
                     .channel(NioServerSocketChannel.class)    //非阻塞模式
                     .option(ChannelOption.SO_BACKLOG, 128)
-//                    .childHandler(new IdleStateHandler(20,20,20)) //  free channel  checkout
-                    .childHandler(serverHandler);
+                    .childOption(ChannelOption.SO_KEEPALIVE,true)
+                    .childHandler(new IdleStateHandler(20,20,20)) //  free channel  checkout
+                    .childHandler(new ChannelInitializer<NioSocketChannel>() {
+                        @Override
+                        protected void initChannel(NioSocketChannel ch) {
+                            ch.pipeline()
+                                    .addLast(new ProtocolEncoder())
+                                    .addLast(new ProtocolDecoder())
+                                    .addLast(new LoggingHandler())
+                                    .addLast(serverHandler);
+                        }
+                    });
             channelFuture = b.bind(address).syncUninterruptibly();
             channel = channelFuture.channel();
         } catch (Exception e) {

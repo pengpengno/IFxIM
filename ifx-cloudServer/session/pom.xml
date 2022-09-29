@@ -8,7 +8,7 @@
         <version>1.0-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
-
+    <groupId>com.ifx.session</groupId>
     <artifactId>session</artifactId>
     <packaging>pom</packaging>
     <modules>
@@ -24,12 +24,14 @@
     <dependencies>
         <dependency>
             <groupId>com.ifx.ifx</groupId>
-            <artifactId>account-api</artifactId>
+            <artifactId>ifx-common</artifactId>
             <version>1.0-SNAPSHOT</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-redis</artifactId>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>com.ifx.ifx</groupId>
@@ -38,5 +40,21 @@
             <scope>provided</scope>
         </dependency>
     </dependencies>
+    <build>
+        <finalName>${project.artifactId}</finalName>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <includes>
+                    <include>application.yaml</include>
+                    <include>application.yaml</include>
+                    <include>**/*.xml</include>
+                    <include>conf/sqlMap/*.xml</include>
+                    <include>META-INF/**</include>
+                </includes>
+                <filtering>false</filtering>
+            </resource>
+        </resources>
+    </build>
 
 </project>

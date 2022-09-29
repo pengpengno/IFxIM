@@ -4,11 +4,10 @@ import cn.hutool.core.exceptions.ExceptionUtil;
 import com.alibaba.fastjson2.JSONObject;
 import com.ifx.connect.proto.Protocol;
 import com.ifx.server.invoke.ServerProtoReceive;
-import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelDuplexHandler;
 import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
-import io.netty.util.CharsetUtil;
+import io.netty.channel.ChannelPromise;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -30,23 +29,30 @@ public class ServerHandler extends ChannelDuplexHandler {
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
 //        TODO  implents netty serial   will use Extueor do work
         //处理收到的数据，并反馈消息到到客户端
-        ByteBuf in = (ByteBuf) msg;
-        String req = in.toString(CharsetUtil.UTF_8);
-        Protocol protocol = JSONObject.parseObject(req, Protocol.class);
-        log.info("收到客户端发过来的消息: {}" , req);
+//        ByteBuf in = (ByteBuf) msg;
+        Protocol protocol = (Protocol) msg;
+//        String req = in.toString(CharsetUtil.UTF_8);
+//        Protocol protocol = JSONObject.parseObject(req, Protocol.class);
+        log.info("收到客户端发过来的消息: {}" , JSONObject.toJSONString(protocol));
 //        ctx.writeAndFlush()
         log.info("receive msg from server-side {}, data package {}",ctx.channel().localAddress().toString(),protocol);
         serverService.submit(()-> serverProtoReceive.received(ctx,protocol));
         //写入并发送信息到远端（客户端）
         super.channelRead(ctx, msg);
     }
+
+
+    @Override
+    public void write(ChannelHandlerContext ctx, Object msg, ChannelPromise promise) throws Exception {
+        super.write(ctx, msg, promise);
+    }
+
     @SneakyThrows
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause)
     {
         //出现异常
         log.info("business error {}  ", ExceptionUtil.stacktraceToString(cause));
-
     }
 
     @Override

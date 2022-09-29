@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDateTime;
 import lombok.Data;
 
 /**
@@ -24,22 +24,22 @@ public class SessionAccount implements Serializable {
     /**
      * 会话
      */
-    private Long sessionId;
+    private Long session_id;
 
     /**
-     * 会话下所有账号
+     * 会话账号
      */
     private String account;
 
     /**
      * 创建时间
      */
-    private Date createTime;
+    private LocalDateTime create_time;
 
     /**
      * 修改时间
      */
-    private Date updateTime;
+    private LocalDateTime update_time;
 
     /**
      * 删除标志

@@ -1,6 +1,5 @@
 package com.ifx.client.service;
 
-import cn.hutool.core.lang.UUID;
 import cn.hutool.core.util.IdUtil;
 import com.ifx.client.task.TaskManager;
 import com.ifx.connect.netty.client.ClientAction;
@@ -17,10 +16,14 @@ public class ClientService {
 
     @Resource
     private ClientAction clientAction;
+
     @Resource
     private TaskManager taskManager;
-    public void send(Protocol protocol){
 
+    public void send(Protocol protocol){
+        String trace = IdUtil.fastSimpleUUID();
+        protocol.setTrace(trace);
+        clientAction.sendJsonMsg(protocol);
     }
 
     public void send(Protocol protocol, TaskHandler taskHandler){
