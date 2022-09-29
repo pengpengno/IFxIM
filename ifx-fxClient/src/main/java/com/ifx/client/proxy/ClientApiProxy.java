@@ -24,6 +24,7 @@ import org.springframework.context.event.ContextRefreshedEvent;
 import javax.annotation.Resource;
 import java.lang.reflect.Method;
 import java.util.Arrays;
+import java.util.List;
 
 @Slf4j
 public class ClientApiProxy implements MethodInterceptor , ApplicationListener<ContextRefreshedEvent> {
@@ -34,10 +35,6 @@ public class ClientApiProxy implements MethodInterceptor , ApplicationListener<C
 
     @Resource
     private  ClientService clientService;
-
-
-
-
 
 
     @Override
@@ -60,7 +57,7 @@ public class ClientApiProxy implements MethodInterceptor , ApplicationListener<C
             Protocol protocol = new DubboProtocol();
             protocol.setProtocolBody(JSON.toJSONString(metaData));
             protocol.setType(IFxMsgProtocol.CLIENT_TO_SERVER_MSG_HEADER);
-
+//            List<Integer> s = (List<Integer>) obj;
             clientAction.sendJsonMsg(protocol);
             log.info(" load apiProxy  prev");
             return null;

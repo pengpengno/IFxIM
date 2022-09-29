@@ -5,6 +5,7 @@ import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.ReflectUtil;
 import com.alibaba.fastjson2.JSON;
 import com.ifx.client.proxy.ProxyBean;
+import com.ifx.client.proxy.ProxyUtil;
 import com.ifx.common.ann.client.Proxy;
 import com.ifx.common.base.AccountInfo;
 import com.ifx.common.context.AccountContext;
@@ -115,22 +116,17 @@ public class SearchPane extends FlowPane {
         public void initialize(URL location, ResourceBundle resources) {
 //            init();
             log.info("load {}  account {}" ,this.getClass().getName(),accountInfo);
-            Arrays.stream(this.getClass().getFields())
-                    .filter(e-> ObjectUtil.equal(e.getAnnotatedType().getClass() ,Proxy.class))
-                    .forEach(k-> {
-                        k.setAccessible(true);
-                        ReflectUtil.setFieldValue(this,k,ProxyBean.getProxyBean(k.getDeclaringClass()));
-                    });
         }
 
         public static void main(String[] args) {
             AccountMiniPane accountMiniPane = new AccountMiniPane();
             Arrays.stream(AccountMiniPane.class.getFields())
-                    .filter(e-> ObjectUtil.isNotNull(e.getAnnotationsByType(Proxy.class)))
+                    .filter(e-> ObjectUtil.isNotNull(e.getAnnotation(Proxy.class)))
                     .forEach(k-> {
                         k.setAccessible(true);
-                        ReflectUtil.setFieldValue(accountMiniPane,k,ProxyBean.getProxyBean(k.getDeclaringClass()));
+                        ReflectUtil.setFieldValue(accountMiniPane,k,ProxyBean.getProxyBean(k.getType()));
                     });
+            accountMiniPane.getSessionAction().add();
             System.out.println(accountMiniPane);
         }
 
@@ -139,7 +135,6 @@ public class SearchPane extends FlowPane {
 //        2.初始化容器大小
             name = new Label(accountInfo.getUserName());
             name.setVisible(true);
-//            name.setText(accountInfo.getUserName());
             name.setLayoutX(20d);
             name.setLayoutY(10d);
             this.getChildren().add(name);
@@ -151,10 +146,14 @@ public class SearchPane extends FlowPane {
                 log.info("创建session会话 {} ",sessionId);
             });
             log.info("load {}  account {}" ,this.getClass().getName(),accountInfo);
-
+            Arrays.stream(this.getClass().getFields())
+                    .filter(e-> ObjectUtil.equal(e.getAnnotatedType().getClass() ,Proxy.class))
+                    .forEach(k-> {
+                        k.setAccessible(true);
+                        ReflectUtil.setFieldValue(this,k, ProxyUtil.getProxy(k.getDeclaringClass()));
+                        log.info("wired pane {} proxy" ,this.getClass().getName());
+                    });
         }
-
-
 
     }
 }
