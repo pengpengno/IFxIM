@@ -40,8 +40,8 @@ public class AccountMiniPane extends Pane implements Initializable {
 
     public void init(){
 //        1.初始化标签文本
-//        2.初始化容器大小
         name.setText(accountInfo.getUserName());
+//        2.初始化容器大小
         name.setLayoutX(20d);
         name.setLayoutY(10d);
     }

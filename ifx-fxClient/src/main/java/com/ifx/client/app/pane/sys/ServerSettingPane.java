@@ -26,8 +26,6 @@ public class ServerSettingPane extends Pane {
         return ServerSettingPane.INSTANCE.getInstance();
     }
 
-
-
     public String getHostName() {
         return hostName;
     }

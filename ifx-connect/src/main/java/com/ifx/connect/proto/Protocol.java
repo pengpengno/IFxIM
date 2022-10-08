@@ -33,10 +33,7 @@ public class Protocol implements Serializable {
 
     private String clientSDKVersion;   // 客户端版本类类型
 
-    @Deprecated
-    private Result res;
-
-    private String content;
+    private Object content;
 
     public <T> T  getRes(Class<T> tClass){
         return null;

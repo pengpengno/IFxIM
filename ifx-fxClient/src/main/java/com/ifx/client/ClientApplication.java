@@ -27,7 +27,7 @@ public class ClientApplication extends Application{
     public void start(Stage stage)   {
         //接管FXPlus属性的创建
         springFxmlLoader = SpringUtil.getBean(SpringFxmlLoader.class);
-        Scene stage1 = springFxmlLoader.applySinScene("com/ifx/client/app/fxml/login.fxml");
+        Scene stage1 = SpringFxmlLoader.applySinScene("com/ifx/client/app/fxml/login.fxml");
         stage.setScene(stage1);
         stage.show();
     }

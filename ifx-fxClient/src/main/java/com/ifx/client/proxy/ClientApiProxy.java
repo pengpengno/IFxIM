@@ -57,7 +57,6 @@ public class ClientApiProxy implements MethodInterceptor , ApplicationListener<C
             Protocol protocol = new DubboProtocol();
             protocol.setProtocolBody(JSON.toJSONString(metaData));
             protocol.setType(IFxMsgProtocol.CLIENT_TO_SERVER_MSG_HEADER);
-//            List<Integer> s = (List<Integer>) obj;
             clientAction.sendJsonMsg(protocol);
             log.info(" load apiProxy  prev");
             return null;

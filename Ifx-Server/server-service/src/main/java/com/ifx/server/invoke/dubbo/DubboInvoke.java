@@ -92,7 +92,8 @@ public class DubboInvoke implements GateInvoke {
                     nettyContext.addAccount(channel.channel(), JSONObject.parseObject(JSON.toJSONString(value),AccountInfo.class));
                 }
 //                protocol.setRes(ok);
-                protocol.setContent(JSON.toJSONString(ok));
+//                protocol.setContent(JSON.toJSONString(ok));
+                protocol.setContent(value);
                 log.info("doWork(whenComplete): " + value);
                 server2ClientAction.sendProtoCol(channel.channel(),protocol);
                 latch.countDown();
@@ -106,6 +107,7 @@ public class DubboInvoke implements GateInvoke {
 
     @Override
     public void doException(Throwable e) {
+        log.error(ExceptionUtil.stacktraceToString(e));
 
     }
 }

@@ -56,10 +56,11 @@ public class RegisterController  {
         accountBaseInfo.setEmail(mailField.getText());
 
         TaskHandler taskHandler = resProtocol -> {
-            String account = (String)resProtocol.getRes().getData().get(0);
-            if (StrUtil.isNotBlank(account)){
-                log.info("注册成功！");
-            }
+//            String account = (String) resProtocol.getRes().getData().get(0);
+//            if (StrUtil.isNotBlank(account)){
+//                log.info("注册成功！");
+//            }
+            log.info("注册成功！");
         };
         Protocol registerProtocol = registerHelper.applyRegister(accountBaseInfo);
         clientAction.sendJsonMsg(registerProtocol, taskHandler);
@@ -68,10 +69,17 @@ public class RegisterController  {
     @FXML
     void cancel(MouseEvent event)   {
 
-        Stage stage = springFxmlLoader.applySinStage("com\\ifx\\client\\app\\fxml\\register.fxml");
-        Stage loginStage = springFxmlLoader.applySinStage("com\\ifx\\client\\app\\fxml\\login.fxml");
+        Stage stage = SpringFxmlLoader.applySinStage("com\\ifx\\client\\app\\fxml\\register.fxml");
+        Stage loginStage = SpringFxmlLoader.applySinStage("com\\ifx\\client\\app\\fxml\\login.fxml");
         stage.hide();
         loginStage.toFront();
+    }
+
+    public static void show(){
+        Stage stage = SpringFxmlLoader.applySinStage("com\\ifx\\client\\app\\fxml\\register.fxml");
+        log.info("prepare to show  register");
+        stage.show();
+        stage.setTitle("注册");
     }
 
 
