@@ -29,6 +29,7 @@ public class ProtocolDecoder extends ByteToMessageDecoder {
                 ByteBuf byteBuf = in.readBytes(length);
                 log.info("接受到的数据大小为 {} bytes",length);
                 Protocol protocol = JSON.parseObject(byteBuf.toString(StandardCharsets.UTF_8), Protocol.class);
+//                Protocol protocol = (Protocol) byteBuf.toString(StandardCharsets.UTF_8);
                 out.add(protocol);
             }
         }

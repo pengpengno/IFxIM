@@ -22,7 +22,8 @@ public class ProtocolEncoder extends MessageToByteEncoder<Protocol> {
             log.info(" 传入协议 Protocol 为空");
             return;
         }
-        byte[] bytes = JSON.toJSONString(msg).getBytes(StandardCharsets.UTF_8);
+//        byte[] bytes = JSON.toJSONString(msg).getBytes(StandardCharsets.UTF_8);
+        byte[] bytes = msg.toString().getBytes(StandardCharsets.UTF_8);
         out.writeByte(BUS_FLAG);
         out.writeInt(bytes.length);
         log.info("传输数据大小为 {} bytes",bytes.length);

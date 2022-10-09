@@ -91,9 +91,8 @@ public class DubboInvoke implements GateInvoke {
                     log.info("用户登录系统成功，正在建立 channel 绑定关系");
                     nettyContext.addAccount(channel.channel(), JSONObject.parseObject(JSON.toJSONString(value),AccountInfo.class));
                 }
-//                protocol.setRes(ok);
-//                protocol.setContent(JSON.toJSONString(ok));
-                protocol.setContent(value);
+                protocol.setContent(JSON.toJSONString(ok));
+//                protocol.setContent(value);
                 log.info("doWork(whenComplete): " + value);
                 server2ClientAction.sendProtoCol(channel.channel(),protocol);
                 latch.countDown();
