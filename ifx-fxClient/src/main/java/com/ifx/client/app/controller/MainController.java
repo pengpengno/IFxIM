@@ -90,10 +90,10 @@ public class MainController implements Initializable {
             accountSearchVo.setAccount(text);
             Protocol query = accountService.query(accountSearchVo);
             clientService.send(query,(protoCol -> {
-//                String content = protoCol.getContent();
-//                Result result = JSON.parseObject(content, Result.class);
-//                List<AccountInfo> accountInfos = result.getData(AccountInfo.class);
-                List<AccountInfo> accountInfos = (List<AccountInfo>) protoCol.getContent();
+                String content = protoCol.getContent();
+                Result result = JSON.parseObject(content, Result.class);
+                List<AccountInfo> accountInfos = result.getData(AccountInfo.class);
+//                List<AccountInfo> accountInfos = (List<AccountInfo>) protoCol.getContent();
                 log.info(JSON.toJSONString(protoCol));
 //                添加数据
                 accountInfos.stream().forEach(e-> {
@@ -113,14 +113,16 @@ public class MainController implements Initializable {
         accountSearchVo.setAccount(text);
         Protocol query = accountService.query(accountSearchVo);
         clientService.send(query,(protoCol -> {
-//            String content = protoCol.getContent();
-//            Result result = JSON.parseObject(content, Result.class);
-//            List<AccountInfo> accountInfos = result.getData(AccountInfo.class);
-            List<AccountInfo> accountInfos = (List<AccountInfo>) protoCol.getContent();
-
-            accountInfos.stream().forEach(e-> {
-                listView.getItems().add(e.getAccount());
-            });
+            String content = protoCol.getContent();
+            Result result = JSON.parseObject(content, Result.class);
+            List<AccountInfo> accountInfos = result.getData(AccountInfo.class);
+//            List<AccountInfo> accountInfos = (List<AccountInfo>) protoCol.getContent();
+            if (listView!= null){
+                accountInfos.stream().forEach(e-> {
+//                    searchPane.getChildren().add()
+                    listView.getItems().add(e.getAccount());
+                });
+            }
         }));
     }
 

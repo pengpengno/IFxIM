@@ -29,7 +29,7 @@ public class Protocol implements Serializable {
 
   private String clientSDKVersion;   // 客户端版本类类型
 
-  private Object content;
+  private String content;
 
 
 }

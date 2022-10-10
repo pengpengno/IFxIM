@@ -101,15 +101,15 @@ public class LoginController  implements Initializable {
             alert.show();
         });
         TaskHandler taskHandler = protocol -> {
-//            Result result = JSON.parseObject(protocol.getContent(), Result.class);
-//            List data = result.getData();
-//            Object o = data.get(0);
-//            if (o == null){
-//                log.warn("登录失败！");
-//                return;
-//            }
-//            AccountInfo accountInfo = JSONObject.parseObject(o.toString(), AccountInfo.class);
-            AccountInfo accountInfo = (AccountInfo) protocol.getContent();
+            Result result = JSON.parseObject(protocol.getContent(), Result.class);
+            List data = result.getData();
+            Object o = data.get(0);
+            if (o == null){
+                log.warn("登录失败！");
+                return;
+            }
+            AccountInfo accountInfo = JSONObject.parseObject(o.toString(), AccountInfo.class);
+//            AccountInfo accountInfo = (AccountInfo) protocol.getContent();
             log.info("login status {}",accountInfo);
             if (accountInfo!=null){
                 AccountContext.setCurAccount(accountInfo);
