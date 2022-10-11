@@ -51,6 +51,6 @@ public class Proxy implements MethodInterceptor {
 //        clientService.send(protocol);
 
         log.info("after proxy");
-        return null;
+        return protocol;
     }
 }

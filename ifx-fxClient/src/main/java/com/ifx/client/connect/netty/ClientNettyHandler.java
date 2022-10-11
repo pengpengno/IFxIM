@@ -31,7 +31,7 @@ public class ClientNettyHandler extends SimpleChannelInboundHandler<Protocol> im
 
     @Override
     public void onApplicationEvent(ContextRefreshedEvent event) {
-        clientServer = SpringUtil.getBean("clientPool");
+//        clientServer = SpringUtil.getBean("clientPool");
 //        clientAction = SpringUtil.getBean(ClientAction.class);
 //        taskManager = SpringUtil.getBean(TaskManager.class);
     }
