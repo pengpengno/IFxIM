@@ -33,6 +33,7 @@
         <hippo4j.version>1.4.0-RC</hippo4j.version>
         <p6spy.version>3.9.1</p6spy.version>
         <cglib.version>3.3.0</cglib.version>
+        <protobuf.version>3.21.7</protobuf.version>
         <mysql.connector.version>8.0.28</mysql.connector.version>
     </properties>
     <dependencies>
@@ -106,7 +107,18 @@
                 <artifactId>cglib</artifactId>
                 <version>${cglib.version}</version>
             </dependency>
-
+            <!--            protobuf 框架-->
+            <dependency>
+                <groupId>com.google.protobuf</groupId>
+                <artifactId>protobuf-java</artifactId>
+                <version>${protobuf.version}</version>
+            </dependency>
+            <!--            protobuf Java Json 框架-->
+            <dependency>
+                <groupId>com.google.protobuf</groupId>
+                <artifactId>protobuf-java-util</artifactId>
+                <version>${protobuf.version}</version>
+            </dependency>
             <dependency>
                 <groupId>mysql</groupId>
                 <artifactId>mysql-connector-java</artifactId>

@@ -23,8 +23,8 @@ spring:
       database: ifx
   datasource:
     druid:
-      username: root
-      password: root
+      username: ifx
+      password: ifx2022
       url: jdbc:mysql://124.221.168.200/ifx?useUnicode=true&characterEncoding=utf-8&txcAppName=account&useSSL=true
       driver-class-name: com.mysql.cj.jdbc.Driver
   application:

@@ -1,0 +1,42 @@
+syntax = "proto2";
+
+package com.ifx.connect.proto;
+option java_multiple_files = true;
+
+option java_outer_classname = "Protocol";
+
+message ProtoColBuf {
+  required int32 version = 1;
+  //协议版本号。第一版本：1，以此类推。
+
+  required int64 id = 2;
+  //消息id
+
+  required DestType destType = 3;
+  //接收者类型。
+
+  required string fromId = 4;
+  //发送者userId
+
+  required string destId = 5;
+  //接收者userId
+
+  required int64 createTime = 6;
+  //发送时间
+
+  required MsgType msgType = 7;
+  //消息类型
+
+  required int64 ackMsgId = 8;
+  //消息体
+
+  enum DestType {
+    SINGLE = 0;
+    GROUP = 1;
+  }
+
+  enum MsgType {
+    DELIVERED = 0;
+    READ = 1;
+  }
+}

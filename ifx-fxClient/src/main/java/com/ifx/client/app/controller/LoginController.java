@@ -53,7 +53,6 @@ public class LoginController  implements Initializable {
     private ImageView iconView;
 
     @FXML
-//    private JFXButton loginBut;
     private Button loginBut;
 
     @FXML
@@ -77,8 +76,6 @@ public class LoginController  implements Initializable {
     @Resource(name = "netty")
     private ClientAction clientAction;
 
-    @Resource
-    private SpringFxmlLoader springFxmlLoader;
 
     @Resource
     private AccountHelper accountHelper;
@@ -88,6 +85,8 @@ public class LoginController  implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        passwordField.setText("wangpeng");
+        accountField.setText("wangpeng");
         log.info ("initialing login controller ");
     }
 
@@ -110,6 +109,7 @@ public class LoginController  implements Initializable {
                 return;
             }
             AccountInfo accountInfo = JSONObject.parseObject(o.toString(), AccountInfo.class);
+//            AccountInfo accountInfo = (AccountInfo) protocol.getContent();
             log.info("login status {}",accountInfo);
             if (accountInfo!=null){
                 AccountContext.setCurAccount(accountInfo);
@@ -117,8 +117,8 @@ public class LoginController  implements Initializable {
                 log.info("login success ");
                 Stage window = (Stage) account.getScene().getWindow();
                 window.hide();
-                Stage stage = springFxmlLoader.applySinStage("com\\ifx\\client\\app\\fxml\\main.fxml");
-                Stage login = springFxmlLoader.applySinStage("com\\ifx\\client\\app\\fxml\\login.fxml");
+                Stage stage = SpringFxmlLoader.applySinStage("com\\ifx\\client\\app\\fxml\\main.fxml");
+                Stage login = SpringFxmlLoader.applySinStage("com\\ifx\\client\\app\\fxml\\login.fxml");
                 login.hide();
                 log.info("prepare to show  main");
                 stage.show();
@@ -143,10 +143,11 @@ public class LoginController  implements Initializable {
 
     @FXML
     void toRegister(MouseEvent event)   {
-        Stage stage = springFxmlLoader.applySinStage("com\\ifx\\client\\app\\fxml\\register.fxml");
-        log.info("prepare to show  register");
-        stage.show();
-        stage.setTitle("注册");
+        RegisterController.show();
+//        Stage stage = SpringFxmlLoader.applySinStage("com\\ifx\\client\\app\\fxml\\register.fxml");
+//        log.info("prepare to show  register");
+//        stage.show();
+//        stage.setTitle("注册");
     }
 
 
