@@ -2,6 +2,9 @@ package com.ifx.connect;
 
 import cn.hutool.core.collection.CollectionUtil;
 import com.alibaba.fastjson2.JSON;
+import com.ifx.client.service.SessionActionService;
+import com.ifx.connect.proto.Protocol;
+import com.ifx.session.entity.Session;
 import com.ifx.session.service.SessionService;
 import lombok.extern.slf4j.Slf4j;
 import net.sf.cglib.proxy.Enhancer;
@@ -15,12 +18,11 @@ public class CglibTest {
     @Test
     public void cglibTest(){
         Enhancer enhancer = new Enhancer();
-        enhancer.setSuperclass(SessionService.class);
+        enhancer.setSuperclass(SessionActionService.class);
         enhancer.setCallback(new Proxy());
-        SessionService sessionService = (SessionService) enhancer.create();
-
-//        List<Long> session2 = sessionService.newSession2();
-//        log.info("{} ",JSON.toJSONString(session2));
+        SessionActionService sessionService = (SessionActionService) enhancer.create();
+        Protocol protocol = sessionService.add0();
+        log.info(" protocol = {} ",JSON.toJSONString(protocol));
 
     }
     

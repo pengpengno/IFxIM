@@ -1,8 +1,25 @@
-package com.ifx.client.proxy;
+package com.ifx.client.util;
 
+import cn.hutool.core.util.ObjectUtil;
+import cn.hutool.core.util.ReflectUtil;
+import com.ifx.client.app.pane.SearchPane;
+import com.ifx.client.proxy.ProxyBean;
+import com.ifx.common.ann.client.Proxy;
+
+import java.util.Arrays;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class ProxyUtil {
+
+    public static void proxy(Object o ) {
+        Arrays.stream(SearchPane.AccountMiniPane.class.getFields())
+                .filter(e-> ObjectUtil.isNotNull(e.getAnnotation(Proxy.class)))
+                .forEach(k-> {
+                    k.setAccessible(true);
+                    Object proxyBean = ProxyBean.getProxyBean(k.getType());
+                    ReflectUtil.setFieldValue(o,k, proxyBean);
+                });
+    }
 
 
     private static ConcurrentHashMap<Class<?>,Object> proxyMap ;

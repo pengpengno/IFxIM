@@ -94,7 +94,7 @@ public class DubboGenericParse {
     }
 
 
-
+    @Deprecated
     public static Protocol applyProtocol(Class clazz,String method,List object){
         DubboApiMetaData metaData = DubboGenericParse.applyMeta(clazz, method, object);
         Protocol protocol = new DubboProtocol();
@@ -105,6 +105,7 @@ public class DubboGenericParse {
 
 
     @SneakyThrows
+    @SuppressWarnings(value = "all")
     public DubboApiMetaData applyMeta(Class interFaceClass, Method method){
         String name = interFaceClass.getName();
         Class<?>[] parameterTypes = method.getParameterTypes();
@@ -113,6 +114,7 @@ public class DubboGenericParse {
         metaData.setApiInterFacePath(name);
         metaData.setArgsType(paramTypes);
         metaData.setMethod(method.getName());
+
         return metaData;
 
     }

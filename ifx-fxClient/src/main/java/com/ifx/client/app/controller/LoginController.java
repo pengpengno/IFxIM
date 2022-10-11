@@ -109,7 +109,6 @@ public class LoginController  implements Initializable {
                 return;
             }
             AccountInfo accountInfo = JSONObject.parseObject(o.toString(), AccountInfo.class);
-//            AccountInfo accountInfo = (AccountInfo) protocol.getContent();
             log.info("login status {}",accountInfo);
             if (accountInfo!=null){
                 AccountContext.setCurAccount(accountInfo);

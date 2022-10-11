@@ -1,6 +1,7 @@
 package com.ifx.client.app.controller;
 
 
+import cn.hutool.core.util.ObjectUtil;
 import com.alibaba.fastjson2.JSON;
 import com.ifx.account.vo.AccountSearchVo;
 import com.ifx.client.app.pane.SearchPane;
@@ -18,6 +19,8 @@ import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.InputMethodEvent;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.FlowPane;
 import lombok.extern.slf4j.Slf4j;
@@ -69,6 +72,22 @@ public class MainController implements Initializable {
         scene = msgTextArea.getScene();
         searchPane.setVgap(8);
         searchPane.setHgap(4);
+        msgTextArea.addEventHandler(KeyEvent.KEY_PRESSED ,(keyPress)-> {
+            KeyCode code = keyPress.getCode();
+            if (ObjectUtil.equal(code ,KeyCode.ENTER)){
+//                TODO 发送消息
+                msgTextArea.clear();
+//                清除后光标移位到左上角
+                msgTextArea.setPrefColumnCount(0);
+                msgTextArea.setPrefRowCount(0);
+                msgTextArea.setScrollTop(0);
+                msgTextArea.setScrollLeft(0);
+
+                log.info("正在发送消息，");
+            }
+            String name = code.getName();
+            log.info("按下了 {} ",name);
+        });
     }
 
     @FXML
@@ -89,6 +108,7 @@ public class MainController implements Initializable {
             AccountSearchVo accountSearchVo = new AccountSearchVo();
             accountSearchVo.setAccount(text);
             Protocol query = accountService.query(accountSearchVo);
+//             获取回调输出
             clientService.send(query,(protoCol -> {
                 String content = protoCol.getContent();
                 Result result = JSON.parseObject(content, Result.class);
@@ -111,6 +131,7 @@ public class MainController implements Initializable {
         log.info("当前文本为 {} ",text);
         AccountSearchVo accountSearchVo = new AccountSearchVo();
         accountSearchVo.setAccount(text);
+
         Protocol query = accountService.query(accountSearchVo);
         clientService.send(query,(protoCol -> {
             String content = protoCol.getContent();

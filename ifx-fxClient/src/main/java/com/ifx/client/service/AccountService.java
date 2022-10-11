@@ -21,7 +21,6 @@ public class AccountService {
     @Resource
     private AccountHelper accountHelper;
 
-//    @Resource
 
     public Protocol query(AccountSearchVo searchVo){
         try{
