@@ -27,6 +27,7 @@ public class ClientService {
     }
 
     public void send(Protocol protocol, TaskHandler taskHandler){
+//       保存 TaskHandler等待回调
         String trace = IdUtil.fastSimpleUUID();
         protocol.setTrace(trace);
         taskManager.addTask(trace,taskHandler);

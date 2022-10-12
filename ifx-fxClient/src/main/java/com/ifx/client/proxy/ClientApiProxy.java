@@ -53,6 +53,7 @@ public class ClientApiProxy implements MethodInterceptor , ApplicationListener<C
             Method getFastClass = ReflectUtil.getMethod(proxy.getClass(), "getFastClass");
             getFastClass.setAccessible(true);
             FastClass invoke = ReflectUtil.invoke(proxy, getFastClass);
+
             DubboApiMetaData metaData = DubboGenericParse.applyMeta0(invoke.getJavaClass(), method, args);
             Protocol protocol = new DubboProtocol();
             protocol.setProtocolBody(JSON.toJSONString(metaData));

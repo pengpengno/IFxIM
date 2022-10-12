@@ -14,6 +14,8 @@ import net.sf.cglib.proxy.MethodProxy;
 import net.sf.cglib.reflect.FastClass;
 
 import javax.annotation.Resource;
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.lang.reflect.Method;
 
 @Slf4j
@@ -37,19 +39,23 @@ public class Proxy implements MethodInterceptor {
      * @throws Throwable
      */
     @Override
-    public Object intercept(Object obj, Method method, Object[] args, MethodProxy proxy) throws Throwable {
+    public Object intercept(Object obj, Method method, Object[] args, MethodProxy proxy)  {
         log.info("currently thread {} doing proxy {}",Thread.currentThread().getName(),obj.getClass().getName());
 
         Method getFastClass = ReflectUtil.getMethod(proxy.getClass(), "getFastClass");
         getFastClass.setAccessible(true);
         FastClass invoke = ReflectUtil.invoke(proxy, getFastClass);
-
         DubboApiMetaData metaData = DubboGenericParse.applyMeta0(invoke.getJavaClass(), method, args);
         Protocol protocol = new DubboProtocol();
         protocol.setProtocolBody(JSON.toJSONString(metaData));
         protocol.setType(IFxMsgProtocol.CLIENT_TO_SERVER_MSG_HEADER);
 //        clientService.send(protocol);
-
+        Class<?> returnType = method.getReturnType();
+        method.setAccessible(true);
+//        Object cl = Protocol.class;
+//        proxy.getClass().getName()
+        ReflectUtil.setFieldValue(method,"returnType",Protocol.class);
+//        proxy.
         log.info("after proxy");
         return protocol;
     }

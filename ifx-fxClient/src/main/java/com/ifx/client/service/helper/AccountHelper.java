@@ -40,12 +40,9 @@ public class AccountHelper {
     @Deprecated
     public Protocol applySearch(AccountSearchVo vo){
         Method search = AccountService.class.getMethod("search", AccountSearchVo.class);
-        Class<?> returnType = search.getReturnType();
         DubboApiMetaData metaData = DubboGenericParse.applyMeta(AccountService.class, "search", CollectionUtil.newArrayList(vo));
         Protocol protocol = new DubboProtocol();
         protocol.setProtocolBody(JSON.toJSONString(metaData));
-        protocol.setType(IFxMsgProtocol.LOGIN_MSG_HEADER);
-
         return protocol;
     }
 

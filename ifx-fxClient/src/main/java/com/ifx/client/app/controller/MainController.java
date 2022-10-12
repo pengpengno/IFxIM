@@ -103,6 +103,7 @@ public class MainController implements Initializable {
 
     protected void initSearch(){
         searchField.textProperty().addListener((obs-> {
+            searchPane.getChildren().clear();
             String text = searchField.getText();
             log.info("当前文本为 {} ",text);
             AccountSearchVo accountSearchVo = new AccountSearchVo();
@@ -137,10 +138,8 @@ public class MainController implements Initializable {
             String content = protoCol.getContent();
             Result result = JSON.parseObject(content, Result.class);
             List<AccountInfo> accountInfos = result.getData(AccountInfo.class);
-//            List<AccountInfo> accountInfos = (List<AccountInfo>) protoCol.getContent();
             if (listView!= null){
                 accountInfos.stream().forEach(e-> {
-//                    searchPane.getChildren().add()
                     listView.getItems().add(e.getAccount());
                 });
             }

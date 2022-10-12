@@ -14,6 +14,9 @@ import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Consumer;
+import java.util.function.Function;
+
 @Slf4j
 
 public class CglibTest {
@@ -26,8 +29,11 @@ public class CglibTest {
         Object o = sessionService.add0();
 
         Protocol protocol = sessionService.add0();
+        Object protocol2 = sessionService.addAcc(null);
         log.info(" protocol = {} ",JSON.toJSONString(protocol));
         log.info(" protocol = {} ",JSON.toJSONString(o));
+
+
 
     }
     
@@ -45,29 +51,42 @@ public class CglibTest {
         Enhancer enhancer = new Enhancer();
         enhancer.setSuperclass(SessionActionService.class);
         enhancer.setCallback(new Proxy());
+        enhancer.setInterfaces(new Class[] {CglibInterface.class});
         SessionActionService sessionService = (SessionActionService) enhancer.create();
-        Object o = sessionService.add0();
-
-        Protocol protocol1 = generateProtocol(() -> sessionService.add0());
+        CglibInterface sessionService1 = (CglibInterface) sessionService;
+//        Protocol strings = sessionService1.getProtocol();
+//        String string = sessionService1.getString();
+//        Object o = sessionService.add0();
+        sessionService.addAcc(CollectionUtil.newHashSet());
+//        Protocol protocol1 = generateProtocol(() -> sessionService.add0());
         Protocol protocol = sessionService.add0();
         log.info(" protocol = {} ",JSON.toJSONString(protocol));
-        log.info(" protocol = {} ",JSON.toJSONString(o));
+//        log.info(" protocol = {} ",JSON.toJSONString(string));
+//        log.info(" protocol = {} ",JSON.toJSONString(o));
 //        1. 通过代理类实现 Protocol的处理
 //        返回值必须为 Protocol
 //
 
     }
 
+//  自定义生成  协议
 
     public static Protocol generateProtocol (Callback<Object,?> callback){
         Object call = callback.call(new Proxy());
         return null;
     }
-    public static Protocol generateProtocol (Runnable runnable){
 
-        return null;
+//    public static Protocol generateProtocol (Runnable runnable){
+//
+//        return null;
+//
+//    }
+//    public static Protocol generateProtocol (Consumer runnable){
+//
+//        return null;
+//
+//    }
 
-    }
 
     public static void sendProtocol(Protocol protocol, TaskHandler taskHandler){
 

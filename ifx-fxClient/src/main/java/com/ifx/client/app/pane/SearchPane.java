@@ -9,11 +9,13 @@ import com.ifx.client.parse.DubboGenericParse;
 import com.ifx.client.proxy.ProxyBean;
 import com.ifx.client.service.ClientService;
 import com.ifx.client.service.SessionActionService;
+import com.ifx.client.service.helper.ProtocolHelper;
 import com.ifx.client.util.ProxyUtil;
 import com.ifx.common.ann.client.Proxy;
 import com.ifx.common.base.AccountInfo;
 import com.ifx.common.context.AccountContext;
 import com.ifx.connect.proto.Protocol;
+import com.ifx.connect.proto.dubbo.DubboApiMetaData;
 import com.ifx.session.service.ISessionLifeStyle;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
@@ -149,10 +151,13 @@ public class SearchPane extends FlowPane {
             this.getChildren().add(name);
             this.addEventHandler(MouseEvent.MOUSE_CLICKED,(mouse)->{
                 log.debug("click button the account is {}", JSON.toJSONString(accountInfo));
-                HashSet<String> accountSet = CollectionUtil.newHashSet
-                        (AccountContext.getCurAccount().getAccount(), accountInfo.getAccount());
-//                DubboGenericParse.applyMeta()
-                Protocol protocol = sessionActionService.add0();
+//                HashSet<String> accountSet = CollectionUtil.newHashSet
+//                        (AccountContext.getCurAccount().getAccount(),
+//                                accountInfo.getAccount());
+                Protocol protocol = ProtocolHelper.applyDubboProtocol(ISessionLifeStyle.class, "initialize", new Object[]{});
+                clientService.send(protocol, (res)-> {
+                    log.info("返回了结果 {}" ,JSON.toJSONString(res));
+                });
                 clientService.send(protocol,(proRes)-> {
                     log.info ("成功创建会话");
                 });
