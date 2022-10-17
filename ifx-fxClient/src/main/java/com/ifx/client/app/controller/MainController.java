@@ -46,7 +46,7 @@ public class MainController implements Initializable {
     private FlowPane searchPane;
 
     @FXML
-    private Button session;
+    private Button createSession;
 
     @FXML
     private TextField searchField;
@@ -121,10 +121,7 @@ public class MainController implements Initializable {
             Protocol query = accountService.query(accountSearchVo);
 //             获取回调输出
             clientService.send(query,(protoCol -> {
-//                String content = protoCol.getContent();
-//                Result result = JSON.parseObject(content, Result.class);
                 Result result = protoCol.getResult();
-//                List<AccountInfo> accountInfos = result.getData(AccountInfo.class);
                 List<AccountInfo> accountInfos = JSON.parseArray(result.getRes().toString(), AccountInfo.class);
                 log.info(JSON.toJSONString(protoCol));
 //                添加数据
