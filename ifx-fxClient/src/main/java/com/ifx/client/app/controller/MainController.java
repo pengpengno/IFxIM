@@ -23,6 +23,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.FlowPane;
+import javafx.stage.Stage;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
@@ -43,6 +44,9 @@ public class MainController implements Initializable {
 
     @FXML
     private FlowPane searchPane;
+
+    @FXML
+    private Button session;
 
     @FXML
     private TextField searchField;
@@ -68,7 +72,6 @@ public class MainController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         log.info("{} is loading ...",getClass().getName());
         initSearch();
-        Group group = new Group();
         scene = msgTextArea.getScene();
         searchPane.setVgap(8);
         searchPane.setHgap(4);
@@ -82,7 +85,6 @@ public class MainController implements Initializable {
                 msgTextArea.setPrefRowCount(0);
                 msgTextArea.setScrollTop(0);
                 msgTextArea.setScrollLeft(0);
-
                 log.info("正在发送消息，");
             }
             String name = code.getName();
@@ -93,6 +95,14 @@ public class MainController implements Initializable {
     @FXML
     void sendMsg(MouseEvent event) {
         log.info("send button");
+        boolean supported = Platform.isSupported(ConditionalFeature.INPUT_METHOD);
+//        1. 发送信息
+        String text = msgTextArea.getText();
+        boolean empty = text.isEmpty();
+
+    }    @FXML
+    void createSession(MouseEvent event) {
+        log.info("create sesssion ");
         boolean supported = Platform.isSupported(ConditionalFeature.INPUT_METHOD);
 //        1. 发送信息
         String text = msgTextArea.getText();
@@ -111,10 +121,11 @@ public class MainController implements Initializable {
             Protocol query = accountService.query(accountSearchVo);
 //             获取回调输出
             clientService.send(query,(protoCol -> {
-                String content = protoCol.getContent();
-                Result result = JSON.parseObject(content, Result.class);
-                List<AccountInfo> accountInfos = result.getData(AccountInfo.class);
-//                List<AccountInfo> accountInfos = (List<AccountInfo>) protoCol.getContent();
+//                String content = protoCol.getContent();
+//                Result result = JSON.parseObject(content, Result.class);
+                Result result = protoCol.getResult();
+//                List<AccountInfo> accountInfos = result.getData(AccountInfo.class);
+                List<AccountInfo> accountInfos = JSON.parseArray(result.getRes().toString(), AccountInfo.class);
                 log.info(JSON.toJSONString(protoCol));
 //                添加数据
                 accountInfos.stream().forEach(e-> {
@@ -132,18 +143,25 @@ public class MainController implements Initializable {
         log.info("当前文本为 {} ",text);
         AccountSearchVo accountSearchVo = new AccountSearchVo();
         accountSearchVo.setAccount(text);
-
+//
         Protocol query = accountService.query(accountSearchVo);
         clientService.send(query,(protoCol -> {
-            String content = protoCol.getContent();
-            Result result = JSON.parseObject(content, Result.class);
-            List<AccountInfo> accountInfos = result.getData(AccountInfo.class);
+//            String content = protoCol.getContent();
+//            Result result = JSON.parseObject(content, Result.class);
+            Result result = protoCol.getResult();
+            List<AccountInfo> accountInfos = result.getList(AccountInfo.class);
             if (listView!= null){
                 accountInfos.stream().forEach(e-> {
                     listView.getItems().add(e.getAccount());
                 });
             }
         }));
+    }
+    public static void show(){
+        Stage stage = SpringFxmlLoader.applySinStage("com\\ifx\\client\\app\\fxml\\main.fxml");
+        log.info("prepare to show  register");
+        stage.show();
+        stage.setTitle("注册");
     }
 
 

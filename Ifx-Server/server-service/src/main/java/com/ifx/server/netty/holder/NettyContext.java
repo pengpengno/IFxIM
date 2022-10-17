@@ -16,6 +16,7 @@ public class NettyContext {
     private static final AttributeKey<AccountInfo> ACCOUNT_CHANNEL_KEY = AttributeKey.valueOf("account");
 
     public void addAccount(Channel channel , AccountInfo account){
+//        TODO 加入中间件做分布式缓存处理
         if (channelMap == null ){
             channelMap = new ConcurrentHashMap<>();
         }

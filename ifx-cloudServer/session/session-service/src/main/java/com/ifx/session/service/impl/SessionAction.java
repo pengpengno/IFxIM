@@ -34,6 +34,10 @@ public class SessionAction implements ISessionAction {
 
     }
 
+    @Override
+    public void flush2Db(Long sessionId) {
+
+    }
 
     @Override
     public Long addAcc(Set<String> accounts) {

@@ -2,11 +2,8 @@ package com.ifx.connect;
 
 import cn.hutool.core.collection.CollectionUtil;
 import com.alibaba.fastjson2.JSON;
-import com.ifx.client.service.SessionActionService;
 import com.ifx.connect.proto.Protocol;
 import com.ifx.connect.task.TaskHandler;
-import com.ifx.session.entity.Session;
-import com.ifx.session.service.SessionService;
 import javafx.util.Callback;
 import lombok.extern.slf4j.Slf4j;
 import net.sf.cglib.proxy.Enhancer;
@@ -14,8 +11,6 @@ import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Consumer;
-import java.util.function.Function;
 
 @Slf4j
 

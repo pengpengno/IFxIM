@@ -31,5 +31,7 @@ public class Protocol implements Serializable {
 
   private String content;
 
+  private Result result;
+
 
 }

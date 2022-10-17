@@ -32,9 +32,9 @@ public class SessionServiceImpl extends ServiceImpl<SessionMapper, Session>
     public Long newSession() {
         Session session = new Session();
         Long sessionId = IdUtil.getSnowflakeNextId();
-        session.setSession_id(sessionId);
-        session.setCreate_time(LocalDateTime.now());
-        session.setUpdate_time(LocalDateTime.now());
+        session.setSessionId(sessionId);
+        session.setUpdateTime(LocalDateTime.now());
+        session.setUpdateTime(LocalDateTime.now());
         cacheUtil.expire(sessionId.toString(),session,50L, TimeUnit.MINUTES);
         return sessionId;
     }

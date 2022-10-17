@@ -101,9 +101,12 @@ public class LoginController  implements Initializable {
             alert.show();
         });
         TaskHandler taskHandler = protocol -> {
-            Result result = JSON.parseObject(protocol.getContent(), Result.class);
-            List data = result.getData();
-            Object o = data.get(0);
+//            Result result = JSON.parseObject(protocol.getContent(), Result.class);
+
+//            List data = protocol.getResult().getData();
+
+//            Object o = data.get(0);
+            Object o = protocol.getResult().getRes();
             if (o == null){
                 log.warn("登录失败！");
                 return;
@@ -147,6 +150,12 @@ public class LoginController  implements Initializable {
 //        log.info("prepare to show  register");
 //        stage.show();
 //        stage.setTitle("注册");
+    }
+    public static void show(){
+        Stage stage = SpringFxmlLoader.applySinStage("com\\ifx\\client\\app\\fxml\\login.fxml");
+        log.info("prepare to show  register");
+        stage.show();
+        stage.setTitle("注册");
     }
 
 

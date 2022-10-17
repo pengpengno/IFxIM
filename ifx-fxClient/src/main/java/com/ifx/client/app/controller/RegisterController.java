@@ -1,9 +1,11 @@
 package com.ifx.client.app.controller;
 
 import cn.hutool.core.util.StrUtil;
+import com.alibaba.fastjson2.JSONObject;
 import com.ifx.account.vo.AccountBaseInfo;
 import com.ifx.client.service.helper.RegisterHelper;
 import com.ifx.client.util.SpringFxmlLoader;
+import com.ifx.common.res.Result;
 import com.ifx.connect.netty.client.ClientAction;
 import com.ifx.connect.proto.Protocol;
 import com.ifx.connect.task.TaskHandler;
@@ -56,10 +58,15 @@ public class RegisterController  {
         accountBaseInfo.setEmail(mailField.getText());
 
         TaskHandler taskHandler = resProtocol -> {
-//            String account = (String) resProtocol.getRes().getData().get(0);
-//            if (StrUtil.isNotBlank(account)){
-//                log.info("注册成功！");
-//            }
+//            String account = (String) resProtocol.getContent().getData().get(0);
+            Result result = resProtocol.getResult();
+            Object res = result.getRes();
+//            Object o = result.getData().get(0);
+            String account = result.getData(String.class);
+//            String account = JSONObject.parseObject(res.toString(), String.class);
+            if (StrUtil.isNotBlank(account)){
+                log.info("注册成功！ {} ",account);
+            }
             log.info("注册成功！");
         };
         Protocol registerProtocol = registerHelper.applyRegister(accountBaseInfo);

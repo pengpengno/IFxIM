@@ -1,6 +1,7 @@
 package com.ifx.account.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -91,7 +92,6 @@ public class AccountServiceImpl
                         .or()
                         .like(searchVo.getLikeAccount() != null && StrUtil.isNotBlank(searchVo.getLikeAccount()),
                                 "account", searchVo.getLikeAccount())
-
         );
         List<AccountInfo> accountInfos = accounts.stream().map(e -> {
             AccountInfo accountInfo = new AccountInfo();
@@ -118,6 +118,17 @@ public class AccountServiceImpl
         if (!Objects.isNull(accountInfo)) {
             return CommonConstant.ACCOUNT_EXIT;
         }
+        accountMapper.insert(account);
+        return account.getAccount();
+    }
+
+
+
+    @Override
+    public String register(String name) {
+        Account account = new Account();
+        account.setUserName(name);
+        account.setAccount(IdUtil.getSnowflakeNextIdStr());
         accountMapper.insert(account);
         return account.getAccount();
     }

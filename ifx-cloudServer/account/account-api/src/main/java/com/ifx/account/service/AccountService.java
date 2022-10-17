@@ -20,6 +20,8 @@ public interface AccountService  {
 
         public String register(AccountBaseInfo accountBaseInfo);
 
+        public String register(String name);
+
         default List<Map<String,Long>> test(Long s){
                 return null;
         }

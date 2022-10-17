@@ -2,27 +2,42 @@ package com.ifx.common.res;
 
 import cn.hutool.core.collection.CollectionUtil;
 import com.alibaba.fastjson2.JSON;
+import lombok.Data;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
-
-public class Result<T> implements Serializable {
+@Data
+public class Result implements Serializable {
     private static final long serialVersionUID = 1L;
     private int code;
     private String msg;
     private String extra;
     private int total;
     private int totalpage;
-    private List<T> data;
-    private T resData;
+//    private List<T> data;
+//    private T resData;
+    private Object res;
 
-    public Result() {
-        this.data = new ArrayList();
+//    public Result() {
+//        this.data = new ArrayList();
+//    }
+
+//    public void addData(T element) {
+//        this.data.add(element);
+//    }
+    public  <T>  T  getData(Class<T> t) {
+        T objects = JSON.parseObject(res.toString(), t);
+        return objects;
     }
-
-    public void addData(T element) {
-        this.data.add(element);
+    public  <T> Collection<T>  getCollection(Class<T> t) {
+        List<T> objects = JSON.parseArray(res.toString(), t);
+        return objects;
+    }
+    public  <T> List<T>  getList(Class<T> t) {
+        List<T> objects = JSON.parseArray(res.toString(), t);
+        return objects;
     }
 
     public int getCode() {
@@ -57,18 +72,18 @@ public class Result<T> implements Serializable {
         this.total = total;
     }
 
-    public List<T> getData() {
-        return this.data;
-    }
-    public List<T> getData(Class<T> tclass){
-        String jsonString = JSON.toJSONString(data);
-        return JSON.parseArray(jsonString,tclass);
+//    public List<T> getData() {
+//        return this.data;
+//    }
+//    public List<T> getData(Class<T> tclass){
+//        String jsonString = JSON.toJSONString(data);
+//        return JSON.parseArray(jsonString,tclass);
+//
+//    }
 
-    }
-
-    public void setData(List<T> data) {
-        this.data = data;
-    }
+//    public void setData(List<T> data) {
+//        this.data = data;
+//    }
 
     public int getTotalpage() {
         return this.totalpage;
@@ -78,33 +93,33 @@ public class Result<T> implements Serializable {
         this.totalpage = totalpage;
     }
 
-    public Result(Result.Builder<T> tBuilder) {
-        this.code = tBuilder._code;
-        this.msg = tBuilder._msg;
-        this.extra = tBuilder._extra;
-        this.total = tBuilder._total;
-        this.totalpage = tBuilder._totalpage;
-        this.data = tBuilder._data;
-    }
-
-    public static <T> Result<T> ok() {
-        Result<T> Result = new Result();
-        Result.setCode(0);
-        return Result;
-    }
-    public static <T> Result<T> ok(T data) {
-        Result<T> Result = new Result();
-        Result.setCode(0);
-        Result.setData(CollectionUtil.newArrayList(data));
-        return Result;
-    }
-
-    public static <T> Result<T> ok(List<T> data) {
-        Result<T> Result = new Result();
-        Result.setCode(0);
-        Result.setData(data);
-        return Result;
-    }
+//    public Result(Result.Builder<T> tBuilder) {
+//        this.code = tBuilder._code;
+//        this.msg = tBuilder._msg;
+//        this.extra = tBuilder._extra;
+//        this.total = tBuilder._total;
+//        this.totalpage = tBuilder._totalpage;
+//        this.data = tBuilder._data;
+//    }
+//
+//    public static <T> Result<T> ok() {
+//        Result<T> Result = new Result();
+//        Result.setCode(0);
+//        return Result;
+//    }
+//    public static <T> Result<T> ok(T data) {
+//        Result<T> Result = new Result();
+//        Result.setCode(0);
+//        Result.setData(CollectionUtil.newArrayList(data));
+//        return Result;
+//    }
+//
+//    public static <T> Result<T> ok(List<T> data) {
+//        Result<T> Result = new Result();
+//        Result.setCode(0);
+//        Result.setData(data);
+//        return Result;
+//    }
 
     public static <T> Result.Builder<T> builder() {
         return new Result.Builder();
@@ -164,8 +179,8 @@ public class Result<T> implements Serializable {
             return this;
         }
 
-        public Result<T> build() {
-            return new Result(this);
-        }
+//        public Result<T> build() {
+//            return new Result(this);
+//        }
     }
 }

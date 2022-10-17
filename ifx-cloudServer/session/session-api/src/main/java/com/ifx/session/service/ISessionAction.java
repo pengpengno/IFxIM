@@ -16,6 +16,8 @@ public interface ISessionAction {
 
     public void flush2Db();
 
+    public void flush2Db(Long sessionId);
+
     public void notifyAllAcc();
 
 
