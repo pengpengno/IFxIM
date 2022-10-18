@@ -83,7 +83,6 @@ public class TaskManager {
             while(!taskHandlers.isEmpty()){
                 taskHandlers.poll().doTask(protocol);
             }
-
         }
     }
 

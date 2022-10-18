@@ -1,6 +1,7 @@
 package com.ifx.session.service;
 
 import com.ifx.common.base.AccountInfo;
+import com.ifx.session.vo.SessionMsgVo;
 
 import java.util.Set;
 
@@ -13,6 +14,7 @@ public interface ISessionAction {
 
     public Long addAcc(Set<String> account);
 
+    public Long addSessionMsg(SessionMsgVo sessionMsgVo);
 
     public void flush2Db();
 

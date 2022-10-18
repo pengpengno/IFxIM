@@ -146,10 +146,6 @@ public class LoginController  implements Initializable {
     @FXML
     void toRegister(MouseEvent event)   {
         RegisterController.show();
-//        Stage stage = SpringFxmlLoader.applySinStage("com\\ifx\\client\\app\\fxml\\register.fxml");
-//        log.info("prepare to show  register");
-//        stage.show();
-//        stage.setTitle("注册");
     }
     public static void show(){
         Stage stage = SpringFxmlLoader.applySinStage("com\\ifx\\client\\app\\fxml\\login.fxml");

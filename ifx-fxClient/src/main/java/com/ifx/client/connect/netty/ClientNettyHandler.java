@@ -41,16 +41,13 @@ public class ClientNettyHandler extends SimpleChannelInboundHandler<Protocol> im
         /**
          * @Description  处理接收到的消息
          **/
-        log.info("receive msg from server-side {}, data package {}",ctx.channel().localAddress().toString(),byteBuf);
+        log.info("receive msg from server-side {} , data package {}",ctx.channel().localAddress().toString(),byteBuf);
         clientServer = SpringUtil.getBean("clientPool");
         clientAction = SpringUtil.getBean(ClientAction.class);
         taskManager = SpringUtil.getBean(TaskManager.class);
 //        String res = byteBuf.toString(CharsetUtil.UTF_8);
         log.info("received msg package {}",byteBuf);
-
-//        Protocol protocol = JSONObject.parseObject(res, Protocol.class);
         clientServer.submit(() -> Platform.runLater(()-> taskManager.doTask(byteBuf)));
-//        clientServer.submit(() -> Platform.runLater(()-> taskManager.doTask(protocol)));
     }
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception

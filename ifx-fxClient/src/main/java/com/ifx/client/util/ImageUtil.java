@@ -8,6 +8,9 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
+/**
+ *图像资源处理工具类
+ */
 public class ImageUtil {
 
 	    /***

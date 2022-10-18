@@ -140,11 +140,8 @@ public class MainController implements Initializable {
         log.info("当前文本为 {} ",text);
         AccountSearchVo accountSearchVo = new AccountSearchVo();
         accountSearchVo.setAccount(text);
-//
         Protocol query = accountService.query(accountSearchVo);
         clientService.send(query,(protoCol -> {
-//            String content = protoCol.getContent();
-//            Result result = JSON.parseObject(content, Result.class);
             Result result = protoCol.getResult();
             List<AccountInfo> accountInfos = result.getList(AccountInfo.class);
             if (listView!= null){
@@ -154,11 +151,12 @@ public class MainController implements Initializable {
             }
         }));
     }
+
     public static void show(){
         Stage stage = SpringFxmlLoader.applySinStage("com\\ifx\\client\\app\\fxml\\main.fxml");
         log.info("prepare to show  register");
         stage.show();
-        stage.setTitle("注册");
+        stage.setTitle("IFx");
     }
 
 

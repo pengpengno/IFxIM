@@ -24,22 +24,22 @@ public class SessionAccount implements Serializable {
     /**
      * 会话
      */
-    private Long session_id;
+    private Long sessionId;
 
     /**
      * 会话账号
      */
-    private String account;
+    private String accountIds;
 
     /**
      * 创建时间
      */
-    private LocalDateTime create_time;
+    private LocalDateTime createTime;
 
     /**
      * 修改时间
      */
-    private LocalDateTime update_time;
+    private LocalDateTime updateTime;
 
     /**
      * 删除标志

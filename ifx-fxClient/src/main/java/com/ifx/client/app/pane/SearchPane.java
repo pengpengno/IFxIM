@@ -90,13 +90,7 @@ public class SearchPane extends FlowPane {
      * 用户基本面板
      */
     public static class AccountMiniPane extends Pane implements Initializable {
-        @Proxy
-        public ISessionLifeStyle lifeStyle;
 
-//        @Proxy
-//        public ISessionAction sessionAction;
-        @Proxy
-        private SessionActionService sessionActionService;
 
         public AccountInfo accountInfo;
 
@@ -146,12 +140,10 @@ public class SearchPane extends FlowPane {
             this.getChildren().add(name);
             this.addEventHandler(MouseEvent.MOUSE_CLICKED,(mouse)->{
                 log.debug("click button the account is {}", JSON.toJSONString(accountInfo));
-//                HashSet<String> accountSet = CollectionUtil.newHashSet
-//                        (AccountContext.getCurAccount().getAccount(),
-//                                accountInfo.getAccount());
                 Protocol protocol = ProtocolHelper.applyDubboProtocol(ISessionLifeStyle.class, "initialize", new Object[]{});
                 clientService.send(protocol, (res)-> {
                     log.info("返回了结果 {}" ,JSON.toJSONString(res));
+//                    创建了xxxx
                 });
                 clientService.send(protocol,(proRes)-> {
                     log.info ("成功创建会话");

@@ -4,6 +4,7 @@ import com.ifx.common.base.AccountInfo;
 import com.ifx.session.service.ISessionAction;
 import com.ifx.session.service.SessionService;
 import com.ifx.session.utils.RedisUtil;
+import com.ifx.session.vo.SessionMsgVo;
 import org.apache.dubbo.config.annotation.DubboService;
 import org.springframework.stereotype.Service;
 
@@ -28,6 +29,13 @@ public class SessionAction implements ISessionAction {
 
     public void add() {
 
+    }
+
+    @Override
+    public Long addSessionMsg(SessionMsgVo sessionMsgVo) {
+        Long sessionId = sessionMsgVo.getSessionId();
+
+        return null;
     }
 
     public void addAcc(Long sessionId, Set<AccountInfo> accountInfo) {
