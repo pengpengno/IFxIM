@@ -3,6 +3,7 @@ package com.ifx.session.service.impl;
 import com.ifx.common.utils.CacheUtil;
 import com.ifx.session.service.ISessionLifeStyle;
 import com.ifx.session.service.SessionService;
+import com.ifx.session.vo.SessionCreateVo;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.annotation.DubboService;
 import org.springframework.stereotype.Service;
@@ -31,6 +32,12 @@ public class SessionLifeStyle implements ISessionLifeStyle {
 
     @Override
     public Long initialize(Set<String> accounts) {
+        return null;
+    }
+
+
+    @Override
+    public Long create(SessionCreateVo sessionCreateVo) {
         return null;
     }
 

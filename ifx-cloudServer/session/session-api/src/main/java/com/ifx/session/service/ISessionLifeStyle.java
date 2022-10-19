@@ -1,5 +1,7 @@
 package com.ifx.session.service;
 
+import com.ifx.session.vo.SessionCreateVo;
+
 import java.util.Set;
 
 public interface ISessionLifeStyle {
@@ -16,6 +18,13 @@ public interface ISessionLifeStyle {
      * @return
      */
     public Long initialize(Set<String> accounts);
+
+    /**
+     * 创建会话任务
+     * @param sessionCreateVo
+     * @return
+     */
+    public Long create(SessionCreateVo sessionCreateVo);
 
     public void start();
 
