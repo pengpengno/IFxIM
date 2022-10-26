@@ -82,26 +82,20 @@ public class DubboGenericParse {
     }
 
     @SneakyThrows
-    public static DubboApiMetaData applyMeta(Method method){
+    public static DubboApiMetaData applyMeta(Method method,Object... objects){
+
 //        String name = interFaceClass.getName();
-////        if (args!=null){
-////
-////        }
-//        Class<?>[] classes = new Class<?>[args.length];
-//        for (int i = 0; i < args.length; i++) {
-//            classes[i] = args[i].getClass();
-//        }
-//        Method method = interFaceClass.getMethod(methodName, classes);
-//        Class<?>[] parameterTypes = method.getParameterTypes();
-//        String[] paramTypes = Arrays.stream(parameterTypes)
-//                .map(Class::getName)
-//                .toArray(String[]::new);
-//        DubboApiMetaData metaData = new DubboApiMetaData();
+
+        Class<?>[] parameterTypes = method.getParameterTypes();
+        String[] paramTypes = Arrays.stream(parameterTypes)
+                .map(Class::getName)
+                .toArray(String[]::new);
+        DubboApiMetaData metaData = new DubboApiMetaData();
 //        metaData.setApiInterFacePath(name);
-//        metaData.setArgsType(paramTypes);
-//        metaData.setArgs(args);
-//        metaData.setMethod(methodName);
-//        return metaData;
+        metaData.setArgsType(paramTypes);
+        metaData.setArgs(objects);
+        metaData.setMethod(method.getName());
+        return metaData;
     }
 
     @SneakyThrows

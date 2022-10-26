@@ -100,7 +100,8 @@ public class MainController implements Initializable {
         String text = msgTextArea.getText();
         boolean empty = text.isEmpty();
 
-    }    @FXML
+    }
+    @FXML
     void createSession(MouseEvent event) {
         log.info("create sesssion ");
         boolean supported = Platform.isSupported(ConditionalFeature.INPUT_METHOD);

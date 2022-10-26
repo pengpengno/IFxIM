@@ -77,6 +77,7 @@ public class TaskManager {
     public void doTask(TaskHandler taskHandler, ThreadPoolExecutor executor){
         executor.submit(()->taskHandler);
     }
+
     public void doTask(Protocol protocol){
         ConcurrentLinkedDeque<TaskHandler> taskHandlers = getTaskHandlers(protocol.getTrace());
         if (CollectionUtil.isNotEmpty(taskHandlers)){

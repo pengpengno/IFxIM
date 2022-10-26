@@ -4,6 +4,7 @@ import cn.hutool.core.collection.CollectionUtil;
 import com.ifx.account.entity.Account;
 import com.ifx.client.app.pane.sys.ServerSettingPane;
 import com.ifx.client.parse.DubboGenericParse;
+import com.ifx.connect.proto.dubbo.DubboApiMetaData;
 import com.ifx.session.service.ISessionLifeStyle;
 import com.ifx.session.vo.SessionCreateVo;
 import com.ifx.session.vo.SessionInfoVo;
@@ -56,7 +57,9 @@ public class SessionCreatePane extends Pane implements Initializable {
             } catch (NoSuchMethodException e) {
                 e.printStackTrace();
             }
-            DubboGenericParse.applyMeta(ISessionLifeStyle.class,"create",new Object[]{sessionCreateVo});
+            DubboApiMetaData metaData = DubboGenericParse.applyMeta(ISessionLifeStyle.class, "create", new Object[]{sessionCreateVo});
+
+//            DubboGenericParse.applyMeta(create,sessionCreateVo);
         });
     }
 

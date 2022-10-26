@@ -1,7 +1,10 @@
 package com.ifx.session.service.impl;
 
 import com.ifx.common.utils.CacheUtil;
+import com.ifx.session.entity.Session;
+import com.ifx.session.entity.SessionAccount;
 import com.ifx.session.service.ISessionLifeStyle;
+import com.ifx.session.service.SessionAccountService;
 import com.ifx.session.service.SessionService;
 import com.ifx.session.vo.SessionCreateVo;
 import lombok.extern.slf4j.Slf4j;
@@ -10,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 @DubboService
@@ -21,6 +25,9 @@ public class SessionLifeStyle implements ISessionLifeStyle {
 
     @Resource
     private SessionService sessionService;
+
+    @Resource
+    private SessionAccountService sessionAccountService;
     @Override
     public Long initialize() {
        log.info("正在创建会话！");
@@ -38,7 +45,16 @@ public class SessionLifeStyle implements ISessionLifeStyle {
 
     @Override
     public Long create(SessionCreateVo sessionCreateVo) {
-        return null;
+        Long aLong = sessionService.newSession();
+        Session session = new Session();
+        session.setSessionName(sessionCreateVo.getSessionTitle());
+        sessionService.save(session);
+        SessionAccount sessionAccount = new SessionAccount();
+        sessionAccount.setSessionId(aLong);
+        sessionAccount.setAccountIds
+                (sessionCreateVo.getAccounts().stream().collect(Collectors.mapping(e->e.getAccount(),Collectors.joining(","))));
+        sessionAccountService.save(sessionAccount);
+        return aLong;
     }
 
     @Override

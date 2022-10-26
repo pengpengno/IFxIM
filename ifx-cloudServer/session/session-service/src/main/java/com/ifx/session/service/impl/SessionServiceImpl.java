@@ -4,8 +4,11 @@ import cn.hutool.core.util.IdUtil;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.ifx.common.utils.CacheUtil;
 import com.ifx.session.entity.Session;
+import com.ifx.session.entity.SessionAccount;
 import com.ifx.session.mapper.SessionMapper;
+import com.ifx.session.service.SessionAccountService;
 import com.ifx.session.service.SessionService;
+import com.ifx.session.vo.SessionCreateVo;
 import org.apache.dubbo.config.annotation.DubboService;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
@@ -28,6 +31,9 @@ public class SessionServiceImpl extends ServiceImpl<SessionMapper, Session>
 
     @Resource(name = "Redis")
     private CacheUtil cacheUtil;
+
+    @Resource
+    private SessionAccountServiceImpl sessionAccountService;
     @Override
     public Long newSession() {
         Session session = new Session();
