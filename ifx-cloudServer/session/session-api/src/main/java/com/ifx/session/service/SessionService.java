@@ -17,5 +17,10 @@ public interface SessionService extends IService<Session> {
      */
     Long newSession();
 
-
+    /**
+     * 
+     * @param sessionId
+     * @return
+     */
+    Session getSession(Long sessionId);
 }

@@ -9,6 +9,7 @@ import com.ifx.session.mapper.SessionMapper;
 import com.ifx.session.service.SessionAccountService;
 import com.ifx.session.service.SessionService;
 import com.ifx.session.vo.SessionCreateVo;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.annotation.DubboService;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
@@ -24,6 +25,7 @@ import java.util.concurrent.TimeUnit;
 */
 @Service
 @DubboService
+@Slf4j
 public class SessionServiceImpl extends ServiceImpl<SessionMapper, Session>
         implements SessionService {
     @Resource
@@ -42,10 +44,20 @@ public class SessionServiceImpl extends ServiceImpl<SessionMapper, Session>
         session.setUpdateTime(LocalDateTime.now());
         session.setUpdateTime(LocalDateTime.now());
         cacheUtil.expire(sessionId.toString(),session,50L, TimeUnit.MINUTES);
+        boolean save = save(session);
         return sessionId;
     }
 
 
+    @Override
+    public Session getSession(Long sessionId) {
+        if (sessionId == null){
+            log.warn(" searching session fail, and sessionId is null");
+            return null;
+        }
+        Session session = (Session) cacheUtil.get(sessionId.toString());
+        return session;
+    }
 }
 
 

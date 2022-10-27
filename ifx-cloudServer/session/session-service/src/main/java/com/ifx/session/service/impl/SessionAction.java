@@ -1,6 +1,7 @@
 package com.ifx.session.service.impl;
 
 import com.ifx.common.base.AccountInfo;
+import com.ifx.session.entity.Session;
 import com.ifx.session.service.ISessionAction;
 import com.ifx.session.service.SessionService;
 import com.ifx.session.utils.RedisUtil;
@@ -34,6 +35,10 @@ public class SessionAction implements ISessionAction {
     @Override
     public Long addSessionMsg(SessionMsgVo sessionMsgVo) {
         Long sessionId = sessionMsgVo.getSessionId();
+        Session session = sessionService.getSession(sessionId);
+        if (session == null){
+            throw new
+        }
 
         return null;
     }
