@@ -14,7 +14,6 @@ public interface IFxMsgProtocol extends ProtocolHeaderConst {
 
     String CLIENT_TO_SERVER_MSG_HEADER =  "C2S://";      // 用于客户端与服务端通信的协议
 
-    String HEART_BEAT_PROTOCOL_HEADER = "Heart://";  //心跳包协议
 
 
     /***特殊业务 Header 头**/

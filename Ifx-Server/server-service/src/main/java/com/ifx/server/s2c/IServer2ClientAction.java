@@ -10,7 +10,6 @@ public interface IServer2ClientAction {
 
     public void sendProtoCol(String account,Protocol protocol);
 
-    public Boolean hasAccount(Channel channel);
 
     public void releaseClient(Channel channel);
 

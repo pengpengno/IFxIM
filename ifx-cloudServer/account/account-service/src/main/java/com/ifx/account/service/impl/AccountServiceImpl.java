@@ -3,6 +3,7 @@ package com.ifx.account.service.impl;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.StrUtil;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -47,10 +48,10 @@ public class AccountServiceImpl
         if (Objects.isNull(accountBaseInfo.getPassword())) {
             return isLogin;
         }
-        Account account = accountMapper.selectOne( new QueryWrapper<Account>().
-                eq("account", accountBaseInfo.getAccount())
+        Account account = accountMapper.selectOne( new LambdaQueryWrapper<Account>().
+                eq(Account::getAccount, accountBaseInfo.getAccount())
         .or()
-        .eq("email", accountBaseInfo.getAccount()));
+        .eq(Account::getEmail, accountBaseInfo.getEmail()));
         if (Objects.isNull(account)) {
             return isLogin;
         }
@@ -136,7 +137,9 @@ public class AccountServiceImpl
     @Override
     public List<AccountBaseInfo> listAllAccoutInfo() {
         Page<Account> page = page(new Page<>(), new QueryWrapper<Account>().eq("account", "wangpeng"));
-        List<AccountBaseInfo> collect = page.getRecords().stream().map(e -> AccountHelper.INSTANCE.transform4Init(e)).collect(Collectors.toList());
+        List<AccountBaseInfo> collect = page.getRecords().stream()
+                .map(e -> AccountHelper.INSTANCE.transform4Init(e))
+                .collect(Collectors.toList());
         return collect;
     }
 }

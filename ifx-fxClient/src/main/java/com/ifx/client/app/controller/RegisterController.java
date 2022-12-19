@@ -1,14 +1,13 @@
 package com.ifx.client.app.controller;
 
 import cn.hutool.core.util.StrUtil;
-import com.alibaba.fastjson2.JSONObject;
 import com.ifx.account.vo.AccountBaseInfo;
 import com.ifx.client.service.helper.RegisterHelper;
 import com.ifx.client.util.SpringFxmlLoader;
 import com.ifx.common.res.Result;
 import com.ifx.connect.netty.client.ClientAction;
 import com.ifx.connect.proto.Protocol;
-import com.ifx.connect.task.TaskHandler;
+import com.ifx.connect.task.handler.TaskHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;

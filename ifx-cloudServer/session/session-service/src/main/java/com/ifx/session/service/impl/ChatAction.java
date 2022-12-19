@@ -1,7 +1,7 @@
 package com.ifx.session.service.impl;
 
-import com.alibaba.fastjson2.JSON;
 import com.ifx.server.service.Server2ClientService;
+import com.ifx.server.service.ServerActionService;
 import com.ifx.session.mapper.SessionMapper;
 import com.ifx.session.service.IChatAction;
 import com.ifx.session.service.SessionAccountService;
@@ -11,7 +11,6 @@ import org.apache.dubbo.config.annotation.DubboReference;
 import org.apache.dubbo.config.annotation.DubboService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import javax.annotation.Resource;
 import java.util.List;
 
@@ -28,6 +27,8 @@ public class ChatAction implements IChatAction {
     SessionAccountService sessionAccountService;
     @DubboReference
     Server2ClientService server2ClientService;
+    @DubboReference
+    ServerActionService serverActionService;
 
     @Override
     public List<ChatMsgVo> pullOffline(String account) {
@@ -37,10 +38,13 @@ public class ChatAction implements IChatAction {
     @Override
     public void pushMsg(String fromAccount, Long sessionId, String msg) {
 //        1. 存储消息
-//            1.1 查询session 下所有信息
+
+//            1.1 查询 session 下所有信息
+
 //            1.2 存储 msg 消息
-//        投递成功则将消息持久化，
-//        投递失败则落入存储库
+
+//        用户在线则将数据落入存储库中
+//        用户不在线则 落入离线库中
 //        List<String> accs = sessionAccountService.listSessionAccs(sessionId);
 //        log.info("正在投递----消息");
 //
@@ -52,6 +56,10 @@ public class ChatAction implements IChatAction {
 
     @Override
     public void pushMsg(ChatMsgVo chatMsgVo) {
+//        final  String sendMsg = chatMsgVo.get
+        final Long sessionId = chatMsgVo.getSessionId();
+
+        String s = serverActionService.clientState();
 //        查询会话下用户
 //        不存在会话状态
 //        List<String> accs = sessionAccountService.listSessionAccs(chatMsgVo.getSessionId());
@@ -71,4 +79,9 @@ public class ChatAction implements IChatAction {
         return null;
     }
 
+
+    @Override
+    public List<ChatMsgVo> pullHisMsgByQuery(Long sessionId) {
+        return null;
+    }
 }

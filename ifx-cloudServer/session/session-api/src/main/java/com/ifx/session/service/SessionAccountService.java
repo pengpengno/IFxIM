@@ -12,7 +12,7 @@ import java.util.List;
 */
 public interface SessionAccountService extends IService<SessionAccount> {
 
-    List<String> listAccBySessionId();
+    List<String> listAccBySessionId(Long sessionId);
 
 
 }

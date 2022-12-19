@@ -20,7 +20,7 @@ public interface ISessionLifeStyle {
     public Long initialize(Set<String> accounts);
 
     /**
-     * 创建会话任务
+     * 创建会话
      * @param sessionCreateVo
      * @return
      */

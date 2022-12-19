@@ -1,8 +1,8 @@
-package com.ifx.client.task;
+package com.ifx.connect.task;
 
 import cn.hutool.core.collection.CollectionUtil;
 import com.ifx.connect.proto.Protocol;
-import com.ifx.connect.task.TaskHandler;
+import com.ifx.connect.task.handler.TaskHandler;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
@@ -17,36 +17,45 @@ import java.util.concurrent.ThreadPoolExecutor;
 @Component
 public class TaskManager {
 
-    public static TaskHandler defaultTaskHandler = (Task) -> {log.info("执行心跳包！");};
+//    public static TaskHandler defaultTaskHandler = (Task) -> {log.info("执行心跳包！");};
 
-    public static Integer TASK_MANAGER_SIZE = 20;   //  客户端总任务池大小
-//    public static Integer TASK_LINKED_DEQUE = 20;   //  任务队列长度
+    public static Integer TASK_MANAGER_SIZE = 100;   //  客户端总任务池大小
 //     任务上下文管理器
+//    private ConcurrentHashMap<String, ConcurrentLinkedDeque< > taskManager ;
+//    private ConcurrentHashMap<String, ConcurrentLinkedDeque< ? extends TaskMeta>> taskManager ;
     private ConcurrentHashMap<String, ConcurrentLinkedDeque<TaskHandler>> taskManager ;
 
-//    private ConcurrentLinkedDeque<TaskHandler> taskHandlerLinkedDeque;
 
-    public void init(){
+    public synchronized void init(){
         if (taskManager == null){
-            log.info("正在初始化客户端任务管理器");
-            taskManager = new ConcurrentHashMap<>(TASK_MANAGER_SIZE);
+            log.info("正在初始化客户端核心任务管理器");
+            synchronized (taskManager){
+                taskManager = new ConcurrentHashMap<>(TASK_MANAGER_SIZE);
+            }
         }
     }
 
     public void reset(){
-        log.warn("正在重置客户端任务管理器");
+        log.warn("正在重置客户端核心任务管理器");
         taskManager = new ConcurrentHashMap<>(TASK_MANAGER_SIZE);
     }
-    public ConcurrentLinkedDeque<TaskHandler> initTaskDeque(){
+
+
+    public <T> ConcurrentLinkedDeque<TaskHandler> initTaskDeque(){
         log.info("正在初始化一个新任务队列");
-        return  new ConcurrentLinkedDeque<TaskHandler>();
+        return  new ConcurrentLinkedDeque();
     }
+//
+//    public <T> ConcurrentLinkedDeque<TaskMeta> initTaskDeque(){
+//        log.info("正在初始化一个新任务队列");
+//        return  new ConcurrentLinkedDeque();
+//    }
 
     private void attrTask(String key, TaskHandler value){
-         init();
-         taskManager.putIfAbsent(key, initTaskDeque());
+        init();   //初始化任务管理器
+        taskManager.putIfAbsent(key, initTaskDeque());
         ConcurrentLinkedDeque<TaskHandler> taskHandlers = getTaskHandlers(key);
-        assert taskHandlers != null;
+        assert taskHandlers != null : "任务管理异常！";
         taskHandlers.addLast(value);
     }
 
@@ -64,25 +73,49 @@ public class TaskManager {
         }
         return this;
     }
+//    public TaskManager addTaskTaskMeta(String key, TaskHandler value) {
+//        init();
+//        ConcurrentLinkedDeque<TaskMeta> taskHandlers = taskManager.get(key);
+//        if (taskHandlers == null) {
+//            attrTask(key, value);
+//        } else {
+//            taskHandlers.addLast(value);
+//        }
+//        return this;
+//    }
 
+    /**
+     *
+     * @param key
+     * @return
+     */
     public ConcurrentLinkedDeque<TaskHandler> getTaskHandlers(String key){
         return taskManager.get(key);
     }
 
 
-
-
-
+    /**
+     * 处理
+     * @param taskHandler
+     * @param executor
+     */
 // 指定线程池处理
     public void doTask(TaskHandler taskHandler, ThreadPoolExecutor executor){
         executor.submit(()->taskHandler);
     }
 
+    /**
+     * 处理线程池
+     * @param protocol
+     */
     public void doTask(Protocol protocol){
-        ConcurrentLinkedDeque<TaskHandler> taskHandlers = getTaskHandlers(protocol.getTrace());
+        @SuppressWarnings("all")
+        final Protocol pro = protocol;
+        ConcurrentLinkedDeque<TaskHandler> taskHandlers = getTaskHandlers(pro.getTrace());
         if (CollectionUtil.isNotEmpty(taskHandlers)){
             while(!taskHandlers.isEmpty()){
-                taskHandlers.poll().doTask(protocol);
+                TaskHandler poll = taskHandlers.poll();
+                poll.doTask(pro);
             }
         }
     }

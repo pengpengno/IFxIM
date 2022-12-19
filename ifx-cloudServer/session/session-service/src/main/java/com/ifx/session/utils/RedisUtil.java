@@ -1,6 +1,8 @@
 package com.ifx.session.utils;
 
 import cn.hutool.core.exceptions.ExceptionUtil;
+import cn.hutool.core.util.ObjectUtil;
+import com.alibaba.fastjson2.JSONObject;
 import com.ifx.common.utils.CacheUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -143,7 +145,27 @@ public final class RedisUtil implements CacheUtil {
 		return key == null ? null : redisTemplate.opsForValue().get(key);
 	}
 
-
+	@Override
+	public <T> T get(String key, Class<T> tclass) {
+		if (key ==null || tclass == null){
+			return null;
+		}
+		@SuppressWarnings("all")
+		final Class<T> cl = tclass;
+		final String  opsKey = key;
+		Object target = redisTemplate.opsForValue().get(opsKey);
+		if (target ==null){
+			return null;
+		}
+		try{
+			return JSONObject.parseObject(target.toString(),cl);
+		}
+		catch (Exception ex){
+			log.error("传入 key {} 无法JSON序列化为 {},返回空",key,cl.getName());
+			throw new ClassCastException("无法将类序列化");
+		}
+//		return null;
+	}
 
 	/**
 	 * 普通缓存放入

@@ -1,11 +1,10 @@
-package com.ifx.client.connect.netty;
+package com.ifx.connect.netty.client;
 
 import cn.hutool.core.exceptions.ExceptionUtil;
-import com.ifx.connect.netty.client.ClientAction;
-import com.ifx.connect.netty.client.ClientLifeStyle;
 import com.ifx.connect.proto.Protocol;
-import com.ifx.connect.task.TaskHandler;
-import com.ifx.client.task.TaskManager;
+import com.ifx.connect.task.handler.TaskHandler;
+import com.ifx.connect.task.TaskManager;
+import com.ifx.connect.task.handler.def.DefaultHandler;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelFuture;
 import lombok.extern.slf4j.Slf4j;
@@ -104,32 +103,26 @@ public class NettyClientAction implements ClientAction, ClientLifeStyle {
             log.warn("protocol is  null  no operate  to do ");
             return ;
         }
-//        if (!isAlive()){
-//            log.warn("和服务器断开链接，正在阻塞式尝试重新链接！");
-//            reConnectBlock();
-//        }
-        if (!nettyClient.getChannel().isActive() || nettyClient.getChannel() == null) {
+
+        if (!nettyClient.getChannel().isActive()
+                || nettyClient.getChannel() == null) {
             log.error("netty Channel is close， loading ");
             reConnect();
             return ;
         }
-//        if (nettyClient.getChannel() == null){
-//            log.error("channel is close ,please start server ");
-//            return ;
-//        }
-        log.info("sending msg to server ");
+
+        log.debug("sending msg to server ");
         ChannelFuture write = nettyClient.write(protocol);
         write.addListener(future -> {
             if (future.isSuccess())
-                log.info("client send success ");
+                log.debug("client send success ");
         });
-        return ;
     }
 
     @Override
     public void keepAlive() {
 //        心跳包机制
-        sendJsonMsg(new Protocol(),taskManager.defaultTaskHandler);
+        sendJsonMsg(new Protocol(), DefaultHandler.HEART_BEAT_HANDLER);
     }
 
     @Override

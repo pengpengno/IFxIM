@@ -1,7 +1,7 @@
 package com.ifx.connect.netty.client;
 
 import com.ifx.connect.proto.Protocol;
-import com.ifx.connect.task.TaskHandler;
+import com.ifx.connect.task.handler.TaskHandler;
 
 /**
  * 客户端行为

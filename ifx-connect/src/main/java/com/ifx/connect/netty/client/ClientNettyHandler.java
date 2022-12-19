@@ -1,8 +1,8 @@
-package com.ifx.client.connect.netty;
+package com.ifx.connect.netty.client;
 
 import cn.hutool.core.exceptions.ExceptionUtil;
 import cn.hutool.extra.spring.SpringUtil;
-import com.ifx.client.task.TaskManager;
+import com.ifx.connect.task.TaskManager;
 import com.ifx.connect.netty.client.ClientAction;
 import com.ifx.connect.proto.Protocol;
 import io.netty.channel.ChannelHandler;
@@ -14,19 +14,17 @@ import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.Resource;
 import java.util.concurrent.ExecutorService;
 
 @Slf4j
 @Component
 @ChannelHandler.Sharable
 public class ClientNettyHandler extends SimpleChannelInboundHandler<Protocol> implements  ApplicationListener<ContextRefreshedEvent> {
-    @Resource(name = "clientPool")
+//    @Resource(name = "clientPool")
     private ExecutorService clientServer;
-    @Resource
+//    @Resource
     private ClientAction clientAction;
-
-    @Resource
+//    @Resource
     private TaskManager taskManager;
 
     @Override
@@ -36,16 +34,25 @@ public class ClientNettyHandler extends SimpleChannelInboundHandler<Protocol> im
 //        taskManager = SpringUtil.getBean(TaskManager.class);
     }
 
+    public void init(){
+        if (clientServer==null)
+        clientServer = SpringUtil.getBean("clientPool");
+        if (clientAction==null)
+        clientAction = SpringUtil.getBean(ClientAction.class);
+        if (taskManager==null)
+        taskManager = SpringUtil.getBean(TaskManager.class);
+    }
+
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, Protocol byteBuf) throws Exception {
         /**
          * @Description  处理接收到的消息
          **/
         log.info("receive msg from server-side {} , data package {}",ctx.channel().localAddress().toString(),byteBuf);
-        clientServer = SpringUtil.getBean("clientPool");
-        clientAction = SpringUtil.getBean(ClientAction.class);
-        taskManager = SpringUtil.getBean(TaskManager.class);
-//        String res = byteBuf.toString(CharsetUtil.UTF_8);
+//        clientServer = SpringUtil.getBean("clientPool");
+//        clientAction = SpringUtil.getBean(ClientAction.class);
+//        taskManager = SpringUtil.getBean(TaskManager.class);
+        init();
         log.info("received msg package {}",byteBuf);
         clientServer.submit(() -> Platform.runLater(()-> taskManager.doTask(byteBuf)));
     }

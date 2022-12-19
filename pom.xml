@@ -17,6 +17,7 @@
         <module>ifx-starter</module>
         <module>fx-boot-starter</module>
         <module>ifx-exc</module>
+        <module>dubbo-Bom</module>
     </modules>
     <packaging>pom</packaging>
     <properties>
@@ -24,6 +25,7 @@
         <maven.compiler.target>8</maven.compiler.target>
         <nacos.starter.version>2021.1</nacos.starter.version>
         <spring.starter.version>2.3.3.RELEASE</spring.starter.version>
+        <spring.test.version>5.2.8.RELEASE</spring.test.version>
         <dubbo.starter.version>3.0.9</dubbo.starter.version>
         <hutool-all.version>5.8.4</hutool-all.version>
         <dubbo.version>3.0.2</dubbo.version>
@@ -34,17 +36,20 @@
         <p6spy.version>3.9.1</p6spy.version>
         <cglib.version>3.3.0</cglib.version>
         <protobuf.version>3.21.7</protobuf.version>
+        <mybatis-plus.version>3.4.0</mybatis-plus.version>
+        <mybatis-plus.starter.version>3.4.0</mybatis-plus.starter.version>
         <mysql.connector.version>8.0.28</mysql.connector.version>
     </properties>
     <dependencies>
         <!-- https://mvnrepository.com/artifact/com.alibaba.fastjson2/fastjson2 -->
-
-
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <version>RELEASE</version>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/com.baomidou/mybatis-plus  orm mybatis-plus-->
+
+
         <!--mapstruct核心-->
         <dependency>
             <groupId>org.mapstruct</groupId>
@@ -57,6 +62,12 @@
             <artifactId>lombok-mapstruct-binding</artifactId>
             <version>0.2.0</version>
             <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-mongodb</artifactId>
+            <version>${spring.starter.version}</version>
         </dependency>
 
         <!--mapstruct编译-->
@@ -73,15 +84,31 @@
             <dependency>
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-test</artifactId>
-                <version>5.2.8.RELEASE</version>
+                <version>${spring.test.version}</version>
                 <scope>test</scope>
             </dependency>
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>mybatis-plus</artifactId>
+                <version>${mybatis-plus.version}</version>
+            </dependency>
+<!--            <dependency>-->
+<!--                <groupId>com.baomidou</groupId>-->
+<!--                <artifactId>mybatis-plus</artifactId>-->
+<!--                <version>${mybatis-plus.version}</version>-->
+<!--            </dependency>-->
 <!--            springboot 测试框架-->
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-test</artifactId>
                 <version>${spring.starter.version}</version>
                 <scope>test</scope>
+            </dependency>
+<!--            mybatis-plus starter-->
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>mybatis-plus-boot-starter</artifactId>
+                <version>${mybatis-plus.starter.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.springframework.boot</groupId>
@@ -195,12 +222,14 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
+
+
     <build>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
-<!--                <version>${spring.starter.version}</version>-->
+                <version>${spring.starter.version}</version>
                 <configuration>
                     <excludes>
                         <exclude>
@@ -213,7 +242,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.8.1</version>
+                <version>3.6.1</version>
                 <configuration>
                     <source>8</source>
                     <target>8</target>

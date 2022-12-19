@@ -9,7 +9,7 @@ public class ChatMsgVo implements Serializable {
 
     private String content;  // 消息文本
 
-    private String fromAccount;  //  发送者
+//    private String fromAccount;  //  发送者
 
     private AccountInfo formAccount; //发送基本信息
 

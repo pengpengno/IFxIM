@@ -1,6 +1,8 @@
 package com.ifx.session.service.impl;
 
+import com.ifx.account.entity.Account;
 import com.ifx.common.utils.CacheUtil;
+import com.ifx.session.consts.IFxCommonConstants;
 import com.ifx.session.entity.Session;
 import com.ifx.session.entity.SessionAccount;
 import com.ifx.session.service.ISessionLifeStyle;
@@ -52,7 +54,9 @@ public class SessionLifeStyle implements ISessionLifeStyle {
         SessionAccount sessionAccount = new SessionAccount();
         sessionAccount.setSessionId(aLong);
         sessionAccount.setAccountIds
-                (sessionCreateVo.getAccounts().stream().collect(Collectors.mapping(e->e.getAccount(),Collectors.joining(","))));
+                (sessionCreateVo.getAccounts().stream()
+                        .map(Account::getAccount)
+                        .collect(Collectors.joining(IFxCommonConstants.ACCOUNT_SPLIT)));
         sessionAccountService.save(sessionAccount);
         return aLong;
     }

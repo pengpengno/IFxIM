@@ -22,6 +22,7 @@ spring:
       password: admin
       database: ifx
   datasource:
+#    type: com.alibaba.druid.pool.DruidDataSource
     druid:
       username: ifx
       password: ifx2022

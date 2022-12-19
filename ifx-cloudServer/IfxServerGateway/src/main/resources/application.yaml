@@ -18,8 +18,8 @@ spring:
   datasource:
     #    driver-class-name: com.alibaba.druid.proxy.DruidDriver
     druid:
-      username: root
-      password: root
+      username: ifx
+      password: ifx2022
       url: jdbc:mysql://124.221.168.200/ifx?useUnicode=true&characterEncoding=utf-8&txcAppName=formService
       driver-class-name: com.mysql.jdbc.Driver
 #jdbc:

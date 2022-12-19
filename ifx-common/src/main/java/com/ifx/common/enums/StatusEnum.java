@@ -7,7 +7,8 @@ import lombok.Getter;
 @AllArgsConstructor
 public enum StatusEnum {
     SUC(1),
-    FAIL(0);
+    FAIL(0),
+    ;
     private final Integer code;
 
 }

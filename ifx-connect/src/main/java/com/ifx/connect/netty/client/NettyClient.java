@@ -1,4 +1,4 @@
-package com.ifx.client.connect.netty;
+package com.ifx.connect.netty.client;
 
 import com.ifx.connect.decoder.ProtocolDecoder;
 import com.ifx.connect.encoder.ProtocolEncoder;
