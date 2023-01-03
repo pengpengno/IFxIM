@@ -26,12 +26,13 @@ public class TaskManager {
     private ConcurrentHashMap<String, ConcurrentLinkedDeque<TaskHandler>> taskManager ;
 
 
+
     public synchronized void init(){
         if (taskManager == null){
             log.info("正在初始化客户端核心任务管理器");
-            synchronized (taskManager){
+//            synchronized (taskManager){
                 taskManager = new ConcurrentHashMap<>(TASK_MANAGER_SIZE);
-            }
+//            }
         }
     }
 

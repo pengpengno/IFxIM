@@ -98,11 +98,6 @@ public class LoginController  implements Initializable {
             alert.show();
         });
         TaskHandler taskHandler = protocol -> {
-//            Result result = JSON.parseObject(protocol.getContent(), Result.class);
-
-//            List data = protocol.getResult().getData();
-
-//            Object o = data.get(0);
             Object o = protocol.getResult().getRes();
             if (o == null){
                 log.warn("登录失败！");
@@ -112,7 +107,6 @@ public class LoginController  implements Initializable {
             log.info("login status {}",accountInfo);
             if (accountInfo!=null){
                 AccountContext.setCurAccount(accountInfo);
-//                alert.setContentText("登录成功");
                 log.info("login success ");
                 Stage window = (Stage) account.getScene().getWindow();
                 window.hide();

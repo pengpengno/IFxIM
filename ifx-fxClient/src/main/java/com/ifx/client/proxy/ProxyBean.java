@@ -14,9 +14,6 @@ public class ProxyBean {
     public static <T> T getProxyBean(Class<T> tClass){
         Enhancer enhancer = new Enhancer();
         enhancer.setSuperclass(tClass);
-//        enhancer.setCallback(ClientApiProxy.getInstance());
-//        enhancer.setMetho\
-//        MethodProxy.create()
         enhancer.setCallback(new FixedValue() {
             @Override
             public Object loadObject() throws Exception {

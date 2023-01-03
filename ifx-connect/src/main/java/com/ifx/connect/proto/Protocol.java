@@ -6,6 +6,9 @@ import lombok.Data;
 
 import java.io.Serializable;
 
+/**
+ * 通讯基础协议包
+ */
 @Data
 public class Protocol implements Serializable {
 

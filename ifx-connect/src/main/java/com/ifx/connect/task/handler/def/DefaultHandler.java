@@ -17,7 +17,7 @@ public class DefaultHandler {
     public static class HeartBeatHandler implements TaskHandler{
         @Override
         public void accept(Protocol protocol) {
-            log.info("执行心跳包！");
+            log.info("心跳包执行完毕! 当前时间为 {}");
         }
     }
     public static TaskHandler HEART_BEAT_HANDLER = (Task) -> {log.info("执行心跳包！");};  // 默认的心跳 Handler

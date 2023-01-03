@@ -22,34 +22,18 @@
     </properties>
     <dependencies>
         <dependency>
-            <groupId>com.ifx.ifx</groupId>
+            <groupId>com.ifx.connect</groupId>
             <artifactId>ifx-connect</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
-
-
         <dependency>
             <groupId>com.ifx.ifx</groupId>
             <artifactId>ifx-common</artifactId>
             <version>1.0-SNAPSHOT</version>
-            <exclusions>
-                <exclusion>
-                    <artifactId>mybatis-plus</artifactId>
-                    <groupId>com.baomidou</groupId>
-                </exclusion>
-                <exclusion>
-                    <groupId>com.baomidou</groupId>
-                    <artifactId>mybatis-plus-boot-starter</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
         <dependency>
             <groupId>com.alibaba.fastjson2</groupId>
             <artifactId>fastjson2</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter</artifactId>
         </dependency>
 
     </dependencies>

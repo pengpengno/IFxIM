@@ -90,12 +90,6 @@ public class NettyClientAction implements ClientAction, ClientLifeStyle {
     }
 
 
-    @Override
-    public void receive(Protocol protocol) {
-
-    }
-
-
 
     @Override
     public void sendJsonMsg(Protocol protocol) {

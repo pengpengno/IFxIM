@@ -1,6 +1,5 @@
 package com.ifx.account.config;
 
-import com.alibaba.druid.pool.DruidDataSource;
 import com.baomidou.mybatisplus.extension.spring.MybatisSqlSessionFactoryBean;
 import org.apache.ibatis.session.ExecutorType;
 import org.mybatis.spring.SqlSessionTemplate;
@@ -12,12 +11,12 @@ import javax.sql.DataSource;
 public class DataSourceConfig {
 
 
-    @Bean
-    public  DataSource druidSource(){
-        DruidDataSource druidDataSource = new DruidDataSource();
-//        druidDataSource.setDriverClassName();
-        return druidDataSource;
-    }
+//    @Bean
+//    public  DataSource druidSource(){
+//        DruidDataSource druidDataSource = new DruidDataSource();
+////        druidDataSource.setDriverClassName();
+//        return druidDataSource;
+//    }
     @Bean
     public SqlSessionTemplate sqlSessionTemplate( DataSource dataSource) throws Exception {
         SqlSessionTemplate sqlSessionTemplate=new SqlSessionTemplate(sqlSessionFactoryBean(dataSource).getObject(), ExecutorType.BATCH);

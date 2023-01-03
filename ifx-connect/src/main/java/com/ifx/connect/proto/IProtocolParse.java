@@ -4,9 +4,7 @@ package com.ifx.connect.proto;
 public interface IProtocolParse {
     /**
      *
-     * @param protocolHeader such as dubbo://interface::com.ifx.account.server.AccountService&method::login
-     * @see
-     * @return
+     * @param protocolHeader  dubbo://interface::com.ifx.account.server.AccountService & method::login
      */
     public Protocol parseProtocol(String protocolHeader,Object data);
 
