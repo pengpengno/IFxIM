@@ -35,10 +35,12 @@
         <hippo4j.version>1.4.0-RC</hippo4j.version>
         <p6spy.version>3.9.1</p6spy.version>
         <cglib.version>3.3.0</cglib.version>
+        <reactor.core.version>3.5.0</reactor.core.version>
         <protobuf.version>3.21.7</protobuf.version>
         <mybatis-plus.version>3.4.0</mybatis-plus.version>
         <mybatis-plus.starter.version>3.4.0</mybatis-plus.starter.version>
         <mysql.connector.version>8.0.28</mysql.connector.version>
+        <rxJava.version>3.1.5</rxJava.version>
     </properties>
     <dependencies>
         <!-- https://mvnrepository.com/artifact/com.alibaba.fastjson2/fastjson2 -->
@@ -47,9 +49,6 @@
             <artifactId>lombok</artifactId>
             <version>RELEASE</version>
         </dependency>
-        <!-- https://mvnrepository.com/artifact/com.baomidou/mybatis-plus  orm mybatis-plus-->
-
-
         <!--mapstruct核心-->
         <dependency>
             <groupId>org.mapstruct</groupId>
@@ -63,24 +62,24 @@
             <version>0.2.0</version>
             <scope>provided</scope>
         </dependency>
-
-<!--        <dependency>-->
-<!--            <groupId>org.springframework.boot</groupId>-->
-<!--            <artifactId>spring-boot-starter-data-mongodb</artifactId>-->
-<!--            <version>${spring.starter.version}</version>-->
-<!--        </dependency>-->
-
-        <!--mapstruct编译-->
-        <dependency>
-            <groupId>org.mapstruct</groupId>
-            <artifactId>mapstruct-processor</artifactId>
-            <version>1.5.0.Beta1</version>
-        </dependency>
-
     </dependencies>
     <dependencyManagement>
         <dependencies>
-<!--            spring test 框架-->
+            <!-- https://mvnrepository.com/artifact/io.projectreactor/reactor-core -->
+            <dependency>
+                <groupId>io.projectreactor</groupId>
+                <artifactId>reactor-core</artifactId>
+                <version>${reactor.core.version}</version>
+            </dependency>
+            <!-- https://mvnrepository.com/artifact/io.projectreactor.addons/reactor-extra -->
+            <dependency>
+                <groupId>io.projectreactor.addons</groupId>
+                <artifactId>reactor-extra</artifactId>
+                <version>${reactor.core.version}</version>
+            </dependency>
+
+
+            <!--            spring test 框架-->
             <dependency>
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-test</artifactId>
@@ -160,7 +159,12 @@
                 <artifactId>dubbo-spring-boot-autoconfigure</artifactId>
                 <version>${dubbo.version}</version>
             </dependency>
-
+            <!-- https://mvnrepository.com/artifact/io.reactivex.rxjava3/rxjava -->
+            <dependency>
+                <groupId>io.reactivex.rxjava3</groupId>
+                <artifactId>rxjava</artifactId>
+                <version>${rxJava.version}</version>
+            </dependency>
             <!-- https://mvnrepository.com/artifact/p6spy/p6spy -->
             <dependency>
                 <groupId>p6spy</groupId>

@@ -43,13 +43,6 @@
             <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level [%X{TRACE_ID}] %L %logger{50} - %msg%n</pattern>
         </encoder>
     </appender>
-<!--    <appender name="grpc-log" class="org.apache.skywalking.apm.toolkit.log.logback.v1.x.log.GRPCLogClientAppender">-->
-<!--        <encoder class="ch.qos.logback.core.encoder.LayoutWrappingEncoder">-->
-<!--            <layout class="org.apache.skywalking.apm.toolkit.log.logback.v1.x.mdc.TraceIdMDCPatternLogbackLayout">-->
-<!--                <Pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%X{TRACE_ID}] [%thread] %-5level %logger{36} %L -%msg%n</Pattern>-->
-<!--            </layout>-->
-<!--        </encoder>-->
-<!--    </appender>-->
 
     <!--============================ 按照每天生成日志文件：VENUS系统日志：默认配置 ==========================-->
 

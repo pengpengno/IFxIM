@@ -1,7 +1,7 @@
 package com.ifx.connect.encoder;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson2.JSON;
+import com.alibaba.fastjson2.JSONObject;
 import com.ifx.connect.proto.Protocol;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
@@ -11,7 +11,6 @@ import io.netty.util.CharsetUtil;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-//public class JsonEncoder extends MessageToByteEncoder implements Encoder{
 public class JsonEncoder extends MessageToByteEncoder<Protocol> {
 
 

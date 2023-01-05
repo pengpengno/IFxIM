@@ -1,10 +1,7 @@
 package com.ifx.client.app.view;
 
-import javafx.application.Application;
 import javafx.stage.Stage;
-
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.util.function.Supplier;
 
 /**
