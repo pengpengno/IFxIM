@@ -65,5 +65,19 @@ public class TestCase {
                 }, (state) -> System.out.println("state: " + state));
         flux.subscribe(s->log.info(s));
     }
+    @Test
+    public void star (){
+        DisposableServer server =
+                TcpServer.create()
+                        .doOnConnection(conn ->
+                                conn.addHandlerFirst(new ReadTimeoutHandler(10, TimeUnit.SECONDS)))
+                        .doOnChannelInit((observer, channel, remoteAddress) ->
+                                channel.pipeline()
+                                        .addFirst(new LoggingHandler("reactor.netty.examples")))
+                        .bindNow();
+
+        server.onDispose()
+                .block();
+    }
 
 }
