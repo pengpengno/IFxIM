@@ -59,7 +59,9 @@ public class TestCase {
                 AtomicLong::new,
                 (state, sink) -> {
                     long i = state.getAndIncrement();
-                    sink.next("3 x " + i + " = " + 3*i);
+                    String next = "3 x " + i + " = " + 3*i;
+                    log.info("发送 case {}" ,next);
+                    sink.next(next);
                     if (i == 10) sink.complete();
                     return state;
                 }, (state) -> System.out.println("state: " + state));

@@ -2,8 +2,8 @@ package com.ifx.connect.netty.client;
 
 import cn.hutool.core.exceptions.ExceptionUtil;
 import cn.hutool.extra.spring.SpringUtil;
+import com.ifx.connect.connection.client.ClientAction;
 import com.ifx.connect.task.TaskManager;
-import com.ifx.connect.netty.client.ClientAction;
 import com.ifx.connect.proto.Protocol;
 import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
@@ -35,6 +35,7 @@ public class ClientNettyHandler extends SimpleChannelInboundHandler<Protocol> im
     }
 
     public void init(){
+//        TODO 重新梳理
         if (clientServer==null)
         clientServer = SpringUtil.getBean("clientPool");
         if (clientAction==null)
@@ -48,10 +49,9 @@ public class ClientNettyHandler extends SimpleChannelInboundHandler<Protocol> im
         /**
          * @Description  处理接收到的消息
          **/
-        log.info("receive msg from server-side {} , data package {}",ctx.channel().localAddress().toString(),byteBuf);
-//        clientServer = SpringUtil.getBean("clientPool");
-//        clientAction = SpringUtil.getBean(ClientAction.class);
-//        taskManager = SpringUtil.getBean(TaskManager.class);
+//        log.info("receive msg from server-side {} , data package {}",ctx.channel().localAddress().toString(),byteBuf);
+        log.info("receive msg from server-side {}",ctx.channel().localAddress().toString());
+
         init();
         log.info("received msg package {}",byteBuf);
         clientServer.submit(() -> Platform.runLater(()-> taskManager.doTask(byteBuf)));

@@ -1,4 +1,4 @@
-package com.ifx.connect.netty.client;
+package com.ifx.connect.connection.client;
 
 import com.ifx.connect.proto.Protocol;
 import com.ifx.connect.task.handler.TaskHandler;

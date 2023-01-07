@@ -1,7 +1,8 @@
-package com.ifx.server.netty;
+package com.ifx.connect.connection.server.tcp;
 
-import com.ifx.connect.decoder.ProtocolDecoder;
-import com.ifx.connect.encoder.ProtocolEncoder;
+import com.ifx.connect.handler.decoder.ProtocolDecoder;
+import com.ifx.connect.handler.encoder.ProtocolEncoder;
+import com.ifx.connect.handler.server.ServerServiceParseHandler;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
@@ -17,7 +18,7 @@ import java.net.InetSocketAddress;
 
 @Component("nettyServer")
 @Slf4j
-public class StartNettyServer {
+public class TcpNettyServer {
 
     private static final int MAX_FRAME_DATA_SIZE = 102400;
 
@@ -30,16 +31,9 @@ public class StartNettyServer {
     private static  final int HEADER_LENGTH_SIZE  = 8;
 
 
-
-    @Resource
-    private ServerHandler serverHandler;
-
-//    @Resource
-//    private ProtocolDecoder protocolDecoder;
-//    @Resource
-//    private ProtocolEncoder protocolEncoder;
     //配置服务端NIO线程组
-    private final EventLoopGroup parentGroup = new NioEventLoopGroup(); //NioEventLoopGroup extends MultithreadEventLoopGroup Math.max(1, SystemPropertyUtil.getInt("io.netty.eventLoopThreads", NettyRuntime.availableProcessors() * 2));
+    private final EventLoopGroup parentGroup = new NioEventLoopGroup();
+    //NioEventLoopGroup extends MultithreadEventLoopGroup Math.max(1, SystemPropertyUtil.getInt("io.netty.eventLoopThreads", NettyRuntime.availableProcessors() * 2));
     private final EventLoopGroup childGroup = new NioEventLoopGroup();
     private Channel channel;
     public ChannelFuture bind(InetSocketAddress address) {
@@ -58,7 +52,7 @@ public class StartNettyServer {
                                     .addLast(new ProtocolEncoder())
                                     .addLast(new ProtocolDecoder())
                                     .addLast(new LoggingHandler())
-                                    .addLast(serverHandler);
+                                    .addLast(new ServerServiceParseHandler());
                         }
                     });
             channelFuture = b.bind(address).syncUninterruptibly();

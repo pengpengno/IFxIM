@@ -1,7 +1,7 @@
 package com.ifx.server;
 
 import com.ifx.connect.properties.ServerNettyConfigProperties;
-import com.ifx.server.netty.StartNettyServer;
+import com.ifx.connect.connection.server.tcp.TcpNettyServer;
 import io.netty.channel.ChannelFuture;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.spring.context.annotation.DubboComponentScan;
@@ -22,7 +22,7 @@ import java.net.InetSocketAddress;
 public class ServerApplication implements CommandLineRunner {
 
     @Resource
-    private StartNettyServer nettyServer;
+    private TcpNettyServer nettyServer;
 
     @Resource
     private ServerNettyConfigProperties serverNettyConfigProperties;

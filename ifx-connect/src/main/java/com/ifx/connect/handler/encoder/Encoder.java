@@ -1,4 +1,4 @@
-package com.ifx.connect.encoder;
+package com.ifx.connect.handler.encoder;
 
 public interface Encoder {
 

@@ -1,4 +1,4 @@
-package com.ifx.connect.encoder;
+package com.ifx.connect.handler.encoder;
 
 import com.alibaba.fastjson2.JSON;
 import com.ifx.connect.proto.Protocol;

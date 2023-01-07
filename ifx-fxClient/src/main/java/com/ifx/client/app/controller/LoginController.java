@@ -8,7 +8,7 @@ import com.ifx.client.service.helper.AccountHelper;
 import com.ifx.client.util.SpringFxmlLoader;
 import com.ifx.common.base.AccountInfo;
 import com.ifx.common.context.AccountContext;
-import com.ifx.connect.netty.client.ClientAction;
+import com.ifx.connect.connection.client.ClientAction;
 import com.ifx.connect.proto.Protocol;
 import com.ifx.client.service.ClientService;
 import com.ifx.connect.task.handler.TaskHandler;

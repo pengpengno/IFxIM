@@ -3,7 +3,7 @@ package com.ifx.gateway;
 
 import com.ifx.account.service.AccountService;
 import com.ifx.account.vo.AccountBaseInfo;
-import org.apache.dubbo.config.annotation.DubboReference;
+//import org.apache.dubbo.config.annotation.DubboReference;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -12,7 +12,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 @RunWith(org.springframework.test.context.junit4.SpringRunner.class)
 public class test {
 
-    @DubboReference
+//    @DubboReference
     private AccountService accountService;
 
     @Test

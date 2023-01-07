@@ -8,32 +8,20 @@
         <artifactId>IFx</artifactId>
         <version>1.0-SNAPSHOT</version>
     </parent>
-<!--    <parent>-->
-<!--        <groupId>org.openjfx</groupId>-->
-<!--        <artifactId>javafx</artifactId>-->
-<!--        <version>17.0.2</version>-->
-<!--    </parent>-->
+
     <artifactId>ifx-fxClient</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <groupId>com.ifx.client</groupId>
     <properties>
         <openJfx.version>17.0.2</openJfx.version>
         <javafx-plus.version>1.2.1-RELEASE</javafx-plus.version>
     </properties>
     <dependencies>
-<!--        <dependency>-->
-<!--            <groupId>com.gitee.Biubiuyuyu</groupId>-->
-<!--            <artifactId>javafx-plus</artifactId>-->
-<!--            <version>${javafx-plus.version}</version>-->
-<!--            <exclusions>-->
-<!--                <exclusion>-->
-<!--                    <artifactId>log4j</artifactId>-->
-<!--                    <groupId>log4j</groupId>-->
-<!--                </exclusion>-->
-<!--                <exclusion>-->
-<!--                    <artifactId>slf4j-log4j12</artifactId>-->
-<!--                    <groupId>org.slf4j</groupId>-->
-<!--                </exclusion>-->
-<!--            </exclusions>-->
-<!--        </dependency>-->
+        <!--    <parent>-->
+        <!--        <groupId>org.openjfx</groupId>-->
+        <!--        <artifactId>javafx</artifactId>-->
+        <!--        <version>17.0.2</version>-->
+        <!--    </parent>-->
         <dependency>
             <groupId>io.projectreactor.addons</groupId>
             <artifactId>reactor-extra</artifactId>
@@ -95,19 +83,25 @@
             <groupId>com.ifx.session</groupId>
             <artifactId>session-api</artifactId>
             <version>1.0-SNAPSHOT</version>
-            <scope>provided</scope>
+<!--            <scope>provided</scope>-->
         </dependency>
 
         <dependency>
             <groupId>com.ifx.account</groupId>
             <artifactId>account-api</artifactId>
             <version>1.0-SNAPSHOT</version>
-            <scope>provided</scope>
+<!--            <scope>provided</scope>-->
         </dependency>
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter</artifactId>
+            <exclusions>
+                <exclusion>
+                    <artifactId>jul-to-slf4j</artifactId>
+                    <groupId>org.slf4j</groupId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>com.ifx.ifx</groupId>
@@ -171,6 +165,7 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.6.1</version>
                 <configuration>
+                    <encoding>UTF-8</encoding>
                     <source>8</source>
                     <target>8</target>
                 </configuration>

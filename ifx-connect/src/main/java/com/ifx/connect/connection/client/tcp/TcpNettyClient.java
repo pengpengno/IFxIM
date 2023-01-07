@@ -1,7 +1,8 @@
-package com.ifx.connect.netty.client;
+package com.ifx.connect.connection.client.tcp;
 
-import com.ifx.connect.decoder.ProtocolDecoder;
-import com.ifx.connect.encoder.ProtocolEncoder;
+import com.ifx.connect.handler.decoder.ProtocolDecoder;
+import com.ifx.connect.handler.encoder.ProtocolEncoder;
+import com.ifx.connect.netty.client.ClientNettyHandler;
 import com.ifx.connect.properties.ClientNettyConfigProperties;
 import com.ifx.connect.proto.Protocol;
 import io.netty.bootstrap.Bootstrap;
@@ -27,16 +28,13 @@ import java.util.Optional;
 @Component
 @Slf4j
 @EnableConfigurationProperties({ClientNettyConfigProperties.class})
-public class NettyClient implements ApplicationListener<ContextRefreshedEvent>
+public class TcpNettyClient implements ApplicationListener<ContextRefreshedEvent>
 {
 
-//    private InetSocketAddress address = new InetSocketAddress(InetAddress.getLocalHost().getHostAddress(),8976);  //
-//    @Resource
     private InetSocketAddress address;
 
     @Resource
     private ClientNettyConfigProperties clientNettyConfigProperties;
-
 
     private Bootstrap bootstrap;
 
@@ -64,16 +62,16 @@ public class NettyClient implements ApplicationListener<ContextRefreshedEvent>
         return address;
     }
 
-    private NettyClient() throws UnknownHostException {
+    private TcpNettyClient() throws UnknownHostException {
     }
 
-    public NettyClient(String host,Integer port) throws Throwable {
+    public TcpNettyClient(String host, Integer port) throws Throwable {
 
         address = new InetSocketAddress(host,port);
         doOpen();
     }
 
-    public NettyClient(Integer port) throws Throwable {
+    public TcpNettyClient(Integer port) throws Throwable {
         address = new InetSocketAddress(InetAddress.getLocalHost().getHostAddress(),port);
         doOpen();
     }
@@ -102,15 +100,14 @@ public class NettyClient implements ApplicationListener<ContextRefreshedEvent>
                     }
 
                 });
-
         //连接到远程节点；等待连接完成
         ChannelFuture future = bootstrap.connect().sync();
-
         channel = future.channel();
+//        channel.closeFuture();
 
     }
 
-    protected void release(){
+    public void release(){
         channel.close();
     }
 
@@ -119,7 +116,7 @@ public class NettyClient implements ApplicationListener<ContextRefreshedEvent>
      *
      * @throws Throwable
      */
-    protected ChannelFuture doOpen() throws Throwable {
+    public ChannelFuture doOpen() throws Throwable {
         /**
          * @Description  配置相应的参数，提供连接到远端的方法
          **/

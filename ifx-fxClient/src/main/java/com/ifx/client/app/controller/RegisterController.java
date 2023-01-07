@@ -5,7 +5,7 @@ import com.ifx.account.vo.AccountBaseInfo;
 import com.ifx.client.service.helper.RegisterHelper;
 import com.ifx.client.util.SpringFxmlLoader;
 import com.ifx.common.res.Result;
-import com.ifx.connect.netty.client.ClientAction;
+import com.ifx.connect.connection.client.ClientAction;
 import com.ifx.connect.proto.Protocol;
 import com.ifx.connect.task.handler.TaskHandler;
 import javafx.fxml.FXML;

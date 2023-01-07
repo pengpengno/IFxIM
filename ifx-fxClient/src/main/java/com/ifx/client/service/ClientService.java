@@ -2,7 +2,7 @@ package com.ifx.client.service;
 
 import cn.hutool.core.util.IdUtil;
 import com.ifx.connect.task.TaskManager;
-import com.ifx.connect.netty.client.ClientAction;
+import com.ifx.connect.connection.client.ClientAction;
 import com.ifx.connect.proto.Protocol;
 import com.ifx.connect.task.handler.TaskHandler;
 import com.ifx.connect.task.meta.TaskMeta;

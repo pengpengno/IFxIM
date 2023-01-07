@@ -1,6 +1,6 @@
 ifx:
   connect:
     client:
-      serverHost: 192.168.1.6
-      serverPort: 8099
+      serverHost: localhost
+      serverPort: 9087
       connectTimeOut: 60000

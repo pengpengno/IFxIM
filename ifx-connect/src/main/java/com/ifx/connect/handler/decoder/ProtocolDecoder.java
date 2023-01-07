@@ -1,7 +1,7 @@
-package com.ifx.connect.decoder;
+package com.ifx.connect.handler.decoder;
 
 import com.alibaba.fastjson2.JSON;
-import com.ifx.connect.encoder.ProtocolEncoder;
+import com.ifx.connect.handler.encoder.ProtocolEncoder;
 import com.ifx.connect.proto.Protocol;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;

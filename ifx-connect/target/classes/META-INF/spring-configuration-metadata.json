@@ -43,7 +43,8 @@
     {
       "name": "ifx.connect.netty.client.auto-re-connect",
       "type": "java.lang.Boolean",
-      "sourceType": "com.ifx.connect.properties.ClientNettyConfigProperties"
+      "sourceType": "com.ifx.connect.properties.ClientNettyConfigProperties",
+      "defaultValue": true
     },
     {
       "name": "ifx.connect.netty.client.connect-time-out",
@@ -58,12 +59,14 @@
     {
       "name": "ifx.connect.netty.client.server-host",
       "type": "java.lang.String",
-      "sourceType": "com.ifx.connect.properties.ClientNettyConfigProperties"
+      "sourceType": "com.ifx.connect.properties.ClientNettyConfigProperties",
+      "defaultValue": "127.0.0.1"
     },
     {
       "name": "ifx.connect.netty.client.server-port",
       "type": "java.lang.Integer",
-      "sourceType": "com.ifx.connect.properties.ClientNettyConfigProperties"
+      "sourceType": "com.ifx.connect.properties.ClientNettyConfigProperties",
+      "defaultValue": 8099
     },
     {
       "name": "ifx.connect.netty.server.core-active-socket",

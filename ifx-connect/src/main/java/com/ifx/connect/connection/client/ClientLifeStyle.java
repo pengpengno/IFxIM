@@ -1,5 +1,8 @@
-package com.ifx.connect.netty.client;
+package com.ifx.connect.connection.client;
 
+/**
+ * 客户点生命周期
+ */
 public interface ClientLifeStyle {
     public void init ();  // 初始化连接
 
@@ -18,7 +21,7 @@ public interface ClientLifeStyle {
     public void resetConnect();
 
     /**
-     * 心跳包机制
+     * 保持链接存活 心跳包机制
      */
     public void keepAlive();
 

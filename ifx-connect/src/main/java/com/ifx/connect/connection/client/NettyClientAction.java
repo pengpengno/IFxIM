@@ -1,6 +1,9 @@
-package com.ifx.connect.netty.client;
+package com.ifx.connect.connection.client;
 
 import cn.hutool.core.exceptions.ExceptionUtil;
+import com.ifx.connect.connection.client.ClientAction;
+import com.ifx.connect.connection.client.ClientLifeStyle;
+import com.ifx.connect.connection.client.tcp.TcpNettyClient;
 import com.ifx.connect.proto.Protocol;
 import com.ifx.connect.task.handler.TaskHandler;
 import com.ifx.connect.task.TaskManager;
@@ -19,7 +22,7 @@ public class NettyClientAction implements ClientAction, ClientLifeStyle {
 
 
     @Autowired
-    private NettyClient nettyClient;
+    private TcpNettyClient tcpNettyClient;
     @Autowired
     private TaskManager taskManager;
 
@@ -31,8 +34,8 @@ public class NettyClientAction implements ClientAction, ClientLifeStyle {
     @Override
     public void connect() {
         try{
-            nettyClient.doOpen();
-            log.info("netty connect succ ！ host :  {}  posrt : {} ",nettyClient.getAddress().getHostName(), nettyClient.getAddress().getPort());
+            tcpNettyClient.doOpen();
+            log.info("netty connect succ ！ host :  {}  posrt : {} ", tcpNettyClient.getAddress().getHostName(), tcpNettyClient.getAddress().getPort());
         }
         catch (Throwable e ){
            log.error("服务器链接失败！ {}",ExceptionUtil.stacktraceToString(e));
@@ -55,7 +58,7 @@ public class NettyClientAction implements ClientAction, ClientLifeStyle {
             log.error("retrying connect  timeout {}, retryTimes {}  ",timeout,retryTimes);
             Thread.sleep(timeout);
             connect();
-            if (nettyClient.getChannel() == null ){
+            if (tcpNettyClient.getChannel() == null ){
                 if( retryTimes == 0){
                     log.info("retry times out  stop connect ");
                     return;
@@ -98,15 +101,15 @@ public class NettyClientAction implements ClientAction, ClientLifeStyle {
             return ;
         }
 
-        if (!nettyClient.getChannel().isActive()
-                || nettyClient.getChannel() == null) {
+        if (!tcpNettyClient.getChannel().isActive()
+                || tcpNettyClient.getChannel() == null) {
             log.error("netty Channel is close， loading ");
             reConnect();
             return ;
         }
 
         log.debug("sending msg to server ");
-        ChannelFuture write = nettyClient.write(protocol);
+        ChannelFuture write = tcpNettyClient.write(protocol);
         write.addListener(future -> {
             if (future.isSuccess())
                 log.debug("client send success ");
@@ -121,11 +124,11 @@ public class NettyClientAction implements ClientAction, ClientLifeStyle {
 
     @Override
     public void releaseChannel() {
-        nettyClient.release();
+        tcpNettyClient.release();
     }
 
     public Boolean isAlive() {
-        Channel channel = nettyClient.getChannel();
+        Channel channel = tcpNettyClient.getChannel();
         return channel != null && channel.isActive();
     }
 }
