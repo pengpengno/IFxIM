@@ -17,6 +17,8 @@ public enum NetError implements ExceptionConstant ,
 
 
     LOCAL_NETWORK_IS_VAILD(1000001,"本地网络异常！"),
+
+    REMOTE_NET_CAN_NOT_CONNECT(1000002,"远程服务器无法访问!");
     ;
 
     private final Integer code ;

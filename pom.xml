@@ -36,6 +36,7 @@
         <p6spy.version>3.9.1</p6spy.version>
         <cglib.version>3.3.0</cglib.version>
         <reactor.core.version>3.5.0</reactor.core.version>
+        <reactor.extra.version>3.5.0</reactor.extra.version>
         <protobuf.version>3.21.7</protobuf.version>
         <mybatis-plus.version>3.4.0</mybatis-plus.version>
         <mybatis-plus.starter.version>3.4.0</mybatis-plus.starter.version>
@@ -77,7 +78,7 @@
             <dependency>
                 <groupId>io.projectreactor.addons</groupId>
                 <artifactId>reactor-extra</artifactId>
-                <version>${reactor.core.version}</version>
+                <version>${reactor.extra.version}</version>
             </dependency>
 <!--            reactor bom-->
             <dependency>

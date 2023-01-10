@@ -1,7 +1,7 @@
 package com.ifx.exec.ex.net;
 
-import com.ifx.exec.BaseException;
 import com.ifx.exec.ExceptionMessage;
+import com.ifx.exec.errorMsg.IErrorMsg;
 
 /***
  * Netty 异常信息
@@ -9,6 +9,14 @@ import com.ifx.exec.ExceptionMessage;
 public class NettyException extends NetException {
     public NettyException(ExceptionMessage exceptionMessage) {
         super(exceptionMessage);
+    }
+
+    public NettyException(IErrorMsg errorMsg, String detailMsg) {
+        super(errorMsg, detailMsg);
+    }
+
+    public NettyException(IErrorMsg iErrorMsg) {
+        super(iErrorMsg);
     }
 
     public NettyException(ExceptionMessage exceptionMessage, String detailMsg) {

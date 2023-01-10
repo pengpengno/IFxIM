@@ -60,11 +60,11 @@ public class RegisterController  {
         accountBaseInfo.setEmail(mailField.getText());
 
         TaskHandler taskHandler = resProtocol -> {
-//            String account = (String) resProtocol.getContent().getData().get(0);
+//            String account = (String) resProtocol.getContent().getDataAsTClass().get(0);
             Result result = resProtocol.getResult();
             Object res = result.getRes();
-//            Object o = result.getData().get(0);
-            String account = result.getData(String.class);
+//            Object o = result.getDataAsTClass().get(0);
+            String account = result.getDataAsTClass(String.class);
 //            String account = JSONObject.parseObject(res.toString(), String.class);
             if (StrUtil.isNotBlank(account)){
                 log.info("注册成功！ {} ",account);

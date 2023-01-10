@@ -16,15 +16,11 @@ import lombok.extern.slf4j.Slf4j;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
 
-//@Component
 @Slf4j
-//@EnableConfigurationProperties({ClientNettyConfigProperties.class})
 public class TcpNettyClient {
 
     private InetSocketAddress address;
 
-//    @Resource
-//    private ClientNettyConfigProperties clientNettyConfigProperties;
 
     private Bootstrap bootstrap;
 
@@ -35,15 +31,6 @@ public class TcpNettyClient {
         return channel;
     }
 
-//    @SneakyThrows
-//    @Override
-//    public void onApplicationEvent(ContextRefreshedEvent contextRefreshedEvent) {
-//        String serverHost = clientNettyConfigProperties.getServerHost();
-//        log.info("客户端【netty】配置为serverHost {}port{}",
-//                serverHost,clientNettyConfigProperties.getServerPort());
-//        address =  new InetSocketAddress(Optional.ofNullable(serverHost).orElse(InetAddress.getLocalHost().getHostAddress() ),
-//                clientNettyConfigProperties.getServerPort());
-//    }
 
 
     public InetSocketAddress getAddress(){
@@ -52,6 +39,7 @@ public class TcpNettyClient {
 
     protected TcpNettyClient() {
     }
+    
 
     public TcpNettyClient(String host, Integer port) throws Throwable {
         address = new InetSocketAddress(host,port);
@@ -123,5 +111,21 @@ public class TcpNettyClient {
         return channel.writeAndFlush(protocol);
     }
 
+
+
+
+    private enum SingleInstance{
+        INSTANCE;
+        private final TcpNettyClient instance;
+        SingleInstance(){
+            instance = new TcpNettyClient();
+        }
+        private TcpNettyClient getInstance(){
+            return instance;
+        }
+    }
+    public static TcpNettyClient getInstance(){
+        return TcpNettyClient.SingleInstance.INSTANCE.getInstance();
+    }
 
 }

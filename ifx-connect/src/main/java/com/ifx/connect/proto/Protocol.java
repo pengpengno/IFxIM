@@ -30,10 +30,10 @@ public class Protocol implements Serializable {
   private String trace;  // trace
 
   private String clientSDKVersion;   // 客户端版本类类型
-
+  @Deprecated
   private String content;
 
-  private Result result;
+  private Result result; //返回结果
 
 
 

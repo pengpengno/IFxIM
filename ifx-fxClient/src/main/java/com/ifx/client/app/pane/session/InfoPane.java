@@ -3,11 +3,13 @@ package com.ifx.client.app.pane.session;
 import com.ifx.common.base.AccountInfo;
 import javafx.fxml.Initializable;
 import javafx.scene.layout.Pane;
-import lombok.Data;
 
 import java.net.URL;
 import java.util.ResourceBundle;
 
+/***
+ * @description 信息栏
+ */
 public class InfoPane extends Pane implements Initializable {
 
     private AccountInfo accountInfo;

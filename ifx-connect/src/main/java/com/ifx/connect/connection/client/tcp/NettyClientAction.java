@@ -5,31 +5,25 @@ import com.ifx.connect.connection.client.ClientAction;
 import com.ifx.connect.connection.client.ClientLifeStyle;
 import com.ifx.connect.proto.Protocol;
 import com.ifx.connect.task.handler.TaskHandler;
-import com.ifx.connect.task.TaskManager;
 import com.ifx.connect.task.handler.def.DefaultHandler;
+import com.ifx.exec.errorMsg.NetError;
 import com.ifx.exec.ex.net.NetException;
+import com.ifx.exec.ex.net.NettyException;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelFuture;
 import lombok.extern.slf4j.Slf4j;
 
-import java.util.concurrent.ThreadPoolExecutor;
-
-//@Component("netty")
 @Slf4j
 public class NettyClientAction implements ClientAction, ClientLifeStyle {
 
+    private final TcpNettyClient tcpNettyClient;
 
-//    @Autowired
-    private TcpNettyClient tcpNettyClient;
-//    @Autowired
-    private TaskManager taskManager;
+//    private Long connectTimeout;  // 连接时间延
 
-    private Long connectTimeout;  // 连接时间延
-
-    private Long reConnectDelay; // 重试时延
+//    private Long reConnectDelay; // 重试时延
 
     public NettyClientAction(){
-        tcpNettyClient = new TcpNettyClient();
+        tcpNettyClient =  TcpNettyClient.getInstance();
     }
 
     private enum SingleInstance{
@@ -47,13 +41,16 @@ public class NettyClientAction implements ClientAction, ClientLifeStyle {
     }
 
     @Override
-    public void connect() {
+    public Boolean connect() {
         try{
             tcpNettyClient.doOpen();
-            log.info("netty connect succ ！ host :  {}  posrt : {} ", tcpNettyClient.getAddress().getHostName(), tcpNettyClient.getAddress().getPort());
+            log.debug("netty connect success ！ host :  {}  port : {} ", tcpNettyClient.getAddress().getHostName(), tcpNettyClient.getAddress().getPort());
+            return Boolean.TRUE;
         }
         catch (Throwable e ){
            log.error("服务器链接失败！ {}",ExceptionUtil.stacktraceToString(e));
+           throw new NettyException(NetError.REMOTE_NET_CAN_NOT_CONNECT);
+//           return Boolean.FALSE;
         }
     }
 
@@ -99,36 +96,35 @@ public class NettyClientAction implements ClientAction, ClientLifeStyle {
     }
 
     @Override
-    public void sendJsonMsg(Protocol protocol, TaskHandler taskHandler) {
-        sendJsonMsg(protocol);
+    public Boolean sendJsonMsg(Protocol protocol, TaskHandler taskHandler) {
+        return sendJsonMsg(protocol);
     }
 
-    public void sendJsonMsg(Protocol protocol, TaskHandler taskHandler, ThreadPoolExecutor executor) {
-        sendJsonMsg(protocol);
-    }
+
 
 
 
     @Override
-    public void sendJsonMsg(Protocol protocol) throws NetException {
+    public Boolean sendJsonMsg(Protocol protocol) throws NetException {
         if (protocol == null){
             log.warn("protocol is  null  no operate  to do ");
-            return ;
+            return  Boolean.FALSE;
         }
 
         if (!tcpNettyClient.getChannel().isActive()
                 || tcpNettyClient.getChannel() == null) {
             log.error("netty Channel is close， loading ");
             reConnect();
-            return ;
+            return  Boolean.FALSE;
         }
-
         log.debug("sending msg to server ");
         ChannelFuture write = tcpNettyClient.write(protocol);
         write.addListener(future -> {
-            if (future.isSuccess())
+            if (future.isSuccess()){
                 log.debug("client send success ");
+            }
         });
+        return Boolean.TRUE;
     }
 
     @Override

@@ -1,6 +1,8 @@
 package com.ifx.common.res;
 
+import cn.hutool.core.util.ObjectUtil;
 import com.alibaba.fastjson2.JSON;
+import com.ifx.common.constant.CommonConstant;
 import lombok.Data;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -11,7 +13,8 @@ public class Result implements Serializable {
     private static final long serialVersionUID = 1L;
     private int code;
     private String msg;
-    private Object res;
+//    private Object res;
+    private String res;
 
     /**
      * 将返回值 res  JSON序列化成指定的类型的对象
@@ -19,12 +22,15 @@ public class Result implements Serializable {
      * @return
      * @param <T>
      */
-    public  <T>  T  getData(Class<T> t) {
+    public  <T>  T getDataAsTClass(Class<T> t) {
         if (res == null){
             return null;
         }
-        T objects = JSON.parseObject(res.toString(), t);
-        return objects;
+//        T objects = JSON.parseObject(res, t);
+        return JSON.parseObject(res, t);
+    }
+    public String getDataAsString(){
+        return res;
     }
     public  <T> Collection<T>  getCollection(Class<T> t) {
         return JSON.parseArray(res.toString(), t);
@@ -35,7 +41,7 @@ public class Result implements Serializable {
      * @return
      * @param <T>
      */
-    public  <T> List<T>  getDataList(Class<T> t) {
+    public  <T> List<T>  getDataAsList(Class<T> t) {
         if (res == null){
             return null;
         }
@@ -56,6 +62,22 @@ public class Result implements Serializable {
 
     public void setMsg(String msg) {
         this.msg = msg;
+    }
+    public void setRes(String res){
+        if (ObjectUtil.isNull(code)){
+            code = CommonConstant.SUCCESS_CODE;
+        }
+        if (msg == null){
+            msg =   CommonConstant.SUCCESS_MSG;
+        }
+       this.res = res;
+    }
+    public static Result ok(String res){
+        Result result = new Result();
+        result.setCode( CommonConstant.SUCCESS_CODE);
+        result.setMsg(CommonConstant.SUCCESS_MSG);
+        result.setRes(res);
+        return result;
     }
 
     public static <T> Result.Builder<T> builder() {

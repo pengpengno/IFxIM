@@ -1,15 +1,15 @@
 package com.ifx.connect.reactor.netty.tcp;
 
+import com.ifx.connect.handler.client.ClientNettyHandler;
 import com.ifx.connect.handler.decoder.ProtocolDecoder;
 import com.ifx.connect.handler.encoder.ProtocolEncoder;
-import com.ifx.connect.handler.client.ClientNettyHandler;
 import io.netty.channel.Channel;
 import io.netty.handler.codec.DelimiterBasedFrameDecoder;
 import io.netty.handler.codec.Delimiters;
 import io.netty.handler.logging.LogLevel;
 import io.netty.handler.ssl.util.InsecureTrustManagerFactory;
 import lombok.extern.slf4j.Slf4j;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.netty.ByteBufFlux;

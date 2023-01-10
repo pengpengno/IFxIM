@@ -49,6 +49,10 @@ public class ClientService {
         clientAction.sendJsonMsg(protocol);
     }
 
+    public void defaultSend(){
+
+    }
+
 
     // TODO 任务元数据 使用
     public void send(Protocol protocol, TaskMeta taskMeta){

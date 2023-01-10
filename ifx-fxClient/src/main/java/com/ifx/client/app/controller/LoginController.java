@@ -1,16 +1,16 @@
 package com.ifx.client.app.controller;
 
 
-
-import com.alibaba.fastjson2.JSONObject;
 import com.ifx.account.vo.AccountBaseInfo;
+import com.ifx.client.service.ClientService;
 import com.ifx.client.service.helper.AccountHelper;
 import com.ifx.client.util.SpringFxmlLoader;
 import com.ifx.common.base.AccountInfo;
 import com.ifx.common.context.AccountContext;
 import com.ifx.connect.connection.client.ClientAction;
+import com.ifx.connect.connection.client.ClientDomainHelper;
 import com.ifx.connect.proto.Protocol;
-import com.ifx.client.service.ClientService;
+import com.ifx.connect.proto.parse.ProtocolResultParser;
 import com.ifx.connect.task.handler.TaskHandler;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -22,8 +22,8 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import lombok.extern.slf4j.Slf4j;
-
 import org.springframework.stereotype.Component;
+
 import javax.annotation.Resource;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -98,32 +98,20 @@ public class LoginController  implements Initializable {
             alert.show();
         });
         TaskHandler taskHandler = protocol -> {
-            Object o = protocol.getResult().getRes();
-            if (o == null){
+            AccountInfo accountInfo = ProtocolResultParser.getDataAsT(protocol, AccountInfo.class);
+            if (accountInfo == null){
                 log.warn("登录失败！");
                 return;
             }
-            AccountInfo accountInfo = JSONObject.parseObject(o.toString(), AccountInfo.class);
-            log.info("login status {}",accountInfo);
-            if (accountInfo!=null){
-                AccountContext.setCurAccount(accountInfo);
-                log.info("login success ");
-                Stage window = (Stage) account.getScene().getWindow();
-                window.hide();
-                Stage stage = SpringFxmlLoader.applySinStage("com\\ifx\\client\\app\\fxml\\main.fxml");
-                Stage login = SpringFxmlLoader.applySinStage("com\\ifx\\client\\app\\fxml\\login.fxml");
-                login.hide();
-                log.info("prepare to show  main");
-                stage.show();
-                stage.setTitle("IFX");
-            }else{
-                alert.setContentText("登录失败");
-                log.info("登录失败！");
-            }
+            log.debug("login status {}",accountInfo);
+            AccountContext.setCurAccount(accountInfo);
+            log.debug("login success ");
+            hide();
+            MainController.show();
         };
         log.info("启动登录");
         Protocol login = AccountHelper.applyLogins(accountBaseInfo);
-        clientService.send(login,taskHandler);
+        ClientDomainHelper.getDefaultClientAction().sendJsonMsg(login,taskHandler);
     }
 
 
@@ -140,9 +128,15 @@ public class LoginController  implements Initializable {
     }
     public static void show(){
         Stage stage = SpringFxmlLoader.applySinStage("com\\ifx\\client\\app\\fxml\\login.fxml");
-        log.info("prepare to show  register");
+        log.debug("prepare to show  register");
         stage.show();
         stage.setTitle("注册");
+    }
+
+    public static  void hide(){
+        Stage stage = SpringFxmlLoader.applySinStage("com\\ifx\\client\\app\\fxml\\login.fxml");
+        log.debug("隐藏数据");
+        stage.hide();
     }
 
 
