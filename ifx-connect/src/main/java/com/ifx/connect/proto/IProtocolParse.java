@@ -1,6 +1,8 @@
 package com.ifx.connect.proto;
 
-/** 协议序列化工厂 */
+/**
+ * 协议序列化工厂 *
+ */
 public interface IProtocolParse {
     /**
      *

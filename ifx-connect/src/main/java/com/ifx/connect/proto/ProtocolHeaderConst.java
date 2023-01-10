@@ -12,6 +12,10 @@ public interface ProtocolHeaderConst {
     public static  final String HEART_BEAT_PROTOCOL_HEADER = "heart://";  //心跳包协议
 
 
+    public static final String BYTE_BUF_STREAM_HEADER = "byte://";  //字节流协议
+
+
+
 
 
 

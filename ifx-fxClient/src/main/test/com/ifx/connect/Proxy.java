@@ -2,7 +2,7 @@ package com.ifx.connect;
 
 import cn.hutool.core.util.ReflectUtil;
 import com.alibaba.fastjson2.JSON;
-import com.ifx.client.parse.DubboGenericParse;
+import com.ifx.connect.proto.parse.DubboGenericParse;
 import com.ifx.client.service.ClientService;
 import com.ifx.connect.proto.Protocol;
 import com.ifx.connect.proto.dubbo.DubboApiMetaData;
@@ -14,8 +14,6 @@ import net.sf.cglib.proxy.MethodProxy;
 import net.sf.cglib.reflect.FastClass;
 
 import javax.annotation.Resource;
-import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeSupport;
 import java.lang.reflect.Method;
 
 @Slf4j

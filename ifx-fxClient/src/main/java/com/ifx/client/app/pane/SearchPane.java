@@ -140,14 +140,14 @@ public class SearchPane extends FlowPane {
             this.getChildren().add(name);
             this.addEventHandler(MouseEvent.MOUSE_CLICKED,(mouse)->{
                 log.debug("click button the account is {}", JSON.toJSONString(accountInfo));
-                Protocol protocol = ProtocolHelper.applyDubboProtocol(ISessionLifeStyle.class, "initialize", new Object[]{});
-                clientService.send(protocol, (res)-> {
-                    log.info("返回了结果 {}" ,JSON.toJSONString(res));
-//                    创建了xxxx
-                });
-                clientService.send(protocol,(proRes)-> {
-                    log.info ("成功创建会话");
-                });
+//                Protocol protocol = ProtocolHelper.applyDubboProtocol(ISessionLifeStyle.class, "initialize", new Object[]{});
+//                clientService.send(protocol, (res)-> {
+//                    log.info("返回了结果 {}" ,JSON.toJSONString(res));
+////                    创建了xxxx
+//                });
+//                clientService.send(protocol,(proRes)-> {
+//                    log.info ("成功创建会话");
+//                });
             });
             log.info("load {}  account {}" ,this.getClass().getName(),accountInfo);
 

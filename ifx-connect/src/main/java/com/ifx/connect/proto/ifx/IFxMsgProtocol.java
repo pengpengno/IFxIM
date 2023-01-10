@@ -9,7 +9,6 @@ public interface IFxMsgProtocol extends ProtocolHeaderConst {
 
     String SERVER_TO_CLIENT_MSG_HEADER =  "S2C://";  // 主要用于服务端主动通知客户端的消息
 
-
     String CLIENT_TO_CLIENT_MSG_HEADER =  "C2C://";      // 用于客户端和客户端的通信
 
     String CLIENT_TO_SERVER_MSG_HEADER =  "C2S://";      // 用于客户端与服务端通信的协议
@@ -20,5 +19,10 @@ public interface IFxMsgProtocol extends ProtocolHeaderConst {
     String LOGIN_MSG_HEADER =  "C2S://LOG";  // 主要用于客户端登录请求
 
     String MSG_SENT_HEADER =  "S2C://MSG";  // 主要用于服务段消息派送的
+
+
+    public static Boolean hasHeader(){
+        return Boolean.TRUE;
+    }
 
 }

@@ -1,4 +1,4 @@
-package com.ifx.connect.netty.client;
+package com.ifx.connect.handler.client;
 
 import cn.hutool.core.exceptions.ExceptionUtil;
 import cn.hutool.extra.spring.SpringUtil;
@@ -63,14 +63,13 @@ public class ClientNettyHandler extends SimpleChannelInboundHandler<Protocol> im
          * @Description  处理I/O事件的异常
          **/
         log.error(ExceptionUtil.getMessage(cause));
-        cause.printStackTrace();
         ctx.close();
     }
 
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
         super.channelActive(ctx);
-        log.info("【netty】 已连接 Server host{}" ,ctx.channel().remoteAddress().toString());
+        log.info("[netty] 已连接 Server host{}" ,ctx.channel().remoteAddress().toString());
     }
 
     @Override

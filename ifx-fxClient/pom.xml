@@ -51,6 +51,27 @@
             <artifactId>jfoenix</artifactId>
             <version>8.0.10</version>
         </dependency>
+        <dependency>
+            <groupId>org.bytedeco</groupId>
+            <artifactId>javacv-platform</artifactId>
+            <version>1.5.6</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/net.coobird/thumbnailator -->
+        <!-- https://mvnrepository.com/artifact/net.coobird/thumbnailator -->
+        <dependency>
+            <groupId>net.coobird</groupId>
+            <artifactId>thumbnailator</artifactId>
+            <version>0.4.8</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.bytedeco.javacpp-presets/opencv-platform -->
+        <dependency>
+            <groupId>org.bytedeco.javacpp-presets</groupId>
+            <artifactId>opencv-platform</artifactId>
+            <version>4.0.1-1.4.4</version>
+        </dependency>
+
+
 <!--        TODO  后续使用最新的0.4.0 重写源码 调整框架-->
 <!--        <dependency>-->
 <!--            <groupId>org.openjfx</groupId>-->

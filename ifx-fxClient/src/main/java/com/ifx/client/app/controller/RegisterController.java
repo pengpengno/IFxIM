@@ -19,6 +19,9 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
 
+/***
+ * 注册界面
+ */
 @Component
 @Slf4j
 public class RegisterController  {
@@ -50,7 +53,7 @@ public class RegisterController  {
     @Resource
     private RegisterHelper registerHelper;
     @FXML
-    void register(MouseEvent event) {
+    void register(MouseEvent event) throws NoSuchMethodException {
         AccountBaseInfo accountBaseInfo = new AccountBaseInfo();
         accountBaseInfo.setAccount(accountField.getText());
         accountBaseInfo.setPassword(psdField.getText());

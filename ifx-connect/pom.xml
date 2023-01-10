@@ -40,6 +40,12 @@
             <scope>test</scope>
         </dependency>
         <dependency>
+            <groupId>com.ifx.exec</groupId>
+            <artifactId>ifx-exc</artifactId>
+            <version>1.0-SNAPSHOT</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-test</artifactId>
         </dependency>

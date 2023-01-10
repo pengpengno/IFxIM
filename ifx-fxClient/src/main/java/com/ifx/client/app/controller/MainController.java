@@ -5,17 +5,15 @@ import cn.hutool.core.util.ObjectUtil;
 import com.alibaba.fastjson2.JSON;
 import com.ifx.account.vo.AccountSearchVo;
 import com.ifx.client.app.pane.SearchPane;
-import com.ifx.client.service.AccountService;
 import com.ifx.client.service.ClientService;
+import com.ifx.client.service.helper.AccountHelper;
 import com.ifx.client.util.SpringFxmlLoader;
 import com.ifx.common.base.AccountInfo;
 import com.ifx.common.res.Result;
-import com.ifx.connect.proto.Protocol;
 import javafx.application.ConditionalFeature;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.InputMethodEvent;
@@ -51,8 +49,6 @@ public class MainController implements Initializable {
     @FXML
     private TextField searchField;
 
-    @Resource
-    private AccountService accountService;
 
     @Resource
     private ClientService clientService;
@@ -85,10 +81,10 @@ public class MainController implements Initializable {
                 msgTextArea.setPrefRowCount(0);
                 msgTextArea.setScrollTop(0);
                 msgTextArea.setScrollLeft(0);
-                log.info("正在发送消息，");
+                log.debug("正在发送消息，");
             }
             String name = code.getName();
-            log.info("按下了 {} ",name);
+            log.debug("按下了 {} ",name);
         });
     }
 
@@ -116,12 +112,11 @@ public class MainController implements Initializable {
         searchField.textProperty().addListener((obs-> {
             searchPane.getChildren().clear();
             String text = searchField.getText();
-            log.info("当前文本为 {} ",text);
+            log.debug("输入的文本为 {} ",text);
             AccountSearchVo accountSearchVo = new AccountSearchVo();
             accountSearchVo.setAccount(text);
-            Protocol query = accountService.query(accountSearchVo);
 //             获取回调输出
-            clientService.send(query,(protoCol -> {
+            clientService.send(AccountHelper.applySearchAccount(accountSearchVo),(protoCol -> {
                 Result result = protoCol.getResult();
                 List<AccountInfo> accountInfos = JSON.parseArray(result.getRes().toString(), AccountInfo.class);
                 log.info(JSON.toJSONString(protoCol));
@@ -141,10 +136,9 @@ public class MainController implements Initializable {
         log.info("当前文本为 {} ",text);
         AccountSearchVo accountSearchVo = new AccountSearchVo();
         accountSearchVo.setAccount(text);
-        Protocol query = accountService.query(accountSearchVo);
-        clientService.send(query,(protoCol -> {
+        clientService.send(AccountHelper.applySearchAccount(accountSearchVo),(protoCol -> {
             Result result = protoCol.getResult();
-            List<AccountInfo> accountInfos = result.getList(AccountInfo.class);
+            List<AccountInfo> accountInfos = result.getDataList(AccountInfo.class);
             if (listView!= null){
                 accountInfos.stream().forEach(e-> {
                     listView.getItems().add(e.getAccount());

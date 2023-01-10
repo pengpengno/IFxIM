@@ -10,6 +10,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import reactor.core.publisher.Mono;
 
 import javax.annotation.Resource;
 import java.net.InetSocketAddress;
@@ -22,18 +23,16 @@ import java.net.InetSocketAddress;
 public class ServerApplication implements CommandLineRunner {
 
     @Resource
-    private TcpNettyServer nettyServer;
-
-    @Resource
     private ServerNettyConfigProperties serverNettyConfigProperties;
 
     public void run(String... args)  {
-//        String hostAddress = InetAddress.getLocalHost().getHostAddress();
-        String hostAddress =serverNettyConfigProperties.getHost();
-        log.info("netty 启动地址为 {} port {}",hostAddress, serverNettyConfigProperties.getPort());
-        InetSocketAddress address = new InetSocketAddress(hostAddress, serverNettyConfigProperties.getPort());
-        ChannelFuture channelFuture = nettyServer.bind(address);
-        Runtime.getRuntime().addShutdownHook(new Thread(() -> nettyServer.destroy()));
+
+        Mono.fromCallable(()->
+                        new InetSocketAddress(serverNettyConfigProperties.getHost(),
+                                serverNettyConfigProperties.getPort()))
+                .subscribe(inetSocketAddress -> TcpNettyServer.getInstance().createServer(inetSocketAddress));
+
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> TcpNettyServer.getInstance().destroy()));
     }
 
     public static void main(String[] args) {

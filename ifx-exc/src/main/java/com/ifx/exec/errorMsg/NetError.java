@@ -1,16 +1,19 @@
-package com.ifx.exec.enums;
+package com.ifx.exec.errorMsg;
 
 import com.ifx.exec.constant.ExceptionConstant;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 /**
+ * 网络异常
  * @author pengpeng
  * @date 2022/12/8
  */
 @Getter
 @AllArgsConstructor
-public enum NetError implements ExceptionConstant {
+public enum NetError implements ExceptionConstant ,
+    IErrorMsg
+{
 
 
     LOCAL_NETWORK_IS_VAILD(1000001,"本地网络异常！"),
@@ -28,4 +31,18 @@ public enum NetError implements ExceptionConstant {
     public Integer getCode() {
         return code;
     }
+
+
+    @Override
+    public String getErrorMessage() {
+        return getMessage();
+    }
+
+    @Override
+    public Integer getErrorCode() {
+        return getCode();
+    }
 }
+
+
+

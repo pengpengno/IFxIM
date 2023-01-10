@@ -1,11 +1,16 @@
 package com.ifx.reactor;
 
+import io.netty.handler.logging.LoggingHandler;
+import io.netty.handler.timeout.ReadTimeoutHandler;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import reactor.core.Disposable;
 import reactor.core.publisher.Flux;
 import reactor.core.scheduler.Schedulers;
+import reactor.netty.DisposableServer;
+import reactor.netty.tcp.TcpServer;
 
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicLong;
 
 /**
@@ -65,7 +70,7 @@ public class TestCase {
                     if (i == 10) sink.complete();
                     return state;
                 }, (state) -> System.out.println("state: " + state));
-        flux.subscribe(s->log.info(s));
+        flux.subscribe(log::info);
     }
     @Test
     public void star (){
@@ -77,7 +82,6 @@ public class TestCase {
                                 channel.pipeline()
                                         .addFirst(new LoggingHandler("reactor.netty.examples")))
                         .bindNow();
-
         server.onDispose()
                 .block();
     }

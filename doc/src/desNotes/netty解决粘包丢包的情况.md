@@ -19,8 +19,8 @@ TCP是‘字节流’协议 应用层和TCP传输层交换的是不同大小的�
 ### netty 传输源码分析
 > LengthFieldBasedFrameDecoder 解码器
 
-```
-    /**
+```Java
+    /***
      * Creates a new instance.
      *
      * @param maxFrameLength      最大帧长度。也就是可以接收的数据的最大长度。如果超过，此次数据会被丢弃。
@@ -31,9 +31,10 @@ TCP是‘字节流’协议 应用层和TCP传输层交换的是不同大小的�
      * @param failFast            如果为true，则在解码器注意到帧的长度将超过maxFrameLength时立即抛出TooLongFrameException，而不管是否已读取整个帧。
      *                            如果为false，则在读取了超过maxFrameLength的整个帧之后引发TooLongFrameException。
      */
-    public LengthFieldBasedFrameDecoder(int maxFrameLength, int lengthFieldOffset, int lengthFieldLength,
+    public void LengthFieldBasedFrameDecoder(int maxFrameLength, int lengthFieldOffset, int lengthFieldLength,
                                         int lengthAdjustment, int initialBytesToStrip, boolean failFast) {
         //略
+        return null;
     }
 ```
 #### 底层拆包原理

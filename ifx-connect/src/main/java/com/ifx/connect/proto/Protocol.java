@@ -15,13 +15,12 @@ public class Protocol implements Serializable {
   private String protocol;   //协议头
   /**
    * 请求体
-   *
    * @see DubboApiMetaData
    */
-  private String protocolBody; // 协议体
+  private String protocolBody; // 协议请求体
 
-  private Long serial;  //包syn序列号
   /**
+   * 请求类型
    * @see com.ifx.connect.proto.ifx.IFxMsgProtocol
    */
   private String type; // 请求类型
@@ -35,6 +34,7 @@ public class Protocol implements Serializable {
   private String content;
 
   private Result result;
+
 
 
 }

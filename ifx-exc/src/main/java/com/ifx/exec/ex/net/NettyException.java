@@ -1,6 +1,37 @@
 package com.ifx.exec.ex.net;
 
 import com.ifx.exec.BaseException;
+import com.ifx.exec.ExceptionMessage;
 
+/***
+ * Netty 异常信息
+ */
 public class NettyException extends NetException {
+    public NettyException(ExceptionMessage exceptionMessage) {
+        super(exceptionMessage);
+    }
+
+    public NettyException(ExceptionMessage exceptionMessage, String detailMsg) {
+        super(exceptionMessage, detailMsg);
+    }
+
+    public NettyException() {
+        super();
+    }
+
+    public NettyException(String message) {
+        super(message);
+    }
+
+    public NettyException(String message, Throwable cause) {
+        super(message, cause);
+    }
+
+    public NettyException(Throwable cause) {
+        super(cause);
+    }
+
+    protected NettyException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
+        super(message, cause, enableSuppression, writableStackTrace);
+    }
 }

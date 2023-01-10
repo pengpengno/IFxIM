@@ -14,7 +14,7 @@ import java.util.concurrent.ThreadPoolExecutor;
  * 执行时间 执行器 执行逻辑 执行协议实体  执行链 执行结果 执行回调
  */
 @Slf4j
-@Component
+//@Component
 public class TaskManager {
 
 //    public static TaskHandler defaultTaskHandler = (Task) -> {log.info("执行心跳包！");};
@@ -30,9 +30,7 @@ public class TaskManager {
     public synchronized void init(){
         if (taskManager == null){
             log.info("正在初始化客户端核心任务管理器");
-//            synchronized (taskManager){
                 taskManager = new ConcurrentHashMap<>(TASK_MANAGER_SIZE);
-//            }
         }
     }
 

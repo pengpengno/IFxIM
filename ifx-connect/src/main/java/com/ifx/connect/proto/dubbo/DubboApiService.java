@@ -28,44 +28,9 @@ public class DubboApiService {
     public static DubboApiService getInstance(){
         return SingleInstance.INSTANCE.getInstance();
     }
-//    private volatile static  DubboApiService instance = null;
-//    public static synchronized DubboApiService getInstance(){
-//        if (instance == null ){
-//            synchronized (DubboApiService.class) {
-//                // 抢到锁之后再次判断是否为空
-//                if (instance == null) {
-//                    instance = new DubboApiService();
-//                }
-//            }
-//        }
-//        return instance;
-//    }
 
-    public static Method applyMethod(Protocol protocol) throws ClassNotFoundException{
-        DubboApiMetaData metaData = JSONObject.parseObject(protocol.getProtocolBody(), DubboApiMetaData.class);
-        return applyMethod(metaData);
-    }
+//
 
-    public static Method applyMethod(DubboApiMetaData metaData) throws ClassNotFoundException{
-        try{
-            String apiInterFacePath = metaData.getApiInterFacePath();
-            String[] argsType = metaData.getArgsType();
-            int argsLength = argsType.length;
-            Class<?> apiClass = ClassLoaderUtil.loadClass(apiInterFacePath);
-            Class<?>[] classes = new Class<?>[argsLength];
-//            load class
-            for (int i = 0; i < argsLength; i++) {
-                classes[i] = ClassLoaderUtil.loadClass(argsType[i]);
-            }
-            String method = metaData.getMethod();
-            Method declaredMethod = ClassUtil.getDeclaredMethod(apiClass, method, classes);
-            return declaredMethod;
-
-        } catch (UtilException utilException){
-            log.info("接口不存在,协议体为{} ", JSON.toJSONString(metaData));
-            throw new ClassNotFoundException("no class found in  \n"+ JSON.toJSONString(metaData));
-        }
-    }
     public static Class<?> applyApiClass(Protocol protocol) throws ClassNotFoundException{
         try{
 
@@ -83,7 +48,47 @@ public class DubboApiService {
 
 
 
-    public  Method applyMethod(String protocolBody){
-        return null;
-    }
+    //    private volatile static  DubboApiService instance = null;
+//    public static synchronized DubboApiService getInstance(){
+//        if (instance == null ){
+//            synchronized (DubboApiService.class) {
+//                // 抢到锁之后再次判断是否为空
+//                if (instance == null) {
+//                    instance = new DubboApiService();
+//                }
+//            }
+//        }
+//        return instance;
+//    }
+    /**
+     //     *
+     //     * @param protocol
+     //     * @return
+     //     * @throws ClassNotFoundException
+     //     */
+//    public static Method applyMethod(Protocol protocol) throws ClassNotFoundException{
+//        DubboApiMetaData metaData = JSONObject.parseObject(protocol.getProtocolBody(), DubboApiMetaData.class);
+//        return applyMethod(metaData);
+//    }
+//
+//    public static Method applyMethod(DubboApiMetaData metaData) throws ClassNotFoundException{
+//        try{
+//            String apiInterFacePath = metaData.getApiInterFacePath();
+//            String[] argsType = metaData.getArgsType();
+//            int argsLength = argsType.length;
+//            Class<?> apiClass = ClassLoaderUtil.loadClass(apiInterFacePath);
+//            Class<?>[] classes = new Class<?>[argsLength];
+////            load class
+//            for (int i = 0; i < argsLength; i++) {
+//                classes[i] = ClassLoaderUtil.loadClass(argsType[i]);
+//            }
+//            String method = metaData.getMethod();
+//            return ClassUtil.getDeclaredMethod(apiClass, method, classes);
+//
+//        } catch (UtilException utilException){
+//            log.info("接口不存在,协议体为{} ", JSON.toJSONString(metaData));
+//            throw new ClassNotFoundException("no class found in  \n"+ JSON.toJSONString(metaData));
+//        }
+//    }
+//
 }

@@ -9,7 +9,7 @@ import java.util.function.Consumer;
  * 任务执行基本单元
  */
 @FunctionalInterface
-public interface TaskHandler extends Consumer<Protocol> {
+public interface  TaskHandler extends Consumer<Protocol> {
 
     @Override
     void accept(Protocol o);

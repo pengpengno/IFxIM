@@ -1,35 +1,50 @@
-package com.ifx.connect.connection.client;
+package com.ifx.connect.connection.client.tcp;
 
 import cn.hutool.core.exceptions.ExceptionUtil;
 import com.ifx.connect.connection.client.ClientAction;
 import com.ifx.connect.connection.client.ClientLifeStyle;
-import com.ifx.connect.connection.client.tcp.TcpNettyClient;
 import com.ifx.connect.proto.Protocol;
 import com.ifx.connect.task.handler.TaskHandler;
 import com.ifx.connect.task.TaskManager;
 import com.ifx.connect.task.handler.def.DefaultHandler;
+import com.ifx.exec.ex.net.NetException;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelFuture;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 import java.util.concurrent.ThreadPoolExecutor;
 
-@Component("netty")
+//@Component("netty")
 @Slf4j
 public class NettyClientAction implements ClientAction, ClientLifeStyle {
 
 
-    @Autowired
+//    @Autowired
     private TcpNettyClient tcpNettyClient;
-    @Autowired
+//    @Autowired
     private TaskManager taskManager;
-
 
     private Long connectTimeout;  // 连接时间延
 
     private Long reConnectDelay; // 重试时延
+
+    public NettyClientAction(){
+        tcpNettyClient = new TcpNettyClient();
+    }
+
+    private enum SingleInstance{
+        INSTANCE;
+        private final NettyClientAction instance;
+        SingleInstance(){
+            instance = new NettyClientAction();
+        }
+        private NettyClientAction getInstance(){
+            return instance;
+        }
+    }
+    public static NettyClientAction getInstance(){
+        return NettyClientAction.SingleInstance.INSTANCE.getInstance();
+    }
 
     @Override
     public void connect() {
@@ -80,7 +95,7 @@ public class NettyClientAction implements ClientAction, ClientLifeStyle {
 
     @Override
     public void resetConnect() {
-
+            log.debug("reset channel");
     }
 
     @Override
@@ -95,7 +110,7 @@ public class NettyClientAction implements ClientAction, ClientLifeStyle {
 
 
     @Override
-    public void sendJsonMsg(Protocol protocol) {
+    public void sendJsonMsg(Protocol protocol) throws NetException {
         if (protocol == null){
             log.warn("protocol is  null  no operate  to do ");
             return ;

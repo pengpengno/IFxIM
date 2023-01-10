@@ -122,7 +122,7 @@ public class LoginController  implements Initializable {
             }
         };
         log.info("启动登录");
-        Protocol login = accountHelper.applyLogins(accountBaseInfo);
+        Protocol login = AccountHelper.applyLogins(accountBaseInfo);
         clientService.send(login,taskHandler);
     }
 

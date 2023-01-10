@@ -1,14 +1,10 @@
 package com.ifx.client.service.helper;
 
-import cn.hutool.core.collection.CollectionUtil;
 import com.alibaba.fastjson2.JSON;
-import com.ifx.account.service.AccountService;
 import com.ifx.account.vo.AccountSearchVo;
-import com.ifx.client.parse.DubboGenericParse;
 import com.ifx.connect.proto.Protocol;
 import com.ifx.connect.proto.dubbo.DubboApiMetaData;
 import com.ifx.connect.proto.dubbo.DubboProtocol;
-import com.ifx.connect.proto.ifx.IFxMsgProtocol;
 import lombok.SneakyThrows;
 
 import java.lang.reflect.Method;
@@ -49,5 +45,11 @@ public class ProtocolHelper {
         Protocol protocol = new DubboProtocol();
         protocol.setProtocolBody(JSON.toJSONString(metaData));
         return protocol;
+    }
+
+    public static void main(String[] args) throws NoSuchMethodException {
+
+        Method search = com.ifx.account.service.AccountService.class.getMethod("search", AccountSearchVo.class);
+        search.getDeclaringClass();
     }
 }

@@ -4,6 +4,10 @@ import com.alibaba.fastjson2.JSON;
 import com.ifx.connect.proto.Protocol;
 import com.ifx.connect.proto.ProtocolHeaderConst;
 
+/**
+ *  Protocol 的 Dubbo 子类实现
+ *  {@link com.ifx.connect.proto.Protocol}
+ */
 public class DubboProtocol extends Protocol {
 
     public DubboProtocol(){

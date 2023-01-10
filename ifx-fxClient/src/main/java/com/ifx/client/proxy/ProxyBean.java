@@ -9,6 +9,7 @@ import net.sf.cglib.proxy.FixedValue;
 import java.util.function.Function;
 
 @Slf4j
+@Deprecated
 public class ProxyBean {
     @SuppressWarnings(value = "all")
     public static <T> T getProxyBean(Class<T> tClass){

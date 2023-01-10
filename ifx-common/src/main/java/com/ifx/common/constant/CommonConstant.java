@@ -16,4 +16,6 @@ public class CommonConstant {
     public static String REGISTER_SUCC = "注册成功！";
 
     public static String PASSWORD_ERROR = "密码错误";
+
+    public static  String MDC_TRACE_ID = "TRACE";
 }

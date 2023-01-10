@@ -1,16 +1,14 @@
 package com.ifx.client.service.helper;
 
-import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.text.StrBuilder;
 import com.alibaba.fastjson2.JSON;
-import com.ifx.account.service.AccountService;
 import com.ifx.account.vo.AccountBaseInfo;
 import com.ifx.account.vo.AccountSearchVo;
-import com.ifx.client.parse.DubboGenericParse;
 import com.ifx.connect.proto.Protocol;
 import com.ifx.connect.proto.dubbo.DubboApiMetaData;
 import com.ifx.connect.proto.dubbo.DubboProtocol;
 import com.ifx.connect.proto.ifx.IFxMsgProtocol;
+import com.ifx.connect.proto.parse.DubboGenericParse;
 import io.reactivex.rxjava3.annotations.NonNull;
 import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.core.ObservableOnSubscribe;
@@ -18,46 +16,59 @@ import io.reactivex.rxjava3.core.Observer;
 import io.reactivex.rxjava3.disposables.Disposable;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Service;
 
 import java.lang.reflect.Method;
 
-@Service
 @Slf4j
 public class AccountHelper {
 
+    private  static Protocol LOGINPROTOCOL = null;  //登陆协议
+
+    private  static Protocol SEARCHPROTOCOL = null;  //搜索用户协议
+
     @SneakyThrows
-    public Protocol applyLogins(AccountBaseInfo vo){
-        DubboApiMetaData metaData = DubboGenericParse.applyMeta(AccountService.class, "loginAndGetCur", CollectionUtil.newArrayList(vo));
+    public static Protocol applyLogins(AccountBaseInfo vo){
+        if (LOGINPROTOCOL !=null){
+            return LOGINPROTOCOL;
+        }
+        Method search = com.ifx.account.service.AccountService.class.getMethod("search", AccountSearchVo.class);
+        DubboApiMetaData metaData = DubboGenericParse.applyMeta0(com.ifx.account.service.AccountService.class, search, vo);
         Protocol protocol = new DubboProtocol();
         protocol.setProtocolBody(JSON.toJSONString(metaData));
         protocol.setType(IFxMsgProtocol.LOGIN_MSG_HEADER);
-        return protocol;
+        LOGINPROTOCOL = protocol;
+        return LOGINPROTOCOL;
     }
+
+
+
 
     /**
-     * 废弃 请使用下方接口实现
-     * {@link ProtocolHelper}
-     * @see ProtocolHelper
-     * @param vo
+     * 提供所有账户的 Protocol
+     * @param searchVo
      * @return
      */
-    @SneakyThrows
-    @Deprecated
-    public Protocol applySearch(AccountSearchVo vo){
-        Method search = AccountService.class.getMethod("search", AccountSearchVo.class);
-        DubboApiMetaData metaData = DubboGenericParse.applyMeta(AccountService.class, "search", CollectionUtil.newArrayList(vo));
-        Protocol protocol = new DubboProtocol();
-        protocol.setProtocolBody(JSON.toJSONString(metaData));
-        return protocol;
+    public static Protocol applySearchAccount(AccountSearchVo searchVo){
+        try{
+            if (SEARCHPROTOCOL !=null){
+                return SEARCHPROTOCOL;
+            }
+            Method search = com.ifx.account.service.AccountService.class.getMethod("search", AccountSearchVo.class);
+            return DubboGenericParse.applyMsgProtocol(search,searchVo);
+//            Protocol protocol = new DubboProtocol();
+//            protocol.setProtocolBody(JSON.toJSONString(metaData));
+//            protocol.setType(IFxMsgProtocol.CLIENT_TO_SERVER_MSG_HEADER);
+//            SEARCHPROTOCOL = protocol;
+//            return SEARCHPROTOCOL;
+        }catch (NoSuchMethodException noSuchMethodException){
+            log.error("没有该方法");
+            return null;
+        }
     }
 
 
 
-    public void sendLogin(){
 
-
-    }
 
     public static void main(String[] args) {
         StrBuilder mRxOperatorsText = new StrBuilder();

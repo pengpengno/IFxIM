@@ -31,9 +31,9 @@ public class ServerServiceParseHandler extends ChannelDuplexHandler {
 
         Protocol protocol = (Protocol) msg;
 
-        log.info("收到客户端发过来的消息: {}" , JSONObject.toJSONString(protocol));
+        log.debug("收到客户端发过来的消息: {}" , JSONObject.toJSONString(protocol));
 
-        log.info("receive msg from server-side {}, data package {}",ctx.channel().localAddress().toString(),protocol);
+        log.debug("receive msg from server-side {}, data package {}",ctx.channel().localAddress().toString(),protocol);
 
 //        serverService.submit(()-> serverProtoReceive.received(ctx,protocol));
         //写入并发送信息到远端（客户端）
@@ -51,13 +51,13 @@ public class ServerServiceParseHandler extends ChannelDuplexHandler {
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause)
     {
         //出现异常
-        log.info("business error {}  ", ExceptionUtil.stacktraceToString(cause));
+        log.error("business error {}  ", ExceptionUtil.stacktraceToString(cause));
     }
 
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
-        log.info(" 开启了 来自 {}的链接请求，channel 已打开 ",ctx.channel().remoteAddress());
-        log.info("登录成功 {} ",ctx.channel().remoteAddress());
+        log.debug(" 开启了 来自 {}的链接请求，channel 已打开 ",ctx.channel().remoteAddress());
+        log.debug("登录成功 {} ",ctx.channel().remoteAddress());
         super.channelActive(ctx);
     }
 }

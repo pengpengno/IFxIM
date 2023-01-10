@@ -2,7 +2,7 @@ package com.ifx.connect.reactor.netty.tcp;
 
 import com.ifx.connect.handler.decoder.ProtocolDecoder;
 import com.ifx.connect.handler.encoder.ProtocolEncoder;
-import com.ifx.connect.netty.client.ClientNettyHandler;
+import com.ifx.connect.handler.client.ClientNettyHandler;
 import io.netty.channel.Channel;
 import io.netty.handler.codec.DelimiterBasedFrameDecoder;
 import io.netty.handler.codec.Delimiters;
@@ -15,7 +15,6 @@ import reactor.core.publisher.Mono;
 import reactor.netty.ByteBufFlux;
 import reactor.netty.Connection;
 import reactor.netty.DisposableServer;
-import reactor.netty.channel.ChannelMeters;
 import reactor.netty.tcp.TcpClient;
 import reactor.netty.tcp.TcpServer;
 import reactor.netty.tcp.TcpSslContextSpec;
@@ -23,7 +22,6 @@ import reactor.netty.transport.logging.AdvancedByteBufFormat;
 
 import java.net.InetSocketAddress;
 import java.net.SocketAddress;
-import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.Scanner;
 import java.util.concurrent.atomic.AtomicReference;
@@ -77,14 +75,14 @@ public class ReactorNettyTest {
 
 //                        .wiretap(WIRETAP)
                 ;
-
+        log.info("开始连接");
         Connection conn = client.connectNow();
 
-        conn.inbound()
-                .receive()
-                .asString(StandardCharsets.UTF_8)
-                .doOnNext(log::info)
-                .subscribe();
+//        conn.inbound()
+//                .receive()
+//                .asString(StandardCharsets.UTF_8)
+//                .doOnNext(log::info)
+//                .subscribe();
 
     }
     @Test
@@ -114,8 +112,7 @@ public class ReactorNettyTest {
 
         }
         log.info("{}", connect.isDisposed());
-        //        connect.onDispose()
-//                .block();
+
 
     }
 
@@ -125,7 +122,8 @@ public class ReactorNettyTest {
                 .port(PORT)
                 .handle((nettyInbound, nettyOutbound) ->  nettyOutbound.sendString(Mono.just("weclome")))
                 .connectNow();
-        connect.outbound().sendString(Mono.just("sdasdasdsadsadas"));
+//        什么玩意  连接上了 后就自动断开/？？？？？？？？？？？？？？/
+//        connect.outbound().sendString(Mono.just("sdasdasdsadsadas"));
 
 //        connect.inbound()
 //                .receive()

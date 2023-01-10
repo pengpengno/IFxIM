@@ -1,7 +1,7 @@
 package com.ifx.connect.connection.client;
 
 /**
- * 客户点生命周期
+ * 客户端生命周期
  */
 public interface ClientLifeStyle {
     public void init ();  // 初始化连接

@@ -1,12 +1,14 @@
 package com.ifx.client.service;
 
 import cn.hutool.core.util.IdUtil;
+import com.ifx.common.constant.CommonConstant;
 import com.ifx.connect.task.TaskManager;
 import com.ifx.connect.connection.client.ClientAction;
 import com.ifx.connect.proto.Protocol;
 import com.ifx.connect.task.handler.TaskHandler;
 import com.ifx.connect.task.meta.TaskMeta;
 import lombok.extern.slf4j.Slf4j;
+import org.slf4j.MDC;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -40,6 +42,8 @@ public class ClientService {
     public void send(Protocol protocol, TaskHandler taskHandler){
 //       保存 TaskHandler等待回调
         String trace = IdUtil.fastSimpleUUID();
+        log.debug("生成的 trace 为 {}",trace);
+        MDC.put(CommonConstant.MDC_TRACE_ID,trace);
         protocol.setTrace(trace);
         taskManager.addTask(trace,taskHandler);
         clientAction.sendJsonMsg(protocol);
