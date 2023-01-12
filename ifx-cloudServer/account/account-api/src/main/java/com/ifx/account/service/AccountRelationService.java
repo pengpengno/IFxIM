@@ -1,20 +1,13 @@
 package com.ifx.account.service;
 
-import com.ifx.common.base.AccountInfo;
-
-import java.util.List;
+import com.ifx.account.entity.AccountRelation;
+import com.baomidou.mybatisplus.extension.service.IService;
 
 /**
- * 账户关系服务
- * @author pengpeng
- * @description
- * @date 2023/1/12
- */
-public interface AccountRelationService {
-    /***
-     * 获取用户关系网
-     * @param account
-     * @return
-     */
-    public List<AccountInfo>  listMyRelation(String account);
+* @author HP
+* @description 针对表【account_relation(账户关系表)】的数据库操作Service
+* @createDate 2023-01-12 19:16:28
+*/
+public interface AccountRelationService extends IService<AccountRelation> {
+
 }
