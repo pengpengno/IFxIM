@@ -1,14 +1,13 @@
 package com.ifx.client.app.controller;
 
 import cn.hutool.core.util.StrUtil;
-import com.alibaba.fastjson2.JSONObject;
 import com.ifx.account.vo.AccountBaseInfo;
 import com.ifx.client.service.helper.RegisterHelper;
 import com.ifx.client.util.SpringFxmlLoader;
 import com.ifx.common.res.Result;
-import com.ifx.connect.netty.client.ClientAction;
+import com.ifx.connect.connection.client.ClientAction;
 import com.ifx.connect.proto.Protocol;
-import com.ifx.connect.task.TaskHandler;
+import com.ifx.connect.task.handler.TaskHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
@@ -20,6 +19,9 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
 
+/***
+ * 注册界面
+ */
 @Component
 @Slf4j
 public class RegisterController  {
@@ -51,18 +53,18 @@ public class RegisterController  {
     @Resource
     private RegisterHelper registerHelper;
     @FXML
-    void register(MouseEvent event) {
+    void register(MouseEvent event) throws NoSuchMethodException {
         AccountBaseInfo accountBaseInfo = new AccountBaseInfo();
         accountBaseInfo.setAccount(accountField.getText());
         accountBaseInfo.setPassword(psdField.getText());
         accountBaseInfo.setEmail(mailField.getText());
 
         TaskHandler taskHandler = resProtocol -> {
-//            String account = (String) resProtocol.getContent().getData().get(0);
+//            String account = (String) resProtocol.getContent().getDataAsTClass().get(0);
             Result result = resProtocol.getResult();
             Object res = result.getRes();
-//            Object o = result.getData().get(0);
-            String account = result.getData(String.class);
+//            Object o = result.getDataAsTClass().get(0);
+            String account = result.getDataAsTClass(String.class);
 //            String account = JSONObject.parseObject(res.toString(), String.class);
             if (StrUtil.isNotBlank(account)){
                 log.info("注册成功！ {} ",account);

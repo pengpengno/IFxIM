@@ -24,8 +24,7 @@ public class NettyS2CAction implements IServer2ClientAction {
          channel.writeAndFlush(protocol);
     }
 
-    @Override
-    public Boolean hasAccount(Channel channel) {
+    protected Boolean hasAccount( Channel channel) {
         return channel == null && nettyContext.getCurrentAcc(channel)!=null;
     }
 
@@ -38,9 +37,15 @@ public class NettyS2CAction implements IServer2ClientAction {
         return nettyContext.getChannelByAccount(account);
     }
 
-    protected void sendMsg(Channel channel ,String msg){
-
+    /**
+     * <h1>Channel 是否处理存活态</h1>
+     * @param account
+     * @return
+     */
+    public Boolean channelActive(String account){
+        return nettyContext.hasKey(account);
     }
+
 
     @Override
     public void releaseClient(Channel channel) {

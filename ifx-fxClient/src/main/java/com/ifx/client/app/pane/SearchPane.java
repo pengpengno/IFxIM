@@ -6,12 +6,9 @@ import cn.hutool.extra.spring.SpringUtil;
 import com.alibaba.fastjson2.JSON;
 import com.ifx.client.proxy.ProxyBean;
 import com.ifx.client.service.ClientService;
-import com.ifx.client.service.helper.ProtocolHelper;
 import com.ifx.client.util.ProxyUtil;
 import com.ifx.common.ann.client.Proxy;
 import com.ifx.common.base.AccountInfo;
-import com.ifx.connect.proto.Protocol;
-import com.ifx.session.service.ISessionLifeStyle;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.scene.control.Label;
@@ -140,14 +137,14 @@ public class SearchPane extends FlowPane {
             this.getChildren().add(name);
             this.addEventHandler(MouseEvent.MOUSE_CLICKED,(mouse)->{
                 log.debug("click button the account is {}", JSON.toJSONString(accountInfo));
-                Protocol protocol = ProtocolHelper.applyDubboProtocol(ISessionLifeStyle.class, "initialize", new Object[]{});
-                clientService.send(protocol, (res)-> {
-                    log.info("返回了结果 {}" ,JSON.toJSONString(res));
-//                    创建了xxxx
-                });
-                clientService.send(protocol,(proRes)-> {
-                    log.info ("成功创建会话");
-                });
+//                Protocol protocol = ProtocolHelper.applyDubboProtocol(ISessionLifeStyle.class, "initialize", new Object[]{});
+//                clientService.send(protocol, (res)-> {
+//                    log.info("返回了结果 {}" ,JSON.toJSONString(res));
+////                    创建了xxxx
+//                });
+//                clientService.send(protocol,(proRes)-> {
+//                    log.info ("成功创建会话");
+//                });
             });
             log.info("load {}  account {}" ,this.getClass().getName(),accountInfo);
 

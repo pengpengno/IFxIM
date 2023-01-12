@@ -7,7 +7,7 @@ Dubbo 泛化调用可以实现消费者和生产者的高度解耦 ，对于消�
 3. 注入服务相关配置
 4. 设置泛化调用
 直接上代码
-```
+``` Java
 private static String zookeeperAddress = "zookeeper://" + System.getProperty("zookeeper.address", "127.0.0.1") + ":2181";
   //创建ApplicationConfig
  public static void main(String[] args) throws Exception {

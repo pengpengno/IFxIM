@@ -1,5 +1,7 @@
 package com.ifx.client.util;
 
+import lombok.extern.slf4j.Slf4j;
+
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.geom.Ellipse2D;
@@ -9,111 +11,113 @@ import java.io.File;
 import java.io.IOException;
 
 /**
- *Í¼Ïñ×ÊÔ´´¦Àí¹¤¾ßÀà
+ *å›¾åƒèµ„æºå¤„ç†å·¥å…·ç±»
  */
+@Slf4j
 public class ImageUtil {
 
-	    /***
-	     * Í¼Æ¬Ô²ĞÎ²Ã¼ô
-	     * @param srcFilePath Ô´Í¼Æ¬ÎÄ¼şÂ·¾¶
-	     * @param circularImgSavePath ĞÂÉú³ÉµÄÍ¼Æ¬µÄ±£´æÂ·¾¶£¬ĞèÒª´øÓĞ±£´æµÄÎÄ¼şÃûºÍºó×º
-	     * @param targetSize ÎÄ¼şµÄ±ß³¤£¬µ¥Î»£ºÏñËØ£¬×îÖÕµÃµ½µÄÊÇÒ»ÕÅÕı·½ĞÎµÄÍ¼£¬ËùÒÔÒªÇótargetSize<=Ô´ÎÄ¼şµÄ×îĞ¡±ß³¤
-	     * @param cornerRadius Ô²½Ç°ë¾¶£¬µ¥Î»£ºÏñËØ¡£Èç¹û=targetSizeÄÇÃ´µÃµ½µÄÊÇÔ²ĞÎÍ¼
-	     * @return  ÎÄ¼şµÄ±£´æÂ·¾¶
-	     * @throws IOException
-	     */
-	    public static String makeCircularImg(String srcFilePath, String circularImgSavePath,int targetSize, int cornerRadius) throws IOException {
-	        BufferedImage bufferedImage = ImageIO.read(new File(srcFilePath));
-	        BufferedImage circularBufferImage = roundImage(bufferedImage,targetSize,cornerRadius);
-	        ImageIO.write(circularBufferImage, "png", new File(circularImgSavePath));
-	        return circularImgSavePath;
-	    }
+    /***
+     * å›¾ç‰‡åœ†å½¢è£å‰ª
+     * @param srcFilePath æºå›¾ç‰‡æ–‡ä»¶è·¯å¾„
+     * @param circularImgSavePath æ–°ç”Ÿæˆçš„å›¾ç‰‡çš„ä¿å­˜è·¯å¾„ï¼Œéœ€è¦å¸¦æœ‰ä¿å­˜çš„æ–‡ä»¶åå’Œåç¼€
+     * @param targetSize æ–‡ä»¶çš„è¾¹é•¿ï¼Œå•ä½ï¼šåƒç´ ï¼Œæœ€ç»ˆå¾—åˆ°çš„æ˜¯ä¸€å¼ æ­£æ–¹å½¢çš„å›¾ï¼Œæ‰€ä»¥è¦æ±‚targetSize<=æºæ–‡ä»¶çš„æœ€å°è¾¹é•¿
+     * @param cornerRadius åœ†è§’åŠå¾„ï¼Œå•ä½ï¼šåƒç´ ã€‚å¦‚æœ=targetSizeé‚£ä¹ˆå¾—åˆ°çš„æ˜¯åœ†å½¢å›¾
+     * @return  æ–‡ä»¶çš„ä¿å­˜è·¯å¾„
+     * @throws IOException
+     */
+    public static String makeCircularImg(String srcFilePath, String circularImgSavePath,int targetSize, int cornerRadius) throws IOException {
+        BufferedImage bufferedImage = ImageIO.read(new File(srcFilePath));
+        BufferedImage circularBufferImage = roundImage(bufferedImage,targetSize,cornerRadius);
+        ImageIO.write(circularBufferImage, "png", new File(circularImgSavePath));
+        return circularImgSavePath;
+    }
 
-	/**
-	 *
-	 * @param image
-	 * @param targetSize
-	 * @param cornerRadius
-	 * @return
-	 */
-	    private static BufferedImage roundImage(BufferedImage image, int targetSize, int cornerRadius) {
-	        BufferedImage outputImage = new BufferedImage(targetSize, targetSize, BufferedImage.TYPE_INT_ARGB);
-	        Graphics2D g2 = outputImage.createGraphics();
-	        g2.setComposite(AlphaComposite.Src);
-	        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-	        g2.setColor(Color.WHITE);
-	        g2.fill(new RoundRectangle2D.Float(0, 0, targetSize, targetSize, cornerRadius, cornerRadius));
-	        g2.setComposite(AlphaComposite.SrcAtop);
-	        g2.drawImage(image, 0, 0, null);
-	        g2.dispose();
-	        return outputImage;
-	    }
-	    /**
-	     * Éú³ÉÔ²½ÇÍ¼±ê
-	     * @param image
-	     * @param cornerRadius Ô²½Ç°ë¾¶
-	     * @return
-	     */
-	    public static BufferedImage makeRoundedCorner1(BufferedImage image, int cornerRadius) {
-	        int w = image.getWidth();
-	        int h = image.getHeight();
-	        BufferedImage output = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
-	        Graphics2D g2 = output.createGraphics();
-	        g2.setComposite(AlphaComposite.Src);
-	        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-	        g2.setColor(Color.WHITE);
-	        g2.fill(new RoundRectangle2D.Float(0, 0, w, h, cornerRadius, cornerRadius));
-	        g2.setComposite(AlphaComposite.SrcAtop);
-	        g2.drawImage(image, 0, 0, null);
-	        g2.dispose();
-	        return output;
-	    }
-	    /**Í¼Æ¬Ô²½Ç´¦Àí£¬±³¾°Í¸Ã÷»¯
-	     * @param srcImageFile Ô­Í¼Æ¬
-	     * @param result  ´¦ÀíºóÍ¼Æ¬
-	     * @param type   Í¼Æ¬¸ñÊ½
-	     * @param cornerRadius  720ÎªÔ²½Ç
-	     */
-	    public static  void makeRoundedCorner(File srcImageFile, File result, String type, int cornerRadius) {
-	        try {
-	            BufferedImage bi1 = ImageIO.read(srcImageFile);
+    /**
+     *
+     * @param image
+     * @param targetSize
+     * @param cornerRadius
+     * @return
+     */
+    private static BufferedImage roundImage(BufferedImage image, int targetSize, int cornerRadius) {
+        log.info("æ­£åœ¨å¤„ç†å›¾ç‰‡");
+        BufferedImage outputImage = new BufferedImage(targetSize, targetSize, BufferedImage.TYPE_INT_ARGB);
+        Graphics2D g2 = outputImage.createGraphics();
+        g2.setComposite(AlphaComposite.Src);
+        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        g2.setColor(Color.WHITE);
+        g2.fill(new RoundRectangle2D.Float(0, 0, targetSize, targetSize, cornerRadius, cornerRadius));
+        g2.setComposite(AlphaComposite.SrcAtop);
+        g2.drawImage(image, 0, 0, null);
+        g2.dispose();
+        return outputImage;
+    }
+    /**
+     * ç”Ÿæˆåœ†è§’å›¾æ ‡
+     * @param image
+     * @param cornerRadius åœ†è§’åŠå¾„
+     * @return
+     */
+    public static BufferedImage makeRoundedCorner1(BufferedImage image, int cornerRadius) {
+        int w = image.getWidth();
+        int h = image.getHeight();
+        BufferedImage output = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
+        Graphics2D g2 = output.createGraphics();
+        g2.setComposite(AlphaComposite.Src);
+        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        g2.setColor(Color.WHITE);
+        g2.fill(new RoundRectangle2D.Float(0, 0, w, h, cornerRadius, cornerRadius));
+        g2.setComposite(AlphaComposite.SrcAtop);
+        g2.drawImage(image, 0, 0, null);
+        g2.dispose();
+        return output;
+    }
+    /**å›¾ç‰‡åœ†è§’å¤„ç†ï¼ŒèƒŒæ™¯é€æ˜åŒ–
+     * @param srcImageFile åŸå›¾ç‰‡
+     * @param result  å¤„ç†åå›¾ç‰‡
+     * @param type   å›¾ç‰‡æ ¼å¼
+     * @param cornerRadius  720ä¸ºåœ†è§’
+     */
+    public static  void makeRoundedCorner(File srcImageFile, File result, String type, int cornerRadius) {
+        try {
+            BufferedImage bi1 = ImageIO.read(srcImageFile);
 
-	            // ¸ù¾İĞèÒªÊÇ·ñÊ¹ÓÃ BufferedImage.TYPE_INT_ARGB
-	            BufferedImage image = new BufferedImage(bi1.getWidth(), bi1.getHeight(),
-	                    BufferedImage.TYPE_INT_ARGB);
+            // æ ¹æ®éœ€è¦æ˜¯å¦ä½¿ç”¨ BufferedImage.TYPE_INT_ARGB
+            BufferedImage image = new BufferedImage(bi1.getWidth(), bi1.getHeight(),
+                    BufferedImage.TYPE_INT_ARGB);
 
-	            Ellipse2D.Double shape = new Ellipse2D.Double(0, 0, bi1.getWidth(), bi1
-	                    .getHeight());
+            Ellipse2D.Double shape = new Ellipse2D.Double(0, 0, bi1.getWidth(), bi1
+                    .getHeight());
 
-	            Graphics2D g2 = image.createGraphics();
-	            image = g2.getDeviceConfiguration().createCompatibleImage(bi1.getWidth(), bi1.getHeight(), Transparency.TRANSLUCENT);
-	            g2 = image.createGraphics();
-	            g2.setComposite(AlphaComposite.Clear);
-	            g2.fill(new Rectangle(image.getWidth(), image.getHeight()));
-	            g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC, 1.0f));
-	            g2.setClip(shape);
-	            // Ê¹ÓÃ setRenderingHint ÉèÖÃ¿¹¾â³İ
-	            g2 = image.createGraphics();
-	            g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-	            g2.fillRoundRect(0, 0,bi1.getWidth(), bi1.getHeight(), cornerRadius, cornerRadius);
-	            g2.setComposite(AlphaComposite.SrcIn);
-	            g2.drawImage(bi1, 0, 0, bi1.getWidth(), bi1.getHeight(), null);
-	            g2.dispose();
-	            ImageIO.write(image, type, result);
-	        } catch (Exception e) {
-	            // TODO: handle exception
-	        }
-	    }
+            Graphics2D g2 = image.createGraphics();
+            image = g2.getDeviceConfiguration().createCompatibleImage(bi1.getWidth(), bi1.getHeight(), Transparency.TRANSLUCENT);
+            g2 = image.createGraphics();
+            g2.setComposite(AlphaComposite.Clear);
+            g2.fill(new Rectangle(image.getWidth(), image.getHeight()));
+            g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC, 1.0f));
+            g2.setClip(shape);
+            // ä½¿ç”¨ setRenderingHint è®¾ç½®æŠ—é”¯é½¿
+            g2 = image.createGraphics();
+            g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+            g2.fillRoundRect(0, 0,bi1.getWidth(), bi1.getHeight(), cornerRadius, cornerRadius);
+            g2.setComposite(AlphaComposite.SrcIn);
+            g2.drawImage(bi1, 0, 0, bi1.getWidth(), bi1.getHeight(), null);
+            g2.dispose();
+            ImageIO.write(image, type, result);
+        } catch (Exception e) {
+            // TODO: handle exception
+        }
+    }
 
 
 
-	public static void main(String[] args) throws IOException {
-		String url="E:/eclipse/eclipse-jee-oxygen-R-win32-x86_64/eclipse/chat/src/gril.png";
-		String url1="E:\\eclipse\\eclipse-jee-oxygen-R-win32-x86_64\\eclipse\\chat\\src";
-		String url3="E:\\eclipse\\eclipse-jee-oxygen-R-win32-x86_64\\eclipse\\chat\\src\\temp.png";
-		//url = URLDecoder.decode(url,"utf-8");
-		int width=120;
-		try {
+    public static void main(String[] args) throws IOException {
+        String url="E:/eclipse/eclipse-jee-oxygen-R-win32-x86_64/eclipse/chat/src/gril.png";
+        String url1="E:\\eclipse\\eclipse-jee-oxygen-R-win32-x86_64\\eclipse\\chat\\src";
+        String url3="E:\\eclipse\\eclipse-jee-oxygen-R-win32-x86_64\\eclipse\\chat\\src\\temp.png";
+        //url = URLDecoder.decode(url,"utf-8");
+        int width=120;
+        try {
             BufferedImage image = ImageIO.read(new File(url));
             BufferedImage rounded = ImageUtil.roundImage(image, 1000, 1000);
             //image_paint.makeRoundedCorner(new File(url),new File(url3),"png",720);
@@ -121,5 +125,5 @@ public class ImageUtil {
         } catch (IOException e) {
             e.printStackTrace();
         }
-	}
+    }
 }

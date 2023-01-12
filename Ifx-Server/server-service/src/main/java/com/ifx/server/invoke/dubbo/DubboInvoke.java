@@ -23,7 +23,6 @@ import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
-import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CountDownLatch;
 
@@ -79,22 +78,17 @@ public class DubboInvoke implements GateInvoke {
             //获取结果
             CompletableFuture<Object> future = RpcContext.getServerContext().getCompletableFuture();
             future.whenComplete((value, t) -> {
+
                 Result ok = new Result();
-                ok.setRes(value);
-//                Result<Object> ok = new Result<>();
-//                if (value instanceof List ){
-//                    ok.setData(JSON.parseArray(JSON.toJSONString(value),Object.class));
-//                }
-//                else {
-//                    ok.addData(value);
-//                }
+
 //              用户系统登录处理
                 if (protocol.getType().startsWith(IFxMsgProtocol.LOGIN_MSG_HEADER) && value !=null){
                     log.info("用户登录系统成功，正在建立 channel 绑定关系");
                     nettyContext.addAccount(channel.channel(), JSONObject.parseObject(JSON.toJSONString(value),AccountInfo.class));
                 }
-                protocol.setContent(JSON.toJSONString(ok));
-//                protocol.setContent(value);
+                ok.setRes(JSON.toJSONString(ok));
+//                protocol.setContent(JSON.toJSONString(ok));
+                protocol.setResult(Result.ok(JSON.toJSONString(ok)));
                 log.info("doWork(whenComplete):  {} " ,JSON.toJSONString(value));
                 server2ClientAction.sendProtoCol(channel.channel(),protocol);
                 latch.countDown();

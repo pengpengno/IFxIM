@@ -11,10 +11,4 @@ public interface DubboApiConst {
     String method ="method";
 
 
-
-
-
-
-
-
 }

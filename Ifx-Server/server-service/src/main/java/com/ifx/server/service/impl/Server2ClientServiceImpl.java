@@ -10,6 +10,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+/**
+ *
+ */
 @DubboService
 @Service
 public class Server2ClientServiceImpl implements Server2ClientService {
@@ -26,7 +29,7 @@ public class Server2ClientServiceImpl implements Server2ClientService {
     }
 
 
-    public void sendClient(String toAccountId, String formAccount,String msg) {
+    public void sendClient(String toAccountId, String fromAccount,String msg) {
         Protocol protocol = new Protocol();
         protocol.setProtocolBody(msg);
         protocol.setType(IFxMsgProtocol.SERVER_TO_CLIENT_MSG_HEADER);

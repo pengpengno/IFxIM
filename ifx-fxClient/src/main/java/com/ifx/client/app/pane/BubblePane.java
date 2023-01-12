@@ -32,8 +32,8 @@ public class BubblePane extends Pane implements Initializable {
 
 
     public BubblePane(){
-
     }
+
 
 
 }

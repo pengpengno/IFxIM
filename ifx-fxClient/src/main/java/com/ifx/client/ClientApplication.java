@@ -4,7 +4,7 @@ package com.ifx.client;
 
 import cn.hutool.extra.spring.SpringUtil;
 import com.ifx.client.util.SpringFxmlLoader;
-import com.ifx.connect.netty.client.ClientLifeStyle;
+import com.ifx.connect.connection.client.ClientLifeStyle;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;

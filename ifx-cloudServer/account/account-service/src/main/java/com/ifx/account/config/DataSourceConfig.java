@@ -10,6 +10,7 @@ import javax.sql.DataSource;
 @Configuration
 public class DataSourceConfig {
 
+
     @Bean
     public SqlSessionTemplate sqlSessionTemplate( DataSource dataSource) throws Exception {
         SqlSessionTemplate sqlSessionTemplate=new SqlSessionTemplate(sqlSessionFactoryBean(dataSource).getObject(), ExecutorType.BATCH);

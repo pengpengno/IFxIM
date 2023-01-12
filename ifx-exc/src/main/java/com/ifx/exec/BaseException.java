@@ -1,6 +1,6 @@
 package com.ifx.exec;
 
-import java.util.logging.ErrorManager;
+import com.ifx.exec.errorMsg.IErrorMsg;
 
 /**
  * 基础系统异常
@@ -12,7 +12,9 @@ public class BaseException extends RuntimeException{
 
     private ExceptionMessage exceptionMessage;
 
-    private String detailMsg;
+    private String detailMsg;  //详细信息
+
+    private IErrorMsg errorMsg;  // 异常接口
 
 
     public BaseException(ExceptionMessage exceptionMessage) {
@@ -21,6 +23,14 @@ public class BaseException extends RuntimeException{
 
     public BaseException(ExceptionMessage exceptionMessage,String detailMsg) {
         this.exceptionMessage = exceptionMessage;
+        this.detailMsg = detailMsg;
+    }
+
+    public BaseException(IErrorMsg errorMsg){
+        this.errorMsg = errorMsg;
+    }
+    public BaseException(IErrorMsg errorMsg,String detailMsg){
+        this.errorMsg = errorMsg;
         this.detailMsg = detailMsg;
     }
 

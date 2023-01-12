@@ -9,6 +9,7 @@
     <version>1.0-SNAPSHOT</version>
     <modules>
         <module>doc</module>
+        <module>dubbo-Bom</module>
         <module>ifx-cloudServer</module>
         <module>ifx-fxClient</module>
         <module>ifx-common</module>
@@ -24,6 +25,7 @@
         <maven.compiler.target>8</maven.compiler.target>
         <nacos.starter.version>2021.1</nacos.starter.version>
         <spring.starter.version>2.3.3.RELEASE</spring.starter.version>
+        <spring.test.version>5.2.8.RELEASE</spring.test.version>
         <dubbo.starter.version>3.0.9</dubbo.starter.version>
         <hutool-all.version>5.8.4</hutool-all.version>
         <dubbo.version>3.0.2</dubbo.version>
@@ -33,13 +35,18 @@
         <hippo4j.version>1.4.0-RC</hippo4j.version>
         <p6spy.version>3.9.1</p6spy.version>
         <cglib.version>3.3.0</cglib.version>
+        <reactor.core.version>3.5.0</reactor.core.version>
+        <reactor.extra.version>3.5.0</reactor.extra.version>
         <protobuf.version>3.21.7</protobuf.version>
+        <mybatis-plus.version>3.4.0</mybatis-plus.version>
+        <mybatis-plus.starter.version>3.4.0</mybatis-plus.starter.version>
         <mysql.connector.version>8.0.28</mysql.connector.version>
+        <reactor.bom.version>2022.0.1</reactor.bom.version>
+        <rxJava.version>3.1.5</rxJava.version>
+        <micrometer.version>1.10.2</micrometer.version>
     </properties>
     <dependencies>
         <!-- https://mvnrepository.com/artifact/com.alibaba.fastjson2/fastjson2 -->
-
-
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
@@ -49,7 +56,7 @@
         <dependency>
             <groupId>org.mapstruct</groupId>
             <artifactId>mapstruct</artifactId>
-            <version>1.5.0.Beta1</version>
+            <version>1.5.3.Final</version>
         </dependency>
         <!-- mapStruct-lombok -->
         <dependency>
@@ -58,23 +65,48 @@
             <version>0.2.0</version>
             <scope>provided</scope>
         </dependency>
-
-        <!--mapstruct编译-->
-        <dependency>
-            <groupId>org.mapstruct</groupId>
-            <artifactId>mapstruct-processor</artifactId>
-            <version>1.5.0.Beta1</version>
-        </dependency>
-
     </dependencies>
     <dependencyManagement>
         <dependencies>
-<!--            spring test 框架-->
+            <!-- https://mvnrepository.com/artifact/io.projectreactor/reactor-core -->
+            <dependency>
+                <groupId>io.projectreactor</groupId>
+                <artifactId>reactor-core</artifactId>
+                <version>${reactor.core.version}</version>
+            </dependency>
+            <!-- https://mvnrepository.com/artifact/io.projectreactor.addons/reactor-extra -->
+            <dependency>
+                <groupId>io.projectreactor.addons</groupId>
+                <artifactId>reactor-extra</artifactId>
+                <version>${reactor.extra.version}</version>
+            </dependency>
+<!--            reactor bom-->
+            <dependency>
+                <groupId>io.projectreactor</groupId>
+                <artifactId>reactor-bom</artifactId>
+                <version>${reactor.bom.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+<!--            im micrometer 系统检测-->
+
+            <dependency>
+                <groupId>io.micrometer</groupId>
+                <artifactId>micrometer-registry-prometheus</artifactId>
+                <version>${micrometer.version}</version>
+                <scope>compile</scope>
+            </dependency>
+            <!--            spring test 框架-->
             <dependency>
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-test</artifactId>
-                <version>5.2.8.RELEASE</version>
+                <version>${spring.test.version}</version>
                 <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>mybatis-plus</artifactId>
+                <version>${mybatis-plus.version}</version>
             </dependency>
 <!--            springboot 测试框架-->
             <dependency>
@@ -82,6 +114,12 @@
                 <artifactId>spring-boot-test</artifactId>
                 <version>${spring.starter.version}</version>
                 <scope>test</scope>
+            </dependency>
+<!--            mybatis-plus starter-->
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>mybatis-plus-boot-starter</artifactId>
+                <version>${mybatis-plus.starter.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.springframework.boot</groupId>
@@ -99,7 +137,6 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter-data-redis</artifactId>
                 <version>${spring.starter.version}</version>
-                <scope>provided</scope>
             </dependency>
             <!-- https://mvnrepository.com/artifact/cglib/cglib  cglib 依赖 -->
             <dependency>
@@ -139,7 +176,12 @@
                 <artifactId>dubbo-spring-boot-autoconfigure</artifactId>
                 <version>${dubbo.version}</version>
             </dependency>
-
+            <!-- https://mvnrepository.com/artifact/io.reactivex.rxjava3/rxjava -->
+            <dependency>
+                <groupId>io.reactivex.rxjava3</groupId>
+                <artifactId>rxjava</artifactId>
+                <version>${rxJava.version}</version>
+            </dependency>
             <!-- https://mvnrepository.com/artifact/p6spy/p6spy -->
             <dependency>
                 <groupId>p6spy</groupId>
@@ -195,12 +237,14 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
+
+
     <build>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
-<!--                <version>${spring.starter.version}</version>-->
+                <version>${spring.starter.version}</version>
                 <configuration>
                     <excludes>
                         <exclude>
@@ -213,8 +257,9 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.8.1</version>
+                <version>3.6.1</version>
                 <configuration>
+                    <encoding>UTF-8</encoding>
                     <source>8</source>
                     <target>8</target>
                 </configuration>

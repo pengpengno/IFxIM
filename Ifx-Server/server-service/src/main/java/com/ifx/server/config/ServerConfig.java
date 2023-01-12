@@ -1,7 +1,7 @@
 //package com.ifx.server.config;
 //
 //import com.ifx.connect.properties.ServerNettyConfigProperties;
-//import com.ifx.server.netty.StartNettyServer;
+//import com.ifx.connect.connection.server.tcp.StartNettyServer;
 //import lombok.extern.slf4j.Slf4j;
 //import org.springframework.boot.context.properties.EnableConfigurationProperties;
 //import org.springframework.context.annotation.Configuration;

@@ -6,19 +6,21 @@ import lombok.Data;
 
 import java.io.Serializable;
 
+/**
+ * 通讯基础协议包
+ */
 @Data
 public class Protocol implements Serializable {
 
   private String protocol;   //协议头
   /**
    * 请求体
-   *
    * @see DubboApiMetaData
    */
-  private String protocolBody; // 协议体
+  private String protocolBody; // 协议请求体
 
-  private Long serial;  //包syn序列号
   /**
+   * 请求类型
    * @see com.ifx.connect.proto.ifx.IFxMsgProtocol
    */
   private String type; // 请求类型
@@ -28,10 +30,11 @@ public class Protocol implements Serializable {
   private String trace;  // trace
 
   private String clientSDKVersion;   // 客户端版本类类型
-
+  @Deprecated
   private String content;
 
-  private Result result;
+  private Result result; //返回结果
+
 
 
 }

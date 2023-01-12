@@ -17,4 +17,8 @@ public interface CacheUtil {
 
     public Object get(String key);
 
+    default <T>  T get(String key,Class<T> tclass) throws ClassCastException{
+        return null;
+    }
+
 }
