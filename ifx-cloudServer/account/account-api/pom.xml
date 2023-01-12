@@ -18,7 +18,7 @@
     </properties>
     <dependencies>
         <dependency>
-            <groupId>com.ifx.ifx</groupId>
+            <groupId>com.ifx.common</groupId>
             <artifactId>ifx-common</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
@@ -27,6 +27,7 @@
             <artifactId>mybatis-plus</artifactId>
             <version>${mybatis-plus.version}</version>
         </dependency>
+
     </dependencies>
 
 </project>

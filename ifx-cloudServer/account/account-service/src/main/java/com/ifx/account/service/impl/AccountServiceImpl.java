@@ -1,27 +1,31 @@
 package com.ifx.account.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
-import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.ifx.account.helper.AccountHelper;
 import com.ifx.account.entity.Account;
+import com.ifx.account.helper.AccountHelper;
 import com.ifx.account.mapper.AccountMapper;
 import com.ifx.account.service.AccountService;
+import com.ifx.account.utils.PasswordUtils;
+import com.ifx.account.validat.ACCOUNTLOGIN;
 import com.ifx.account.vo.AccountBaseInfo;
-import com.ifx.account.vo.AccountSearchVo;
+import com.ifx.account.vo.search.AccountSearchVo;
 import com.ifx.common.base.AccountInfo;
 import com.ifx.common.constant.CommonConstant;
+import com.ifx.common.utils.ValidatorUtil;
 import org.apache.dubbo.config.annotation.DubboService;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Service;
+import reactor.core.publisher.Mono;
 
 import javax.annotation.Resource;
 import java.util.List;
 import java.util.Objects;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
 
 /**
@@ -41,24 +45,17 @@ public class AccountServiceImpl
 
     @Override
     public Boolean login(AccountBaseInfo accountBaseInfo) {
-        Boolean isLogin = false;
-        if (Objects.isNull(accountBaseInfo)) {
-            return isLogin;
-        }
-        if (Objects.isNull(accountBaseInfo.getPassword())) {
-            return isLogin;
-        }
-        Account account = accountMapper.selectOne( new LambdaQueryWrapper<Account>().
-                eq(Account::getAccount, accountBaseInfo.getAccount())
-        .or()
-        .eq(Account::getEmail, accountBaseInfo.getEmail()));
-        if (Objects.isNull(account)) {
-            return isLogin;
-        }
-        if (accountBaseInfo.getPassword().equals(account.getPassword())) {
-            return true;
-        }
-        return isLogin;
+        AtomicReference<Boolean> status = new AtomicReference<>(Boolean.FALSE);
+        Mono.just(accountBaseInfo)
+                        .doFirst(()->ValidatorUtil.validateor(accountBaseInfo,ACCOUNTLOGIN.class))
+                                .subscribe(ac -> {
+                                    Account account = accountMapper.selectOne(new LambdaQueryWrapper<Account>().
+                                            eq(Account::getAccount, accountBaseInfo.getAccount())
+                                            .or()
+                                            .eq(Account::getEmail, accountBaseInfo.getEmail()));
+                                    status.set(PasswordUtils.verityPassword(accountBaseInfo.getPassword(), account.getSalt(), account.getPwdhash()));
+                                });
+        return status.get();
     }
 
     public AccountInfo loginAndGetCur(AccountBaseInfo accountBaseInfo) {
@@ -87,25 +84,19 @@ public class AccountServiceImpl
     @Override
     public List<AccountInfo> search(AccountSearchVo searchVo) {
         List<Account> accounts = accountMapper.selectList(new QueryWrapper<Account>()
-//                .eq(searchVo.getMail()!=null && StrUtil.isNotBlank(searchVo.getAccount()),"account",searchVo.getAccount())
                         .eq(searchVo.getMail() != null && StrUtil.isNotBlank(searchVo.getMail()),
                                 "email", searchVo.getMail())
                         .or()
                         .like(searchVo.getLikeAccount() != null && StrUtil.isNotBlank(searchVo.getLikeAccount()),
                                 "account", searchVo.getLikeAccount())
         );
-        List<AccountInfo> accountInfos = accounts.stream().map(e -> {
+        return accounts.stream().map(e -> {
             AccountInfo accountInfo = new AccountInfo();
             BeanUtil.copyProperties(e, accountInfo);
             return accountInfo;
         }).collect(Collectors.toList());
-        return accountInfos;
     }
 
-    @Override
-    public List<AccountInfo> search(Long accountSearchVo) {
-        return null;
-    }
 
     @Override
     public String register(AccountBaseInfo accountBaseInfo) {
@@ -119,28 +110,19 @@ public class AccountServiceImpl
         if (!Objects.isNull(accountInfo)) {
             return CommonConstant.ACCOUNT_EXIT;
         }
+        account.setSalt(PasswordUtils.generateSalt());
+        account.setPwdhash(PasswordUtils.generatePwdHash(accountBaseInfo.getPassword(),account.getPwdhash()));
         accountMapper.insert(account);
         return account.getAccount();
     }
 
-
-
-    @Override
-    public String register(String name) {
-        Account account = new Account();
-        account.setUserName(name);
-        account.setAccount(IdUtil.getSnowflakeNextIdStr());
-        accountMapper.insert(account);
-        return account.getAccount();
-    }
 
     @Override
     public List<AccountBaseInfo> listAllAccoutInfo() {
         Page<Account> page = page(new Page<>(), new QueryWrapper<Account>().eq("account", "wangpeng"));
-        List<AccountBaseInfo> collect = page.getRecords().stream()
+        return page.getRecords().stream()
                 .map(e -> AccountHelper.INSTANCE.transform4Init(e))
                 .collect(Collectors.toList());
-        return collect;
     }
 }
 

@@ -9,9 +9,16 @@ import reactor.core.publisher.Flux;
 import reactor.core.scheduler.Schedulers;
 import reactor.netty.DisposableServer;
 import reactor.netty.tcp.TcpServer;
+import reactor.test.StepVerifier;
+import reactor.util.retry.Retry;
 
+import java.time.Duration;
+import java.time.LocalTime;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * @author pengpeng
@@ -84,6 +91,29 @@ public class TestCase {
                         .bindNow();
         server.onDispose()
                 .block();
+    }
+
+    @Test
+    public void test(){
+        AtomicInteger errorCount = new AtomicInteger();
+        Flux<String> flux = Flux.<String>error(new IllegalStateException("boom"))
+                .doOnError(e -> {
+                    errorCount.incrementAndGet();
+                    System.out.println(e + " at " + LocalTime.now());
+                })
+                .retryWhen(Retry
+                        .backoff(3, Duration.ofMillis(100))
+                        .jitter(0d)
+                        .doAfterRetry(rs -> System.out.println("retried at " + LocalTime.now() + ", attempt " + rs.totalRetries()))
+                        .onRetryExhaustedThrow((spec, rs) -> rs.failure())
+                );
+//        flux.subscribe();
+
+        StepVerifier.create(flux)
+                .expectError(IllegalStateException.class)
+                .verify();
+
+        assertEquals(4, errorCount.get());
     }
 
 }

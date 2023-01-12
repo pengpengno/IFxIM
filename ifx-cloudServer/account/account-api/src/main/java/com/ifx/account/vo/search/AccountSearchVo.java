@@ -1,8 +1,12 @@
-package com.ifx.account.vo;
+package com.ifx.account.vo.search;
 
 import lombok.Data;
 
 import java.io.Serializable;
+
+/**
+ * 账户搜索vo
+ */
 @Data
 public class AccountSearchVo implements Serializable {
 

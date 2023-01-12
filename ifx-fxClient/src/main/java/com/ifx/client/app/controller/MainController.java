@@ -3,13 +3,15 @@ package com.ifx.client.app.controller;
 
 import cn.hutool.core.util.ObjectUtil;
 import com.alibaba.fastjson2.JSON;
-import com.ifx.account.vo.AccountSearchVo;
+import com.ifx.account.vo.search.AccountSearchVo;
 import com.ifx.client.app.pane.SearchPane;
 import com.ifx.client.service.ClientService;
 import com.ifx.client.service.helper.AccountHelper;
 import com.ifx.client.util.SpringFxmlLoader;
 import com.ifx.common.base.AccountInfo;
 import com.ifx.common.res.Result;
+import com.ifx.connect.connection.client.ClientToolkit;
+import com.ifx.connect.proto.parse.ProtocolResultParser;
 import javafx.application.ConditionalFeature;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -136,9 +138,11 @@ public class MainController implements Initializable {
         log.info("当前文本为 {} ",text);
         AccountSearchVo accountSearchVo = new AccountSearchVo();
         accountSearchVo.setAccount(text);
-        clientService.send(AccountHelper.applySearchAccount(accountSearchVo),(protoCol -> {
+        ClientToolkit.getDefaultClientAction().sendJsonMsg(AccountHelper.applySearchAccount(accountSearchVo),(protoCol -> {
             Result result = protoCol.getResult();
-            List<AccountInfo> accountInfos = result.getDataList(AccountInfo.class);
+
+
+            List<AccountInfo> accountInfos = ProtocolResultParser.getDataAsList(protoCol,AccountInfo.class);
             if (listView!= null){
                 accountInfos.stream().forEach(e-> {
                     listView.getItems().add(e.getAccount());

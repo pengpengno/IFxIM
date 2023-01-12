@@ -14,10 +14,13 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 
 /**
+ *
+ * @see ClientAction
  * 客户端服务
  */
 @Service
 @Slf4j
+@Deprecated
 public class ClientService {
 
     @Resource

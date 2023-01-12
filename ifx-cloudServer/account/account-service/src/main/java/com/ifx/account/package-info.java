@@ -1,2 +1,5 @@
 package com.ifx.account;
-// ifx com.ifx.server platform core
+
+/***
+ * @description  用户账户服务核心
+ */

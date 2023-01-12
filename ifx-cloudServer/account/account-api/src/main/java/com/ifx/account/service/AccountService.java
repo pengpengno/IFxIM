@@ -1,11 +1,10 @@
 package com.ifx.account.service;
 
 import com.ifx.account.vo.AccountBaseInfo;
-import com.ifx.account.vo.AccountSearchVo;
+import com.ifx.account.vo.search.AccountSearchVo;
 import com.ifx.common.base.AccountInfo;
 
 import java.util.List;
-import java.util.Map;
 
 /**
 * @author wangpeng
@@ -13,22 +12,31 @@ import java.util.Map;
 * @createDate 2022-07-30 16:21:21
 */
 public interface AccountService  {
+        /***
+         * 登陆接口
+         * @param accountBaseInfo
+         * @return 返回登陆是否成功
+         */
 
         public Boolean login(AccountBaseInfo accountBaseInfo);
 
+        /***
+         * 登陆接口
+         * @param accountBaseInfo
+         * @return 返回登陆成功后的用户实体
+         */
         public AccountInfo loginAndGetCur(AccountBaseInfo accountBaseInfo) ;
 
+
+        /***
+         * 注册账户信息
+         * @param accountBaseInfo
+         * @return
+         */
         public String register(AccountBaseInfo accountBaseInfo);
 
-        public String register(String name);
-
-        default List<Map<String,Long>> test(Long s){
-                return null;
-        }
 
         public List<AccountInfo> search(AccountSearchVo accountSearchVo);
-        // 条件查询用户信息
-        public List<AccountInfo> search(Long accountSearchVo);  // 条件查询用户信息
 
         public List<AccountBaseInfo>  listAllAccoutInfo(); // 查询所有的账户
 

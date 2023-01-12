@@ -27,7 +27,6 @@ public class SpringFxmlLoader {
             fxmlLoader.setLocation(url);
             fxmlLoader.setControllerFactory(SpringUtil::getBean);
             Scene scene = new Scene(fxmlLoader.load());
-//        loader.setResources(ResourceBundle.getBundle(resources));
             return scene;
         }
         catch (Exception e){
@@ -37,19 +36,21 @@ public class SpringFxmlLoader {
         return null;
     }
 
-
+    /***
+     * url 加载 fxml 资源为 Scene
+     * @param url
+     * @return
+     */
     public static Scene load(URL url) {
         try{
             FXMLLoader fxmlLoader = new FXMLLoader();
             fxmlLoader.setLocation(url);
             fxmlLoader.setControllerFactory(SpringUtil::getBean);
             Scene scene = new Scene(fxmlLoader.load());
-//        loader.setResources(ResourceBundle.getBundle(resources));
             return scene;
         }
         catch (Exception e){
             log.error("create stage fail {}", ExceptionUtil.stacktraceToString(e));
-//            throw e;
         }
         return null;
     }
@@ -77,7 +78,7 @@ public class SpringFxmlLoader {
 
 
     /**
-     * 获取单例的Stage
+     * 获取单例的 Stage
      * @param classPath
      * @return
      */
@@ -90,7 +91,7 @@ public class SpringFxmlLoader {
         });
 //        if windows is do close request  handler will close
         resStage.addEventHandler(WindowEvent.WINDOW_CLOSE_REQUEST,(evt)-> {
-            log.info("{} frame  is doing {} event",evt.getSource(),evt.getEventType());
+            log.debug("{} frame  is doing {} event",evt.getSource(),evt.getEventType());
             stageMap.remove(classPath);
         });
 

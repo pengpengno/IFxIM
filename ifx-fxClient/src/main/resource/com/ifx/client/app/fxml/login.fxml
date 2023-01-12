@@ -47,7 +47,7 @@
     <AnchorPane fx:id="loginPane" maxHeight="-1.0" maxWidth="-1.0" prefHeight="375.0" prefWidth="577.0" VBox.vgrow="ALWAYS">
       <children>
             <Button fx:id="loginBut" layoutX="201.0" layoutY="290.0" mnemonicParsing="false" onMouseClicked="#login" text="登录" />
-            <Button fx:id="canel" layoutX="331.0" layoutY="290.0" mnemonicParsing="false" onMouseClicked="#cancelLogin" text="取消" />
+            <Button fx:id="cancel" layoutX="331.0" layoutY="290.0" mnemonicParsing="false" onMouseClicked="#cancelLogin" text="取消" />
             <CheckBox fx:id="remberPsdCheckBox" layoutX="186.0" layoutY="242.0" mnemonicParsing="false" text="记住密码" />
             <PasswordField fx:id="passwordField" layoutX="244.0" layoutY="192.0" />
             <Label fx:id="password" layoutX="186.0" layoutY="196.0" text="密码" />

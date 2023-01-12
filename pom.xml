@@ -35,7 +35,7 @@
         <hippo4j.version>1.4.0-RC</hippo4j.version>
         <p6spy.version>3.9.1</p6spy.version>
         <cglib.version>3.3.0</cglib.version>
-        <reactor.core.version>3.5.0</reactor.core.version>
+        <reactor.version>3.5.0</reactor.version>
         <reactor.extra.version>3.5.0</reactor.extra.version>
         <protobuf.version>3.21.7</protobuf.version>
         <mybatis-plus.version>3.4.0</mybatis-plus.version>
@@ -72,7 +72,7 @@
             <dependency>
                 <groupId>io.projectreactor</groupId>
                 <artifactId>reactor-core</artifactId>
-                <version>${reactor.core.version}</version>
+                <version>${reactor.version}</version>
             </dependency>
             <!-- https://mvnrepository.com/artifact/io.projectreactor.addons/reactor-extra -->
             <dependency>
@@ -80,6 +80,14 @@
                 <artifactId>reactor-extra</artifactId>
                 <version>${reactor.extra.version}</version>
             </dependency>
+            <!-- https://mvnrepository.com/artifact/io.projectreactor/reactor-test -->
+            <dependency>
+                <groupId>io.projectreactor</groupId>
+                <artifactId>reactor-test</artifactId>
+                <version>${reactor.version}</version>
+                <scope>test</scope>
+            </dependency>
+
 <!--            reactor bom-->
             <dependency>
                 <groupId>io.projectreactor</groupId>
@@ -228,6 +236,11 @@
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter-jdbc</artifactId>
+                <version>${spring.starter.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-webflux</artifactId>
                 <version>${spring.starter.version}</version>
             </dependency>
             <dependency>

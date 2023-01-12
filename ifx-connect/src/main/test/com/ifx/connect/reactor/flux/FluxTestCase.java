@@ -1,10 +1,11 @@
 package com.ifx.connect.reactor.flux;
 
-import cn.hutool.core.exceptions.ExceptionUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import reactor.core.Exceptions;
 import reactor.core.publisher.Flux;
+import reactor.test.StepVerifier;
 import reactor.util.retry.Retry;
 
 import java.time.Duration;
@@ -30,16 +31,17 @@ public class FluxTestCase {
                         .doAfterTerminate(()-> log.info("erminate"))
                         .retryWhen(
                                 Retry
-                                .backoff(10, Duration.ofSeconds(1)).jitter(0.3d)
+                                .backoff(3, Duration.ofSeconds(1)).jitter(0.3d)
                                 .doAfterRetry(rs -> log.info("retried at " + LocalTime.now() + ", attempt " + rs.totalRetries()))
                                 .onRetryExhaustedThrow((spec, rs) -> rs.failure())
                         );
+        StepVerifier
+                .create(flux)
+                .expectError(Exception.class)
+                .verify();
+        Assertions.assertEquals(errorCount.get(),4);
 
-        flux.subscribe(s-> Flux
-                .just(s)
-                .doOnError(errors -> log.error("sss{}", ExceptionUtil.stacktraceToString(errors)))
-                .subscribe()
-        );
+
     }
 
     public static void main(String[] args) {

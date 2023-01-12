@@ -50,7 +50,6 @@ public class NettyClientAction implements ClientAction, ClientLifeStyle {
         catch (Throwable e ){
            log.error("服务器链接失败！ {}",ExceptionUtil.stacktraceToString(e));
            throw new NettyException(NetError.REMOTE_NET_CAN_NOT_CONNECT);
-//           return Boolean.FALSE;
         }
     }
 

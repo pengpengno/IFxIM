@@ -28,7 +28,7 @@ public class Account implements Serializable {
     public static Account getInstance() {
         Date now = new Date();
         String uuid = UUID.randomUUID().toString().replace("-", "");
-        return new Account(null, uuid, null, null, null, null, null, now, null, null, now, now);
+        return new Account(null, uuid, null, null, null, null, null,null,null, null, null, now, now);
     }
 
 
@@ -94,6 +94,12 @@ public class Account implements Serializable {
      */
     @TableField("address")
     private String address;
+
+    /**
+     * 居住地址
+     */
+    @TableField("pwdhash")
+    private String pwdhash;
 
     /**
      * 创建时间

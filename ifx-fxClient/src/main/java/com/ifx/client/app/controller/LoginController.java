@@ -2,13 +2,11 @@ package com.ifx.client.app.controller;
 
 
 import com.ifx.account.vo.AccountBaseInfo;
-import com.ifx.client.service.ClientService;
 import com.ifx.client.service.helper.AccountHelper;
 import com.ifx.client.util.SpringFxmlLoader;
 import com.ifx.common.base.AccountInfo;
 import com.ifx.common.context.AccountContext;
-import com.ifx.connect.connection.client.ClientAction;
-import com.ifx.connect.connection.client.ClientDomainHelper;
+import com.ifx.connect.connection.client.ClientToolkit;
 import com.ifx.connect.proto.Protocol;
 import com.ifx.connect.proto.parse.ProtocolResultParser;
 import com.ifx.connect.task.handler.TaskHandler;
@@ -22,14 +20,14 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Component;
+import org.springframework.util.Assert;
+import reactor.core.publisher.Mono;
 
-import javax.annotation.Resource;
 import java.net.URL;
+import java.util.Objects;
 import java.util.ResourceBundle;
 
 
-@Component
 @Slf4j
 public class LoginController  implements Initializable {
 
@@ -44,7 +42,7 @@ public class LoginController  implements Initializable {
     private CheckBox autoLoginCheckBox;
 
     @FXML
-    private Button canel;
+    private Button cancel;
 
     @FXML
     private ImageView iconView;
@@ -70,15 +68,8 @@ public class LoginController  implements Initializable {
     @FXML
     private CheckBox remberPsdCheckBox;
 
-    @Resource(name = "netty")
-    private ClientAction clientAction;
 
 
-    @Resource
-    private AccountHelper accountHelper;
-
-    @Resource
-    private ClientService clientService;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -98,20 +89,17 @@ public class LoginController  implements Initializable {
             alert.show();
         });
         TaskHandler taskHandler = protocol -> {
-            AccountInfo accountInfo = ProtocolResultParser.getDataAsT(protocol, AccountInfo.class);
-            if (accountInfo == null){
-                log.warn("登录失败！");
-                return;
-            }
-            log.debug("login status {}",accountInfo);
-            AccountContext.setCurAccount(accountInfo);
-            log.debug("login success ");
+            Mono.just(Objects.requireNonNull(ProtocolResultParser.getDataAsT(protocol, AccountInfo.class)))
+                    .doOnNext(ac-> Assert.isNull(ac,"登陆失败！"))
+                    .subscribe(AccountContext::setCurAccount);
+//            AccountInfo accountInfo = ProtocolResultParser.getDataAsT(protocol, AccountInfo.class);
+//            log.debug("login status {}",accountInfo);
             hide();
             MainController.show();
         };
         log.info("启动登录");
         Protocol login = AccountHelper.applyLogins(accountBaseInfo);
-        ClientDomainHelper.getDefaultClientAction().sendJsonMsg(login,taskHandler);
+        ClientToolkit.getDefaultClientAction().sendJsonMsg(login,taskHandler);
     }
 
 
@@ -126,6 +114,8 @@ public class LoginController  implements Initializable {
     void toRegister(MouseEvent event)   {
         RegisterController.show();
     }
+
+
     public static void show(){
         Stage stage = SpringFxmlLoader.applySinStage("com\\ifx\\client\\app\\fxml\\login.fxml");
         log.debug("prepare to show  register");
@@ -138,6 +128,4 @@ public class LoginController  implements Initializable {
         log.debug("隐藏数据");
         stage.hide();
     }
-
-
 }

@@ -3,7 +3,7 @@ package com.ifx.client.service.helper;
 import cn.hutool.core.text.StrBuilder;
 import com.alibaba.fastjson2.JSON;
 import com.ifx.account.vo.AccountBaseInfo;
-import com.ifx.account.vo.AccountSearchVo;
+import com.ifx.account.vo.search.AccountSearchVo;
 import com.ifx.connect.proto.Protocol;
 import com.ifx.connect.proto.dubbo.DubboApiMetaData;
 import com.ifx.connect.proto.dubbo.DubboProtocol;
@@ -55,11 +55,6 @@ public class AccountHelper {
             }
             Method search = com.ifx.account.service.AccountService.class.getMethod("search", AccountSearchVo.class);
             return DubboGenericParse.applyMsgProtocol(search,searchVo);
-//            Protocol protocol = new DubboProtocol();
-//            protocol.setProtocolBody(JSON.toJSONString(metaData));
-//            protocol.setType(IFxMsgProtocol.CLIENT_TO_SERVER_MSG_HEADER);
-//            SEARCHPROTOCOL = protocol;
-//            return SEARCHPROTOCOL;
         }catch (NoSuchMethodException noSuchMethodException){
             log.error("没有该方法");
             return null;

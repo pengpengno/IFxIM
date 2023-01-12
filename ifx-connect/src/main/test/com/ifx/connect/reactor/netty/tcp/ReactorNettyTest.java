@@ -9,7 +9,7 @@ import io.netty.handler.codec.Delimiters;
 import io.netty.handler.logging.LogLevel;
 import io.netty.handler.ssl.util.InsecureTrustManagerFactory;
 import lombok.extern.slf4j.Slf4j;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.netty.ByteBufFlux;
@@ -54,9 +54,7 @@ public class ReactorNettyTest {
 //        server.dispose();
         server.onDispose()
                 .block();
-//                .subscribe();
         log.info("sss");
-//                .block();
     }
 
     @Test

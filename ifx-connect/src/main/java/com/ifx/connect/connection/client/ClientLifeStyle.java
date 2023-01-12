@@ -5,8 +5,6 @@ import reactor.core.publisher.Flux;
 import reactor.util.retry.Retry;
 
 import java.time.Duration;
-import java.time.LocalTime;
-import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * 客户端生命周期
@@ -25,19 +23,24 @@ public interface ClientLifeStyle {
      * 重置 channel 通道链接
      */
     public void reConnect();
+
+    /***
+     * 重试连接 如果当前连接 处于正常状态则直接返回
+     * @return
+     */
     public  default  Boolean reTryConnect(){
-        AtomicInteger errorCount = new AtomicInteger();
-        Flux<String> flux =
-                Flux.<String>error(new IllegalStateException("boom"))
-                        .doOnError(e -> {
-                            errorCount.incrementAndGet();
-                            System.out.println(e + " at " + LocalTime.now());
-                        })
-                        .retryWhen(Retry
-                                .backoff(3, Duration.ofMillis(100)).jitter(0d)
-                                .doAfterRetry(rs -> System.out.println("retried at " + LocalTime.now() + ", attempt " + rs.totalRetries()))
+        if (isAlive()){
+            return Boolean.TRUE;
+        }
+        Flux<Boolean> flux =
+                Flux.just(connect())
+                        .retryWhen(
+                                Retry
+                                .backoff(3, Duration.ofSeconds(1)).jitter(0.3d)
+                                .filter(throwable ->  throwable instanceof  NetException)
                                 .onRetryExhaustedThrow((spec, rs) -> rs.failure())
                         );
+        flux.subscribe();
         return Boolean.TRUE;
     }
     /**
