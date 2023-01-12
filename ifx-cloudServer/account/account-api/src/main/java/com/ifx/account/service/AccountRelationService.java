@@ -1,7 +1,12 @@
 package com.ifx.account.service;
 
-import com.ifx.account.entity.AccountRelation;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.ifx.account.entity.AccountRelation;
+import com.ifx.account.vo.AccountBaseInfo;
+import com.ifx.account.vo.AccountRelationVo;
+
+import java.util.List;
+import java.util.Set;
 
 /**
 * @author HP
@@ -9,5 +14,23 @@ import com.baomidou.mybatisplus.extension.service.IService;
 * @createDate 2023-01-12 19:16:28
 */
 public interface AccountRelationService extends IService<AccountRelation> {
+
+
+    public Set<String> listRelationWithAccount(String account);
+
+    /***
+     * 获取所与哦好友关系基本信息
+     * @param account
+     * @return
+     */
+
+    public List<AccountBaseInfo> listAllRelationBaseInfo(String account);
+
+    /***
+     * 添加账户关系
+     * @param vo
+     * @return
+     */
+    public Long insertRelation(AccountRelationVo vo);
 
 }
