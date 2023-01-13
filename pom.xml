@@ -44,6 +44,7 @@
         <reactor.bom.version>2022.0.1</reactor.bom.version>
         <rxJava.version>3.1.5</rxJava.version>
         <micrometer.version>1.10.2</micrometer.version>
+        <javax.el.version>3.0.0</javax.el.version>
     </properties>
     <dependencies>
         <!-- https://mvnrepository.com/artifact/com.alibaba.fastjson2/fastjson2 -->
@@ -87,7 +88,12 @@
                 <version>${reactor.version}</version>
                 <scope>test</scope>
             </dependency>
-
+            <dependency>
+                <groupId>org.glassfish</groupId>
+                <artifactId>javax.el</artifactId>
+                <version>${javax.el.version}</version>
+                <scope>compile</scope>
+            </dependency>
 <!--            reactor bom-->
             <dependency>
                 <groupId>io.projectreactor</groupId>

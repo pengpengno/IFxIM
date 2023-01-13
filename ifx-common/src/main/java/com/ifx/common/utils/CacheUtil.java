@@ -13,7 +13,10 @@ public interface CacheUtil {
 
     public Boolean expire(String  key, Object value, Long expireTime, TimeUnit timeUnit);
 
-    public String getStr(String key);
+    public default String getStr(String key){
+        Object res = get(key);
+        return res == null ? null : res.toString();
+    }
 
     public Object get(String key);
 

@@ -1,13 +1,13 @@
 package com.ifx.session.utils;
 
 import cn.hutool.core.exceptions.ExceptionUtil;
-import cn.hutool.core.util.ObjectUtil;
 import com.alibaba.fastjson2.JSONObject;
 import com.ifx.common.utils.CacheUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
+
 import javax.annotation.Resource;
 import java.util.Collection;
 import java.util.List;
@@ -29,14 +29,7 @@ public final class RedisUtil implements CacheUtil {
 	@Resource
 	private RedisTemplate<String, Object> redisTemplate;
 
-	// =============================common============================
 
-
-
-	@Override
-	public String getStr(String key) {
-		return null;
-	}
 
 	/**
 	 * 指定缓存失效时间
@@ -152,8 +145,7 @@ public final class RedisUtil implements CacheUtil {
 		}
 		@SuppressWarnings("all")
 		final Class<T> cl = tclass;
-		final String  opsKey = key;
-		Object target = redisTemplate.opsForValue().get(opsKey);
+		Object target = redisTemplate.opsForValue().get(key);
 		if (target ==null){
 			return null;
 		}

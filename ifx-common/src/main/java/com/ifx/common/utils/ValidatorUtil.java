@@ -87,7 +87,7 @@ public class ValidatorUtil {
     }
 
     /***
-     * 验证并抛出以后藏
+     * 验证并抛出异常
      * @param t
      * @param group
      * @param <T>

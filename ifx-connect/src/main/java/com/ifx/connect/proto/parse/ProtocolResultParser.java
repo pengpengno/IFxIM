@@ -1,6 +1,6 @@
 package com.ifx.connect.proto.parse;
 
-import com.alibaba.fastjson2.JSONException;
+import cn.hutool.json.JSONException;
 import com.ifx.common.res.Result;
 import com.ifx.connect.proto.Protocol;
 import lombok.extern.slf4j.Slf4j;
