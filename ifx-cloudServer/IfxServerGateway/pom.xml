@@ -19,7 +19,7 @@
     </properties>
 <dependencies>
     <dependency>
-        <groupId>com.ifx.ifx</groupId>
+        <groupId>com.ifx.account</groupId>
         <artifactId>account-api</artifactId>
         <version>1.0-SNAPSHOT</version>
     </dependency>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ifx.session.mapper.ChatMsgMapper">
+
+    <resultMap id="BaseResultMap" type="com.ifx.session.entity.ChatMsg">
+            <id property="id" column="id" jdbcType="BIGINT"/>
+            <result property="to_session_Id" column="to_session_Id" jdbcType="BIGINT"/>
+            <result property="from_account" column="from_account" jdbcType="BIGINT"/>
+            <result property="content_type" column="content_type" jdbcType="VARCHAR"/>
+            <result property="content" column="content" jdbcType="VARCHAR"/>
+            <result property="create_time" column="create_time" jdbcType="TIMESTAMP"/>
+            <result property="update_time" column="update_time" jdbcType="TIMESTAMP"/>
+            <result property="active" column="active" jdbcType="TINYINT"/>
+            <result property="version" column="version" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,to_session_Id,from_account,
+        content_type,content,create_time,
+        update_time,active,version
+    </sql>
+</mapper>
