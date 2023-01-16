@@ -9,6 +9,9 @@ package com.ifx.session.enums;
 public enum ContentType {
 
     TEXT, // 文本
+    FILE , // 文件
+
+
 
     ;
 }

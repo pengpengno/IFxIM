@@ -3,9 +3,10 @@ package com.ifx.session.entity;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import lombok.Data;
+
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import lombok.Data;
 
 /**
  * 会话表
@@ -33,7 +34,10 @@ public class Session implements Serializable {
     /**
      * 会话名称（应用层自定义）
      */
-    private String sessionNickName;
+    private String sessionType;
+
+
+    private String sessionGroup; // 会话组
 
     /**
      * 创建时间
