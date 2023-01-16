@@ -118,14 +118,11 @@ public class MainController implements Initializable {
             AccountSearchVo accountSearchVo = new AccountSearchVo();
             accountSearchVo.setAccount(text);
 //             获取回调输出
-            clientService.send(AccountHelper.applySearchAccount(accountSearchVo),(protoCol -> {
-                Result result = protoCol.getResult();
-                List<AccountInfo> accountInfos = JSON.parseArray(result.getRes().toString(), AccountInfo.class);
+            ClientToolkit.getDefaultClientAction().sendJsonMsg(AccountHelper.applySearchAccount(accountSearchVo),(protoCol -> {
+                List<AccountInfo> accountInfos = ProtocolResultParser.getDataAsList(protoCol,AccountInfo.class);
                 log.info(JSON.toJSONString(protoCol));
 //                添加数据
-                accountInfos.stream().forEach(e-> {
-                    searchPane.getChildren().add(new SearchPane.AccountMiniPane(e));
-                });
+                accountInfos.forEach(e-> searchPane.getChildren().add(new SearchPane.AccountMiniPane(e)));
             }));
         }));
     }

@@ -2,8 +2,7 @@ package com.ifx.gateway;
 
 
 import com.ifx.account.service.AccountService;
-import com.ifx.account.vo.AccountBaseInfo;
-//import org.apache.dubbo.config.annotation.DubboReference;
+import com.ifx.account.vo.AccountVo;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -17,7 +16,7 @@ public class test {
 
     @Test
     public void test (){
-        AccountBaseInfo accountBaseInfo = new AccountBaseInfo();
+        AccountVo accountBaseInfo = new AccountVo();
         accountBaseInfo.setAccount("ewqewqeqwe");
         accountBaseInfo.setPassword("111111");
         accountBaseInfo.setUserName("wangpeng");

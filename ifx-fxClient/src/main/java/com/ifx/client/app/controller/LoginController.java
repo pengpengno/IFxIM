@@ -1,7 +1,7 @@
 package com.ifx.client.app.controller;
 
 
-import com.ifx.account.vo.AccountBaseInfo;
+import com.ifx.account.vo.AccountVo;
 import com.ifx.client.service.helper.AccountHelper;
 import com.ifx.client.util.SpringFxmlLoader;
 import com.ifx.common.base.AccountInfo;
@@ -10,6 +10,7 @@ import com.ifx.connect.connection.client.ClientToolkit;
 import com.ifx.connect.proto.Protocol;
 import com.ifx.connect.proto.parse.ProtocolResultParser;
 import com.ifx.connect.task.handler.TaskHandler;
+import com.ifx.session.service.SessionAccountService;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -23,6 +24,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.Assert;
 import reactor.core.publisher.Mono;
 
+import javax.annotation.Resource;
 import java.net.URL;
 import java.util.Objects;
 import java.util.ResourceBundle;
@@ -35,6 +37,8 @@ public class LoginController  implements Initializable {
     @FXML
     private Label account;
 
+    @Resource
+    SessionAccountService sessionAccountService;
     @FXML
     private TextField accountField;
 
@@ -80,9 +84,9 @@ public class LoginController  implements Initializable {
 
     @FXML
     public void login(MouseEvent event) {
-        AccountBaseInfo accountBaseInfo = new AccountBaseInfo();
-        accountBaseInfo.setAccount( accountField.getText());
-        accountBaseInfo.setPassword(passwordField.getText());
+        AccountVo accountVo = new AccountVo();
+        accountVo.setAccount( accountField.getText());
+        accountVo.setPassword(passwordField.getText());
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("登录状态");
         alert.contentTextProperty().addListener((a1,a2,a3)-> {
@@ -98,7 +102,7 @@ public class LoginController  implements Initializable {
             MainController.show();
         };
         log.info("启动登录");
-        Protocol login = AccountHelper.applyLogins(accountBaseInfo);
+        Protocol login = AccountHelper.applyLogins(accountVo);
         ClientToolkit.getDefaultClientAction().sendJsonMsg(login,taskHandler);
     }
 

@@ -5,5 +5,5 @@ package com.ifx.common.base;
  * @description
  * @date 2023/1/12
  */
-public interface ADD {
+public interface ACCOUNTADD {
 }

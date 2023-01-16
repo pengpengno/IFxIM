@@ -1,7 +1,7 @@
 package com.ifx.account.vo;
 
-import com.ifx.account.validat.ACCOUNTLOGIN;
-import com.ifx.account.validat.ACCOUTRELATIONINSERT;
+import com.ifx.account.validator.ACCOUNTLOGIN;
+import com.ifx.account.validator.ACCOUTRELATIONINSERT;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
@@ -20,6 +20,8 @@ public class AccountRelationVo {
 
     @NotBlank(message = "账户不可为空！",groups = ACCOUNTLOGIN.class)
     private String account ;
+
+    private Long relationId; // 账户关系标识
     @NotEmpty(message = "添加关系不可为空!",groups = ACCOUTRELATIONINSERT.class)
     private Set<String>  relations;
 }

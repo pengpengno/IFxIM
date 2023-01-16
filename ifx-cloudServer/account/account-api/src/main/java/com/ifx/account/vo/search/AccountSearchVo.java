@@ -14,11 +14,9 @@ public class AccountSearchVo implements Serializable {
 
     private String likeAccount;
 
-    private String name;
+    private String likeName; //模糊搜索姓名
 
-    private String likeName;
-
-    private String nameChar; // 名称前缀
+    private String nameCharPreFix; // 名称前缀
 
     private String mail; // 邮箱
 

@@ -1,4 +1,4 @@
-package com.ifx.session.utils;
+package com.ifx.account.utils.utils;
 
 import cn.hutool.core.exceptions.ExceptionUtil;
 import com.alibaba.fastjson2.JSONObject;
@@ -16,7 +16,7 @@ import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 /**
- * 缓存代码工具类
+ * 缓存工具类
  */
 @Component("Redis")
 @Slf4j

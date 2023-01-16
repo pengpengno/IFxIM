@@ -9,7 +9,7 @@ import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 
 @SpringBootApplication(exclude = {DataSourceAutoConfiguration.class})
 @MapperScan
-@DubboComponentScan("com.ifx")
+@DubboComponentScan("com.ifx.service.impl")
 @EnableDubbo
 public class AccountApplication {
     public static void main(String[] args) {

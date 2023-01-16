@@ -1,6 +1,6 @@
 package com.ifx.connect.connection.client;
 
-import com.ifx.connect.connection.ConnectionDefaultValue;
+import com.ifx.connect.config.ConnectionDefaultValue;
 import com.ifx.connect.connection.client.tcp.NettyClientAction;
 import com.ifx.connect.enums.ConnectTypeEnums;
 

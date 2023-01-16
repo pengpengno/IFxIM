@@ -1,7 +1,7 @@
 package com.ifx.client.app.controller;
 
 import cn.hutool.core.util.StrUtil;
-import com.ifx.account.vo.AccountBaseInfo;
+import com.ifx.account.vo.AccountVo;
 import com.ifx.client.service.helper.RegisterHelper;
 import com.ifx.client.util.SpringFxmlLoader;
 import com.ifx.common.res.Result;
@@ -54,10 +54,10 @@ public class RegisterController  {
     private RegisterHelper registerHelper;
     @FXML
     void register(MouseEvent event) throws NoSuchMethodException {
-        AccountBaseInfo accountBaseInfo = new AccountBaseInfo();
-        accountBaseInfo.setAccount(accountField.getText());
-        accountBaseInfo.setPassword(psdField.getText());
-        accountBaseInfo.setEmail(mailField.getText());
+        AccountVo accountVo = new AccountVo();
+        accountVo.setAccount(accountField.getText());
+        accountVo.setPassword(psdField.getText());
+        accountVo.setEmail(mailField.getText());
 
         TaskHandler taskHandler = resProtocol -> {
 //            String account = (String) resProtocol.getContent().getDataAsTClass().get(0);
@@ -71,7 +71,7 @@ public class RegisterController  {
             }
             log.info("注册成功！");
         };
-        Protocol registerProtocol = registerHelper.applyRegister(accountBaseInfo);
+        Protocol registerProtocol = registerHelper.applyRegister(accountVo);
         clientAction.sendJsonMsg(registerProtocol, taskHandler);
     }
 

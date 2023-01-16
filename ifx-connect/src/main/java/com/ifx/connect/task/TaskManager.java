@@ -4,7 +4,6 @@ import cn.hutool.core.collection.CollectionUtil;
 import com.ifx.connect.proto.Protocol;
 import com.ifx.connect.task.handler.TaskHandler;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Component;
 
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedDeque;
@@ -14,7 +13,6 @@ import java.util.concurrent.ThreadPoolExecutor;
  * 执行时间 执行器 执行逻辑 执行协议实体  执行链 执行结果 执行回调
  */
 @Slf4j
-//@Component
 public class TaskManager {
 
 //    public static TaskHandler defaultTaskHandler = (Task) -> {log.info("执行心跳包！");};
@@ -42,7 +40,7 @@ public class TaskManager {
 
     public <T> ConcurrentLinkedDeque<TaskHandler> initTaskDeque(){
         log.info("正在初始化一个新任务队列");
-        return  new ConcurrentLinkedDeque();
+        return new ConcurrentLinkedDeque<>();
     }
 //
 //    public <T> ConcurrentLinkedDeque<TaskMeta> initTaskDeque(){
@@ -72,16 +70,7 @@ public class TaskManager {
         }
         return this;
     }
-//    public TaskManager addTaskTaskMeta(String key, TaskHandler value) {
-//        init();
-//        ConcurrentLinkedDeque<TaskMeta> taskHandlers = taskManager.get(key);
-//        if (taskHandlers == null) {
-//            attrTask(key, value);
-//        } else {
-//            taskHandlers.addLast(value);
-//        }
-//        return this;
-//    }
+
 
     /**
      *

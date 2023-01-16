@@ -25,6 +25,4 @@ public interface TaskLifeStyle{
     public TaskState getState();
 
 
-//    public <T extends TaskMeta> TaskMeta getTaskMeta();
-
 }

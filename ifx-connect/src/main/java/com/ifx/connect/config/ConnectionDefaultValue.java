@@ -1,4 +1,4 @@
-package com.ifx.connect.connection;
+package com.ifx.connect.config;
 
 import com.ifx.connect.enums.ConnectTypeEnums;
 

@@ -1,9 +1,11 @@
 package com.ifx.account.service;
 
-import com.ifx.account.vo.AccountBaseInfo;
+import com.ifx.account.entity.Account;
+import com.ifx.account.vo.AccountVo;
 import com.ifx.account.vo.search.AccountSearchVo;
 import com.ifx.common.base.AccountInfo;
 
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -14,32 +16,40 @@ import java.util.List;
 public interface AccountService  {
         /***
          * 登陆接口
-         * @param accountBaseInfo
+         * @param accountVo
          * @return 返回登陆是否成功
          */
 
-        public Boolean login(AccountBaseInfo accountBaseInfo);
+        public Boolean login(AccountVo accountVo);
 
         /***
          * 登陆接口
-         * @param accountBaseInfo
+         * @param accountVo
          * @return 返回登陆成功后的用户实体
          */
-        public AccountInfo loginAndGetCur(AccountBaseInfo accountBaseInfo) ;
+        public AccountInfo loginAndGetAcc(AccountVo accountVo) ;
 
 
         /***
          * 注册账户信息
-         * @param accountBaseInfo
+         * @param accountVo
+         * @return 返回注册后的账户 account
+         */
+        public String register(AccountVo accountVo);
+
+        /***
+         * 搜索用户
+         * @param accountSearchVo
          * @return
          */
-        public String register(AccountBaseInfo accountBaseInfo);
-
-
         public List<AccountInfo> search(AccountSearchVo accountSearchVo);
 
-        public List<AccountBaseInfo>  listAllAccoutInfo(); // 查询所有的账户
-
+        /***
+         * 查询用户信息
+         * @param accounts
+         * @return
+         */
+        public List<Account> search(Collection<String> accounts);
 
 
 

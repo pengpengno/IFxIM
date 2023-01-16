@@ -3,26 +3,30 @@ package com.ifx.common.base;
 import com.ifx.common.acc.AccountSPI;
 import lombok.Data;
 
-import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 /***
- * 账户基本信息
+ * 账户基本信息  公用模块
  */
 @Data
 public class AccountInfo implements Serializable, AccountSPI {
-//    @NotNull(message = "用户id有误！",groups = ADD.class)
     private String userId;  // 用户id
-    @NotNull(message = "账户不可为空！")
+
     private String account;  // 账户
 
     private String userName; // 用户姓名
 
+//    @Email(message = "非法的邮箱格式！")
     private String email;  // 邮箱
 
     @Override
     public String accountId() {
         return getAccount();
+    }
+
+    @Override
+    public String getAccountName() {
+        return userName;
     }
 
     public void setUserId(String userId) {

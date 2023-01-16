@@ -31,6 +31,7 @@ public class SessionContent implements Serializable {
      */
     private String session_content;
 
+
     /**
      * 创建会话账号
      */

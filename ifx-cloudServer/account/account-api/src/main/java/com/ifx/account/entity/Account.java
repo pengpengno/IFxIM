@@ -4,13 +4,13 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.ifx.common.acc.AccountSPI;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.UUID;
 
 /**
  * 基本用户信息表
@@ -21,15 +21,7 @@ import java.util.UUID;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Account implements Serializable {
-
-    public static Account instance = getInstance();
-
-    public static Account getInstance() {
-        Date now = new Date();
-        String uuid = UUID.randomUUID().toString().replace("-", "");
-        return new Account(null, uuid, null, null, null, null, null,null,null, null, null, now, now);
-    }
+public class Account implements Serializable , AccountSPI {
 
 
 
@@ -38,12 +30,6 @@ public class Account implements Serializable {
      */
     @TableId(value = "id",type = IdType.AUTO)
     private Long id;
-
-    /**
-     * 用户id
-     */
-    @TableField(value = "user_id")
-    private String userId;
 
 
     /**
@@ -58,11 +44,6 @@ public class Account implements Serializable {
     @TableField(value = "user_name")
     private String userName;
 
-    /**
-     * 昵称
-     */
-    @TableField(value = "user_nickname")
-    private String user_nickname;
 
     /**
      * 密码
@@ -92,12 +73,6 @@ public class Account implements Serializable {
     /**
      * 居住地址
      */
-    @TableField("address")
-    private String address;
-
-    /**
-     * 居住地址
-     */
     @TableField("pwdhash")
     private String pwdhash;
 
@@ -115,4 +90,15 @@ public class Account implements Serializable {
 
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;
+
+
+    @Override
+    public String accountId() {
+        return account;
+    }
+
+    @Override
+    public String getAccountName() {
+        return userName;
+    }
 }

@@ -5,6 +5,8 @@ import cn.hutool.core.util.StrUtil;
 import org.apache.commons.codec.digest.DigestUtils;
 
 /**
+ *
+ * 密码验证工具包
  * @author pengpeng
  * @description
  * @date 2023/1/12
@@ -21,11 +23,14 @@ public class PasswordUtils {
      * @return
      */
     public static boolean verityPassword(String pwd, String salt, String pwdHash) {
-        if (StrUtil.isBlank(salt)){
+        if (pwd == null || StrUtil.isBlank(pwd)){
+            return Boolean.FALSE;
+        }
+        if (StrUtil.isBlank(salt) ){
             return Boolean.TRUE;
         }
         String hashRes = DigestUtils.sha256Hex(pwd + salt);
-        return StrUtil.equals( pwdHash,hashRes);
+        return StrUtil.equals(pwdHash,hashRes);
     }
 
     public static String generatePwdHash(String pwd,String salt){

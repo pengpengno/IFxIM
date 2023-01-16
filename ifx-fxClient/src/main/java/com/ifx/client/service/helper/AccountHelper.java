@@ -2,7 +2,7 @@ package com.ifx.client.service.helper;
 
 import cn.hutool.core.text.StrBuilder;
 import com.alibaba.fastjson2.JSON;
-import com.ifx.account.vo.AccountBaseInfo;
+import com.ifx.account.vo.AccountVo;
 import com.ifx.account.vo.search.AccountSearchVo;
 import com.ifx.connect.proto.Protocol;
 import com.ifx.connect.proto.dubbo.DubboApiMetaData;
@@ -27,7 +27,7 @@ public class AccountHelper {
     private  static Protocol SEARCHPROTOCOL = null;  //搜索用户协议
 
     @SneakyThrows
-    public static Protocol applyLogins(AccountBaseInfo vo){
+    public static Protocol applyLogins(AccountVo vo){
         if (LOGINPROTOCOL !=null){
             return LOGINPROTOCOL;
         }

@@ -1,8 +1,10 @@
 package com.ifx.session.service;
 
 import com.ifx.session.vo.ChatMsgVo;
-import com.sun.org.apache.xpath.internal.operations.Bool;
 
+/***
+ *
+ */
 public interface IChatLifeStyle {
 
     public void init();

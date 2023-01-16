@@ -1,15 +1,15 @@
 package com.ifx.session.entity;
 
-import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import java.io.Serializable;
-import java.time.LocalDateTime;
 import lombok.Data;
 
+import java.io.Serializable;
+import java.time.LocalDateTime;
+
 /**
- * 信息表
+ * 消息表
  * @TableName chat_msg
  */
 @TableName(value ="chat_msg")
@@ -18,38 +18,37 @@ public class ChatMsg implements Serializable {
     /**
      * 
      */
-    @TableId(type = IdType.AUTO)
+    @TableId
     private Long id;
+
+    /**
+     * 发送者
+     */
+    private String fromAccount;
 
     /**
      * 接受的会话Id
      */
-    private Long to_session_Id;
+    private String toSessionId;
 
     /**
-     * 发送的账户
-     */
-    private Long from_account;
-
-    /**
-     * 消息类型
-     */
-    private String content_type;
-
-    /**
-     * 消息内容
+     * 消息文本
      */
     private String content;
-
+    /***
+     * @see
+     * @description  消息文本类型
+     */
+    private String content_type ;
     /**
      * 创建时间
      */
-    private LocalDateTime create_time;
+    private LocalDateTime createTime;
 
     /**
      * 修改时间
      */
-    private LocalDateTime update_time;
+    private LocalDateTime updateTime;
 
     /**
      * 删除标志

@@ -1,4 +1,4 @@
-package com.ifx.account.validat;
+package com.ifx.account.validator;
 
 /**
  *

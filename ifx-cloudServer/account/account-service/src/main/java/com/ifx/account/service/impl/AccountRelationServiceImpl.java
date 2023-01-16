@@ -2,16 +2,19 @@ package com.ifx.account.service.impl;
 
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.exceptions.ExceptionUtil;
+import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.ifx.account.entity.Account;
 import com.ifx.account.entity.AccountRelation;
+import com.ifx.account.mapstruct.AccountHelper;
 import com.ifx.account.mapper.AccountRelationMapper;
 import com.ifx.account.service.AccountRelationService;
 import com.ifx.account.service.AccountService;
-import com.ifx.account.validat.ACCOUTRELATIONINSERT;
-import com.ifx.account.vo.AccountBaseInfo;
+import com.ifx.account.validator.ACCOUTRELATIONINSERT;
 import com.ifx.account.vo.AccountRelationVo;
+import com.ifx.common.base.AccountInfo;
 import com.ifx.common.utils.CacheUtil;
 import com.ifx.common.utils.ValidatorUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -24,6 +27,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicReference;
+import java.util.function.Supplier;
 
 /**
 * @author HP
@@ -107,9 +111,14 @@ public class AccountRelationServiceImpl extends ServiceImpl<AccountRelationMappe
 
 
     @Override
-    public List<AccountBaseInfo> listAllRelationBaseInfo(String account) {
-        return null;
+    public List<AccountInfo> listAllRelationBaseInfo(String account) {
+        AtomicReference<List<Account>> accountList = new AtomicReference<>();
+        Mono.justOrEmpty(Optional.ofNullable(account))
+                        .map(this::listRelationWithAccount)
+                                .subscribe(setRelation-> accountList.set(accountService.search(setRelation)));
+        return AccountHelper.INSTANCE.trans2Info(accountList.get());
     }
+
 
     /***
      * 1. 查询缓存
@@ -123,30 +132,86 @@ public class AccountRelationServiceImpl extends ServiceImpl<AccountRelationMappe
     @Override
     public Long insertRelation(AccountRelationVo vo) {
         AtomicReference<Long> relationId = new AtomicReference<>();
-        ValidatorUtil.validateor(vo, ACCOUTRELATIONINSERT.class);
-        Set<String> relations = listRelationWithAccount(vo.getAccount()); //                .contextWrite(context -> context.put(RELATION_CACHE_KEY_PREFIX,))
+        ValidatorUtil.validateor(vo, ACCOUTRELATIONINSERT.class);  // 校验参数
+        Set<String> relations = listRelationWithAccount(vo.getAccount());
         Mono.just(relations)
                 .doOnNext(acc -> CollectionUtil.addAll(relations,vo.getRelations()))  // 实体类添加
-                .doOnNext(acc->redisCache.set(RELATION_CACHE_KEY_PREFIX+vo.getAccount(),acc)) // 更新缓存
-                .doOnNext(acc-> {
-
-//                    Mono.just()// 更新 DB
-                }).subscribe();
-
-        // 错误回滚
+                .doOnNext(acc -> redisCache.set(RELATION_CACHE_KEY_PREFIX+vo.getAccount(),acc)) // 更新缓存
+                .flatMap(acc-> addRelationData2DBb(vo))
+                .doOnError(throwable ->  redisCache.set(RELATION_CACHE_KEY_PREFIX+vo.getAccount(),vo.getRelations()))  //错误回滚回滚缓存
+                .subscribe(relationId::set);
         return relationId.get();
     }
 
-    private Mono<Long> addRelationData2DBb(String accountVo ,Set<String> relations){
+    /***
+     * 添加关系图 至数据库
+     * @param accountVo
+     * @return
+     */
+    private Mono<Long> addRelationData2DBb(AccountRelationVo accountVo){
         AccountRelation accountRelation = accountRelationMapper.selectOne(new LambdaQueryWrapper<AccountRelation>()
-                .eq(AccountRelation::getAccount,accountVo);
-//        accountRelation.setAccount_relations();
-        relationId.set(accountRelation.getId());
+                .eq(AccountRelation::getAccount,accountVo));
+        return Mono.justOrEmpty(Optional.ofNullable(accountRelation))
+                .flatMap(relation->relation == null ? addNewRelation(accountVo)
+                        :updateRelation(accountVo)
+                );
     }
+
+    /**
+     * 更新数据库中的 关系
+     * @param vo
+     * @return
+     */
+    private Mono<Long> updateRelation(AccountRelationVo vo){
+        AccountRelation accountRelation = vo2Entity(vo).get();
+        updateById(accountRelation);
+        return Mono.just(accountRelation.getId())
+                .doOnError(throwable -> Boolean.TRUE , (throwable)-> log.error("更新关系失败！"));
+    }
+
+    /***
+     * 添加新 关系 行
+     * @param accountVo
+     * @return
+     */
+    private Mono<Long> addNewRelation(AccountRelationVo accountVo){
+        AccountRelation accountRelation = vo2Entity(accountVo).get();
+        log.debug("添加了用户{} 的关系 {} ,行 id 为 {}",accountVo,accountVo.getRelations(),accountRelation.getId());
+        accountRelationMapper.insert(accountRelation);
+        return Mono.just(accountRelation.getId());
+
+    }
+
+
+    /***
+     * 参数转实体类构造器
+     * @param vo  关系Vo
+     * @return
+     */
+    private Supplier<AccountRelation> vo2Entity(AccountRelationVo vo){
+        AccountRelation accountRelation = new AccountRelation();
+        accountRelation.setAccount(vo.getAccount());
+        accountRelation.setAccount_relations(setRelation2Str(vo.getRelations()));
+        accountRelation.setId(vo.getRelationId() == null ? IdUtil.getSnowflakeNextId(): vo.getRelationId());
+        accountRelation.setActive(1);
+        return () -> accountRelation;
+    }
+
+    /***
+     * set 关系图 转化为关系串
+     * @param relations
+     * @return
+     */
 
     private String setRelation2Str(Set<String> relations){
         return StrUtil.join(RELATION_SPLIT, relations);
     }
+
+    /***
+     * 添加 关系图缓存
+     * @param accountVo
+     * @param relations
+     */
     private void addRelationData2Cache(String accountVo,Set<String> relations){
         redisCache.set(RELATION_CACHE_KEY_PREFIX+accountVo,setRelation2Str(relations));
     }
@@ -158,10 +223,10 @@ public class AccountRelationServiceImpl extends ServiceImpl<AccountRelationMappe
      * @param searchAccount
      * @return  返回是否存在制定账户关系
      */
-    private Boolean  relationsHasAccount(String account ,String searchAccount){
-        Boolean hasAccount = Boolean.FALSE;
-
-        return null;
+    private Mono<Boolean>  relationsHasAccount(String account ,String searchAccount){
+        Set<String> relation = listRelationWithAccount(account);
+        return Mono.justOrEmpty(Optional.ofNullable(relation))
+                .flatMap(relatSet-> Mono.just(relatSet.contains(searchAccount)));
     }
 }
 
