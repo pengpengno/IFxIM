@@ -41,15 +41,11 @@ public class TcpNettyClient {
     }
     
 
-    public TcpNettyClient(String host, Integer port) throws Throwable {
+    public TcpNettyClient(String host, Integer port) throws InterruptedException {
         address = new InetSocketAddress(host,port);
         doOpen();
     }
 
-    public TcpNettyClient(Integer port) throws Throwable {
-        address = new InetSocketAddress(InetAddress.getLocalHost().getHostAddress(),port);
-        doOpen();
-    }
 
     public void release(){
         channel.close();
@@ -61,14 +57,15 @@ public class TcpNettyClient {
      *
      * @throws Throwable
      */
-    public ChannelFuture doOpen() throws Throwable {
+
+
+    public ChannelFuture doOpen() throws InterruptedException  {
         /**
          * @Description  配置相应的参数，提供连接到远端的方法
          **/
         EventLoopGroup group = new NioEventLoopGroup();   //I/O线程池
 //        DefaultEventExecutorGroup eventExecutors = new DefaultEventExecutorGroup();
 
-//        try {
         bootstrap = new Bootstrap();//客户端辅助启动类
         bootstrap.group(group)
                     .channel(NioSocketChannel.class)//实例化一个Channel
@@ -83,15 +80,11 @@ public class TcpNettyClient {
                                     .addLast(new ProtocolDecoder())
                                     .addLast(new ClientNettyHandler())//添加Handler
                                     ;
-
                         }
                     });
-
             //连接到远程节点；等待连接完成
             ChannelFuture future = bootstrap.connect().sync();
-
             channel = future.channel();
-
             return future;
 
     }
@@ -110,8 +103,6 @@ public class TcpNettyClient {
         }
         return channel.writeAndFlush(protocol);
     }
-
-
 
 
     private enum SingleInstance{

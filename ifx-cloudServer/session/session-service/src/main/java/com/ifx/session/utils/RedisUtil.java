@@ -71,6 +71,7 @@ public final class RedisUtil implements CacheUtil {
 
 	@Override
 	public Boolean expire(String key, Object value, Long expireTime, TimeUnit timeUnit) {
+
 		return null;
 	}
 
@@ -81,11 +82,11 @@ public final class RedisUtil implements CacheUtil {
 	 *            键 不能为null
 	 * @return 时间(秒) 返回0代表为永久有效
 	 */
-	public long getExpire(String key) {
+	public Long getExpire(String key) {
 		return redisTemplate.getExpire(key, TimeUnit.SECONDS);
 	}
 
-	public long getExpire(String key, TimeUnit timeUnit) {
+	public Long getExpire(String key, TimeUnit timeUnit) {
 		return redisTemplate.getExpire(key, timeUnit);
 	}
 	/**
@@ -95,7 +96,7 @@ public final class RedisUtil implements CacheUtil {
 	 *            键
 	 * @return true 存在 false不存在
 	 */
-	public boolean hasKey(String key) {
+	public Boolean hasKey(String key) {
 		try {
 			return redisTemplate.hasKey(key);
 		} catch (Exception e) {

@@ -4,6 +4,7 @@ import com.alibaba.fastjson2.JSON;
 import com.ifx.session.entity.SessionAccount;
 import com.ifx.session.service.SessionAccountService;
 import com.ifx.session.service.SessionService;
+import com.ifx.session.vo.session.SessionInfoVo;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -33,7 +34,9 @@ public class SessionTest {
     
     @Test
     public void newSession(){
-        Long aLong = sessionService.newSession();
+        SessionInfoVo sessionInfoVo = new SessionInfoVo();
+        sessionInfoVo.setSessionName("测试会话");
+        Long aLong = sessionService.addorUpSession(sessionInfoVo);
 
         log.info(JSON.toJSONString(aLong));
         System.out.println(aLong);

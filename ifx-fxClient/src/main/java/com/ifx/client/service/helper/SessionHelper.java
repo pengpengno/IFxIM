@@ -20,7 +20,7 @@ public class SessionHelper {
         if (SearchSessionProtocol !=null){
             return SearchSessionProtocol;
         }
-        Method search = SessionService.class.getMethod("newSession");
+        Method search = SessionService.class.getMethod("addorUpSession");
         SearchSessionProtocol = DubboGenericParse.applyMsgProtocol(search);
         return SearchSessionProtocol;
     }

@@ -18,10 +18,6 @@ public class NettyClientAction implements ClientAction, ClientLifeStyle {
 
     private final TcpNettyClient tcpNettyClient;
 
-//    private Long connectTimeout;  // 连接时间延
-
-//    private Long reConnectDelay; // 重试时延
-
     public NettyClientAction(){
         tcpNettyClient =  TcpNettyClient.getInstance();
     }
@@ -98,9 +94,6 @@ public class NettyClientAction implements ClientAction, ClientLifeStyle {
     public Boolean sendJsonMsg(Protocol protocol, TaskHandler taskHandler) {
         return sendJsonMsg(protocol);
     }
-
-
-
 
 
     @Override

@@ -2,15 +2,21 @@ package com.ifx.client.proxy;
 
 import com.ifx.connect.proto.Protocol;
 import com.ifx.connect.task.handler.TaskHandler;
+import com.ifx.session.service.SessionAccountService;
+import com.ifx.session.vo.session.SessionAccountVo;
 import lombok.extern.slf4j.Slf4j;
 import net.sf.cglib.proxy.Enhancer;
 import net.sf.cglib.proxy.FixedValue;
 
+import javax.annotation.Resource;
 import java.util.function.Function;
 
 @Slf4j
 @Deprecated
 public class ProxyBean {
+
+    @Resource
+    private SessionAccountService sessionAccountService;
     @SuppressWarnings(value = "all")
     public static <T> T getProxyBean(Class<T> tClass){
         Enhancer enhancer = new Enhancer();
@@ -25,9 +31,13 @@ public class ProxyBean {
         return (T) enhancer.create();
     }
 
-    public  static Protocol proxy(Function<Object,Protocol> function, TaskHandler taskHandler){
+    public  static Protocol proxy(Function<Object,Object> function, TaskHandler taskHandler){
+//        ClientToolkit.getDefaultClientAction().sendJsonMsg()
         return null;
 
+    }
+    public  void s(){
+        proxy((k)->sessionAccountService.addAcc2Session(new SessionAccountVo()),prto-> prto.getResult())
     }
 
 }

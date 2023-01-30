@@ -2,8 +2,7 @@ package com.ifx.client.app.pane.session;
 
 import cn.hutool.core.collection.CollectionUtil;
 import com.ifx.account.entity.Account;
-import com.ifx.session.service.ISessionLifeStyle;
-import com.ifx.session.vo.SessionCreateVo;
+import com.ifx.session.vo.session.SessionAccountVo;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -12,7 +11,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import lombok.extern.slf4j.Slf4j;
 
-import java.lang.reflect.Method;
 import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.Set;
@@ -28,11 +26,15 @@ public class SessionCreatePane extends Pane implements Initializable {
 
     private Set<Account> accounts ;
 
+    private Set<String> accountSet;
+
     private TextArea sessionDetail =  new TextArea();
 
     private Label  label = new Label("新建任务");
 
     private Button create ;
+
+    private final SessionAccountVo sessionAccountVo =  new SessionAccountVo();
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -40,22 +42,11 @@ public class SessionCreatePane extends Pane implements Initializable {
         sessionTitle =  new TextArea();
         sessionDetail =  new TextArea();
         accounts = CollectionUtil.newHashSet();
-        label = new Label("新建任务");
+        label = new Label("新建会话");
         create = new Button(SessionConst.CREATE);
         create.addEventHandler(MouseEvent.MOUSE_CLICKED, (mouse) -> {
-            Object source = mouse.getSource();
-            SessionCreateVo sessionCreateVo = new SessionCreateVo();
-            sessionCreateVo.setSessionTitle(sessionTitle.getText());
-            sessionCreateVo.setSessionDetail(sessionDetail.getText());
-            sessionCreateVo.setAccounts(accounts);
-            try {
-                Method create = ISessionLifeStyle.class.getMethod("create", SessionCreateVo.class);
-            } catch (NoSuchMethodException e) {
-                e.printStackTrace();
-            }
-//            DubboApiMetaData metaData = DubboGenericParse.applyMeta(ISessionLifeStyle.class, "create", new Object[]{sessionCreateVo});
-
-//            DubboGenericParse.applyMeta(create,sessionCreateVo);
+            log.debug("开始新建会话");
+            sessionAccountVo.setAddAccSet(accountSet);
         });
     }
 

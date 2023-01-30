@@ -10,12 +10,19 @@ import java.io.Serializable;
 public class ChatMsgVo implements Serializable {
 
     private String content;  // 消息文本
+
+
+    private String contentType;
+
+
     @NotNull(message = "发送人不可为空",groups = ChatPush.class)
-    private AccountInfo formAccount;
+    private AccountInfo fromAccount;
+
     @NotNull(message = "会话Id不可为空！")
     private Long sessionId;  // 会话
 
-    private String msgSendTime;  // 创建时间
+
+    private String msgSendTime;  // 创建时间 客户端创建时间 不考虑时区
 
 
 }

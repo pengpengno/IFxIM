@@ -2,6 +2,7 @@ package com.ifx.session.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.ifx.session.entity.SessionAccount;
+import com.ifx.session.vo.session.SessionAccountVo;
 
 import java.util.Set;
 
@@ -13,12 +14,19 @@ import java.util.Set;
 public interface SessionAccountService extends IService<SessionAccount> {
 
     /***
-     * h
+     * 查询会话下所有的用户id
      * @param sessionId
      * @return
      */
     Set<String> listAccBySessionId(Long sessionId);
 
+
+    /***
+     * 添加或创建会话
+     * @param sessionAccountVo
+     * @return
+     */
+    SessionAccount addAcc2Session(SessionAccountVo sessionAccountVo);
 
 
 

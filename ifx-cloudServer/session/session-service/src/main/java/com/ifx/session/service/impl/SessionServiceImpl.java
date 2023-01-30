@@ -4,19 +4,15 @@ import cn.hutool.core.util.IdUtil;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.ifx.common.utils.CacheUtil;
 import com.ifx.session.entity.Session;
-import com.ifx.session.entity.SessionAccount;
 import com.ifx.session.mapper.SessionMapper;
-import com.ifx.session.service.SessionAccountService;
 import com.ifx.session.service.SessionService;
-import com.ifx.session.vo.SessionCreateVo;
+import com.ifx.session.vo.session.SessionInfoVo;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.annotation.DubboService;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.time.LocalDateTime;
-import java.util.concurrent.TimeUnit;
 
 /**
 * @author HP
@@ -36,28 +32,23 @@ public class SessionServiceImpl extends ServiceImpl<SessionMapper, Session>
 
     @Resource
     private SessionAccountServiceImpl sessionAccountService;
-    @Override
-    public Long newSession() {
-        Session session = new Session();
-        Long sessionId = IdUtil.getSnowflakeNextId();
-        session.setSessionId(sessionId);
-        session.setUpdateTime(LocalDateTime.now());
-        session.setUpdateTime(LocalDateTime.now());
-        cacheUtil.expire(sessionId.toString(),session,50L, TimeUnit.MINUTES);
-        boolean save = save(session);
-        return sessionId;
-    }
 
+    @Resource
+    private SessionMapper mapper;
 
     @Override
-    public Session getSession(Long sessionId) {
-        if (sessionId == null){
-            log.warn(" searching session fail, and sessionId is null");
-            return null;
+    public Long addorUpSession(SessionInfoVo sessionInfoVo) {
+        Session transform = com.ifx.session.mapstruct.SessionMapper.INSTANCE.transform(sessionInfoVo);
+        if (transform.getSessionId()!=null){
+            transform.setId(IdUtil.getSnowflakeNextId());
+            mapper.insert(transform);
+            return transform.getId();
+        }else {
+            mapper.updateById(transform);
         }
-        Session session = (Session) cacheUtil.get(sessionId.toString());
-        return session;
+        return transform.getId();
     }
+
 }
 
 

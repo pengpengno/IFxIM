@@ -10,7 +10,9 @@ import java.io.Serializable;
  */
 @Data
 public class AccountInfo implements Serializable, AccountSPI {
-    private String userId;  // 用户id
+
+
+    private Long userId;  // 用户id
 
     private String account;  // 账户
 
@@ -29,7 +31,7 @@ public class AccountInfo implements Serializable, AccountSPI {
         return userName;
     }
 
-    public void setUserId(String userId) {
+    public void setUserId(Long userId) {
         this.userId = userId;
     }
 
@@ -45,7 +47,7 @@ public class AccountInfo implements Serializable, AccountSPI {
         this.email = email;
     }
 
-    public String getUserId() {
+    public Long getUserId() {
         return userId;
     }
 

@@ -39,7 +39,7 @@ public class ChatMsg implements Serializable {
      * @see
      * @description  消息文本类型
      */
-    private String content_type ;
+    private String contentType ;
     /**
      * 创建时间
      */

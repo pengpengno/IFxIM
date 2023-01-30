@@ -2,25 +2,26 @@ package com.ifx.connect;
 
 import cn.hutool.core.util.ReflectUtil;
 import com.alibaba.fastjson2.JSON;
-import com.ifx.connect.proto.parse.DubboGenericParse;
-import com.ifx.client.service.ClientService;
+import com.ifx.connect.connection.client.ClientToolkit;
 import com.ifx.connect.proto.Protocol;
-import com.ifx.connect.proto.dubbo.DubboApiMetaData;
 import com.ifx.connect.proto.dubbo.DubboProtocol;
 import com.ifx.connect.proto.ifx.IFxMsgProtocol;
+import com.ifx.connect.proto.parse.DubboGenericParse;
 import lombok.extern.slf4j.Slf4j;
 import net.sf.cglib.proxy.MethodInterceptor;
 import net.sf.cglib.proxy.MethodProxy;
 import net.sf.cglib.reflect.FastClass;
 
-import javax.annotation.Resource;
 import java.lang.reflect.Method;
 
+/***
+ * 客户端服务调用实现类
+ */
 @Slf4j
-public class Proxy implements MethodInterceptor {
+public class IFxDubboProtocolProxy implements MethodInterceptor {
 
-    @Resource
-    private ClientService clientService;
+
+
 
     /**
      * 动态代理接口方法,避免手动序列化
@@ -38,20 +39,16 @@ public class Proxy implements MethodInterceptor {
      */
     @Override
     public Object intercept(Object obj, Method method, Object[] args, MethodProxy proxy)  {
-        log.info("currently thread {} doing proxy {}",Thread.currentThread().getName(),obj.getClass().getName());
-
+        log.debug("currently thread {} doing proxy {}",Thread.currentThread().getName(),obj.getClass().getName());
         Method getFastClass = ReflectUtil.getMethod(proxy.getClass(), "getFastClass");
         getFastClass.setAccessible(true);
         FastClass invoke = ReflectUtil.invoke(proxy, getFastClass);
-        DubboApiMetaData metaData = DubboGenericParse.applyMeta0(invoke.getJavaClass(), method, args);
-        Protocol protocol = new DubboProtocol();
-        protocol.setProtocolBody(JSON.toJSONString(metaData));
-        protocol.setType(IFxMsgProtocol.CLIENT_TO_SERVER_MSG_HEADER);
-//        clientService.send(protocol);
+        Protocol protocol = DubboGenericParse.applyMsgProtocol( method, args);
+        ClientToolkit.getDefaultClientAction().sendJsonMsg(protocol);
+
         Class<?> returnType = method.getReturnType();
         method.setAccessible(true);
-//        Object cl = Protocol.class;
-//        proxy.getClass().getName()
+
         ReflectUtil.setFieldValue(method,"returnType",Protocol.class);
 //        proxy.
         log.info("after proxy");
