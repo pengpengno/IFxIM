@@ -15,6 +15,7 @@ import com.ifx.session.service.SessionAccountService;
 import com.ifx.session.valiator.SessionAccountAdd;
 import com.ifx.session.vo.session.SessionAccountVo;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.dubbo.config.annotation.DubboReference;
 import org.apache.dubbo.config.annotation.DubboService;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
@@ -34,7 +35,7 @@ import java.util.stream.Collectors;
 public class SessionAccountServiceImpl extends ServiceImpl<SessionAccountMapper, SessionAccount>
     implements SessionAccountService{
 
-    @Resource
+    @DubboReference
     private AccountService accountService;
 
     @Resource

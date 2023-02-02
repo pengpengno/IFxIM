@@ -1,8 +1,9 @@
-package com.ifx.connect.reactor.netty.tcp;
+package com.ifx.reactor.netty;
 
 import com.ifx.connect.handler.client.ClientNettyHandler;
 import com.ifx.connect.handler.decoder.ProtocolDecoder;
 import com.ifx.connect.handler.encoder.ProtocolEncoder;
+import com.ifx.connect.properties.ClientNettyConfigProperties;
 import io.netty.channel.Channel;
 import io.netty.handler.logging.LogLevel;
 import io.netty.handler.ssl.util.InsecureTrustManagerFactory;
@@ -61,10 +62,11 @@ public class ReactorNettyTest {
 
     @Test
     public void  createClient() {
+        ClientNettyConfigProperties clientPro = new ClientNettyConfigProperties();
         Connection connect = TcpClient.create()
                 .host(HOST)
-                .port(PORT)
-                .handle((nettyInbound, nettyOutbound) ->  nettyOutbound.sendString(Mono.just("weclome")))
+                .port(clientPro.getServerPort())
+                .handle((nettyInbound, nettyOutbound) ->  nettyOutbound.sendString(Mono.just("welcome")))
                 .connectNow();
         connect.outbound().sendString(Mono.just("sdasdasdsadsadas"));
 
@@ -73,6 +75,7 @@ public class ReactorNettyTest {
                 .asString(StandardCharsets.UTF_8)
                 .doOnNext(log::info)
                 .subscribe();
+//        connect.onDispose();
         Scanner scanner = new Scanner(System.in, StandardCharsets.UTF_8.name());
         while (scanner.hasNext()) {
             String text = scanner.nextLine();
@@ -85,17 +88,19 @@ public class ReactorNettyTest {
             }
 
         }
-        log.info("{}", connect.isDisposed());
+//        log.info("{}", connect.isDisposed());
 
 
     }
 
     public static void main(String[] args) {
+        ClientNettyConfigProperties clientPro = new ClientNettyConfigProperties();
+
         Connection connect = TcpClient.create()
                 .host(HOST)
-                .port(PORT)
+                .port(clientPro.getServerPort())
                 .wiretap("SLF4J",LogLevel.INFO)
-                .handle((nettyInbound, nettyOutbound) ->  nettyOutbound.sendString(Mono.just("weclome")))
+                .handle((nettyInbound, nettyOutbound) ->  nettyOutbound.sendString(Mono.just("welcome")))
                 .connectNow();
 //        connect.outbound().sendString(Mono.just("sdasdasdsadsadas"));
 

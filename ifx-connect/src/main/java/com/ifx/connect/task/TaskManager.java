@@ -99,7 +99,7 @@ public class TaskManager {
     public void doTask(Protocol protocol){
         @SuppressWarnings("all")
         final Protocol pro = protocol;
-        ConcurrentLinkedDeque<TaskHandler> taskHandlers = getTaskHandlers(pro.getTrace());
+        ConcurrentLinkedDeque<TaskHandler> taskHandlers = getTaskHandlers(pro.getToServerTrace());
         if (CollectionUtil.isNotEmpty(taskHandlers)){
             while(!taskHandlers.isEmpty()){
                 TaskHandler poll = taskHandlers.poll();

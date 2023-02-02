@@ -2,6 +2,7 @@ package com.ifx.connect;
 
 import cn.hutool.core.collection.CollectionUtil;
 import com.alibaba.fastjson2.JSON;
+import com.ifx.connect.connection.client.ClientToolkit;
 import com.ifx.connect.proto.Protocol;
 import com.ifx.connect.task.handler.TaskHandler;
 import com.ifx.session.service.SessionAccountService;
@@ -11,27 +12,30 @@ import lombok.extern.slf4j.Slf4j;
 import net.sf.cglib.proxy.Enhancer;
 import org.junit.jupiter.api.Test;
 
+import java.net.InetSocketAddress;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 @Slf4j
 
 public class CglibTest {
     @Test
     public void cglibTest(){
+        InetSocketAddress inetSocketAddress = new InetSocketAddress("127.0.0.1",8099);
+        ClientToolkit.getDefaultClientLifeStyle().connect(inetSocketAddress);
         Enhancer enhancer = new Enhancer();
         enhancer.setSuperclass(SessionAccountService.class);
         enhancer.setCallback(new IFxDubboProtocolProxy());
         SessionAccountService sessionService = (SessionAccountService) enhancer.create();
         Object o = sessionService.addAcc2Session(new SessionAccountVo());
-
-//        Protocol protocol = sessionService.add0();
-//        Object protocol2 = sessionService.addAcc(null);
-//        log.info(" protocol = {} ",JSON.toJSONString(protocol));
-//        log.info(" protocol = {} ",JSON.toJSONString(o));
-
-
-
+        while (true){
+            Scanner scanner = new Scanner(System.in);
+            if (scanner.hasNext()&& scanner.nextLine().equals("exit")){
+                break;
+            }
+        }
+        System.out.println(o);
     }
 
     @Test

@@ -9,6 +9,10 @@ import com.ifx.common.ann.client.Proxy;
 import java.util.Arrays;
 import java.util.concurrent.ConcurrentHashMap;
 
+
+/***
+ * 代理工具类
+ */
 public class ProxyUtil {
 
     public static void proxy(Object o ) {
@@ -21,11 +25,15 @@ public class ProxyUtil {
                 });
     }
 
-
     private static ConcurrentHashMap<Class<?>,Object> proxyMap ;
 
 
-
+    /***
+     * 获取代理实体
+     * @param tClass
+     * @return
+     * @param <T>
+     */
     public static <T> T getProxy(Class<T> tClass){
         initProxyMap();
         return (T)proxyMap.computeIfAbsent(tClass,(k)->ProxyBean.getProxyBean(tClass));

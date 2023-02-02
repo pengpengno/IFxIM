@@ -12,9 +12,12 @@ import com.ifx.connect.enums.ConnectTypeEnums;
 public class ConnectionDefaultValue {
     /**
      * 返回系统默认连接类型
-     * @return
+     * @return 系统默认
      */
     public  static  ConnectTypeEnums getDefaultConnectType(){
         return ConnectTypeEnums.TCP;
     }
+
+
+
 }

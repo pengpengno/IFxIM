@@ -2,11 +2,10 @@ package com.ifx.client.service;
 
 import cn.hutool.core.util.IdUtil;
 import com.ifx.common.constant.CommonConstant;
-import com.ifx.connect.task.TaskManager;
 import com.ifx.connect.connection.client.ClientAction;
 import com.ifx.connect.proto.Protocol;
+import com.ifx.connect.task.TaskManager;
 import com.ifx.connect.task.handler.TaskHandler;
-import com.ifx.connect.task.meta.TaskMeta;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.MDC;
 import org.springframework.stereotype.Service;
@@ -29,11 +28,6 @@ public class ClientService {
     @Resource
     private TaskManager taskManager;
 
-    public void send(Protocol protocol){
-        String trace = IdUtil.fastSimpleUUID();
-        protocol.setTrace(trace);
-        clientAction.sendJsonMsg(protocol);
-    }
 
     /**
      * <P>客户端发送通讯协议包{@link Protocol}
@@ -47,7 +41,7 @@ public class ClientService {
         String trace = IdUtil.fastSimpleUUID();
         log.debug("生成的 trace 为 {}",trace);
         MDC.put(CommonConstant.MDC_TRACE_ID,trace);
-        protocol.setTrace(trace);
+        protocol.setToServerTrace(trace);
         taskManager.addTask(trace,taskHandler);
         clientAction.sendJsonMsg(protocol);
     }
@@ -56,13 +50,4 @@ public class ClientService {
 
     }
 
-
-    // TODO 任务元数据 使用
-    public void send(Protocol protocol, TaskMeta taskMeta){
-//       保存 TaskHandler等待回调
-        String trace = IdUtil.fastSimpleUUID();
-        protocol.setTrace(trace);
-//        taskManager.addTask(trace,taskHandler);
-        clientAction.sendJsonMsg(protocol);
-    }
 }

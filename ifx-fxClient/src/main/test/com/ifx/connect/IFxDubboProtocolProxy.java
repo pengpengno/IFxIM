@@ -1,11 +1,8 @@
 package com.ifx.connect;
 
 import cn.hutool.core.util.ReflectUtil;
-import com.alibaba.fastjson2.JSON;
 import com.ifx.connect.connection.client.ClientToolkit;
 import com.ifx.connect.proto.Protocol;
-import com.ifx.connect.proto.dubbo.DubboProtocol;
-import com.ifx.connect.proto.ifx.IFxMsgProtocol;
 import com.ifx.connect.proto.parse.DubboGenericParse;
 import lombok.extern.slf4j.Slf4j;
 import net.sf.cglib.proxy.MethodInterceptor;
@@ -19,8 +16,6 @@ import java.lang.reflect.Method;
  */
 @Slf4j
 public class IFxDubboProtocolProxy implements MethodInterceptor {
-
-
 
 
     /**
@@ -45,13 +40,11 @@ public class IFxDubboProtocolProxy implements MethodInterceptor {
         FastClass invoke = ReflectUtil.invoke(proxy, getFastClass);
         Protocol protocol = DubboGenericParse.applyMsgProtocol( method, args);
         ClientToolkit.getDefaultClientAction().sendJsonMsg(protocol);
-
-        Class<?> returnType = method.getReturnType();
-        method.setAccessible(true);
-
-        ReflectUtil.setFieldValue(method,"returnType",Protocol.class);
+//        Class<?> returnType = method.getReturnType();
+//        method.setAccessible(true);
+//        ReflectUtil.setFieldValue(method,"returnType",Protocol.class);
 //        proxy.
         log.info("after proxy");
-        return protocol;
+        return null;
     }
 }

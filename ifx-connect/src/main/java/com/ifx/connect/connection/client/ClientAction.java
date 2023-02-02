@@ -15,7 +15,6 @@ public interface ClientAction {
 
     /**
      * 发送协议包{@link Protocol}
-     *
      * @param protocol
      * @return
      */
@@ -24,7 +23,6 @@ public interface ClientAction {
     /**
      * 发送 基于 回调的协议包 即 当任务在成功返回后将会执行{@link  TaskHandler}中的句柄任务
      * {@code  }
-     *
      * @param protocol
      * @param taskHandler
      * @return 发送成功则返回 {@code Boolean.TRUE}
@@ -33,7 +31,7 @@ public interface ClientAction {
 
 
     /**
-     * 发送消息协议
+     * 发送消息协议 muqian buzuo shixian
      * @param taskHandlerFlux
      */
     public default void sendJsonMsg(Protocol protocol,Flux<TaskHandler> taskHandlerFlux){

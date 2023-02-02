@@ -1,73 +1,54 @@
 package com.ifx.client.proxy;
 
 import cn.hutool.extra.spring.SpringUtil;
-import com.ifx.client.service.ClientService;
-import com.ifx.connect.connection.client.ClientAction;
+import com.ifx.connect.connection.client.ClientToolkit;
+import com.ifx.connect.proto.Protocol;
+import com.ifx.connect.proto.ifx.IFxMsgProtocol;
+import com.ifx.connect.proto.parse.DubboGenericParse;
 import lombok.extern.slf4j.Slf4j;
 import net.sf.cglib.proxy.MethodInterceptor;
 import net.sf.cglib.proxy.MethodProxy;
-import org.springframework.context.ApplicationListener;
 import org.springframework.context.ConfigurableApplicationContext;
-import org.springframework.context.event.ContextRefreshedEvent;
 
-import javax.annotation.Resource;
 import java.lang.reflect.Method;
 import java.util.Arrays;
 
+/***
+ * 客户端接口拦截代理
+ * @author pengpeng
+ */
 @Slf4j
-@Deprecated
-public class ClientApiProxy implements MethodInterceptor , ApplicationListener<ContextRefreshedEvent> {
+public class ClientApiProxy implements MethodInterceptor {
 
-
-    @Resource
-    private  ClientAction clientAction;
-
-    @Resource
-    private  ClientService clientService;
-
-
-    @Override
-    public void onApplicationEvent(ContextRefreshedEvent event) {
-        Arrays.stream(this.getClass().getFields()).forEach(e->SpringUtil.getBean(e.getClass()));
-    }
 
     public void initialize(ConfigurableApplicationContext applicationContext) {
         Arrays.stream(this.getClass().getFields()).forEach(e->SpringUtil.getBean(e.getClass()));
     }
-
+    /***
+     * 此处用以代理实现客户端api调用
+     * @param obj "this", the enhanced object
+     * @param method intercepted Method
+     * @param args argument array; primitive types are wrapped
+     * @param proxy used to invoke super (non-intercepted method); may be called
+     * as many times as needed
+     * @return
+     * @throws Throwable
+     */
     @Override
     public Object intercept(Object obj, Method method, Object[] args, MethodProxy proxy) throws Throwable {
 //        try{
-//            log.debug(" load apiProxy  prev");
+            log.debug(" load apiProxy  prev");
 //            Method getFastClass = ReflectUtil.getMethod(proxy.getClass(), "getFastClass");
 //            getFastClass.setAccessible(true);
 //            FastClass invoke = ReflectUtil.invoke(proxy, getFastClass);
-//
-//            DubboApiMetaData metaData = DubboGenericParse.applyMeta0(invoke.getJavaClass(), method, args);
-//            Protocol protocol = new DubboProtocol();
-//            protocol.setProtocolBody(JSON.toJSONString(metaData));
-//            protocol.setType(IFxMsgProtocol.CLIENT_TO_SERVER_MSG_HEADER);
-//            clientAction.sendJsonMsg(protocol);
-//            log.debug(" load apiProxy  prev");
-//            return null;
-//        }
-//        catch(Exception e){
-//            log.error(" {} ", ExceptionUtil.stacktraceToString(e));
-//        }
+            Protocol protocol = DubboGenericParse.applyMsgProtocol( method, args);
+            protocol.setType(IFxMsgProtocol.CLIENT_TO_SERVER_MSG_HEADER);
+            ClientToolkit.getDefaultClientAction().sendJsonMsg(protocol);
+            log.debug(" load apiProxy  prev");
         return null;
-
-
     }
 
 
-
-
-
-
-
-    private ClientApiProxy(){
-
-    }
 
     private enum INSTANCE{
         INSTANCE;

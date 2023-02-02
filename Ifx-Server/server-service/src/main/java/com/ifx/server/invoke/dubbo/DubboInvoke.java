@@ -28,7 +28,6 @@ import java.util.concurrent.CountDownLatch;
 
 @Component
 @Slf4j
-//public class DubboInvoke implements GateInvoke , ApplicationListener<ContextRefreshedEvent> {
 public class DubboInvoke implements GateInvoke {
     @Value("${dubbo.registry.address}")
     private String address;

@@ -5,7 +5,6 @@ import cn.hutool.core.util.ObjectUtil;
 import com.alibaba.fastjson2.JSON;
 import com.ifx.account.vo.search.AccountSearchVo;
 import com.ifx.client.app.pane.SearchPane;
-import com.ifx.client.service.ClientService;
 import com.ifx.client.service.helper.AccountHelper;
 import com.ifx.client.util.SpringFxmlLoader;
 import com.ifx.common.base.AccountInfo;
@@ -52,8 +51,6 @@ public class MainController implements Initializable {
     private TextField searchField;
 
 
-    @Resource
-    private ClientService clientService;
 
     @Resource
     private SpringFxmlLoader springFxmlLoader;

@@ -11,7 +11,7 @@ import java.util.function.Function;
  * @date 2023/1/16
  */
 @FunctionalInterface
-public interface IMBiFunction {
+public interface IMBiFunction<T,U,O> {
     /***
      * for callback ,  push the taskHandler  in  CallBackChain  , to process  program in a non-blocking status
      * the   proxyService  which is remote service , as general , it will block program, and  IMBiFunction
@@ -21,6 +21,10 @@ public interface IMBiFunction {
      * @param proxyService
      * @param taskHandler
      */
-    public void call(Function<?,?> proxyService, TaskHandler taskHandler);
+    public void  call(Function<?,?> proxyService, TaskHandler taskHandler);
+
+    public default void call (){
+
+    }
 
 }

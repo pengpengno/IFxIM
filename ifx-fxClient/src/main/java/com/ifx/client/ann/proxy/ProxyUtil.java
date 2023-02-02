@@ -12,6 +12,6 @@ public class ProxyUtil {
 
     public void generateService(){
         Enhancer enhancer = new Enhancer();
-        enhancer.setSuperclass();
+//        enhancer.setSuperclass();
     }
 }

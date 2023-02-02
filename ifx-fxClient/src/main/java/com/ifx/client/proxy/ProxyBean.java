@@ -1,5 +1,7 @@
 package com.ifx.client.proxy;
 
+import com.ifx.client.util.IdUtil;
+import com.ifx.connect.connection.client.ClientToolkit;
 import com.ifx.connect.proto.Protocol;
 import com.ifx.connect.task.handler.TaskHandler;
 import com.ifx.session.service.SessionAccountService;
@@ -11,6 +13,10 @@ import net.sf.cglib.proxy.FixedValue;
 import javax.annotation.Resource;
 import java.util.function.Function;
 
+
+/***
+ * 代理实现类
+ */
 @Slf4j
 @Deprecated
 public class ProxyBean {
@@ -32,12 +38,15 @@ public class ProxyBean {
     }
 
     public  static Protocol proxy(Function<Object,Object> function, TaskHandler taskHandler){
-//        ClientToolkit.getDefaultClientAction().sendJsonMsg()
+        String traceId = IdUtil.traceId();
+        ClientToolkit.getDefaultClientAction();
         return null;
 
     }
+
+
     public  void s(){
-        proxy((k)->sessionAccountService.addAcc2Session(new SessionAccountVo()),prto-> prto.getResult())
+        proxy((k)->sessionAccountService.addAcc2Session(new SessionAccountVo()), Protocol::getResult);
     }
 
 }

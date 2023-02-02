@@ -4,6 +4,7 @@ import com.ifx.exec.ex.net.NetException;
 import reactor.core.publisher.Flux;
 import reactor.util.retry.Retry;
 
+import java.net.InetSocketAddress;
 import java.time.Duration;
 
 /**
@@ -11,6 +12,7 @@ import java.time.Duration;
  */
 public interface ClientLifeStyle {
     public void init ();  // 初始化连接
+    public void connect (InetSocketAddress address) throws NetException;
 
     /**
      * 开启channel 通道连接
@@ -33,12 +35,12 @@ public interface ClientLifeStyle {
             return Boolean.TRUE;
         }
         Flux<Boolean> flux =
-                Flux.just(connect())
-                        .retryWhen(
-                                Retry
-                                .backoff(3, Duration.ofSeconds(1)).jitter(0.3d)
-                                .filter(throwable ->  throwable instanceof  NetException)
-                                .onRetryExhaustedThrow((spec, rs) -> rs.failure())
+            Flux.just(connect())
+                .retryWhen(
+                Retry
+                .backoff(3, Duration.ofSeconds(1)).jitter(0.3d)
+                .filter(throwable ->  throwable instanceof  NetException)
+                .onRetryExhaustedThrow((spec, rs) -> rs.failure())
                         );
         flux.subscribe();
         return Boolean.TRUE;

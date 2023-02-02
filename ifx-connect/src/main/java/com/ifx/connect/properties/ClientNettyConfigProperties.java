@@ -12,7 +12,7 @@ public class ClientNettyConfigProperties {
 //    private String serverHost ;
     private String serverHost = "127.0.0.1";
 
-    private Integer serverPort = 9087 ;
+    private Integer serverPort = 8094 ;
 
     private Integer connectTimeOut;
 

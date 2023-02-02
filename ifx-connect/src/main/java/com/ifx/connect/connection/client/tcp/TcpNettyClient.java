@@ -1,21 +1,26 @@
 package com.ifx.connect.connection.client.tcp;
 
+import com.ifx.connect.handler.client.ClientNettyHandler;
 import com.ifx.connect.handler.decoder.ProtocolDecoder;
 import com.ifx.connect.handler.encoder.ProtocolEncoder;
-import com.ifx.connect.handler.client.ClientNettyHandler;
 import com.ifx.connect.proto.Protocol;
 import io.netty.bootstrap.Bootstrap;
-import io.netty.buffer.Unpooled;
-import io.netty.channel.*;
+import io.netty.channel.Channel;
+import io.netty.channel.ChannelFuture;
+import io.netty.channel.ChannelInitializer;
+import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
-import io.netty.util.CharsetUtil;
 import lombok.extern.slf4j.Slf4j;
+import reactor.netty.Connection;
+import reactor.netty.tcp.TcpClient;
 
-import java.net.InetAddress;
 import java.net.InetSocketAddress;
 
+/***
+ * Tcp netty 实现
+ */
 @Slf4j
 public class TcpNettyClient {
 
@@ -26,7 +31,7 @@ public class TcpNettyClient {
 
     private Channel channel;
 
-
+    private Connection connection;
     public Channel getChannel() {
         return channel;
     }
@@ -59,13 +64,14 @@ public class TcpNettyClient {
      */
 
 
-    public ChannelFuture doOpen() throws InterruptedException  {
+    public ChannelFuture doOpen() throws InterruptedException {
+        return doOpen(address);
+    }
+    public ChannelFuture doOpen(InetSocketAddress address) throws InterruptedException  {
         /**
          * @Description  配置相应的参数，提供连接到远端的方法
          **/
         EventLoopGroup group = new NioEventLoopGroup();   //I/O线程池
-//        DefaultEventExecutorGroup eventExecutors = new DefaultEventExecutorGroup();
-
         bootstrap = new Bootstrap();//客户端辅助启动类
         bootstrap.group(group)
                     .channel(NioSocketChannel.class)//实例化一个Channel
@@ -89,12 +95,29 @@ public class TcpNettyClient {
 
     }
 
-    public ChannelFuture write(String msg){
-        if (channel== null || !channel.isActive()){
-            return null;
-        }
-        return channel.writeAndFlush(Unpooled.copiedBuffer(msg, CharsetUtil.UTF_8));
+    public Boolean create(InetSocketAddress address){
+         connection =
+                TcpClient.create()
+                        .host(address.getHostName())
+                        .port(address.getPort())
+                        .doOnConnect((tcpClientConfig)-> log.info("连接建立！"))
+//                        .bindAddress(() -> address)
+                        .doOnChannelInit((connectionObserver, channel1, remoteAddress) -> {
+                            channel1.pipeline()
+                                    .addLast(new ProtocolEncoder())
+                                    .addLast(new ProtocolDecoder())
+                                    .addLast(new ClientNettyHandler())//添加Handler
+                                    ;
+                            })
+                        .connectNow();
+//        connection.onDispose()
+//                .block()
+        ;
+        log.info("客户端连接完毕！");
+        return Boolean.TRUE;
     }
+
+
 
     public ChannelFuture write(Protocol protocol){
         if (channel== null || !channel.isActive()){
@@ -104,6 +127,14 @@ public class TcpNettyClient {
         return channel.writeAndFlush(protocol);
     }
 
+    public void outBound (Protocol protocol){
+        connection.outbound().sendObject(protocol);
+    }
+
+    public Boolean isAlive(){
+//        connection !=null;
+        return connection.isDisposed();
+    }
 
     private enum SingleInstance{
         INSTANCE;

@@ -2,10 +2,8 @@ package com.ifx.client.app.pane;
 
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.ReflectUtil;
-import cn.hutool.extra.spring.SpringUtil;
 import com.alibaba.fastjson2.JSON;
 import com.ifx.client.proxy.ProxyBean;
-import com.ifx.client.service.ClientService;
 import com.ifx.client.util.ProxyUtil;
 import com.ifx.common.ann.client.Proxy;
 import com.ifx.common.base.AccountInfo;
@@ -19,7 +17,9 @@ import javafx.scene.layout.Pane;
 import lombok.extern.slf4j.Slf4j;
 
 import java.net.URL;
-import java.util.*;
+import java.util.Arrays;
+import java.util.List;
+import java.util.ResourceBundle;
 import java.util.concurrent.ConcurrentHashMap;
 
 
@@ -94,7 +94,7 @@ public class SearchPane extends FlowPane {
         private Label name;
 
         private ImageView iconView;
-        private ClientService clientService;
+
 
         private AccountMiniPane(){
 
@@ -110,8 +110,6 @@ public class SearchPane extends FlowPane {
         public void initialize(URL location, ResourceBundle resources) {
 //            init();
             log.info("load {}  account {}" ,this.getClass().getName(),accountInfo);
-//            Protocol protocol = sessionActionService.add0();
-            clientService = SpringUtil.getBean(ClientService.class);
 
         }
 

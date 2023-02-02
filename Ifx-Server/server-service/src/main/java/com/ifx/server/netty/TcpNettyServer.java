@@ -1,24 +1,24 @@
-package com.ifx.connect.connection.server.tcp;
+package com.ifx.server.netty;
 
 import com.ifx.connect.handler.decoder.ProtocolDecoder;
 import com.ifx.connect.handler.encoder.ProtocolEncoder;
-import com.ifx.connect.handler.server.ServerServiceParseHandler;
-import com.ifx.connect.proto.dubbo.DubboApiService;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
+import io.netty.handler.logging.LogLevel;
 import io.netty.handler.logging.LoggingHandler;
 import io.netty.handler.timeout.IdleStateHandler;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Component;
 import reactor.netty.DisposableServer;
 import reactor.netty.tcp.TcpServer;
 
-import javax.annotation.Resource;
 import java.net.InetSocketAddress;
 
+/***
+ * Tcp netty 服务器
+ */
 @Slf4j
 public class TcpNettyServer {
 
@@ -85,23 +85,33 @@ public class TcpNettyServer {
     }
 
     public void createServer(InetSocketAddress address){
+        log.info("start netty server ");
         TcpServer tcpServer = TcpServer.create();
         DisposableServer server =
-                tcpServer
-                        .host(address.getAddress().getHostAddress())
-                        .port(address.getPort())
-                        .doOnConnection(connection -> connection.addHandlerFirst(new IdleStateHandler(20,20,20)))//  free channel  checkout
-                        .doOnChannelInit((connectionObserver, channel, remoteAddress) -> {
-                            channel.pipeline()
-                                    .addLast(new ProtocolEncoder())
-                                    .addLast(new ProtocolDecoder())
-//                                    .addLast(new LoggingHandler())
-                                    .addLast(new ServerServiceParseHandler());
-                        })
-                        .bindNow()
+            tcpServer
+                .host(address.getAddress().getHostAddress())
+                .port(address.getPort())
+                .wiretap(this.getClass().getName(), LogLevel.INFO)
+                .handle((nettyInbound, nettyOutbound) -> {
+                    nettyInbound.receive().subscribe(msg -> {
+                        log.info("receivemsg {}", String.valueOf(msg.readByte()));
+                    });
+                    return nettyOutbound.neverComplete();
+//                    return nettyOutbound.sendString(Mono.just("hello"));
+                })
+                .doOnConnection(connection -> connection.addHandlerFirst(new IdleStateHandler(20,20,20)))//  free channel  checkout
+                .doOnChannelInit((connectionObserver, channel, remoteAddress) -> {
+                    channel.pipeline()
+                            .addLast(new LoggingHandler())
+                            .addLast(new ProtocolEncoder())
+                            .addLast(new ProtocolDecoder())
+                            .addLast(new ServerServiceParseHandler());
+                })
+                .bindNow()
                 ;
         server.onDispose()
-                .block();
+//                .block()
+        ;
         log.info("netty server start done. host {}  port {}",address.getHostName(),address.getPort());
     }
 

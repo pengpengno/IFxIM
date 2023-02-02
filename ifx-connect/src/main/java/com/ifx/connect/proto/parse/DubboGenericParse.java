@@ -90,6 +90,10 @@ public class DubboGenericParse {
 
     /***
      * 组装 客户端基本消息协议
+     * @see IFxMsgProtocol
+     * @code {
+     *     IFxMsgProtocol.CLIENT_TO_SERVER_MSG_HEADER
+     * }
      * @param method
      * @param arg
      * @return

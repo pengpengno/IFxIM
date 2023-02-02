@@ -13,6 +13,8 @@ import io.netty.channel.Channel;
 import io.netty.channel.ChannelFuture;
 import lombok.extern.slf4j.Slf4j;
 
+import java.net.InetSocketAddress;
+
 @Slf4j
 public class NettyClientAction implements ClientAction, ClientLifeStyle {
 
@@ -46,6 +48,17 @@ public class NettyClientAction implements ClientAction, ClientLifeStyle {
         catch (Throwable e ){
            log.error("服务器链接失败！ {}",ExceptionUtil.stacktraceToString(e));
            throw new NettyException(NetError.REMOTE_NET_CAN_NOT_CONNECT);
+        }
+    }
+
+    @Override
+    public void connect(InetSocketAddress address) throws NetException {
+        try {
+            tcpNettyClient.create(address);
+        }
+            catch (Throwable e ){
+            log.error("服务器链接失败！ {}",ExceptionUtil.stacktraceToString(e));
+            throw new NettyException(NetError.REMOTE_NET_CAN_NOT_CONNECT);
         }
     }
 
@@ -102,18 +115,22 @@ public class NettyClientAction implements ClientAction, ClientLifeStyle {
             log.warn("protocol is  null  no operate  to do ");
             return  Boolean.FALSE;
         }
-
-        if (!tcpNettyClient.getChannel().isActive()
-                || tcpNettyClient.getChannel() == null) {
+//        tcpNettyClient.
+        if (tcpNettyClient.getChannel() == null ||
+                !tcpNettyClient.getChannel().isActive()
+               ) {
             log.error("netty Channel is close， loading ");
             reConnect();
             return  Boolean.FALSE;
         }
+
         log.debug("sending msg to server ");
         ChannelFuture write = tcpNettyClient.write(protocol);
         write.addListener(future -> {
             if (future.isSuccess()){
-                log.debug("client send success ");
+                log.info("client send msg success ");
+            }else {
+                log.warn("client send msg fail");
             }
         });
         return Boolean.TRUE;

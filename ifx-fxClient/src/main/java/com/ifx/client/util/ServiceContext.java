@@ -1,11 +1,11 @@
 package com.ifx.client.util;
 
-import com.ifx.client.app.pane.SearchPane;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
+ * 客户端服务上下文
  * @author pengpeng
  * @description
  * @date 2023/1/30
@@ -35,7 +35,13 @@ public class ServiceContext {
 
     }
 
+    /***
+     * 获取服务
+     * @param tClass
+     * @return
+     * @param <T>
+     */
     public static <T> T getService(Class<T> tClass){
-
+        return  null;
     }
 }

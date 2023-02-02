@@ -1,8 +1,9 @@
-package com.ifx.connect.handler.server;
+package com.ifx.server.netty;
 
 import cn.hutool.core.exceptions.ExceptionUtil;
 import com.alibaba.fastjson2.JSONObject;
 import com.ifx.connect.proto.Protocol;
+import com.ifx.server.invoke.ServerProtoReceive;
 import io.netty.channel.ChannelDuplexHandler;
 import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
@@ -22,20 +23,20 @@ import java.util.concurrent.ExecutorService;
 public class ServerServiceParseHandler extends ChannelDuplexHandler {
     @Resource(name = "serverPool")
     private ExecutorService serverService;
-//    @Resource
-//    private ServerProtoReceive serverProtoReceive;
 
+    @Resource
+    private ServerProtoReceive serverProtoReceive;
 
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
 
         Protocol protocol = (Protocol) msg;
 
-        log.debug("收到客户端发过来的消息: {}" , JSONObject.toJSONString(protocol));
+        log.info("收到客户端发过来的消息: {}" , JSONObject.toJSONString(protocol));
 
         log.debug("receive msg from server-side {}, data package {}",ctx.channel().localAddress().toString(),protocol);
 
-//        serverService.submit(()-> serverProtoReceive.received(ctx,protocol));
+        serverService.submit(()-> serverProtoReceive.received(ctx,protocol));
         //写入并发送信息到远端（客户端）
         super.channelRead(ctx, msg);
     }

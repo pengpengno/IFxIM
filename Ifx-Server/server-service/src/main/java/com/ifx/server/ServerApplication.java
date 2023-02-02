@@ -1,8 +1,7 @@
 package com.ifx.server;
 
+import com.ifx.server.netty.TcpNettyServer;
 import com.ifx.connect.properties.ServerNettyConfigProperties;
-import com.ifx.connect.connection.server.tcp.TcpNettyServer;
-import io.netty.channel.ChannelFuture;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.spring.context.annotation.DubboComponentScan;
 import org.apache.dubbo.config.spring.context.annotation.EnableDubbo;
@@ -26,16 +25,17 @@ public class ServerApplication implements CommandLineRunner {
     private ServerNettyConfigProperties serverNettyConfigProperties;
 
     public void run(String... args)  {
-
         Mono.fromCallable(()->
-                        new InetSocketAddress(serverNettyConfigProperties.getHost(),
-                                serverNettyConfigProperties.getPort()))
-                .subscribe(inetSocketAddress -> TcpNettyServer.getInstance().createServer(inetSocketAddress));
+            new InetSocketAddress(serverNettyConfigProperties.getHost(),
+                    serverNettyConfigProperties.getPort()))
+            .subscribe(inetSocketAddress -> {
+                TcpNettyServer.getInstance().createServer(inetSocketAddress);
+                Runtime.getRuntime().addShutdownHook(new Thread(() -> TcpNettyServer.getInstance().destroy()));
+            });
 
-        Runtime.getRuntime().addShutdownHook(new Thread(() -> TcpNettyServer.getInstance().destroy()));
     }
 
     public static void main(String[] args) {
-            SpringApplication.run(ServerApplication.class);
+        SpringApplication.run(ServerApplication.class);
     }
 }
