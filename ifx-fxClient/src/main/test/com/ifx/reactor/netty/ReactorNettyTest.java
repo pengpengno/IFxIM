@@ -1,6 +1,6 @@
 package com.ifx.reactor.netty;
 
-import com.ifx.connect.handler.client.ClientNettyHandler;
+import com.ifx.connect.handler.client.ClientBusinessHandler;
 import com.ifx.connect.handler.decoder.ProtocolDecoder;
 import com.ifx.connect.handler.encoder.ProtocolEncoder;
 import com.ifx.connect.properties.ClientNettyConfigProperties;
@@ -163,7 +163,7 @@ public class ReactorNettyTest {
                     channel.pipeline()
                             .addLast(new ProtocolEncoder())
                             .addLast(new ProtocolDecoder())
-                            .addLast(new ClientNettyHandler());
+                            .addLast(new ClientBusinessHandler());
                     che.set(channel);
                 })
                 .bindAddress((Supplier<? extends SocketAddress>) () -> {

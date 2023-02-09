@@ -1,6 +1,8 @@
 package com.ifx.client.proxy;
 
-import cn.hutool.extra.spring.SpringUtil;
+import com.google.inject.Singleton;
+import com.ifx.client.util.IdUtil;
+import com.ifx.common.constant.CommonConstant;
 import com.ifx.connect.connection.client.ClientToolkit;
 import com.ifx.connect.proto.Protocol;
 import com.ifx.connect.proto.ifx.IFxMsgProtocol;
@@ -8,22 +10,20 @@ import com.ifx.connect.proto.parse.DubboGenericParse;
 import lombok.extern.slf4j.Slf4j;
 import net.sf.cglib.proxy.MethodInterceptor;
 import net.sf.cglib.proxy.MethodProxy;
-import org.springframework.context.ConfigurableApplicationContext;
+import org.slf4j.MDC;
 
 import java.lang.reflect.Method;
-import java.util.Arrays;
 
 /***
  * 客户端接口拦截代理
  * @author pengpeng
  */
 @Slf4j
+@Singleton
 public class ClientApiProxy implements MethodInterceptor {
 
 
-    public void initialize(ConfigurableApplicationContext applicationContext) {
-        Arrays.stream(this.getClass().getFields()).forEach(e->SpringUtil.getBean(e.getClass()));
-    }
+
     /***
      * 此处用以代理实现客户端api调用
      * @param obj "this", the enhanced object
@@ -36,15 +36,14 @@ public class ClientApiProxy implements MethodInterceptor {
      */
     @Override
     public Object intercept(Object obj, Method method, Object[] args, MethodProxy proxy) throws Throwable {
-//        try{
             log.debug(" load apiProxy  prev");
-//            Method getFastClass = ReflectUtil.getMethod(proxy.getClass(), "getFastClass");
-//            getFastClass.setAccessible(true);
-//            FastClass invoke = ReflectUtil.invoke(proxy, getFastClass);
             Protocol protocol = DubboGenericParse.applyMsgProtocol( method, args);
             protocol.setType(IFxMsgProtocol.CLIENT_TO_SERVER_MSG_HEADER);
+            String serverTrace = IdUtil.traceId();
+            protocol.setServerTrace(serverTrace);
             ClientToolkit.getDefaultClientAction().sendJsonMsg(protocol);
-            log.debug(" load apiProxy  prev");
+            MDC.put(CommonConstant.SERVER_TRACE,serverTrace);
+            log.debug(" load apiProxy  prev server trace {}",serverTrace);
         return null;
     }
 

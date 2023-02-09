@@ -3,6 +3,9 @@ package com.ifx.client.util;
 import cn.hutool.core.exceptions.ExceptionUtil;
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.extra.spring.SpringUtil;
+import com.google.inject.Guice;
+import com.google.inject.Injector;
+import com.ifx.client.ann.proxy.ProxyWiredBeanProcessor;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -15,7 +18,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 @Slf4j
 @Component
-public class SpringFxmlLoader {
+public class FxmlLoader {
 
     private final static ConcurrentHashMap<String,Stage> stageMap = new ConcurrentHashMap<>();
     private final static ConcurrentHashMap<String,Scene> sceneMap = new ConcurrentHashMap<>();
@@ -25,16 +28,17 @@ public class SpringFxmlLoader {
         try{
             FXMLLoader fxmlLoader = new FXMLLoader();
             fxmlLoader.setLocation(url);
-            fxmlLoader.setControllerFactory(SpringUtil::getBean);
-            Scene scene = new Scene(fxmlLoader.load());
-            return scene;
+            Injector injector = Guice.createInjector();
+            ProxyWiredBeanProcessor instance = injector.getInstance(ProxyWiredBeanProcessor.class);
+            fxmlLoader.setControllerFactory(instance.proxyBeanProcessor());
+            return new Scene(fxmlLoader.load());
         }
         catch (Exception e){
             log.error("create stage fail {}", ExceptionUtil.stacktraceToString(e));
-//            throw e;
         }
         return null;
     }
+
 
     /***
      * url 加载 fxml 资源为 Scene

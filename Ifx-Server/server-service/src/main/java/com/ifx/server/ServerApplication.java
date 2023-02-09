@@ -29,7 +29,7 @@ public class ServerApplication implements CommandLineRunner {
             new InetSocketAddress(serverNettyConfigProperties.getHost(),
                     serverNettyConfigProperties.getPort()))
             .subscribe(inetSocketAddress -> {
-                TcpNettyServer.getInstance().createServer(inetSocketAddress);
+                TcpNettyServer.getInstance().bind(inetSocketAddress);
                 Runtime.getRuntime().addShutdownHook(new Thread(() -> TcpNettyServer.getInstance().destroy()));
             });
 

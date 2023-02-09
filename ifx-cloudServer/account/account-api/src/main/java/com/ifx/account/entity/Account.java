@@ -44,6 +44,8 @@ public class Account implements Serializable , AccountSPI {
     @TableField(value = "user_name")
     private String userName;
 
+    @TableField(value = "user_nickname")
+    private String userNickName;
 
     /**
      * 密码
@@ -57,11 +59,11 @@ public class Account implements Serializable , AccountSPI {
     @TableField("salt")
     private String salt;
 
-    /**
-     * 出生日期
-     */
-    @TableField("birthday")
-    private Date birthday;
+//    /**
+//     * 出生日期
+//     */
+//    @TableField("birthday")
+//    private Date birthday;
 
 
     /**

@@ -2,8 +2,9 @@ package com.ifx.client.app.controller;
 
 
 import com.ifx.account.vo.AccountVo;
+import com.ifx.client.ann.ProxyService;
 import com.ifx.client.service.helper.AccountHelper;
-import com.ifx.client.util.SpringFxmlLoader;
+import com.ifx.client.util.FxmlLoader;
 import com.ifx.common.base.AccountInfo;
 import com.ifx.common.context.AccountContext;
 import com.ifx.connect.connection.client.ClientToolkit;
@@ -24,10 +25,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.Assert;
 import reactor.core.publisher.Mono;
 
-import javax.annotation.Resource;
 import java.net.URL;
 import java.util.Objects;
 import java.util.ResourceBundle;
+import java.util.Set;
 
 
 @Slf4j
@@ -37,8 +38,8 @@ public class LoginController  implements Initializable {
     @FXML
     private Label account;
 
-    @Resource
-    SessionAccountService sessionAccountService;
+    @ProxyService
+    private SessionAccountService sessionAccountService;
     @FXML
     private TextField accountField;
 
@@ -87,6 +88,8 @@ public class LoginController  implements Initializable {
         AccountVo accountVo = new AccountVo();
         accountVo.setAccount( accountField.getText());
         accountVo.setPassword(passwordField.getText());
+        Set<String> strings = sessionAccountService.listAccBySessionId(1l);
+
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("登录状态");
         alert.contentTextProperty().addListener((a1,a2,a3)-> {
@@ -121,14 +124,14 @@ public class LoginController  implements Initializable {
 
 
     public static void show(){
-        Stage stage = SpringFxmlLoader.applySinStage("com\\ifx\\client\\app\\fxml\\login.fxml");
+        Stage stage = FxmlLoader.applySinStage("com\\ifx\\client\\app\\fxml\\login.fxml");
         log.debug("prepare to show  register");
         stage.show();
         stage.setTitle("注册");
     }
 
     public static  void hide(){
-        Stage stage = SpringFxmlLoader.applySinStage("com\\ifx\\client\\app\\fxml\\login.fxml");
+        Stage stage = FxmlLoader.applySinStage("com\\ifx\\client\\app\\fxml\\login.fxml");
         log.debug("隐藏数据");
         stage.hide();
     }

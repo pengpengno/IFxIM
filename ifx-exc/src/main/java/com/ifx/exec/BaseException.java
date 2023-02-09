@@ -27,6 +27,7 @@ public class BaseException extends RuntimeException{
     }
 
     public BaseException(IErrorMsg errorMsg){
+        super(errorMsg.getErrorMessage());
         this.errorMsg = errorMsg;
     }
     public BaseException(IErrorMsg errorMsg,String detailMsg){

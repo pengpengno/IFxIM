@@ -3,7 +3,7 @@ package com.ifx.connect.task;
 /**
  *
  */
-public interface Task {
+public interface TaskAction {
     /**
      * 获取任务名称
      * @return

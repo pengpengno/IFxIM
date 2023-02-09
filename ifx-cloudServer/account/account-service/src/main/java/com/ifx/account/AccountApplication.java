@@ -7,8 +7,8 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-@MapperScan
-@DubboComponentScan("com.ifx.service.impl")
+@MapperScan("com.ifx.account.mapper")
+@DubboComponentScan("com.ifx.account.service.impl")
 @EnableDubbo
 public class AccountApplication {
     public static void main(String[] args) {

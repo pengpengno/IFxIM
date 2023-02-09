@@ -43,7 +43,7 @@ public class DubboInvoke implements GateInvoke {
     private ApplicationConfig applicationConfig;
 
     public void onApplicationEvent(ContextRefreshedEvent event) {
-        log.info("spring start / update succ ");
+        log.debug("spring start / update succ ");
         //创建注册中心配置
         registryConfig = new RegistryConfig();
         registryConfig.setAddress(address);
@@ -77,16 +77,13 @@ public class DubboInvoke implements GateInvoke {
             //获取结果
             CompletableFuture<Object> future = RpcContext.getServerContext().getCompletableFuture();
             future.whenComplete((value, t) -> {
-
                 Result ok = new Result();
-
 //              用户系统登录处理
                 if (protocol.getType().startsWith(IFxMsgProtocol.LOGIN_MSG_HEADER) && value !=null){
                     log.info("用户登录系统成功，正在建立 channel 绑定关系");
                     nettyContext.addAccount(channel.channel(), JSONObject.parseObject(JSON.toJSONString(value),AccountInfo.class));
                 }
                 ok.setRes(JSON.toJSONString(ok));
-//                protocol.setContent(JSON.toJSONString(ok));
                 protocol.setResult(Result.ok(JSON.toJSONString(ok)));
                 log.info("doWork(whenComplete):  {} " ,JSON.toJSONString(value));
                 server2ClientAction.sendProtoCol(channel.channel(),protocol);
@@ -101,7 +98,6 @@ public class DubboInvoke implements GateInvoke {
     @Override
     public void doException(Throwable e) {
         log.error(ExceptionUtil.stacktraceToString(e));
-
     }
 }
 

@@ -46,28 +46,24 @@ public class NettyClientAction implements ClientAction, ClientLifeStyle {
             return Boolean.TRUE;
         }
         catch (Throwable e ){
-           log.error("服务器链接失败！ {}",ExceptionUtil.stacktraceToString(e));
+//           log.error("服务器链接失败！ {}",ExceptionUtil.stacktraceToString(e));
            throw new NettyException(NetError.REMOTE_NET_CAN_NOT_CONNECT);
         }
     }
 
     @Override
-    public void connect(InetSocketAddress address) throws NetException {
+    public Boolean connect(InetSocketAddress address) throws NetException {
         try {
-            tcpNettyClient.create(address);
+            tcpNettyClient.doOpen(address);
+            return Boolean.TRUE;
         }
-            catch (Throwable e ){
-            log.error("服务器链接失败！ {}",ExceptionUtil.stacktraceToString(e));
-            throw new NettyException(NetError.REMOTE_NET_CAN_NOT_CONNECT);
+        catch (Throwable e ){
+//            log.error("服务器链接失败！ {}",ExceptionUtil.stacktraceToString(e));
+            throw new NetException(NetError.REMOTE_NET_CAN_NOT_CONNECT);
         }
     }
 
-    @Override
-    public void reConnect() {
-        ((Runnable) () -> {
-            reConnectTimeOut(5000L,3);
-        }).run();
-    }
+
 
     public void reConnectBlock() {
         reConnectTimeOut(5000L,3);
@@ -115,12 +111,11 @@ public class NettyClientAction implements ClientAction, ClientLifeStyle {
             log.warn("protocol is  null  no operate  to do ");
             return  Boolean.FALSE;
         }
-//        tcpNettyClient.
         if (tcpNettyClient.getChannel() == null ||
                 !tcpNettyClient.getChannel().isActive()
                ) {
             log.error("netty Channel is close， loading ");
-            reConnect();
+            reTryConnect();
             return  Boolean.FALSE;
         }
 
@@ -138,7 +133,7 @@ public class NettyClientAction implements ClientAction, ClientLifeStyle {
 
     @Override
     public void keepAlive() {
-//        心跳包机制
+//        心跳包机制  此处无需手动实现
         sendJsonMsg(new Protocol(), DefaultHandler.HEART_BEAT_HANDLER);
     }
 
@@ -151,4 +146,6 @@ public class NettyClientAction implements ClientAction, ClientLifeStyle {
         Channel channel = tcpNettyClient.getChannel();
         return channel != null && channel.isActive();
     }
+
+
 }

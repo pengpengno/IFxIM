@@ -64,10 +64,10 @@ public class TcpNettyServer {
                         @Override
                         protected void initChannel(NioSocketChannel ch) {
                             ch.pipeline()
-                                    .addLast(new ProtocolEncoder())
-                                    .addLast(new ProtocolDecoder())
-                                    .addLast(new LoggingHandler())
-                                    .addLast(new ServerServiceParseHandler());
+                            .addLast(new ProtocolEncoder())
+                            .addLast(new ProtocolDecoder())
+                            .addLast(new LoggingHandler())
+                            .addLast(ServerServiceParseHandler.getInstance());
                         }
                     });
             channelFuture = b.bind(address).syncUninterruptibly();
@@ -84,6 +84,10 @@ public class TcpNettyServer {
         return channelFuture;
     }
 
+    /***
+     * reactor-netty 实现
+     * @param address
+     */
     public void createServer(InetSocketAddress address){
         log.info("start netty server ");
         TcpServer tcpServer = TcpServer.create();
@@ -105,7 +109,7 @@ public class TcpNettyServer {
                             .addLast(new LoggingHandler())
                             .addLast(new ProtocolEncoder())
                             .addLast(new ProtocolDecoder())
-                            .addLast(new ServerServiceParseHandler());
+                            .addLast(ServerServiceParseHandler.getInstance());
                 })
                 .bindNow()
                 ;

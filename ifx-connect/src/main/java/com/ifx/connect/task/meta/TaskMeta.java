@@ -3,7 +3,7 @@ package com.ifx.connect.task.meta;
 import com.ifx.connect.task.TaskLifeStyle;
 import com.ifx.connect.task.handler.TaskHandler;
 import lombok.Builder;
-import lombok.Data;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * <br/>任务Task元数据
@@ -11,6 +11,7 @@ import lombok.Data;
  */
 //@Data
 @Builder
+@Slf4j
 public class TaskMeta  implements TaskLifeStyle {
 
     private TaskHandler taskHandler;
@@ -19,23 +20,14 @@ public class TaskMeta  implements TaskLifeStyle {
 
     private String taskId;  // taskUuid
 
-    private TaskMeta next; // 执行链
-
     private TaskState taskState;   // 执行状态
 
     @Override
     public void init() {
-
+        log.debug("初始化任务 \r");
     }
-
-    @Override
-    public void release() {
-
-    }
-
-    @Override
-    public TaskState getState() {
-        return null;
+    public void release(){
+        taskHandler = (protocol)-> log.info("该任务已被释放");
     }
 
 

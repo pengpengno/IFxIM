@@ -48,10 +48,10 @@ public class AccountServiceImpl
             .doFirst(()->ValidatorUtil.validateor(accountVo,ACCOUNTLOGIN.class))
             .subscribe(ac -> {
                 Account account = accountMapper
-                        .selectOne(new LambdaQueryWrapper<Account>().
-                        eq(Account::getAccount, accountVo.getAccount())
-                        .or()
-                        .eq(Account::getEmail, accountVo.getEmail()));
+                .selectOne(new LambdaQueryWrapper<Account>().
+                eq(Account::getAccount, accountVo.getAccount())
+                .or()
+                .eq(Account::getEmail, accountVo.getEmail()));
                 status.set(PasswordUtils.verityPassword(accountVo.getPassword(), account.getSalt(), account.getPwdhash()));
             });
         return status.get();
@@ -81,7 +81,7 @@ public class AccountServiceImpl
                         .eq(Account::getEmail,searchVo.getMail())
                         .or()
                         .like(Account::getAccount, searchVo.getLikeAccount())
-        );
+                        );
         return accounts.stream().map(e -> {
             AccountInfo accountInfo = new AccountInfo();
             BeanUtil.copyProperties(e, accountInfo);

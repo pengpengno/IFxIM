@@ -13,7 +13,7 @@ import java.util.concurrent.ConcurrentHashMap;
 /***
  * 代理工具类
  */
-public class ProxyUtil {
+public class ProxyUtilTest {
 
     public static void proxy(Object o ) {
         Arrays.stream(SearchPane.AccountMiniPane.class.getFields())
@@ -49,16 +49,16 @@ public class ProxyUtil {
 
     private enum INSTANCE{
         INSTANCE;
-        public final ProxyUtil instance ;
+        public final ProxyUtilTest instance ;
         INSTANCE(){
-            instance = new ProxyUtil();
+            instance = new ProxyUtilTest();
         }
-        public static ProxyUtil getInstance(){
+        public static ProxyUtilTest getInstance(){
             return INSTANCE.instance;
         }
     }
-    public static ProxyUtil getInstance(){
-        return ProxyUtil.INSTANCE.getInstance();
+    public static ProxyUtilTest getInstance(){
+        return ProxyUtilTest.INSTANCE.getInstance();
     }
 
 

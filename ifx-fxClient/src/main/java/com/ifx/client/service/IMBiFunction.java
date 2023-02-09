@@ -23,7 +23,8 @@ public interface IMBiFunction<T,U,O> {
      */
     public void  call(Function<?,?> proxyService, TaskHandler taskHandler);
 
-    public default void call (){
+    public default void call (Function<?,?> proxyService){
+//        proxyService
 
     }
 

@@ -8,6 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedDeque;
 import java.util.concurrent.ThreadPoolExecutor;
+
 /**
  * 任务执行的要素
  * 执行时间 执行器 执行逻辑 执行协议实体  执行链 执行结果 执行回调
@@ -15,23 +16,27 @@ import java.util.concurrent.ThreadPoolExecutor;
 @Slf4j
 public class TaskManager {
 
-//    public static TaskHandler defaultTaskHandler = (Task) -> {log.info("执行心跳包！");};
 
     public static Integer TASK_MANAGER_SIZE = 100;   //  客户端总任务池大小
 //     任务上下文管理器
-//    private ConcurrentHashMap<String, ConcurrentLinkedDeque< > taskManager ;
-//    private ConcurrentHashMap<String, ConcurrentLinkedDeque< ? extends TaskMeta>> taskManager ;
+
     private ConcurrentHashMap<String, ConcurrentLinkedDeque<TaskHandler>> taskManager ;
 
 
 
     public synchronized void init(){
-        if (taskManager == null){
-            log.info("正在初始化客户端核心任务管理器");
+        synchronized (taskManager){
+            if (taskManager == null){
+                log.debug("正在初始化客户端核心任务管理器");
                 taskManager = new ConcurrentHashMap<>(TASK_MANAGER_SIZE);
+            }
         }
     }
 
+    /***
+
+     * 重置任务管理器
+     */
     public void reset(){
         log.warn("正在重置客户端核心任务管理器");
         taskManager = new ConcurrentHashMap<>(TASK_MANAGER_SIZE);
@@ -42,11 +47,7 @@ public class TaskManager {
         log.info("正在初始化一个新任务队列");
         return new ConcurrentLinkedDeque<>();
     }
-//
-//    public <T> ConcurrentLinkedDeque<TaskMeta> initTaskDeque(){
-//        log.info("正在初始化一个新任务队列");
-//        return  new ConcurrentLinkedDeque();
-//    }
+
 
     private void attrTask(String key, TaskHandler value){
         init();   //初始化任务管理器
@@ -56,6 +57,11 @@ public class TaskManager {
         taskHandlers.addLast(value);
     }
 
+    /***
+     * 添加 TaskHandler
+     * @param key
+     * @param value
+     */
     public void addTaskHandler(String key, TaskHandler value){
         addTask(key,value);
     }
@@ -99,7 +105,7 @@ public class TaskManager {
     public void doTask(Protocol protocol){
         @SuppressWarnings("all")
         final Protocol pro = protocol;
-        ConcurrentLinkedDeque<TaskHandler> taskHandlers = getTaskHandlers(pro.getToServerTrace());
+        ConcurrentLinkedDeque<TaskHandler> taskHandlers = getTaskHandlers(pro.getServerTrace());
         if (CollectionUtil.isNotEmpty(taskHandlers)){
             while(!taskHandlers.isEmpty()){
                 TaskHandler poll = taskHandlers.poll();
@@ -109,10 +115,24 @@ public class TaskManager {
     }
 
 
-// 指定协议处理
+    // 指定协议处理
     public void doTask(TaskHandler taskHandler, Protocol protocol, ThreadPoolExecutor executor){
         executor.submit(()-> taskHandler.doTask(protocol));
     }
 
+    private enum SingleInstance{
+        INSTANCE;
+        private final TaskManager instance;
+
+        SingleInstance(){
+            instance = new TaskManager();
+        }
+        private TaskManager getInstance(){
+            return instance;
+        }
+    }
+    public static TaskManager getInstance(){
+        return TaskManager.SingleInstance.INSTANCE.getInstance();
+    }
 
 }

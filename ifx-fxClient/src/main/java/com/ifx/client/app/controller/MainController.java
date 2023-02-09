@@ -6,7 +6,7 @@ import com.alibaba.fastjson2.JSON;
 import com.ifx.account.vo.search.AccountSearchVo;
 import com.ifx.client.app.pane.SearchPane;
 import com.ifx.client.service.helper.AccountHelper;
-import com.ifx.client.util.SpringFxmlLoader;
+import com.ifx.client.util.FxmlLoader;
 import com.ifx.common.base.AccountInfo;
 import com.ifx.common.res.Result;
 import com.ifx.connect.connection.client.ClientToolkit;
@@ -26,7 +26,6 @@ import javafx.stage.Stage;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.Resource;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -52,8 +51,8 @@ public class MainController implements Initializable {
 
 
 
-    @Resource
-    private SpringFxmlLoader springFxmlLoader;
+
+    private FxmlLoader fxmlLoader;
 
     @FXML
     private ListView<String> listView;
@@ -146,7 +145,7 @@ public class MainController implements Initializable {
     }
 
     public static void show(){
-        Stage stage = SpringFxmlLoader.applySinStage("com\\ifx\\client\\app\\fxml\\main.fxml");
+        Stage stage = FxmlLoader.applySinStage("com\\ifx\\client\\app\\fxml\\main.fxml");
         log.info("prepare to show  register");
         stage.show();
         stage.setTitle("IFx");

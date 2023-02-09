@@ -1,5 +1,6 @@
 package com.ifx.client.util;
 
+import com.google.inject.Singleton;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.concurrent.ConcurrentHashMap;
@@ -11,6 +12,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * @date 2023/1/30
  */
 @Slf4j
+@Singleton
 public class ServiceContext {
 
     private static ConcurrentHashMap<Object , Object>  serviceContext ;

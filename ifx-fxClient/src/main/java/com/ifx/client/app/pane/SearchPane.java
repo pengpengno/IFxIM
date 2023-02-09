@@ -4,7 +4,7 @@ import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.ReflectUtil;
 import com.alibaba.fastjson2.JSON;
 import com.ifx.client.proxy.ProxyBean;
-import com.ifx.client.util.ProxyUtil;
+import com.ifx.client.util.ProxyUtilTest;
 import com.ifx.common.ann.client.Proxy;
 import com.ifx.common.base.AccountInfo;
 import javafx.fxml.Initializable;
@@ -127,7 +127,7 @@ public class SearchPane extends FlowPane {
 //        1.初始化标签文本
 //        2.初始化容器大小
 //            3. 添加 会话创建能力EventHandler
-            ProxyUtil.proxy(this);
+            ProxyUtilTest.proxy(this);
             name = new Label(accountInfo.getUserName());
             name.setVisible(true);
             name.setLayoutX(20d);

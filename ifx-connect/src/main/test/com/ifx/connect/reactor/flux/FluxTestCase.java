@@ -1,13 +1,17 @@
 package com.ifx.connect.reactor.flux;
 
+import com.ifx.connect.connection.client.ClientToolkit;
+import com.ifx.exec.ex.net.NetException;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import reactor.core.Exceptions;
 import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 import reactor.test.StepVerifier;
 import reactor.util.retry.Retry;
 
+import java.net.InetSocketAddress;
 import java.time.Duration;
 import java.time.LocalTime;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -23,26 +27,45 @@ public class FluxTestCase {
     public void error(){
         AtomicInteger errorCount = new AtomicInteger();
         Flux<String> flux =
-                Flux.<String>error(new Exception("boom"))
+                Flux.<String>error(new NetException("boom"))
                         .doOnError(e -> {
                             errorCount.incrementAndGet();
                             log.info(e + " at  " + LocalTime.now() + errorCount.get());
                         })
-                        .doAfterTerminate(()-> log.info("erminate"))
+                        .doAfterTerminate(()-> log.info("terminate"))
                         .retryWhen(
                                 Retry
                                 .backoff(3, Duration.ofSeconds(1)).jitter(0.3d)
+                                        .filter(throwable -> throwable instanceof NetException)
                                 .doAfterRetry(rs -> log.info("retried at " + LocalTime.now() + ", attempt " + rs.totalRetries()))
                                 .onRetryExhaustedThrow((spec, rs) -> rs.failure())
                         );
         StepVerifier
-                .create(flux)
-                .expectError(Exception.class)
-                .verify();
+            .create(flux)
+//                .verifyComplete()
+                .verifyError()
+
+                ;
+//                .expectError()
+//            .expectError(Exception.class)
+//            .verify()
+        ;
         Assertions.assertEquals(errorCount.get(),4);
 
-
     }
+
+
+@Test
+public void startClient(){
+    Mono.just(ClientToolkit.getDefaultClientLifeStyle())
+            .doOnNext(l-> {
+                InetSocketAddress inetSocketAddress =
+                        new InetSocketAddress("127.0.0.1", 8094);
+                l.reTryConnect(inetSocketAddress);
+            })
+            .subscribe()
+    ;
+}
 
     public static void main(String[] args) {
 

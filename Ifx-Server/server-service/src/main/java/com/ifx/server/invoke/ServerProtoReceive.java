@@ -30,9 +30,8 @@ public class ServerProtoReceive  {
             log.info("执行【dubbo】 方法");
             gateInvoke.doWork(ctx, protocol);
         }
-//        已经使用 了IdleHandler 不用继续使用 心跳包处理
-//        else if (header.startsWith(ProtocolHeaderConst.HEART_BEAT_PROTOCOL_HEADER)){
-//            log.info();
-//        }
     }
+
+
+
 }

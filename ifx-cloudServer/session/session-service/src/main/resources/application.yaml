@@ -1,6 +1,7 @@
 
 dubbo:
   application:
+    protocol: grpc
     name: sessionService
     dump-directory: /home/dump
   consumer:

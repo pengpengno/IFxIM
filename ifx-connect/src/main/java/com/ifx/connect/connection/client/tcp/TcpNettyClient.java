@@ -1,6 +1,6 @@
 package com.ifx.connect.connection.client.tcp;
 
-import com.ifx.connect.handler.client.ClientNettyHandler;
+import com.ifx.connect.handler.client.ClientBusinessHandler;
 import com.ifx.connect.handler.decoder.ProtocolDecoder;
 import com.ifx.connect.handler.encoder.ProtocolEncoder;
 import com.ifx.connect.proto.Protocol;
@@ -76,15 +76,14 @@ public class TcpNettyClient {
         bootstrap.group(group)
                     .channel(NioSocketChannel.class)//实例化一个Channel
                     .remoteAddress(address)
-                    .handler(new ChannelInitializer<SocketChannel>()//进行通道初始化配置
-                    {
+                    .handler(new ChannelInitializer<SocketChannel>(){
                         @Override
                         protected void initChannel(SocketChannel socketChannel) throws Exception
                         {
-                            socketChannel.pipeline()
-                                    .addLast(new ProtocolEncoder())
-                                    .addLast(new ProtocolDecoder())
-                                    .addLast(new ClientNettyHandler())//添加Handler
+                    socketChannel.pipeline()
+                    .addLast(new ProtocolEncoder())
+                    .addLast(new ProtocolDecoder())
+                    .addLast(new ClientBusinessHandler())//添加Handler
                                     ;
                         }
                     });
@@ -95,6 +94,11 @@ public class TcpNettyClient {
 
     }
 
+    /***
+     * reactor-netty的实现
+     * @param address
+     * @return
+     */
     public Boolean create(InetSocketAddress address){
          connection =
                 TcpClient.create()
@@ -106,7 +110,7 @@ public class TcpNettyClient {
                             channel1.pipeline()
                                     .addLast(new ProtocolEncoder())
                                     .addLast(new ProtocolDecoder())
-                                    .addLast(new ClientNettyHandler())//添加Handler
+                                    .addLast(new ClientBusinessHandler())//添加Handler
                                     ;
                             })
                         .connectNow();

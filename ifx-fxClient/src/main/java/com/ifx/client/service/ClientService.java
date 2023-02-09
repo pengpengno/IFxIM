@@ -10,8 +10,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.slf4j.MDC;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
-
 /**
  *
  * @see ClientAction
@@ -22,11 +20,11 @@ import javax.annotation.Resource;
 @Deprecated
 public class ClientService {
 
-    @Resource
+//    @Resource
     private ClientAction clientAction;
 
-    @Resource
-    private TaskManager taskManager;
+//    @Resource
+    private TaskManager taskManager = TaskManager.getInstance();
 
 
     /**
@@ -40,10 +38,9 @@ public class ClientService {
 //       保存 TaskHandler等待回调
         String trace = IdUtil.fastSimpleUUID();
         log.debug("生成的 trace 为 {}",trace);
-        MDC.put(CommonConstant.MDC_TRACE_ID,trace);
-        protocol.setToServerTrace(trace);
+        MDC.put(CommonConstant.CLIENT_TRACE,trace);
+        protocol.setClientTrace(trace);
         taskManager.addTask(trace,taskHandler);
-        clientAction.sendJsonMsg(protocol);
     }
 
     public void defaultSend(){

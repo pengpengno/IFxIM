@@ -108,4 +108,9 @@ public class FluxTest {
                 .expectNext(10)
                 .verifyComplete();
     }
+
+    @Test
+    public void testReconnect(){
+//        StepVerifier
+    }
 }
