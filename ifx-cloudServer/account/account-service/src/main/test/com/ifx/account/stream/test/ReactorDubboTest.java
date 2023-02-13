@@ -25,6 +25,7 @@ public class ReactorDubboTest {
     TestReactorService testReactorService;
     @Test
     public void test(){
+
         testReactorService.getMonoLong(9999l).map(k->k.toString()).doOnNext(log::info).subscribe();
         testReactorService.getMonoLong(null).map(k->k.toString()).doOnNext(log::info).subscribe();
     }
