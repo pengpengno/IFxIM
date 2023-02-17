@@ -16,10 +16,10 @@ import java.util.Set;
  * @date 2023/1/11
  */
 @Slf4j
-public class ValiatorTest {
+public class ValidatorTest {
 
     @Test
-    public void vailator(){
+    public void validator(){
         AccountInfo accountInfo = new AccountInfo();
         Set<ConstraintViolation<AccountInfo>> constraintViolations = ValidatorUtil.validateOne(accountInfo);
         Assertions.assertTrue(CollectionUtil.isNotEmpty(constraintViolations));

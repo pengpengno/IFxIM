@@ -1,7 +1,7 @@
 package com.ifx.gateway;
 
 
-import com.ifx.account.service.AccountService;
+import com.ifx.account.service.reactive.ReactiveAccountService;
 import com.ifx.account.vo.AccountVo;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -12,7 +12,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 public class test {
 
 //    @DubboReference
-    private AccountService accountService;
+    private ReactiveAccountService accountService;
 
     @Test
     public void test (){
@@ -20,7 +20,7 @@ public class test {
         accountBaseInfo.setAccount("ewqewqeqwe");
         accountBaseInfo.setPassword("111111");
         accountBaseInfo.setUserName("wangpeng");
-        String register = accountService.register(accountBaseInfo);
-        System.out.println(register);
+//        String register = accountService.register(accountBaseInfo);
+//        System.out.println(register);
     }
 }

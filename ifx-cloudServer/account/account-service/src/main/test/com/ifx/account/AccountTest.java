@@ -2,7 +2,7 @@ package com.ifx.account;
 
 import com.ifx.account.entity.Account;
 import com.ifx.account.mapstruct.AccountHelper;
-import com.ifx.account.service.AccountService;
+import com.ifx.account.service.reactive.ReactiveAccountService;
 import com.ifx.common.base.AccountInfo;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Assert;
@@ -19,7 +19,7 @@ import javax.annotation.Resource;
 public class AccountTest {
 
     @Resource
-    private AccountService accountService;
+    private ReactiveAccountService accountService;
     @Test
     public  void listAllAccoutInfo(){
 //        List<Map<String, Long>> test = accountService.listAllAccoutInfo();
@@ -34,7 +34,7 @@ public class AccountTest {
         AccountInfo accountInfo = new AccountInfo();
         account.setAccount("sadsadas");
         //when
-        accountInfo = AccountHelper.INSTANCE.trans2Info(account );
+        accountInfo = AccountHelper.INSTANCE.buildAccountInfo(account );
 
         //then
         Assert.assertEquals(accountInfo.getAccount(),account.getAccount());

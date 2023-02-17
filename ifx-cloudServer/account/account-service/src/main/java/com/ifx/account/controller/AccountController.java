@@ -1,29 +1,50 @@
 package com.ifx.account.controller;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.ifx.account.service.reactive.ReactiveAccountService;
+import com.ifx.account.validator.ACCOUNTLOGIN;
+import com.ifx.account.vo.AccountVo;
+import com.ifx.common.base.AccountInfo;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
+import reactor.core.publisher.Mono;
+
 
 /**
  * @author pengpeng
  * @description
  * @date 2023/2/10
  */
-@RequestMapping
-@RestController
+@RestController("account")
+@RequestMapping("/api/account")
+@Slf4j
 public class AccountController {
 
-    @GetMapping("/test/{args}")
-    public String testError(@PathVariable ("args") String args) throws IllegalAccessException {
-        if (args .equals("ill")){
-            throw new IllegalAccessException();
+    @Autowired
+    private ReactiveAccountService accountService;
 
-        } else if (args.equals("exception")) {
-            throw new RuntimeException();
-        }else {
-            return "success";
-        }
+
+    @GetMapping(path = "/{account}")
+    @ResponseStatus(code = HttpStatus.OK)
+    public Mono<AccountInfo> getAccountInfo(@PathVariable("account") String account){
+        log.info("传入的 账户 {}",account);
+//        EntityModel.of(accountService.findByAccount(account), Link.of())
+        return accountService.findByAccount(account).log();
     }
+
+    @PostMapping("/login")
+    public Mono<AccountInfo> login(@RequestBody(required = false) @Validated(value = ACCOUNTLOGIN.class) AccountVo accountVo){
+        return accountService.login(accountVo);
+    }
+
+
+//    @PostMapping
+    @PutMapping(path = "/{account}")
+    public Mono<AccountInfo> register(@RequestBody @Validated AccountVo accountVo){
+        return accountService.register(accountVo);
+    }
+
 
 }

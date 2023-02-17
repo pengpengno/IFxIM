@@ -19,7 +19,7 @@ public class UtilTest {
         AccountInfo accountInfo = new AccountInfo();
         account.setAccount("sadsadas");
         //when
-        accountInfo = AccountHelper.INSTANCE.trans2Info(account );
+        accountInfo = AccountHelper.INSTANCE.buildAccountInfo(account );
         //then
         Assert.assertEquals(accountInfo.getAccount(),account.getAccount());
     }

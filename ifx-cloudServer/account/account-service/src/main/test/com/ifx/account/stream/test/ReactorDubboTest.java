@@ -3,7 +3,6 @@ package com.ifx.account.stream.test;
 import com.ifx.account.AccountApplication;
 import com.ifx.account.service.TestReactorService;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.dubbo.config.annotation.DubboReference;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -21,7 +20,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 public class ReactorDubboTest {
 
 
-    @DubboReference(scope = "local")
     TestReactorService testReactorService;
     @Test
     public void test(){

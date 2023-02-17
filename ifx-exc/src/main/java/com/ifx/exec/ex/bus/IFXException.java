@@ -2,6 +2,7 @@ package com.ifx.exec.ex.bus;
 
 import com.ifx.exec.BaseException;
 import com.ifx.exec.ExceptionMessage;
+import com.ifx.exec.errorMsg.IErrorMsg;
 
 /**
  * @author pengpeng
@@ -9,8 +10,9 @@ import com.ifx.exec.ExceptionMessage;
  */
 public class IFXException extends BaseException {
 
+    private IErrorMsg errorMsg;
 
-
+    private String detailMsg;
 
     public IFXException(ExceptionMessage exceptionMessage) {
         super(exceptionMessage);

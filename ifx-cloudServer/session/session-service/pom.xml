@@ -13,8 +13,8 @@
 
     <properties>
         <ifx.exec.version>1.0-SNAPSHOT</ifx.exec.version>
-        <maven.compiler.source>8</maven.compiler.source>
-        <maven.compiler.target>8</maven.compiler.target>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
     </properties>
     <dependencies>
         <dependency>
