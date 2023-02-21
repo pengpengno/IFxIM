@@ -1,0 +1,3 @@
+logging:
+  level: reactor.netty.channel.ChannelOperations = info
+#    root: info

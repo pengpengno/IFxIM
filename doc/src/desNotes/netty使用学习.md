@@ -40,7 +40,7 @@ public class ServerHandler extends ChannelInboundHandlerAdapter {
 >  自定义客户端Handler
 
 
-```
+```Java
 @Slf4j
 @Component
 @ChannelHandler.Sharable
@@ -74,7 +74,7 @@ public class ClientHandler extends SimpleChannelInboundHandler<ByteBuf> {
 
 > 服务端启动类
 
-```
+```Java
     public ChannelFuture applyChannel(Integer port) throws InterruptedException {
 //            EventLoopGroup bossGroup = new NioEventLoopGroup(); // (1)
 //            EventLoopGroup workerGroup = new NioEventLoopGroup();
@@ -111,7 +111,7 @@ public class ClientHandler extends SimpleChannelInboundHandler<ByteBuf> {
 > 客户端启动类
 
 
-```
+```Java
 
 public class ClientNettyConfig {
 

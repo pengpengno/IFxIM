@@ -1,11 +1,13 @@
 package com.ifx.session.utils;
 
 import cn.hutool.core.exceptions.ExceptionUtil;
+import com.alibaba.fastjson2.JSONObject;
 import com.ifx.common.utils.CacheUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
+
 import javax.annotation.Resource;
 import java.util.Collection;
 import java.util.List;
@@ -14,11 +16,7 @@ import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 /**
- * 代码描述:
- * Copyright: Copyright (C) 2022, Inc. All rights reserved.
- *
- * @author: zixuan.yang
- * @since: 2022/1/16 19:39
+ * 缓存代码工具类
  */
 @Component("Redis")
 @Slf4j
@@ -27,14 +25,7 @@ public final class RedisUtil implements CacheUtil {
 	@Resource
 	private RedisTemplate<String, Object> redisTemplate;
 
-	// =============================common============================
 
-
-
-	@Override
-	public String getStr(String key) {
-		return null;
-	}
 
 	/**
 	 * 指定缓存失效时间
@@ -80,6 +71,7 @@ public final class RedisUtil implements CacheUtil {
 
 	@Override
 	public Boolean expire(String key, Object value, Long expireTime, TimeUnit timeUnit) {
+
 		return null;
 	}
 
@@ -90,11 +82,11 @@ public final class RedisUtil implements CacheUtil {
 	 *            键 不能为null
 	 * @return 时间(秒) 返回0代表为永久有效
 	 */
-	public long getExpire(String key) {
+	public Long getExpire(String key) {
 		return redisTemplate.getExpire(key, TimeUnit.SECONDS);
 	}
 
-	public long getExpire(String key, TimeUnit timeUnit) {
+	public Long getExpire(String key, TimeUnit timeUnit) {
 		return redisTemplate.getExpire(key, timeUnit);
 	}
 	/**
@@ -104,7 +96,7 @@ public final class RedisUtil implements CacheUtil {
 	 *            键
 	 * @return true 存在 false不存在
 	 */
-	public boolean hasKey(String key) {
+	public Boolean hasKey(String key) {
 		try {
 			return redisTemplate.hasKey(key);
 		} catch (Exception e) {
@@ -143,7 +135,26 @@ public final class RedisUtil implements CacheUtil {
 		return key == null ? null : redisTemplate.opsForValue().get(key);
 	}
 
-
+	@Override
+	public <T> T get(String key, Class<T> tclass) {
+		if (key ==null || tclass == null){
+			return null;
+		}
+		@SuppressWarnings("all")
+		final Class<T> cl = tclass;
+		Object target = redisTemplate.opsForValue().get(key);
+		if (target ==null){
+			return null;
+		}
+		try{
+			return JSONObject.parseObject(target.toString(),cl);
+		}
+		catch (Exception ex){
+			log.error("传入 key {} 无法JSON序列化为 {},返回空",key,cl.getName());
+			throw new ClassCastException("无法将类序列化");
+		}
+//		return null;
+	}
 
 	/**
 	 * 普通缓存放入

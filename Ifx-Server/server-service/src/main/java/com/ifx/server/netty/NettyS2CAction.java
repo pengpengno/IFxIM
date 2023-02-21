@@ -20,12 +20,10 @@ public class NettyS2CAction implements IServer2ClientAction {
             log.warn("channel is close can not send message");
           return;
         }
-//         channel.writeAndFlush(Unpooled.copiedBuffer(JSON.toJSONString(protocol), CharsetUtil.UTF_8));
          channel.writeAndFlush(protocol);
     }
 
-    @Override
-    public Boolean hasAccount(Channel channel) {
+    protected Boolean hasAccount( Channel channel) {
         return channel == null && nettyContext.getCurrentAcc(channel)!=null;
     }
 
@@ -38,9 +36,15 @@ public class NettyS2CAction implements IServer2ClientAction {
         return nettyContext.getChannelByAccount(account);
     }
 
-    protected void sendMsg(Channel channel ,String msg){
-
+    /**
+     * <h1>Channel 是否处理存活态</h1>
+     * @param account
+     * @return
+     */
+    public Boolean channelActive(String account){
+        return nettyContext.hasKey(account);
     }
+
 
     @Override
     public void releaseClient(Channel channel) {

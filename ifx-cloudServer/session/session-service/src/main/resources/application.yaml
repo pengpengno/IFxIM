@@ -1,8 +1,9 @@
 
 dubbo:
   application:
+    protocol: grpc
     name: sessionService
-    dump-directory: /data/dump
+    dump-directory: /home/dump
   consumer:
     check: false
   registry:
@@ -12,8 +13,10 @@ dubbo:
   protocol:
     port: 20893
     name: dubbo
-mybatis:
-  mapper-location: classpath*:**/mapper/*.xml
+mybatis-plus:
+  mapper-locations: classpath*:**/mapper/*.xml
+#mybatis:
+#  mapper-location: classpath*:**/mapper/*.xml
 spring:
   data:
     mongodb:

@@ -24,16 +24,8 @@ public class DataSourceConfig {
 
     @Bean
     public SqlSessionTemplate sqlSessionTemplate( DataSource dataSource) throws Exception {
-        SqlSessionTemplate sqlSessionTemplate
-                =new SqlSessionTemplate(sqlSessionFactory(dataSource).getObject(), ExecutorType.BATCH);
-        return sqlSessionTemplate;
+        return new SqlSessionTemplate(sqlSessionFactory(dataSource).getObject(), ExecutorType.BATCH);
     }
-//    @Bean
-//    public MybatisSqlSessionFactoryBean sqlSessionFactoryBean (  DataSource dataSource){
-//        MybatisSqlSessionFactoryBean mpSession = new MybatisSqlSessionFactoryBean();
-//        mpSession.setDataSource(dataSource);
-//        return mpSession;
-//    }
 
     @Bean
     @ConditionalOnMissingBean
@@ -43,6 +35,7 @@ public class DataSourceConfig {
         factory.setDataSource(dataSource);
         return factory;
     }
+
     /**
      * 检查spring容器里是否有对应的bean,有则进行消费
      *

@@ -9,9 +9,9 @@ import org.springframework.stereotype.Component;
 @Data
 public class ServerNettyConfigProperties {
 
-    private Integer port;
+    private Integer port = 8094;
 
-    private String  host;
+    private String  host = "127.0.0.1";
 
     private Integer maxActiveSocket;
 

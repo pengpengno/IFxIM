@@ -3,6 +3,9 @@ package com.ifx.common.context;
 import com.alibaba.ttl.TransmittableThreadLocal;
 import com.ifx.common.base.AccountInfo;
 
+/**
+ * 用户信息上下文
+ */
 public class AccountContext {
     private static final TransmittableThreadLocal<AccountInfo> currentLocal = new TransmittableThreadLocal<>();
 

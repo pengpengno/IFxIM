@@ -1,16 +1,12 @@
 package com.ifx.client.app.pane;
 
-import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.ReflectUtil;
 import com.alibaba.fastjson2.JSON;
 import com.ifx.client.proxy.ProxyBean;
-import com.ifx.client.proxy.ProxyUtil;
+import com.ifx.client.util.ProxyUtilTest;
 import com.ifx.common.ann.client.Proxy;
 import com.ifx.common.base.AccountInfo;
-import com.ifx.common.context.AccountContext;
-import com.ifx.session.service.ISessionAction;
-import com.ifx.session.service.ISessionLifeStyle;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.scene.control.Label;
@@ -18,18 +14,17 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.Pane;
-import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 
-import java.lang.reflect.Field;
 import java.net.URL;
-import java.util.*;
+import java.util.Arrays;
+import java.util.List;
+import java.util.ResourceBundle;
 import java.util.concurrent.ConcurrentHashMap;
 
 
 @Slf4j
 public class SearchPane extends FlowPane {
-
 
 
     private List<AccountInfo> accountInfoList;
@@ -50,6 +45,7 @@ public class SearchPane extends FlowPane {
         return INSTANCE.getInstance();
     }
 
+    @SuppressWarnings(value = "all")
     public void init (){
         clear();
         this.setHgap(5);
@@ -90,18 +86,15 @@ public class SearchPane extends FlowPane {
     /**
      * 用户基本面板
      */
-    @Data
     public static class AccountMiniPane extends Pane implements Initializable {
-        @Proxy
-        public ISessionLifeStyle lifeStyle;
-        @Proxy
-        public ISessionAction sessionAction;
+
 
         public AccountInfo accountInfo;
 
         private Label name;
 
         private ImageView iconView;
+
 
         private AccountMiniPane(){
 
@@ -113,9 +106,11 @@ public class SearchPane extends FlowPane {
         }
 
         @Override
+        @SuppressWarnings(value = "all")
         public void initialize(URL location, ResourceBundle resources) {
 //            init();
             log.info("load {}  account {}" ,this.getClass().getName(),accountInfo);
+
         }
 
         public static void main(String[] args) {
@@ -126,13 +121,13 @@ public class SearchPane extends FlowPane {
                         k.setAccessible(true);
                         ReflectUtil.setFieldValue(accountMiniPane,k,ProxyBean.getProxyBean(k.getType()));
                     });
-            accountMiniPane.getSessionAction().add();
-            System.out.println(accountMiniPane);
         }
 
         public void init(){
 //        1.初始化标签文本
 //        2.初始化容器大小
+//            3. 添加 会话创建能力EventHandler
+            ProxyUtilTest.proxy(this);
             name = new Label(accountInfo.getUserName());
             name.setVisible(true);
             name.setLayoutX(20d);
@@ -140,19 +135,17 @@ public class SearchPane extends FlowPane {
             this.getChildren().add(name);
             this.addEventHandler(MouseEvent.MOUSE_CLICKED,(mouse)->{
                 log.debug("click button the account is {}", JSON.toJSONString(accountInfo));
-                HashSet<String> accountSet = CollectionUtil.newHashSet
-                        (AccountContext.getCurAccount().getAccount(), accountInfo.getAccount());
-                Long sessionId = lifeStyle.initialize(accountSet);
-                log.info("创建session会话 {} ",sessionId);
+//                Protocol protocol = ProtocolHelper.applyDubboProtocol(ISessionLifeStyle.class, "initialize", new Object[]{});
+//                clientService.send(protocol, (res)-> {
+//                    log.info("返回了结果 {}" ,JSON.toJSONString(res));
+////                    创建了xxxx
+//                });
+//                clientService.send(protocol,(proRes)-> {
+//                    log.info ("成功创建会话");
+//                });
             });
             log.info("load {}  account {}" ,this.getClass().getName(),accountInfo);
-            Arrays.stream(this.getClass().getFields())
-                    .filter(e-> ObjectUtil.equal(e.getAnnotatedType().getClass() ,Proxy.class))
-                    .forEach(k-> {
-                        k.setAccessible(true);
-                        ReflectUtil.setFieldValue(this,k, ProxyUtil.getProxy(k.getDeclaringClass()));
-                        log.info("wired pane {} proxy" ,this.getClass().getName());
-                    });
+
         }
 
     }

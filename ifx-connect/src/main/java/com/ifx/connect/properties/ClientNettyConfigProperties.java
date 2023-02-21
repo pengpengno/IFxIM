@@ -7,12 +7,13 @@ import org.springframework.stereotype.Component;
 @Component
 @ConfigurationProperties(prefix = "ifx.connect.netty.client")
 @Data
+
 public class ClientNettyConfigProperties {
 
 //    private String serverHost ;
     private String serverHost = "127.0.0.1";
 
-    private Integer serverPort = 8099 ;
+    private Integer serverPort = 8094 ;
 
     private Integer connectTimeOut;
 

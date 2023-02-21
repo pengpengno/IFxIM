@@ -4,18 +4,23 @@ import com.ifx.session.vo.ChatMsgVo;
 
 import java.util.List;
 
+/***
+ * 消息发送
+ */
 public interface IChatAction {
 
+    /**
+     * <p>推送消息</p>
+     * @param chatMsgVo  消息实体
+     */
+    public void pushMsg(ChatMsgVo chatMsgVo);  //写扩散
 
-    public void pushMsg(String fromAccount,Long sessionId,String msg);
-
-    public void pushMsg(ChatMsgVo chatMsgVo);
 
 
     /**
      * 拉取会话中最新消息
-     * @param fromAccount
-     * @param sessionId
+     * @param fromAccount 发送端账户
+     * @param sessionId 会话Id
      */
     public List<ChatMsgVo> pullMsg(String fromAccount,Long sessionId);
 
@@ -33,6 +38,7 @@ public interface IChatAction {
 
 
 
+    public List<ChatMsgVo> pullHisMsgByQuery(Long sessionId);
 
 
 

@@ -2,6 +2,7 @@ package com.ifx.session.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.ifx.session.entity.Session;
+import com.ifx.session.vo.session.SessionInfoVo;
 
 /**
 * @author HP
@@ -10,10 +11,10 @@ import com.ifx.session.entity.Session;
 */
 public interface SessionService extends IService<Session> {
 
-    /**
-     * 创建会话
-     * @return
-     */
-    Long newSession();
+
+    public Long addorUpSession(SessionInfoVo sessionInfoVo);
+
+
+
 
 }

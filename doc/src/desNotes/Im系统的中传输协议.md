@@ -301,33 +301,7 @@ Descriptor 简化定义如下：
 其中GPBMessageFieldDescription保存了 field 的各种信息，如数据类型、filed 类型、filed id等。除此之外，getSel和setSel为这个 field 在对应类的属性的 setter 和 getter 方法。
 
 mergeFromCodedInputStream:方法的简化版实现如下：
-01
-02
-03
-04
-05
-06
-07
-08
-09
-10
-11
-12
-13
-14
-15
-16
-17
-18
-19
-20
-21
-22
-23
-24
-25
-26
-27
+```
 - (void)mergeFromCodedInputStream:(GPBCodedInputStream *)input
                extensionRegistry:(GPBExtensionRegistry *)extensionRegistry {
  GPBDescriptor *descriptor = [self descriptor]; //生成当前 Message 的`Descriptor`实例
@@ -355,21 +329,16 @@ mergeFromCodedInputStream:方法的简化版实现如下：
      }
   }  // for(i < numFields)
 }
-
+```
 可以看到，descriptor在这里是直接通过 Message 对象中的方法拿到的，而不是通过工厂构造：
-1
-2
-3
-4
-5
-6
+```
 GPBDescriptor *descriptor = [self descriptor];
 
 //`desciptor`方法定义
 - (GPBDescriptor *)descriptor {
  return [[self class] descriptor]; 
 }
-
+```
 这里的descriptor类方法实际上是由GPBMessage的子类具体实现的。
 
 例如在Person这个消息结构中，其descriptor方法定义如下：

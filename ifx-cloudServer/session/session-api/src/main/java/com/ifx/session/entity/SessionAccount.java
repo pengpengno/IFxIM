@@ -4,9 +4,10 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import lombok.Data;
+
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import lombok.Data;
 
 /**
  * 会话账户中间表
@@ -24,22 +25,26 @@ public class SessionAccount implements Serializable {
     /**
      * 会话
      */
-    private Long session_id;
+    private Long sessionId;
 
     /**
      * 会话账号
      */
-    private String account;
+    private Long userId;
 
     /**
      * 创建时间
      */
-    private LocalDateTime create_time;
+    private LocalDateTime createTime;
 
     /**
      * 修改时间
      */
-    private LocalDateTime update_time;
+    private LocalDateTime updateTime;
+
+    private Long createAccount;
+
+    private Long updateAccount;
 
     /**
      * 删除标志

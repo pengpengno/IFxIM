@@ -1,28 +1,51 @@
 package com.ifx.common.res;
 
-import cn.hutool.core.collection.CollectionUtil;
+import cn.hutool.core.util.ObjectUtil;
 import com.alibaba.fastjson2.JSON;
-
+import com.ifx.common.constant.CommonConstant;
+import lombok.Data;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
-
-public class Result<T> implements Serializable {
+@Data
+public class Result implements Serializable {
     private static final long serialVersionUID = 1L;
     private int code;
     private String msg;
-    private String extra;
-    private int total;
-    private int totalpage;
-    private List<T> data;
-    private T resData;
+//    private Object res;
+    private String res;
 
-    public Result() {
-        this.data = new ArrayList();
+    /**
+     * 将返回值 res  JSON序列化成指定的类型的对象
+     * @param t
+     * @return
+     * @param <T>
+     */
+    public  <T>  T getDataAsTClass(Class<T> t) {
+        if (res == null){
+            return null;
+        }
+//        T objects = JSON.parseObject(res, t);
+        return JSON.parseObject(res, t);
     }
-
-    public void addData(T element) {
-        this.data.add(element);
+    public String getDataAsString(){
+        return res;
+    }
+    public  <T> Collection<T>  getCollection(Class<T> t) {
+        return JSON.parseArray(res.toString(), t);
+    }
+    /**
+     * 将返回值 res  JSON序列化成指定的类型的对象List
+     * @param t
+     * @return
+     * @param <T>
+     */
+    public  <T> List<T>  getDataAsList(Class<T> t) {
+        if (res == null){
+            return null;
+        }
+        return JSON.parseArray(res.toString(), t);
     }
 
     public int getCode() {
@@ -40,70 +63,21 @@ public class Result<T> implements Serializable {
     public void setMsg(String msg) {
         this.msg = msg;
     }
-
-    public String getExtra() {
-        return this.extra;
+    public void setRes(String res){
+        if (ObjectUtil.isNull(code)){
+            code = CommonConstant.SUCCESS_CODE;
+        }
+        if (msg == null){
+            msg =   CommonConstant.SUCCESS_MSG;
+        }
+       this.res = res;
     }
-
-    public void setExtra(String extra) {
-        this.extra = extra;
-    }
-
-    public int getTotal() {
-        return this.total;
-    }
-
-    public void setTotal(int total) {
-        this.total = total;
-    }
-
-    public List<T> getData() {
-        return this.data;
-    }
-    public List<T> getData(Class<T> tclass){
-        String jsonString = JSON.toJSONString(data);
-        return JSON.parseArray(jsonString,tclass);
-
-    }
-
-    public void setData(List<T> data) {
-        this.data = data;
-    }
-
-    public int getTotalpage() {
-        return this.totalpage;
-    }
-
-    public void setTotalpage(int totalpage) {
-        this.totalpage = totalpage;
-    }
-
-    public Result(Result.Builder<T> tBuilder) {
-        this.code = tBuilder._code;
-        this.msg = tBuilder._msg;
-        this.extra = tBuilder._extra;
-        this.total = tBuilder._total;
-        this.totalpage = tBuilder._totalpage;
-        this.data = tBuilder._data;
-    }
-
-    public static <T> Result<T> ok() {
-        Result<T> Result = new Result();
-        Result.setCode(0);
-        return Result;
-    }
-    public static <T> Result<T> ok(T data) {
-        Result<T> Result = new Result();
-        Result.setCode(0);
-        Result.setData(CollectionUtil.newArrayList(data));
-        return Result;
-    }
-
-    public static <T> Result<T> ok(List<T> data) {
-        Result<T> Result = new Result();
-        Result.setCode(0);
-        Result.setData(data);
-        return Result;
+    public static Result ok(String res){
+        Result result = new Result();
+        result.setCode( CommonConstant.SUCCESS_CODE);
+        result.setMsg(CommonConstant.SUCCESS_MSG);
+        result.setRes(res);
+        return result;
     }
 
     public static <T> Result.Builder<T> builder() {
@@ -135,20 +109,6 @@ public class Result<T> implements Serializable {
             return this;
         }
 
-        public Result.Builder<T> setExtra(String extra) {
-            this._extra = extra;
-            return this;
-        }
-
-        public Result.Builder<T> setTotal(int total) {
-            this._total = total;
-            return this;
-        }
-
-        public Result.Builder<T> setTotalpage(int totalpage) {
-            this._totalpage = totalpage;
-            return this;
-        }
 
         public Result.Builder<T> setData(List<T> data) {
             this._data = data;
@@ -164,8 +124,5 @@ public class Result<T> implements Serializable {
             return this;
         }
 
-        public Result<T> build() {
-            return new Result(this);
-        }
     }
 }
