@@ -1,5 +1,7 @@
 package com.ifx.account.webflux.Controller;
 
+import com.ifx.account.vaild.Acc;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import reactor.core.publisher.Mono;
@@ -18,6 +20,16 @@ public class AccountController {
     public Mono<String> getAccount(){
         return Mono.just("my first webFlux");
     }
+
+
+
+
+    @RequestMapping(method = RequestMethod.GET,path = "/acc")
+    public Mono<String> testAcc(@Validated Acc acc){
+        return Mono.just("my first webFlux");
+    }
+
+
 
 
 }

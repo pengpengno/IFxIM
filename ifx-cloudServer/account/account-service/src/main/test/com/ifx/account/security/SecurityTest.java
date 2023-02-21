@@ -1,7 +1,7 @@
 package com.ifx.account.security;
 
 import org.junit.Test;
-import org.springframework.security.access.prepost.PreAuthorize;
+//import org.springframework.security.access.prepost.PreAuthorize;
 
 /**
  * @author pengpeng
@@ -10,7 +10,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
  */
 public class SecurityTest {
     @Test
-    @PreAuthorize("authenticated")
+//    @PreAuthorize("authenticated")
     public void test(){
 
     }

@@ -1,9 +1,11 @@
 package com.ifx.account.entity;
 
+import lombok.Data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.relational.core.mapping.Column;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 /**
@@ -11,7 +13,8 @@ import java.time.LocalDateTime;
  * @description
  * @date 2023/2/17
  */
-public class BaseEntity {
+@Data
+public class BaseEntity implements Serializable {
     @Id
     private Long id;
     /**

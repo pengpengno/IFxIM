@@ -28,7 +28,7 @@ public class ValidatorUtil {
 //     */
 //    public static <T> List<String> validateOutString(T t , Class<?>... group) {
 //        ArrayList<String> list = CollectionUtil.newArrayList();
-//        Mono.just(Validation.buildDefaultValidatorFactory().getValidator())
+//        Mono.just(Validation.buil野餐dDefaultValidatorFactory().getValidator())
 //                .doOnError(Mono::error)
 //                .flatMap(validator -> Mono.just(validator.validate(t,group)))
 //                .onErrorResume(Exception.class,exception -> Mono.just(CollectionUtil.newHashSet()))

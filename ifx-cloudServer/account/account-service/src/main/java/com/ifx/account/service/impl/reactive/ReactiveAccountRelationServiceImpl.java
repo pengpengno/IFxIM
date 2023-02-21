@@ -4,8 +4,6 @@ import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.StrUtil;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
-import com.google.common.cache.CacheLoader;
-import com.google.common.cache.LoadingCache;
 import com.ifx.account.entity.AccountRelation;
 import com.ifx.account.service.reactive.ReactiveAccountRelationService;
 import com.ifx.account.vo.AccountRelationVo;
@@ -15,7 +13,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.jgrapht.Graph;
 import org.jgrapht.graph.DefaultEdge;
 import org.jgrapht.graph.DirectedMultigraph;
-import org.reactivestreams.Publisher;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.BeanPostProcessor;
@@ -46,7 +43,7 @@ public class ReactiveAccountRelationServiceImpl implements ReactiveAccountRelati
     @Autowired
     private R2dbcEntityTemplate r2dbcEntityTemplate;
 
-    @Autowired
+//    @Autowired
     private ReactiveRedisTemplate<String,Object> redisTemplate;
 
 
@@ -241,7 +238,7 @@ public class ReactiveAccountRelationServiceImpl implements ReactiveAccountRelati
     private Mono<Long> addNewRelation(AccountRelationVo accountVo){
         AccountRelation accountRelation = vo2Entity(accountVo).get();
         log.debug("添加了用户{} 的关系 {} ,行 id 为 {}",accountVo,accountVo.getRelations(),accountRelation.getId());
-        accountRelationMapper.insert(accountRelation);
+//        accountRelationMapper.insert(accountRelation);
         return Mono.just(accountRelation.getId());
 
     }
@@ -277,7 +274,7 @@ public class ReactiveAccountRelationServiceImpl implements ReactiveAccountRelati
      * @param relations
      */
     private void addRelationData2Cache(String accountVo,Set<String> relations){
-        redisCache.set(RELATION_CACHE_KEY_PREFIX+accountVo,setRelation2Str(relations));
+//        redisCache.set(RELATION_CACHE_KEY_PREFIX+accountVo,setRelation2Str(relations));
     }
 
 

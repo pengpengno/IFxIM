@@ -15,7 +15,7 @@ public interface AccountSPI {
     public String accountId() ;
 
 
-    public String getAccountName();
+    public String accountName();
 
 
 

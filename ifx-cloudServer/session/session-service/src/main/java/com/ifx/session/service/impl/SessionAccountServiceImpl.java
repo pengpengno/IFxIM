@@ -62,7 +62,7 @@ public class SessionAccountServiceImpl extends ServiceImpl<SessionAccountMapper,
 
     @Override
     public SessionAccount addAcc2Session(SessionAccountVo createVo) {
-        ValidatorUtil.validateor(createVo, SessionAccountAdd.class);
+        ValidatorUtil.validateOne(createVo, SessionAccountAdd.class);
         return addAcc2Session0(createVo);
     }
 

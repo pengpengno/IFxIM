@@ -11,14 +11,12 @@ import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import javax.annotation.Resource;
-
 @SpringBootTest(classes = {AccountApplication.class})
 @RunWith(SpringJUnit4ClassRunner.class)
 @Slf4j
 public class AccountTest {
 
-    @Resource
+//    @Resource
     private ReactiveAccountService accountService;
     @Test
     public  void listAllAccoutInfo(){
@@ -31,7 +29,7 @@ public class AccountTest {
     public void testMapperInfo(){
         //given
         Account account = new Account(  );
-        AccountInfo accountInfo = new AccountInfo();
+        AccountInfo accountInfo =AccountInfo.builder().build();
         account.setAccount("sadsadas");
         //when
         accountInfo = AccountHelper.INSTANCE.buildAccountInfo(account );

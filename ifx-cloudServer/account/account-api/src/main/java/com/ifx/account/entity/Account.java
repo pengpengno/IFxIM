@@ -14,8 +14,7 @@ import java.io.Serializable;
  */
 @Data
 @Table("account")
-public class Account implements Serializable , AccountSPI {
-
+public class Account extends BaseEntity implements Serializable , AccountSPI {
 
 
     /**
@@ -66,7 +65,7 @@ public class Account implements Serializable , AccountSPI {
     }
 
     @Override
-    public String getAccountName() {
+    public String accountName() {
         return userName;
     }
 }

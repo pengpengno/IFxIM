@@ -16,7 +16,7 @@ public class UtilTest {
     public void testMapperInfo(){
         //given
         Account account = new Account(  );
-        AccountInfo accountInfo = new AccountInfo();
+        AccountInfo accountInfo = AccountInfo.builder().build();
         account.setAccount("sadsadas");
         //when
         accountInfo = AccountHelper.INSTANCE.buildAccountInfo(account );

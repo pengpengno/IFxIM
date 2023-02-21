@@ -13,7 +13,7 @@ import java.io.Serializable;
 @Data
 public class AccountVo implements Serializable , AccountSPI {
 
-    private String userId;
+    private Long userId;
     @NotNull(message = "账户不可为空！",groups = ACCOUNTLOGIN.class)
 
     private String account;
@@ -30,7 +30,7 @@ public class AccountVo implements Serializable , AccountSPI {
     }
 
     @Override
-    public String getAccountName() {
+    public String accountName() {
         return userName;
     }
 }

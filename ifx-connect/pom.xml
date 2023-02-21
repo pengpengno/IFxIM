@@ -64,13 +64,7 @@
             <groupId>io.projectreactor</groupId>
             <artifactId>reactor-test</artifactId>
         </dependency>
-        <!-- https://mvnrepository.com/artifact/org.glassfish/javax.el -->
-        <dependency>
-            <groupId>org.glassfish</groupId>
-            <artifactId>javax.el</artifactId>
-            <version>3.0.0</version>
-            <scope>compile</scope>
-        </dependency>
+
 
         <dependency>
             <groupId>cn.hutool</groupId>
