@@ -1,0 +1,6 @@
+ifx:
+  connect:
+    client:
+      serverHost: localhost
+      serverPort: 9087
+      connectTimeOut: 60000

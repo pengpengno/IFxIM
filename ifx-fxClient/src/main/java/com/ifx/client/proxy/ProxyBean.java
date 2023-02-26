@@ -4,13 +4,10 @@ import com.ifx.client.util.IdUtil;
 import com.ifx.connect.connection.client.ClientToolkit;
 import com.ifx.connect.proto.Protocol;
 import com.ifx.connect.task.handler.TaskHandler;
-import com.ifx.session.service.SessionAccountService;
-import com.ifx.session.vo.session.SessionAccountVo;
 import lombok.extern.slf4j.Slf4j;
 import net.sf.cglib.proxy.Enhancer;
 import net.sf.cglib.proxy.FixedValue;
 
-import javax.annotation.Resource;
 import java.util.function.Function;
 
 
@@ -21,8 +18,6 @@ import java.util.function.Function;
 @Deprecated
 public class ProxyBean {
 
-    @Resource
-    private SessionAccountService sessionAccountService;
     @SuppressWarnings(value = "all")
     public static <T> T getProxyBean(Class<T> tClass){
         Enhancer enhancer = new Enhancer();
@@ -44,9 +39,5 @@ public class ProxyBean {
 
     }
 
-
-    public  void s(){
-        proxy((k)->sessionAccountService.addAcc2Session(new SessionAccountVo()), Protocol::getResult);
-    }
 
 }

@@ -15,6 +15,8 @@
 server:
   port: 8001
 spring:
+  application:
+    name: ifx-server
 #  security:
 #    oauth2:
 #      client:
@@ -24,19 +26,16 @@ spring:
 #          google:
 #            client-id: google-client-id
 #            client-secret: google-client-secret
-  neo4j:
-
   r2dbc:
     url: r2dbc:mysql://124.221.168.200:3306/ifx?useUnicode=true&characterEncoding=utf-8&txcAppName=account&useSSL=true
     username: ifx
     password: ifx2022
     pool:
-      enabled: true
+#      enabled: true
       initial-size: 100
       max-size: 200
       max-idle-time: 30m
       validation-query: SELECT 1
-
   data:
     mongodb:
       host: 124.221.168.200
@@ -50,5 +49,3 @@ spring:
 #      password: ifx2022
 #      url: jdbc:mysql://124.221.168.200/ifx?useUnicode=true&characterEncoding=utf-8&txcAppName=account&useSSL=true
 #      driver-class-name: com.mysql.cj.jdbc.Driver
-  application:
-    name: ifx-server

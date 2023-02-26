@@ -5,14 +5,12 @@ import com.ifx.account.mapstruct.AccountHelper;
 import com.ifx.account.service.reactive.ReactiveAccountService;
 import com.ifx.common.base.AccountInfo;
 import lombok.extern.slf4j.Slf4j;
-import org.junit.Assert;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 @SpringBootTest(classes = {AccountApplication.class})
-@RunWith(SpringJUnit4ClassRunner.class)
+//@RunWith(SpringJUnit4ClassRunner.class)
 @Slf4j
 public class AccountTest {
 
@@ -35,6 +33,6 @@ public class AccountTest {
         accountInfo = AccountHelper.INSTANCE.buildAccountInfo(account );
 
         //then
-        Assert.assertEquals(accountInfo.getAccount(),account.getAccount());
+        Assertions.assertEquals(accountInfo.getAccount(),account.getAccount());
     }
 }

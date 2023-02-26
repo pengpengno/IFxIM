@@ -1,5 +1,7 @@
 package com.ifx.account.controller;
 
+import com.alibaba.fastjson2.JSON;
+import com.ifx.account.route.accout.AccRoute;
 import com.ifx.account.service.reactive.ReactiveAccountService;
 import com.ifx.account.validator.ACCOUNTLOGIN;
 import com.ifx.account.vo.AccountVo;
@@ -21,9 +23,8 @@ import reactor.core.publisher.Mono;
  * @date 2023/2/10
  */
 @RestController("account")
-@RequestMapping("/api/account")
+@RequestMapping(AccRoute.ACCOUNT_ROUTE)
 @Slf4j
-//@Valid
 @Validated
 public class AccountController {
 
@@ -36,7 +37,7 @@ public class AccountController {
     public Mono<AccountInfo> getAccountInfo(@PathVariable("account") String account){
         log.info("传入的 账户 {}",account);
 //        EntityModel.of(accountService.findByAccount(account), Link.of())
-        return accountService.findByAccount(account).log();
+        return accountService.findByAccount(account);
     }
 
 
@@ -45,7 +46,7 @@ public class AccountController {
     public Mono<AccountInfo> test( @RequestParam(required = false) @NotNull(message = "account not be null") String account){
         log.info("传入的 账户 {}",account);
 //        EntityModel.of(accountService.findByAccount(account), Link.of())
-        return accountService.findByAccount(account).log();
+        return accountService.findByAccount(account);
     }
 
 
@@ -61,15 +62,16 @@ public class AccountController {
 
 
     @PostMapping("/login")
-    public Mono<AccountInfo> login(@RequestBody(required = false) @Validated(value = ACCOUNTLOGIN.class) AccountVo accountVo){
+    public Mono<AccountInfo> login(@RequestBody @Validated(value = ACCOUNTLOGIN.class) AccountVo accountVo){
         return accountService.login(accountVo);
     }
 
 
 //    @PostMapping
-    @PutMapping(path = "/{account}")
-    public Mono<AccountInfo> register(@RequestBody @Validated AccountVo accountVo){
-        return accountService.register(accountVo);
+    @PostMapping(path = "/register")
+    public Mono<AccountInfo> register(@RequestBody @Valid() AccountVo accountVo){
+        log.info(" {} ", JSON.toJSONString(accountVo));
+        return accountService.register(accountVo).log();
     }
 
 

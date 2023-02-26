@@ -15,7 +15,6 @@ public class AccountVo implements Serializable , AccountSPI {
 
     private Long userId;
     @NotNull(message = "账户不可为空！",groups = ACCOUNTLOGIN.class)
-
     private String account;
 
     private String userName;   // 用户姓名

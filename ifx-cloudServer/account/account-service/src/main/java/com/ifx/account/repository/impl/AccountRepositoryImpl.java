@@ -16,7 +16,7 @@ import reactor.core.publisher.Mono;
  */
 
 @Repository
-public class AccountRepositoryImpl {
+public class AccountRepositoryImpl  {
     @Autowired
     private DatabaseClient databaseClient;
     @Autowired

@@ -3,7 +3,6 @@ package com.ifx.session.vo;
 import com.ifx.common.base.AccountInfo;
 import com.ifx.session.valiator.ChatPush;
 import lombok.Data;
-
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 @Data

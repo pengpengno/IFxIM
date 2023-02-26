@@ -12,8 +12,8 @@
     <artifactId>ifx-starter</artifactId>
     <version>1.0-SNAPSHOT</version>
     <properties>
-        <maven.compiler.source>17</maven.compiler.source>
-        <maven.compiler.target>17</maven.compiler.target>
+        <ifx.maven.compiler.source>17</ifx.maven.compiler.source>
+        <ifx.maven.compiler.target>17</ifx.maven.compiler.target>
 <!--        <spring.starter.version>2.3.7.RELEASE</spring.starter.version>-->
         <spring.starter.version>2.3.3.RELEASE</spring.starter.version>
         <dubbo.starter.version>3.0.5</dubbo.starter.version>

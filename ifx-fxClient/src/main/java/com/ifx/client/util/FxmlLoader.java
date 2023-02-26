@@ -5,6 +5,7 @@ import cn.hutool.core.io.FileUtil;
 import cn.hutool.extra.spring.SpringUtil;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
+import com.ifx.client.ClientApplication;
 import com.ifx.client.ann.proxy.ProxyWiredBeanProcessor;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -12,6 +13,7 @@ import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
+import org.springframework.util.Assert;
 
 import java.net.URL;
 import java.util.concurrent.ConcurrentHashMap;
@@ -38,6 +40,29 @@ public class FxmlLoader {
         }
         return null;
     }
+
+
+    /***
+     * 根据给定路径加载fxml
+     * @param path
+     * @return
+     */
+    private static Scene applySceneSpring(String path) {
+        try{
+            Assert.notNull(path,"指定路径不可为空！");
+            FXMLLoader fxmlLoader = new FXMLLoader(ClientApplication.class.getResource(path));
+            Injector injector = Guice.createInjector();
+            ProxyWiredBeanProcessor instance = injector.getInstance(ProxyWiredBeanProcessor.class);
+            fxmlLoader.setControllerFactory(instance.proxyBeanProcessor());
+            fxmlLoader.setControllerFactory(SpringUtil::getBean);
+            return new Scene(fxmlLoader.load());
+        }
+        catch (Exception e){
+            log.error("create stage fail {}", ExceptionUtil.stacktraceToString(e));
+        }
+        return null;
+    }
+
 
 
     /***
@@ -103,6 +128,27 @@ public class FxmlLoader {
         return resStage;
     }
 
+    /**
+     * 获取单例的 Stage
+     * @param classPath
+     * @return
+     */
+    public static Stage applySinStageSpring(String classPath){
+        Stage resStage = stageMap.computeIfAbsent(classPath, (path) -> {
+            Stage stage = new Stage();
+            Scene scene = applySceneSpring(classPath);
+            stage.setScene(scene);
+            return stage;
+        });
+//        if windows is do close request  handler will close
+        resStage.addEventHandler(WindowEvent.WINDOW_CLOSE_REQUEST,(evt)-> {
+            log.debug("{} frame  is doing {} event",evt.getSource(),evt.getEventType());
+            stageMap.remove(classPath);
+        });
+
+        stageMap.put(classPath,resStage);
+        return resStage;
+    }
 
 
 

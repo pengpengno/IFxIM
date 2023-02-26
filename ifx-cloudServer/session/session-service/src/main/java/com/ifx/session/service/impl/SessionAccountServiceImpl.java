@@ -14,6 +14,7 @@ import com.ifx.session.mapstruct.SessionAccMap;
 import com.ifx.session.service.SessionAccountService;
 import com.ifx.session.valiator.SessionAccountAdd;
 import com.ifx.session.vo.session.SessionAccountVo;
+import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.annotation.DubboService;
 import org.springframework.stereotype.Service;
@@ -30,15 +31,10 @@ import java.util.stream.Collectors;
 */
 @Service
 @Slf4j
-@DubboService
-public class SessionAccountServiceImpl extends ServiceImpl<SessionAccountMapper, SessionAccount>
-    implements SessionAccountService{
+public class SessionAccountServiceImpl implements SessionAccountService{
 
     @Resource
     private ReactiveAccountService accountService;
-
-    @Resource
-    private SessionAccountMapper mapper;
 
     @Resource(name = "Redis")
     private CacheUtil cache;

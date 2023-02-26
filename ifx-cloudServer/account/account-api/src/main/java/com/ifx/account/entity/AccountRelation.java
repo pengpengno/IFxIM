@@ -1,6 +1,7 @@
 package com.ifx.account.entity;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import org.springframework.data.relational.core.mapping.Column;
 import org.springframework.data.relational.core.mapping.Table;
 
@@ -11,6 +12,7 @@ import java.io.Serializable;
  * @TableName account_relation
  */
 //@TableName(value ="account_relation")
+@EqualsAndHashCode(callSuper = true)
 @Data
 @Table("account_relation")
 public class AccountRelation extends BaseEntity implements Serializable {
@@ -30,6 +32,4 @@ public class AccountRelation extends BaseEntity implements Serializable {
 
 
 
-//    @TableField(exist = false)
-    private static final long serialVersionUID = 1L;
 }

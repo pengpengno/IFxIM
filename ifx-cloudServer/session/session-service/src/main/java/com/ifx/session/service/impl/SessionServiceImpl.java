@@ -5,14 +5,21 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.ifx.common.utils.CacheUtil;
 import com.ifx.session.entity.Session;
 import com.ifx.session.mapper.SessionMapper;
+import com.ifx.session.mapstruct.SessionMapper;
 import com.ifx.session.service.SessionService;
 import com.ifx.session.vo.session.SessionInfoVo;
+import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.annotation.DubboService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.r2dbc.core.R2dbcEntityTemplate;
+import org.springframework.data.redis.core.ReactiveRedisTemplate;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
+import reactor.core.publisher.Mono;
 
 import javax.annotation.Resource;
+import java.util.function.Supplier;
 
 /**
 * @author HP
@@ -20,12 +27,9 @@ import javax.annotation.Resource;
 * @createDate 2022-09-28 16:23:47
 */
 @Service
-@DubboService
 @Slf4j
-public class SessionServiceImpl extends ServiceImpl<SessionMapper, Session>
+public class SessionServiceImpl extends
         implements SessionService {
-    @Resource
-    private RedisTemplate<String, Object> redisTemplate;
 
     @Resource(name = "Redis")
     private CacheUtil cacheUtil;
@@ -36,17 +40,27 @@ public class SessionServiceImpl extends ServiceImpl<SessionMapper, Session>
     @Resource
     private SessionMapper mapper;
 
+    @Autowired
+    private R2dbcEntityTemplate r2dbcEntityTemplate;
+
+    @Resource
+    private ReactiveRedisTemplate<String,Object> redisTemplate;
+
     @Override
-    public Long addorUpSession(SessionInfoVo sessionInfoVo) {
-        Session transform = com.ifx.session.mapstruct.SessionMapper.INSTANCE.transform(sessionInfoVo);
-        if (transform.getSessionId()!=null){
-            transform.setId(IdUtil.getSnowflakeNextId());
-            mapper.insert(transform);
-            return transform.getId();
-        }else {
-            mapper.updateById(transform);
-        }
-        return transform.getId();
+    public Mono<Long> post2Session(SessionInfoVo sessionInfoVo) {
+        return Mono.just(sessionInfoVo)
+            .map(SessionMapper.INSTANCE::transform)
+                .flatMap(session ->{
+                    Supplier<Long> id = session.getSessionId()==null? () -> {
+                        session.setId(IdUtil.getSnowflakeNextId());
+                        r2dbcEntityTemplate.insert(session);
+                        return session.getSessionId();
+                    } : ()-> {
+                        r2dbcEntityTemplate.update(session);
+                        return session.getId();
+                    };
+                    return Mono.just(id.get());
+                });
     }
 
 }

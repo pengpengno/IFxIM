@@ -1,25 +1,17 @@
 package com.ifx.session.entity;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
-import java.io.Serializable;
-import java.time.LocalDateTime;
 import lombok.Data;
+import org.springframework.data.relational.core.mapping.Table;
+
+import java.io.Serializable;
 
 /**
  * 会话信息表
  * @TableName session_chat
  */
-@TableName(value ="session_chat")
+@Table(value ="session_chat")
 @Data
-public class SessionChat implements Serializable {
-    /**
-     * 
-     */
-    @TableId(type = IdType.AUTO)
-    private Long id;
+public class SessionChat extends BaseEntity implements Serializable {
 
     /**
      * 会话
@@ -46,36 +38,5 @@ public class SessionChat implements Serializable {
      */
     private String call_back_status;
 
-    /**
-     * 创建会话账号
-     */
-    private String create_account;
 
-    /**
-     * 更新会话账号
-     */
-    private String update_account;
-
-    /**
-     * 创建时间
-     */
-    private LocalDateTime create_time;
-
-    /**
-     * 修改时间
-     */
-    private LocalDateTime update_time;
-
-    /**
-     * 删除标志
-     */
-    private Integer active;
-
-    /**
-     * 版本
-     */
-    private Integer version;
-
-    @TableField(exist = false)
-    private static final long serialVersionUID = 1L;
 }

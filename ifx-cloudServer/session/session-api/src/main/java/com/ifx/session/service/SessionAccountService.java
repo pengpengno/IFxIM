@@ -1,24 +1,24 @@
 package com.ifx.session.service;
 
-import com.baomidou.mybatisplus.extension.service.IService;
+
 import com.ifx.session.entity.SessionAccount;
 import com.ifx.session.vo.session.SessionAccountVo;
-
-import java.util.Set;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 /**
 * @author HP
 * @description 针对表【session_account(会话账户中间表)】的数据库操作Service
 * @createDate 2022-09-28 16:35:38
 */
-public interface SessionAccountService extends IService<SessionAccount> {
+public interface SessionAccountService  {
 
     /***
      * 查询会话下所有的用户id
      * @param sessionId
      * @return
      */
-    Set<String> listAccBySessionId(Long sessionId);
+    Flux<String> listAccBySessionId(Long sessionId);
 
 
     /***
@@ -26,7 +26,7 @@ public interface SessionAccountService extends IService<SessionAccount> {
      * @param sessionAccountVo
      * @return
      */
-    SessionAccount addAcc2Session(SessionAccountVo sessionAccountVo);
+    Mono<SessionAccount> addAcc2Session(SessionAccountVo sessionAccountVo);
 
 
 

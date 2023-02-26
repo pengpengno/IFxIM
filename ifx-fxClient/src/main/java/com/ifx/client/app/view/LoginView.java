@@ -2,7 +2,6 @@ package com.ifx.client.app.view;
 
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.extra.spring.SpringUtil;
-import io.reactivex.rxjava3.core.Flowable;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -10,7 +9,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.function.Supplier;
 @Slf4j
@@ -30,9 +28,6 @@ public class LoginView implements FrameView{
         stage.setScene(scene);
         this.stage = stage;
         return stage;
-    }
-    public static void main(String[] args) {
-        Flowable.just("Hello world").subscribe(s->log.info(s));
     }
     @Override
     public void show(Supplier<? extends FrameView> supplier) {

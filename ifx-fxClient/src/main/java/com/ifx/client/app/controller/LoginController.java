@@ -2,16 +2,9 @@ package com.ifx.client.app.controller;
 
 
 import com.ifx.account.vo.AccountVo;
-import com.ifx.client.ann.ProxyService;
 import com.ifx.client.service.helper.AccountHelper;
 import com.ifx.client.util.FxmlLoader;
-import com.ifx.common.base.AccountInfo;
-import com.ifx.common.context.AccountContext;
-import com.ifx.connect.connection.client.ClientToolkit;
 import com.ifx.connect.proto.Protocol;
-import com.ifx.connect.proto.parse.ProtocolResultParser;
-import com.ifx.connect.task.handler.TaskHandler;
-import com.ifx.session.service.SessionAccountService;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -22,24 +15,21 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.util.Assert;
-import reactor.core.publisher.Mono;
+import org.springframework.http.MediaType;
+import org.springframework.http.client.reactive.ReactorClientHttpConnector;
+import org.springframework.web.reactive.function.client.WebClient;
+import reactor.netty.http.client.HttpClient;
 
 import java.net.URL;
-import java.util.Objects;
 import java.util.ResourceBundle;
-import java.util.Set;
 
 
 @Slf4j
 public class LoginController  implements Initializable {
 
-
     @FXML
     private Label account;
 
-    @ProxyService
-    private SessionAccountService sessionAccountService;
     @FXML
     private TextField accountField;
 
@@ -85,28 +75,57 @@ public class LoginController  implements Initializable {
 
     @FXML
     public void login(MouseEvent event) {
+
+
         AccountVo accountVo = new AccountVo();
         accountVo.setAccount( accountField.getText());
         accountVo.setPassword(passwordField.getText());
-        Set<String> strings = sessionAccountService.listAccBySessionId(1l);
-
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("登录状态");
+        HttpClient client = HttpClient.create()
+                .host("127.0.0.1")
+                .port(8001);
+
+
+//                .response((httpClientResponse, byteBufFlux) -> {
+//
+//                    byteBufFlux.as(byteBufFlux1 -> {
+//                        byteBufFlux
+//                    })
+//                })
+////                .response().
+//                .send((httpClientRequest, nettyOutbound) -> {
+//
+//                            })
+
+//        HttpClient httpClient = HttpClient.create().secure(sslSpec -> ...);
+
+        WebClient
+                .builder()
+                .clientConnector(new ReactorClientHttpConnector(client))
+                .build()
+//            .create()
+            .post()
+                .uri("/api/account/login")
+//            .uri(uriBuilder -> uriBuilder
+//                .host("localhost")
+//                .port(8001)
+//                .path("/api/account/login").build())
+            .contentType(MediaType.APPLICATION_JSON)
+            .bodyValue(accountVo)
+            .retrieve()
+            .bodyToMono(AccountVo.class)
+            .subscribe(acc -> {
+                hide();
+                MainController.show();
+            });
+
         alert.contentTextProperty().addListener((a1,a2,a3)-> {
             alert.show();
         });
-        TaskHandler taskHandler = protocol -> {
-            Mono.just(Objects.requireNonNull(ProtocolResultParser.getDataAsT(protocol, AccountInfo.class)))
-                    .doOnNext(ac-> Assert.isNull(ac,"登陆失败！"))
-                    .subscribe(AccountContext::setCurAccount);
-//            AccountInfo accountInfo = ProtocolResultParser.getDataAsT(protocol, AccountInfo.class);
-//            log.debug("login status {}",accountInfo);
-            hide();
-            MainController.show();
-        };
+
         log.info("启动登录");
         Protocol login = AccountHelper.applyLogins(accountVo);
-        ClientToolkit.getDefaultClientAction().sendJsonMsg(login,taskHandler);
     }
 
 

@@ -11,8 +11,8 @@
     <groupId>com.ifx.connect</groupId>
     <artifactId>ifx-connect</artifactId>
     <properties>
-        <maven.compiler.source>17</maven.compiler.source>
-        <maven.compiler.target>17</maven.compiler.target>
+        <ifx.maven.compiler.source>17</ifx.maven.compiler.source>
+        <ifx.maven.compiler.target>17</ifx.maven.compiler.target>
         <netty.all.version>4.1.8.Final</netty.all.version>
     </properties>
     <dependencies>

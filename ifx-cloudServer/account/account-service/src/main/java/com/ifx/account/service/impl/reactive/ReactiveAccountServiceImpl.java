@@ -9,10 +9,12 @@ import com.ifx.account.service.reactive.ReactiveAccountService;
 import com.ifx.account.utils.PasswordUtils;
 import com.ifx.account.vo.AccountVo;
 import com.ifx.common.base.AccountInfo;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.r2dbc.core.R2dbcEntityTemplate;
 import org.springframework.r2dbc.core.DatabaseClient;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
 import reactor.core.publisher.Mono;
 
 import javax.security.auth.login.AccountException;
@@ -24,6 +26,7 @@ import java.util.function.Function;
  * @date 2023/2/14
  */
 @Service
+@Slf4j
 public class ReactiveAccountServiceImpl implements ReactiveAccountService {
 
     @Autowired
@@ -40,7 +43,7 @@ public class ReactiveAccountServiceImpl implements ReactiveAccountService {
     public Mono<AccountInfo> findByAccount(String account) {
         return accountRepository.findByAccount(account)
                 .map(AccountHelper.INSTANCE::buildAccountInfo)
-                .switchIfEmpty(Mono.defer(()-> Mono.just( AccountInfo.builder().account(account).build())));
+                ;
     }
 
 
@@ -49,37 +52,38 @@ public class ReactiveAccountServiceImpl implements ReactiveAccountService {
     @Override
     public Mono<AccountInfo> login(AccountVo accountVo) {
         return  accountRepository.findByAccount(accountVo.accountId())
-                .handle((acc,sink)-> {
+                .flatMap(acc -> {
                     if (ObjectUtil.isNull(acc)){
-                        sink.error(new AccountException("用户名不存在！"));
+                        return Mono.error(new IllegalAccessException("用户名不存在！"));
                     }else {
                         if (verifyAccount().apply(acc)){
-                            sink.next(AccountHelper.INSTANCE.buildAccountInfo(acc));
+                            return Mono.just(AccountHelper.INSTANCE.buildAccountInfo(acc));
                         }else {
-                            sink.error( new IllegalAccessException("密码错误！"));
+                            return Mono.error( new AccountException("密码错误！"));
                         }
                     }
-                    sink.complete();
                 });
-
     }
 
     public Mono<AccountInfo> register(AccountVo accountVo) {
-        return  findByAccount(accountVo.getAccount())
-                .handle((acc,sink)-> {
-                    if (ObjectUtil.isNotNull(acc)){
-                        sink.error(new AccountException("用户名已存在"));
+        Assert.notNull(accountVo,"注册账户不可为空！");
+        return Mono.defer(()-> accountRepository.findByAccount(accountVo.getAccount())
+                .hasElement()
+                .flatMap((hasEle)-> {
+                    if (hasEle){
+                        return Mono.error(new AccountException("用户已注册！"));
                     }else {
-                        Account account = registerAccount().apply(accountVo);
-                        r2dbcEntityTemplate.insert(account).doOnNext(ac -> sink.next(AccountHelper.INSTANCE.buildAccountInfo(ac)));
+                        return  r2dbcEntityTemplate.insert( registerAccount().apply(accountVo))
+                                .map(AccountHelper.INSTANCE::buildAccountInfo);
                     }
-                    sink.complete();
-                });
+                }));
     }
 
     private Function<Account,Boolean>  verifyAccount(){
         return (account ) -> PasswordUtils.verityPassword(account.getPassword(), account.getSalt(), account.getPwdhash());
     }
+
+
 
     private Function<AccountVo,Account> registerAccount(){
         return (accountVo)-> {

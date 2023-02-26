@@ -17,8 +17,6 @@ import javafx.stage.Stage;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.Resource;
-
 /***
  * 注册界面
  */
@@ -45,7 +43,6 @@ public class RegisterController  {
     private VBox registerFrame;
 
 
-    @Resource
     private RegisterHelper registerHelper;
 
     @FXML
@@ -56,7 +53,6 @@ public class RegisterController  {
         accountVo.setEmail(mailField.getText());
 
         TaskHandler taskHandler = resProtocol -> {
-//            String account = (String) resProtocol.getContent().getDataAsTClass().get(0);
             Result result = resProtocol.getResult();
             Object res = result.getRes();
             String account = result.getDataAsTClass(String.class);

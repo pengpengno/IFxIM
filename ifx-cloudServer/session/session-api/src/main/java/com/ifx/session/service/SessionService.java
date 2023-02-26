@@ -1,18 +1,17 @@
 package com.ifx.session.service;
 
-import com.baomidou.mybatisplus.extension.service.IService;
-import com.ifx.session.entity.Session;
 import com.ifx.session.vo.session.SessionInfoVo;
+import reactor.core.publisher.Mono;
 
 /**
 * @author HP
 * @description 针对表【session(会话表)】的数据库操作Service
 * @createDate 2022-09-28 16:28:00
 */
-public interface SessionService extends IService<Session> {
+public interface SessionService  {
 
 
-    public Long addorUpSession(SessionInfoVo sessionInfoVo);
+     Mono<Long> post2Session(SessionInfoVo sessionInfoVo);
 
 
 

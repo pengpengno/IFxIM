@@ -30,7 +30,8 @@ import java.util.Set;
 @RestControllerAdvice
 @Slf4j
 public class AccountExceptionHandler {
-//public class AccountExceptionHandler extends ResponseEntityExceptionHandler {
+
+
 
 
     @ExceptionHandler(WebExchangeBindException.class)
@@ -58,10 +59,12 @@ public class AccountExceptionHandler {
         if(!CollectionUtils.isEmpty(errors)){
             StringBuilder sb = new StringBuilder();
             errors.forEach(e->sb.append(e.getDefaultMessage()).append(","));
-            return Mono.just(ResponseEntity.badRequest().body(exception.getLocalizedMessage()));
+            return Mono.just(ResponseEntity.badRequest().body(sb.toString()));
         }
         return Mono.just(ResponseEntity.badRequest().body(exception.getLocalizedMessage()));
     }
+
+
     @ExceptionHandler({ConstraintViolationException.class})
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public  Mono<ResponseEntity<ProblemDetail>> constraintViolationException(ConstraintViolationException exception){
@@ -82,6 +85,7 @@ public class AccountExceptionHandler {
     @ExceptionHandler
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public Mono<ResponseEntity<String>> illegalFail(IllegalAccessException exception){
+        log.error("出现异常 {}",ExceptionUtil.stacktraceToString(exception));
         return Mono.just(ResponseEntity.of(Optional.of("ill")));
     }
 

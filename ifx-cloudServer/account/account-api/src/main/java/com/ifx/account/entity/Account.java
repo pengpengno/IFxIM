@@ -2,6 +2,7 @@ package com.ifx.account.entity;
 
 import com.ifx.common.acc.AccountSPI;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import org.springframework.data.relational.core.mapping.Column;
 import org.springframework.data.relational.core.mapping.Table;
 
@@ -12,6 +13,7 @@ import java.io.Serializable;
  *
  * @TableName account
  */
+@EqualsAndHashCode(callSuper = true)
 @Data
 @Table("account")
 public class Account extends BaseEntity implements Serializable , AccountSPI {
@@ -68,4 +70,6 @@ public class Account extends BaseEntity implements Serializable , AccountSPI {
     public String accountName() {
         return userName;
     }
+
+
 }

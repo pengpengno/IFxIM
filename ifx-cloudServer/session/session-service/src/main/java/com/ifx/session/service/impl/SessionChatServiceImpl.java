@@ -2,7 +2,6 @@ package com.ifx.session.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.ifx.session.entity.SessionChat;
-import com.ifx.session.service.SessionChatService;
 import com.ifx.session.mapper.SessionChatMapper;
 import org.springframework.stereotype.Service;
 
@@ -13,7 +12,7 @@ import org.springframework.stereotype.Service;
 */
 @Service
 public class SessionChatServiceImpl extends ServiceImpl<SessionChatMapper, SessionChat>
-    implements SessionChatService{
+    implements IService<SessionChat> {
 
 }
 

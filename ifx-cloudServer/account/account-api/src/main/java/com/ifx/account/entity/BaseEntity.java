@@ -46,6 +46,4 @@ public class BaseEntity implements Serializable {
     private Integer version;
 
 
-    private static final long serialVersionUID = 1L;
-
 }
