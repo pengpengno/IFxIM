@@ -3,10 +3,7 @@ package com.ifx.client.util;
 import cn.hutool.core.exceptions.ExceptionUtil;
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.extra.spring.SpringUtil;
-import com.google.inject.Guice;
-import com.google.inject.Injector;
 import com.ifx.client.ClientApplication;
-import com.ifx.client.ann.proxy.ProxyWiredBeanProcessor;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -30,9 +27,10 @@ public class FxmlLoader {
         try{
             FXMLLoader fxmlLoader = new FXMLLoader();
             fxmlLoader.setLocation(url);
-            Injector injector = Guice.createInjector();
-            ProxyWiredBeanProcessor instance = injector.getInstance(ProxyWiredBeanProcessor.class);
-            fxmlLoader.setControllerFactory(instance.proxyBeanProcessor());
+//            Injector injector = Guice.createInjector();
+//            ProxyWiredBeanProcessor instance = injector.getInstance(ProxyWiredBeanProcessor.class);
+//            fxmlLoader.setControllerFactory(instance.proxyBeanProcessor());
+            fxmlLoader.setControllerFactory(SpringUtil::getBean);
             return new Scene(fxmlLoader.load());
         }
         catch (Exception e){
@@ -51,9 +49,9 @@ public class FxmlLoader {
         try{
             Assert.notNull(path,"指定路径不可为空！");
             FXMLLoader fxmlLoader = new FXMLLoader(ClientApplication.class.getResource(path));
-            Injector injector = Guice.createInjector();
-            ProxyWiredBeanProcessor instance = injector.getInstance(ProxyWiredBeanProcessor.class);
-            fxmlLoader.setControllerFactory(instance.proxyBeanProcessor());
+//            Injector injector = Guice.createInjector();
+//            ProxyWiredBeanProcessor instance = injector.getInstance(ProxyWiredBeanProcessor.class);
+//            fxmlLoader.setControllerFactory(instance.proxyBeanProcessor());
             fxmlLoader.setControllerFactory(SpringUtil::getBean);
             return new Scene(fxmlLoader.load());
         }

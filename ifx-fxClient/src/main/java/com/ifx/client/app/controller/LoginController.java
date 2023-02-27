@@ -15,16 +15,17 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.http.client.reactive.ReactorClientHttpConnector;
+import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
-import reactor.netty.http.client.HttpClient;
 
 import java.net.URL;
 import java.util.ResourceBundle;
 
 
 @Slf4j
+@Component
 public class LoginController  implements Initializable {
 
     @FXML
@@ -63,7 +64,8 @@ public class LoginController  implements Initializable {
     @FXML
     private CheckBox remberPsdCheckBox;
 
-
+    @Autowired
+    private WebClient webClient;
 
 
     @Override
@@ -75,18 +77,14 @@ public class LoginController  implements Initializable {
 
     @FXML
     public void login(MouseEvent event) {
-
-
         AccountVo accountVo = new AccountVo();
         accountVo.setAccount( accountField.getText());
         accountVo.setPassword(passwordField.getText());
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("登录状态");
-        HttpClient client = HttpClient.create()
-                .host("127.0.0.1")
-                .port(8001);
-
-
+//        HttpClient client = HttpClient.create()
+//                .host("127.0.0.1")
+//                .port(8001);
 //                .response((httpClientResponse, byteBufFlux) -> {
 //
 //                    byteBufFlux.as(byteBufFlux1 -> {
@@ -95,16 +93,16 @@ public class LoginController  implements Initializable {
 //                })
 ////                .response().
 //                .send((httpClientRequest, nettyOutbound) -> {
-//
 //                            })
 
 //        HttpClient httpClient = HttpClient.create().secure(sslSpec -> ...);
 
-        WebClient
-                .builder()
-                .clientConnector(new ReactorClientHttpConnector(client))
-                .build()
+//        WebClient
+//                .builder()
+//                .clientConnector(new ReactorClientHttpConnector(client))
+//                .build()
 //            .create()
+        webClient
             .post()
                 .uri("/api/account/login")
 //            .uri(uriBuilder -> uriBuilder

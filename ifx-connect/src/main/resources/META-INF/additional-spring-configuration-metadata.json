@@ -3,14 +3,18 @@
     {
       "name": "ifx.client.netty",
       "type": "com.ifx.connect.properties.ServerNettyConfigProperties",
-      "sourceType": "com.ifx.connect.properties.ServerNettyConfigProperties",
-      "sourceMethod": "getPort()"
+      "sourceType": "com.ifx.connect.properties.ServerNettyConfigProperties"
     },
 
     {
       "name": "ifx.server.netty",
       "type": "com.ifx.connect.properties.ClientNettyConfigProperties",
       "sourceType": "com.ifx.connect.properties.ClientNettyConfigProperties"
+    },
+    {
+      "name": "ifx.api.gateway",
+      "type": "com.ifx.connect.properties.ServerRouteConfigProperties",
+      "sourceType": "com.ifx.connect.properties.ServerRouteConfigProperties"
     }
   ],
   "properties": [
@@ -36,19 +40,43 @@
       "name": "ifx.connect.client.serverHost",
       "type": "java.lang.String",
       "sourceType": "com.ifx.connect.properties.ClientNettyConfigProperties",
-      "description": "server deploy host such as  127.0.0.0.1  and  default is same"
+      "description": "server deploy host such as  127.0.0.0.1  and  default is same."
     },
 
     {
       "name": "ifx.connect.client.connectTimeOut",
       "type": "java.lang.Integer",
       "sourceType": "com.ifx.connect.properties.ClientNettyConfigProperties",
-      "description": "connect timeout ; after the point time , if server has no responese ,connect channel will disConnect"
+      "description": "connect timeout ; after the point time , if server has no responese ,connect channel will disConnect."
     },
     {
       "name": "ifx.connect.socket.port",
       "type": "java.lang.Integer",
-      "description": "server deploy port  default port is 10305"
+      "description": "server  port ."
+    },
+    {
+      "name": "ifx.api.gateway.host",
+      "type": "java.lang.String",
+      "sourceType": "com.ifx.connect.properties.ServerRouteConfigProperties",
+      "description": "api gateWayHost."
+    },
+    {
+      "name": "ifx.api.gateway.port",
+      "type": "java.lang.Integer",
+      "sourceType": "com.ifx.connect.properties.ServerRouteConfigProperties",
+      "description": "api gateWayHost."
+    },
+    {
+      "name": "ifx.api.gateway.retryTimes",
+      "type": "java.lang.Integer",
+      "sourceType": "com.ifx.connect.properties.ServerRouteConfigProperties",
+      "description": "api gateWayHost."
+    },
+    {
+      "name": "ifx.api.gateway.timeOut",
+      "type": "java.lang.Integer",
+      "sourceType": "com.ifx.connect.properties.ServerRouteConfigProperties",
+      "description": "api gateWayHost."
     }
-]
+  ]
 }

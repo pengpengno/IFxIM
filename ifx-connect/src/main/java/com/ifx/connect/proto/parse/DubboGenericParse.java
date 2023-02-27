@@ -7,13 +7,12 @@ import com.ifx.connect.proto.dubbo.DubboProtocol;
 import com.ifx.connect.proto.ifx.IFxMsgProtocol;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Component;
 
 import java.lang.reflect.Method;
 import java.util.Arrays;
 
 @Slf4j
-@Component
+//@Component
 public class DubboGenericParse {
 
 

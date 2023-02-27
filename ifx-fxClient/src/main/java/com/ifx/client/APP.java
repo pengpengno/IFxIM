@@ -12,7 +12,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @description
  * @date 2023/2/23
  */
-@SpringBootApplication(scanBasePackages = "com.ifx")
+@SpringBootApplication(scanBasePackages = {"com.ifx","cn.hutool.extra.spring"})
 @Slf4j
 public class APP implements CommandLineRunner {
 

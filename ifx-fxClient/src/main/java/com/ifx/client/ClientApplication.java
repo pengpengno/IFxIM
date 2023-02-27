@@ -14,11 +14,9 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class ClientApplication extends Application {
 
-
     @Override
     public void start(Stage stage)   {
         LoginController.show();
-
 //        Injector injector = Guice.createInjector();
 //        configProperties = injector.getInstance(ClientNettyConfigProperties.class);
 //        //接管FXPlus属性的创建
@@ -30,9 +28,7 @@ public class ClientApplication extends Application {
 //            })
 //            .subscribe()
 //        ;
-
     }
-
 
     public static void main(String[] args){
         launch(ClientApplication.class);

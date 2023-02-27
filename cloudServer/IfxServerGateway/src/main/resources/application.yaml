@@ -1,0 +1,39 @@
+
+spring:
+  application:
+    name: gateway
+  cloud:
+#    config:
+#      enabled: true
+    gateway:
+      routes:
+        - id: account-service
+          uri: lb://account-service
+          predicates:
+            - Path=/api/account/**
+        - id: session-service
+          uri: lb://session-service
+            - Path=/api/session/**
+
+  config:
+    activate:
+      on-cloud-platform: 
+#  data:
+#    mongodb:
+#      host: 124.221.168.200
+#      port: 27017
+#      username: admin
+#      password: admin
+#      database: ifx
+#  datasource:
+    #    driver-class-name: com.alibaba.druid.proxy.DruidDriver
+#    druid:
+#      username: ifx
+#      password: ifx2022
+#      url: jdbc:mysql://124.221.168.200/ifx?useUnicode=true&characterEncoding=utf-8&txcAppName=formService
+#      driver-class-name: com.mysql.jdbc.Driver
+#jdbc:
+#  driver: com.mysql.jdbc.Driver
+#  url: jdbc:mysql:/124.221.168.200/ifx?useUnicode=true&characterEncoding=utf-8&txcAppName=gateway
+#  username: root
+#  password: root
