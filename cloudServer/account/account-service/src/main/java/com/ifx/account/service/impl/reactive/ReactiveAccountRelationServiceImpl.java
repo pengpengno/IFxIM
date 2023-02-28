@@ -10,6 +10,7 @@ import com.ifx.account.vo.AccountRelationVo;
 import com.ifx.common.base.AccountInfo;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
+import org.jetbrains.annotations.NotNull;
 import org.jgrapht.Graph;
 import org.jgrapht.graph.DefaultEdge;
 import org.jgrapht.graph.DirectedMultigraph;
@@ -29,6 +30,7 @@ import java.time.Duration;
 import java.util.Optional;
 import java.util.Set;
 import java.util.function.Supplier;
+import java.util.stream.Collectors;
 
 
 /**
@@ -61,7 +63,7 @@ public class ReactiveAccountRelationServiceImpl implements ReactiveAccountRelati
     private Cache<String, Graph<String,DefaultEdge>> caffeine ;
 
     @Override
-    public Object postProcessAfterInitialization(Object bean, String beanName) throws BeansException {
+    public Object postProcessAfterInitialization(@NotNull Object bean, @NotNull String beanName) throws BeansException {
         caffeine = CacheBuilder.newBuilder()
                 .maximumSize(100)
                 .expireAfterAccess(Duration.ofMinutes(30))
@@ -72,14 +74,21 @@ public class ReactiveAccountRelationServiceImpl implements ReactiveAccountRelati
 
 
     @Override
-    public Flux<String> listRelationWithAccount(String account) {
+    public Mono<AccountRelationVo> listRelationWithAccount(String account) {
         Assert.notNull(account,"账户信息不允许为空！");
         return Mono.justOrEmpty(Optional.of(account))
                 .flatMapMany(acc -> r2dbcEntityTemplate.select(Query.query(Criteria.where("account").is(account)),AccountRelation.class))
-                .cache()
+//                .cache()
                 .map(AccountRelation::getAccountRelations)
                 .flatMap(this::splitRelations)
-                .onErrorResume(throwable -> Flux.empty())
+                .collect(Collectors.toSet())
+                .flatMap(li -> {
+                    return Mono.just(AccountRelationVo.builder()
+                            .account(account)
+                            .friendAccountIds(li)
+                            .build());
+                })
+                .onErrorResume(throwable -> Mono.empty())
                 ;
     }
 
@@ -90,6 +99,7 @@ public class ReactiveAccountRelationServiceImpl implements ReactiveAccountRelati
 
     @Override
     public Mono<Long> insertRelation(@NonNull AccountRelationVo vo) {
+
 //        Caffeine.newBuilder().build().put();
         return null;
     }
@@ -237,7 +247,7 @@ public class ReactiveAccountRelationServiceImpl implements ReactiveAccountRelati
      */
     private Mono<Long> addNewRelation(AccountRelationVo accountVo){
         AccountRelation accountRelation = vo2Entity(accountVo).get();
-        log.debug("添加了用户{} 的关系 {} ,行 id 为 {}",accountVo,accountVo.getRelations(),accountRelation.getId());
+        log.debug("添加了用户{} 的关系 {} ,行 id 为 {}",accountVo,accountVo.getFriendAccountIds(),accountRelation.getId());
 //        accountRelationMapper.insert(accountRelation);
         return Mono.just(accountRelation.getId());
 
@@ -252,7 +262,7 @@ public class ReactiveAccountRelationServiceImpl implements ReactiveAccountRelati
     private Supplier<AccountRelation> vo2Entity(AccountRelationVo vo){
         AccountRelation accountRelation = new AccountRelation();
         accountRelation.setAccount(vo.getAccount());
-        accountRelation.setAccountRelations(setRelation2Str(vo.getRelations()));
+        accountRelation.setAccountRelations(setRelation2Str(vo.getFriendAccountIds()));
         accountRelation.setId(vo.getRelationId() == null ? IdUtil.getSnowflakeNextId(): vo.getRelationId());
         accountRelation.setActive(1);
         return () -> accountRelation;
@@ -286,6 +296,6 @@ public class ReactiveAccountRelationServiceImpl implements ReactiveAccountRelati
      */
     private Mono<Boolean> relationsHasAccount(String account ,String searchAccount){
         return listRelationWithAccount(account)
-                .hasElement(searchAccount);
+                .hasElement();
     }
 }

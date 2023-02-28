@@ -13,12 +13,22 @@
 #    port: 20891
 #    name: dubbo
 eureka:
+  instance:
+    hostname: account-service
+    appname: account-service
+    healthCheckUrlPath: ${server.servletPath}/health
   client:
+    healthcheck:
+      enabled: true
     service-url:
       defaultZone: http://localhost:8761/eureka/
 server:
   port: 8001
 spring:
+  cloud:
+
+#    zookeeper:
+#      connect-string: localhost:2181
   application:
     name: ifx-server
 #  security:

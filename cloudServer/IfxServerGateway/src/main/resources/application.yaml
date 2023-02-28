@@ -1,23 +1,43 @@
-
 spring:
+
+  freemarker:
+    template-loader-path: classpath:/templates/
+    prefer-file-system-access: false
   application:
     name: gateway
   cloud:
+#    nacos:
+#      discovery:
+#        server-addr: ${NACOS_HOST: localhost:8848}
 #    config:
 #      enabled: true
     gateway:
+      discovery:
+        locator:
+          enabled: true
+          lower-case-service-id: true
       routes:
         - id: account-service
-          uri: lb://account-service
+#          uri: lb://account-service
+          uri: ${account-service-url:http://localhost:8001}
           predicates:
             - Path=/api/account/**
         - id: session-service
           uri: lb://session-service
             - Path=/api/session/**
-
+          predicates:
+            - Path=/api/session/**
   config:
     activate:
-      on-cloud-platform: 
+      on-cloud-platform:
+server:
+  port: 8761
+
+alibaba:
+  nacos:
+    discovery:
+      server-addr: ${nacos.discovery.server-addr} # Nacos注册中心地址
+      namespace: ${nacos.discovery.namespace:} # Nacos命名空间
 #  data:
 #    mongodb:
 #      host: 124.221.168.200

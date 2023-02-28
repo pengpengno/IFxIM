@@ -2,6 +2,7 @@ package com.ifx.server.netty;
 
 import cn.hutool.core.exceptions.ExceptionUtil;
 import com.alibaba.fastjson2.JSONObject;
+import com.google.inject.Singleton;
 import com.ifx.connect.spi.ServerBusinessSPI;
 import com.ifx.connect.proto.Protocol;
 import com.ifx.server.config.thread.ServerThreadPool;
@@ -21,6 +22,7 @@ import java.util.concurrent.ExecutorService;
  */
 @Slf4j
 @ChannelHandler.Sharable
+@Singleton
 public class ServerServiceParseHandler extends ChannelDuplexHandler {
 
     private ExecutorService serverService;

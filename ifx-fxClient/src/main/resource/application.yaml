@@ -1,8 +1,8 @@
 ifx:
   api:
     gateway:
-      host: localhost
-      port: 8001
+      host: ${IFX_API_HOST:localhost}
+      port: ${IFX_API_PORT:8761}
   connect:
     client:
       serverHost: localhost

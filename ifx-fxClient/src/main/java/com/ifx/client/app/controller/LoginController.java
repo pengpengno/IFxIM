@@ -16,9 +16,12 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.MediaType;
+import org.springframework.http.ProblemDetail;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
+import reactor.core.publisher.Mono;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -82,40 +85,29 @@ public class LoginController  implements Initializable {
         accountVo.setPassword(passwordField.getText());
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("登录状态");
-//        HttpClient client = HttpClient.create()
-//                .host("127.0.0.1")
-//                .port(8001);
-//                .response((httpClientResponse, byteBufFlux) -> {
-//
-//                    byteBufFlux.as(byteBufFlux1 -> {
-//                        byteBufFlux
-//                    })
-//                })
-////                .response().
-//                .send((httpClientRequest, nettyOutbound) -> {
-//                            })
-
-//        HttpClient httpClient = HttpClient.create().secure(sslSpec -> ...);
-
-//        WebClient
-//                .builder()
-//                .clientConnector(new ReactorClientHttpConnector(client))
-//                .build()
-//            .create()
         webClient
             .post()
-                .uri("/api/account/login")
-//            .uri(uriBuilder -> uriBuilder
-//                .host("localhost")
-//                .port(8001)
-//                .path("/api/account/login").build())
+            .uri("/api/account/login")
             .contentType(MediaType.APPLICATION_JSON)
             .bodyValue(accountVo)
             .retrieve()
+            .onStatus(HttpStatusCode::isError,
+                (clientResponse ) ->
+                    clientResponse
+                    .bodyToMono(ProblemDetail.class)
+                    .flatMap(problemDetail ->
+                        Mono.error(()->
+                            new RuntimeException(problemDetail.getDetail()))))
             .bodyToMono(AccountVo.class)
+                .doOnError((throwable)-> {
+                    log.error( throwable.getMessage());
+                    log.info( throwable.getMessage());
+                })
             .subscribe(acc -> {
-                hide();
-                MainController.show();
+                Platform.runLater(()->  {
+                    hide();
+                    MainController.show();
+                });
             });
 
         alert.contentTextProperty().addListener((a1,a2,a3)-> {

@@ -7,4 +7,5 @@ package com.ifx.account.route.accout;
  */
 public interface AccRoute {
     public static String ACCOUNT_ROUTE = "/api/account";
+    public static String ACCOUNT_RELATION_ROUTE = "/api/accountRelation";
 }

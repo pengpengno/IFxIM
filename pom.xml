@@ -28,6 +28,7 @@
     <maven.plugin.version>3.6.1</maven.plugin.version>
     <nacos.starter.version>2021.1</nacos.starter.version>
     <spring.starter.version>3.0.0</spring.starter.version>
+    <spring.cloud.starter.version>4.0.0</spring.cloud.starter.version>
     <spring.test.version>5.2.8.RELEASE</spring.test.version>
     <sl4j.version>2.0.2</sl4j.version>
     <dubbo.starter.version>3.0.9</dubbo.starter.version>
@@ -61,6 +62,7 @@
     <caffeine.version>3.1.3</caffeine.version>
     <httpclient.version>4.5.13</httpclient.version>
     <retrofit.version>2.9.0</retrofit.version>
+    <jaxb.version>4.0.0</jaxb.version>
     <mapstruct-binding.version>0.2.0</mapstruct-binding.version>
   </properties>
   <dependencies>
@@ -264,12 +266,40 @@
       <dependency>
         <groupId>org.springframework.cloud</groupId>
         <artifactId>spring-cloud-starter-gateway</artifactId>
-        <version>${spring.starter.version}</version>
+        <version>${spring.cloud.starter.version}</version>
       </dependency>
       <dependency>
         <groupId>org.springframework.cloud</groupId>
         <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
-        <version>${spring.starter.version}</version>
+        <version>${spring.cloud.starter.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.springframework.cloud</groupId>
+        <artifactId>spring-cloud-starter-zookeeper-discovery</artifactId>
+        <version>${spring.cloud.starter.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.springframework.cloud</groupId>
+        <artifactId>spring-cloud-starter-zookeeper-all</artifactId>
+        <version>${spring.cloud.starter.version}</version>
+        <exclusions>
+          <exclusion>
+            <groupId>org.apache.zookeeper</groupId>
+            <artifactId>zookeeper</artifactId>
+          </exclusion>
+        </exclusions>
+      </dependency>
+<!--        <dependency>-->
+<!--          <groupId>org.springframework.cloud</groupId>-->
+<!--          <artifactId>spring-cloud-dependencies</artifactId>-->
+<!--          <version>${spring-cloud.version}</version>-->
+<!--          <type>pom</type>-->
+<!--          <scope>import</scope>-->
+<!--        </dependency>-->
+      <dependency>
+        <groupId>org.springframework.cloud</groupId>
+        <artifactId>spring-cloud-starter-netflix-eureka-server</artifactId>
+        <version>${spring.cloud.starter.version}</version>
       </dependency>
       <dependency>
         <groupId>org.springframework.boot</groupId>
@@ -375,6 +405,12 @@
         <groupId>org.jgrapht</groupId>
         <artifactId>jgrapht-core</artifactId>
         <version>${jgrapht.version}</version>
+      </dependency>
+      <!-- https://mvnrepository.com/artifact/org.glassfish.jaxb/jaxb-runtime -->
+      <dependency>
+        <groupId>org.glassfish.jaxb</groupId>
+        <artifactId>jaxb-runtime</artifactId>
+        <version>${jaxb.version}</version>
       </dependency>
 
       <!-- https://mvnrepository.com/artifact/org.apache.httpcomponents/httpclient -->

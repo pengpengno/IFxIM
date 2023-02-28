@@ -32,6 +32,8 @@ public class TcpNettyClient {
     private Channel channel;
 
     private Connection connection;
+
+
     public Channel getChannel() {
         return channel;
     }

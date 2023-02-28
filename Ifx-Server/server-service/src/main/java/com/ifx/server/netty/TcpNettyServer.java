@@ -1,5 +1,6 @@
 package com.ifx.server.netty;
 
+import com.google.inject.Guice;
 import com.ifx.connect.handler.decoder.ProtocolDecoder;
 import com.ifx.connect.handler.encoder.ProtocolEncoder;
 import io.netty.bootstrap.ServerBootstrap;
@@ -10,11 +11,13 @@ import io.netty.channel.socket.nio.NioSocketChannel;
 import io.netty.handler.logging.LogLevel;
 import io.netty.handler.logging.LoggingHandler;
 import io.netty.handler.timeout.IdleStateHandler;
+import io.netty.util.internal.chmv8.ConcurrentHashMapV8;
 import lombok.extern.slf4j.Slf4j;
 import reactor.netty.DisposableServer;
 import reactor.netty.tcp.TcpServer;
 
 import java.net.InetSocketAddress;
+import java.util.concurrent.ConcurrentMap;
 
 /***
  * Tcp netty 服务器
@@ -42,6 +45,9 @@ public class TcpNettyServer {
             return instance;
         }
     }
+
+
+
     public static TcpNettyServer getInstance(){
         return SingleInstance.INSTANCE.getInstance();
     }
@@ -51,6 +57,9 @@ public class TcpNettyServer {
     //NioEventLoopGroup extends MultithreadEventLoopGroup Math.max(1, SystemPropertyUtil.getInt("io.netty.eventLoopThreads", NettyRuntime.availableProcessors() * 2));
     private final EventLoopGroup childGroup = new NioEventLoopGroup();
     private Channel channel;
+
+
+
     public ChannelFuture bind(InetSocketAddress address) {
         ChannelFuture channelFuture = null;
         try {
@@ -89,6 +98,7 @@ public class TcpNettyServer {
      * @param address
      */
     public void createServer(InetSocketAddress address){
+        ConcurrentMap<String, Channel> stringChannelConcurrentMap = new ConcurrentHashMapV8<>();
         log.info("start netty server ");
         TcpServer tcpServer = TcpServer.create();
         DisposableServer server =
@@ -101,7 +111,6 @@ public class TcpNettyServer {
                         log.info("receivemsg {}", String.valueOf(msg.readByte()));
                     });
                     return nettyOutbound.neverComplete();
-//                    return nettyOutbound.sendString(Mono.just("hello"));
                 })
                 .doOnConnection(connection -> connection.addHandlerFirst(new IdleStateHandler(20,20,20)))//  free channel  checkout
                 .doOnChannelInit((connectionObserver, channel, remoteAddress) -> {
@@ -109,10 +118,12 @@ public class TcpNettyServer {
                             .addLast(new LoggingHandler())
                             .addLast(new ProtocolEncoder())
                             .addLast(new ProtocolDecoder())
-                            .addLast(ServerServiceParseHandler.getInstance());
+                            .addLast(Guice.createInjector().getInstance(ServerServiceParseHandler.class));
                 })
                 .bindNow()
                 ;
+//        server.channel().attr(AttributeKey.valueOf("sss"),"sd")
+
         server.onDispose()
 //                .block()
         ;

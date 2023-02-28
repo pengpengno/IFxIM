@@ -13,7 +13,7 @@ import reactor.core.publisher.Mono;
 public interface ReactiveAccountRelationService {
 
 
-    public Flux<String> listRelationWithAccount(String account);
+    public Mono<AccountRelationVo> listRelationWithAccount(String account);
 
     /***
      * 获取所有好友关系基本信息
