@@ -1,5 +1,6 @@
 package com.ifx.connect.connection.client.tcp;
 
+import com.google.inject.Guice;
 import com.ifx.connect.handler.client.ClientBusinessHandler;
 import com.ifx.connect.handler.decoder.ProtocolDecoder;
 import com.ifx.connect.handler.encoder.ProtocolEncoder;
@@ -103,19 +104,19 @@ public class TcpNettyClient {
      */
     public Boolean create(InetSocketAddress address){
          connection =
-                TcpClient.create()
-                        .host(address.getHostName())
-                        .port(address.getPort())
-                        .doOnConnect((tcpClientConfig)-> log.info("连接建立！"))
+            TcpClient.create()
+                .host(address.getHostName())
+                .port(address.getPort())
+                .doOnConnect((tcpClientConfig)-> log.info("连接建立！"))
 //                        .bindAddress(() -> address)
-                        .doOnChannelInit((connectionObserver, channel1, remoteAddress) -> {
-                            channel1.pipeline()
-                                    .addLast(new ProtocolEncoder())
-                                    .addLast(new ProtocolDecoder())
-                                    .addLast(new ClientBusinessHandler())//添加Handler
+                .doOnChannelInit((connectionObserver, channel1, remoteAddress) -> {
+                channel1.pipeline()
+                    .addLast(Guice.createInjector().getInstance(ProtocolEncoder.class))
+                    .addLast(new ProtocolDecoder())
+                    .addLast(new ClientBusinessHandler())//添加Handler
                                     ;
                             })
-                        .connectNow();
+                .connectNow();
 //        connection.onDispose()
 //                .block()
         ;

@@ -1,7 +1,6 @@
 package com.ifx.session.service.impl;
 
 import cn.hutool.core.util.StrUtil;
-import com.ifx.account.service.reactive.ReactiveAccountService;
 import com.ifx.common.utils.CacheUtil;
 import com.ifx.session.entity.SessionAccount;
 import com.ifx.session.mapstruct.SessionAccMap;
@@ -25,8 +24,8 @@ import java.util.stream.Collectors;
 @Slf4j
 public class SessionAccountServiceImpl implements SessionAccountService{
 
-    @Resource
-    private ReactiveAccountService accountService;
+//    @Resource
+//    private ReactiveAccountService accountService;
 
     @Resource(name = "Redis")
     private CacheUtil cache;

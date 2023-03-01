@@ -21,7 +21,10 @@
         <ifx.maven.compiler.target>17</ifx.maven.compiler.target>
     </properties>
     <dependencies>
-
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-openfeign</artifactId>
+        </dependency>
 
     </dependencies>
 
