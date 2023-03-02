@@ -1,7 +1,6 @@
 package com.ifx.session.service.impl;
 
 import cn.hutool.core.util.IdUtil;
-import com.ifx.common.utils.CacheUtil;
 import com.ifx.session.mapstruct.SessionMapper;
 import com.ifx.session.service.SessionService;
 import com.ifx.session.vo.session.SessionInfoVo;
@@ -12,6 +11,7 @@ import org.springframework.data.r2dbc.core.R2dbcEntityTemplate;
 import org.springframework.data.redis.core.ReactiveRedisTemplate;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
+
 import java.util.function.Supplier;
 
 /**
@@ -23,20 +23,17 @@ import java.util.function.Supplier;
 @Slf4j
 public class SessionServiceImpl implements SessionService {
 
-    @Resource(name = "Redis")
-    private CacheUtil cacheUtil;
+
 
     @Resource
     private SessionAccountServiceImpl sessionAccountService;
 
-    @Resource
-    private SessionMapper mapper;
 
     @Autowired
     private R2dbcEntityTemplate r2dbcEntityTemplate;
 
     @Resource
-    private ReactiveRedisTemplate<String,Object> redisTemplate;
+    private ReactiveRedisTemplate<String,Object> reactiveRedisTemplate;
 
     @Override
     public Mono<Long> post2Session(SessionInfoVo sessionInfoVo) {

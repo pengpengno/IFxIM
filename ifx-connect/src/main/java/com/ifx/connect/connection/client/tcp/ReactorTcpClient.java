@@ -10,11 +10,12 @@ import reactor.netty.tcp.TcpClient;
 public class ReactorTcpClient {
 
     private  static  Connection connection = null;
-    public static  ReactorTcpClient create(){
-        Connection conn = TcpClient.create()
-//                .host()
+    public static void create(){
+        connection = TcpClient.create()
+                .doOnChannelInit((connectionObserver, channel, remoteAddress) -> {
+                })
                 .connectNow();
-        connection = conn;
-        return null;
     }
+
+
 }

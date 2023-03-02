@@ -30,7 +30,7 @@ spring:
 #    zookeeper:
 #      connect-string: localhost:2181
   application:
-    name: ifx-server
+    name: account
 #  security:
 #    oauth2:
 #      client:

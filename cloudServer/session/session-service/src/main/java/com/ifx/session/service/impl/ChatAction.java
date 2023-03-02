@@ -1,13 +1,13 @@
 package com.ifx.session.service.impl;
 
 import com.ifx.server.service.Server2ClientService;
-import com.ifx.server.service.ServerActionService;
 import com.ifx.session.service.IChatAction;
 import com.ifx.session.service.SessionAccountService;
 import com.ifx.session.vo.ChatMsgVo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
 
 /***
@@ -17,15 +17,12 @@ import java.util.List;
 @Slf4j
 public class ChatAction implements IChatAction {
 
-    @Autowired
-    SessionServiceImpl sessionService;
 
     @Autowired
     SessionAccountService sessionAccountService;
 //    @DubboReference
     Server2ClientService server2ClientService;
-//    @DubboReference
-    ServerActionService serverActionService;
+
 
     @Override
     public List<ChatMsgVo> pullOffline(String account) {
@@ -62,7 +59,6 @@ public class ChatAction implements IChatAction {
     public void pushMsg(ChatMsgVo chatMsgVo) {
 //        final  String sendMsg = chatMsgVo.get
         final Long sessionId = chatMsgVo.getSessionId();
-        String s = serverActionService.clientState();
 
     }
 

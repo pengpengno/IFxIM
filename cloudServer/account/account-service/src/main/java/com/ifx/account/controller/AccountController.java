@@ -4,14 +4,13 @@ import com.alibaba.fastjson2.JSON;
 import com.ifx.account.route.accout.AccRoute;
 import com.ifx.account.service.reactive.ReactiveAccountService;
 import com.ifx.account.validator.ACCOUNTLOGIN;
+import com.ifx.account.vo.AccountAuthenticateVo;
 import com.ifx.account.vo.AccountVo;
 import com.ifx.common.base.AccountInfo;
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotNull;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
@@ -41,24 +40,18 @@ public class AccountController {
     }
 
 
-    @GetMapping(path = "/acc")
-    @ResponseStatus(code = HttpStatus.OK)
-    public Mono<AccountInfo> test( @RequestParam(required = false) @NotNull(message = "account not be null") String account){
-        log.info("传入的 账户 {}",account);
-//        EntityModel.of(accountService.findByAccount(account), Link.of())
-        return accountService.findByAccount(account);
+
+
+    @PostMapping("/auth")
+    public Mono<AccountAuthenticateVo> authenticateVoMono(@RequestBody @Validated(value = ACCOUNTLOGIN.class) AccountVo accountVo){
+        return accountService.auth(accountVo);
     }
 
 
-
-    @RequestMapping(method = RequestMethod.POST,path = "/acc")
-    public Mono<ResponseEntity<Acc>> testAcc(@RequestBody @Valid Acc acc){
-//        Set<javax.validation.ConstraintViolation<Acc>> constraintViolations = ValidatorUtil.validateOne(acc);
-//        log.info("sss {}" , JSONObject.toJSONString(constraintViolations));
-//        return Mono.just(ResponseEntity.ok(acc)).onErrorResume(WebExchangeBindException.class,e-> Mono.just(ResponseEntity.badRequest().body(e.getMessage())));
-        return null;
+    @PostMapping("/jwt")
+    public Mono<AccountInfo> jwtParse(@RequestParam String jwt){
+        return accountService.parseJwt(jwt);
     }
-
 
 
     @PostMapping("/login")

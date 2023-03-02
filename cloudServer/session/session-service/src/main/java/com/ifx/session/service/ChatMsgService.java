@@ -1,6 +1,7 @@
 package com.ifx.session.service;
 
 import com.ifx.session.vo.ChatMsgVo;
+import reactor.core.publisher.Mono;
 
 /**
  *
@@ -17,6 +18,9 @@ public interface ChatMsgService  {
      * @param chatMsgVo  消息实体
      */
     public void pushMsg(ChatMsgVo chatMsgVo);  //写扩散
+
+
+    public Mono<Boolean>  chat(ChatMsgVo chatMsgVo);
 
 
 }

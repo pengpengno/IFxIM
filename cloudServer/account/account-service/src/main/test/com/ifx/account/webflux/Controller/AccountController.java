@@ -1,6 +1,5 @@
 package com.ifx.account.webflux.Controller;
 
-import com.ifx.account.vaild.Acc;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;

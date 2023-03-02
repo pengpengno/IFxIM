@@ -1,18 +1,19 @@
 package com.ifx.session.service.impl;
 
 import cn.hutool.core.util.StrUtil;
-import com.ifx.common.utils.CacheUtil;
 import com.ifx.session.entity.SessionAccount;
 import com.ifx.session.mapstruct.SessionAccMap;
 import com.ifx.session.service.SessionAccountService;
 import com.ifx.session.vo.session.SessionAccountVo;
-import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-import java.util.*;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Objects;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -26,9 +27,6 @@ public class SessionAccountServiceImpl implements SessionAccountService{
 
 //    @Resource
 //    private ReactiveAccountService accountService;
-
-    @Resource(name = "Redis")
-    private CacheUtil cache;
 
 
     private static final String SESSION_ACC_CACHE_KEY_PREFIX = "SESSION:ACCOUNT:";   //账户关系缓存前缀
@@ -126,9 +124,11 @@ public class SessionAccountServiceImpl implements SessionAccountService{
      * @return
      */
     private Mono<String> listAccBySessionInCache(Long sessionId){
-        return Mono.justOrEmpty(Optional.ofNullable(sessionId))
-                .flatMap(id ->
-                    Mono.justOrEmpty(Optional.ofNullable( cache.getStr(SESSION_ACC_CACHE_KEY_PREFIX + id))));
+
+        return null;
+//        return Mono.justOrEmpty(Optional.ofNullable(sessionId))
+//                .flatMap(id ->
+//                    Mono.justOrEmpty(Optional.ofNullable( cache.getStr(SESSION_ACC_CACHE_KEY_PREFIX + id))));
     }
     /***
      * 缓存中查询会话下账户
@@ -154,8 +154,9 @@ public class SessionAccountServiceImpl implements SessionAccountService{
         if (accs == null){
             return Mono.empty();
         }
-        return Mono.justOrEmpty(Optional.ofNullable(sessionId))
-            .map(id-> cache.set(SESSION_ACC_CACHE_KEY_PREFIX+sessionId,set2String(accs)));
+        return null;
+//        return Mono.justOrEmpty(Optional.ofNullable(sessionId))
+//            .map(id-> cache.set(SESSION_ACC_CACHE_KEY_PREFIX+sessionId,set2String(accs)));
     }
 
 

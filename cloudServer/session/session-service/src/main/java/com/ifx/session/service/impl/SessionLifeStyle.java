@@ -1,6 +1,5 @@
 package com.ifx.session.service.impl;
 
-import com.ifx.common.utils.CacheUtil;
 import com.ifx.session.service.ISessionLifeStyle;
 import com.ifx.session.service.SessionAccountService;
 import com.ifx.session.service.SessionService;
@@ -13,9 +12,7 @@ import org.springframework.stereotype.Service;
 @Slf4j
 public class SessionLifeStyle implements ISessionLifeStyle {
 
-    @Resource(name = "Memory")
-    private CacheUtil cacheUtil;
-
+//
     @Resource
     private SessionService sessionService;
 

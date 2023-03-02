@@ -4,7 +4,6 @@ import com.ifx.connect.proto.Protocol;
 import com.ifx.connect.proto.ifx.IFxMsgProtocol;
 import com.ifx.server.netty.NettyS2CAction;
 import com.ifx.server.service.Server2ClientService;
-import org.apache.dubbo.config.annotation.DubboService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,7 +12,6 @@ import java.util.List;
 /**
  *
  */
-@DubboService
 @Service
 public class Server2ClientServiceImpl implements Server2ClientService {
 

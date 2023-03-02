@@ -134,6 +134,9 @@ public class TcpNettyClient {
         return channel.writeAndFlush(protocol);
     }
 
+
+
+
     public void outBound (Protocol protocol){
         connection.outbound().sendObject(protocol);
     }

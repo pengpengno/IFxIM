@@ -26,6 +26,7 @@ public class AccountInfo implements Serializable, AccountSPI {
 //    @Email(message = "非法的邮箱格式！",groups = AccountAdd.class)
     private String email;  // 邮箱
 
+
     @Override
     public String accountId() {
         return getAccount();

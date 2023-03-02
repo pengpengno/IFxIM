@@ -6,9 +6,12 @@ import com.ifx.account.entity.Account;
 import com.ifx.account.mapstruct.AccountHelper;
 import com.ifx.account.repository.impl.AccountRepositoryImpl;
 import com.ifx.account.service.reactive.ReactiveAccountService;
+import com.ifx.account.utils.AccountJwtUtil;
 import com.ifx.account.utils.PasswordUtils;
+import com.ifx.account.vo.AccountAuthenticateVo;
 import com.ifx.account.vo.AccountVo;
 import com.ifx.common.base.AccountInfo;
+import io.jsonwebtoken.security.SignatureException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.r2dbc.core.R2dbcEntityTemplate;
@@ -39,6 +42,8 @@ public class ReactiveAccountServiceImpl implements ReactiveAccountService {
     private DatabaseClient databaseClient;
 
 
+
+
     @Override
     public Mono<AccountInfo> findByAccount(String account) {
         return accountRepository.findByAccount(account)
@@ -65,6 +70,44 @@ public class ReactiveAccountServiceImpl implements ReactiveAccountService {
                 });
     }
 
+
+    @Override
+    public Mono<AccountAuthenticateVo> auth(AccountVo accountVo) {
+        return findByAccount(accountVo.getAccount())
+                .map(ac -> AccountAuthenticateVo.builder().jwt(generateJwt(ac)).build())
+                ;
+    }
+
+    @Override
+    public Mono<AccountInfo> parseJwt(String jwt) {
+        return null;
+    }
+
+    /**
+     * 生成jwt
+     * @param accountInfo
+     * @return
+     */
+    public String  generateJwt(AccountInfo accountInfo){
+        // Generate the JWT token
+        return AccountJwtUtil.generateJwt(accountInfo.getAccount(),accountInfo);
+    }
+
+    /***
+     * 验证jwt
+     * @param jwtToken
+     */
+    public AccountInfo verifyJwt(String jwtToken) throws IllegalAccessException {
+        try {
+            // Verify the JWT token
+            return AccountJwtUtil.verifyAndGetClaim(jwtToken);
+        } catch (SignatureException e) {
+            System.out.println("Invalid JWT signature");
+            throw new IllegalAccessException("token 异常");
+        }
+    }
+
+
     public Mono<AccountInfo> register(AccountVo accountVo) {
         Assert.notNull(accountVo,"注册账户不可为空！");
         return Mono.defer(()-> accountRepository.findByAccount(accountVo.getAccount())
@@ -82,8 +125,6 @@ public class ReactiveAccountServiceImpl implements ReactiveAccountService {
     private Function<Account,Boolean>  verifyAccount(){
         return (account ) -> PasswordUtils.verityPassword(account.getPassword(), account.getSalt(), account.getPwdhash());
     }
-
-
 
     private Function<AccountVo,Account> registerAccount(){
         return (accountVo)-> {

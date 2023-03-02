@@ -1,35 +1,22 @@
 @startuml
-'https://plantuml.com/use-case-diagram
-skinparam actorStyle awesome
-:user 1: as user1
-:user 2: as user2
-'(账号服务) as (account)
-package accountDataBase{
-    usecase account
-    usecase friend_relation
-    usecase account_login_rec
-    usecase account_
-}
-package login {
-    usecase token
-    usecase roleControl
-    usecase action
-}
-package send{
-
-}
-package receive{
-}
-package {
-}
-
-package addFriend{
-  usecase sysMes
- userA -> sysMes :发送添加请求
- sysMes -> userB : 发送系统消息
- userB --> sysMes : 同意申请
- sysMes --> userA : 对方已同意
-
-}
-
+'https://plantuml.com/sequence-diagram
+title  系统用户登录时序图
+skinparam backgroundColor #EEEBDC
+skinparam handwritten true
+autonumber
+actor Client as client
+participant API as server
+participant MsgServer as netty
+== login ==
+client ->  server : login
+server -> server : account verify
+alt verify success:
+    server --> client :generate jwt and return
+    client -> netty: connect MsgServer and build tcp connect
+    note left: connect MsgServer with jwt
+    netty -> netty: parse jwt  and  attr the accountInfo to Channel
+    netty --> client : connect success
+else verify fail:
+    server --> client: login failed;
+end alt
 @enduml

@@ -1,23 +1,34 @@
-
-dubbo:
-  application:
-    protocol: grpc
-    name: sessionService
-    dump-directory: /home/dump
-  consumer:
-    check: false
-  registry:
-    address: nacos://124.221.168.200:8848?username=ifx2022?password=ifx2022?namespce=ccfffa41-d050-42eb-b29b-037ac8b43fc9
-    password: ifx2022
-    username: ifx2022
-  protocol:
-    port: 20893
-    name: dubbo
-mybatis-plus:
-  mapper-locations: classpath*:**/mapper/*.xml
-#mybatis:
-#  mapper-location: classpath*:**/mapper/*.xml
+ifx:
+  api:
+    gateway:
+      host: ${IFX_API_HOST:localhost}
+      port: ${IFX_API_PORT:8761}
 spring:
+  cloud:
+  #    zookeeper:
+  #      connect-string: localhost:2181
+  application:
+    name: ifx-server
+  #  security:
+  #    oauth2:
+  #      client:
+  #        registration:
+  #          google-login:
+  #            provider: google
+  #          google:
+  #            client-id: google-client-id
+  #            client-secret: google-client-secret
+  r2dbc:
+    url: r2dbc:mysql://124.221.168.200:3306/ifx?useUnicode=true&characterEncoding=utf-8&txcAppName=account&useSSL=true
+    username: ifx
+    password: ifx2022
+    pool:
+      #      enabled: true
+      initial-size: 100
+      max-size: 200
+      max-idle-time: 30m
+      validation-query: SELECT 1
+
   data:
     mongodb:
       host: 124.221.168.200
@@ -26,11 +37,11 @@ spring:
       password: admin
       database: ifx
   datasource:
-    druid:
-      username: ifx
-      password: ifx2022
-      url: jdbc:mysql://124.221.168.200/ifx?useUnicode=true&characterEncoding=utf-8&txcAppName=account&useSSL=true
-      driver-class-name: com.mysql.cj.jdbc.Driver
+#    druid:
+#      username: ifx
+#      password: ifx2022
+#      url: jdbc:mysql://124.221.168.200/ifx?useUnicode=true&characterEncoding=utf-8&txcAppName=account&useSSL=true
+#      driver-class-name: com.mysql.cj.jdbc.Driver
   redis:
     host: r-bp1qa05yeerb7tul4hpd.redis.rds.aliyuncs.com
     port: 6379

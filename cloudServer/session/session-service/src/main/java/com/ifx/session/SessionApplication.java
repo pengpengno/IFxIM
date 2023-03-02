@@ -2,9 +2,10 @@ package com.ifx.session;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.openfeign.EnableFeignClients;
 
-@SpringBootApplication
-//@MapperScan(basePackages = {"com.ifx.session.mapper"})
+@SpringBootApplication(scanBasePackages = "com.ifx")
+@EnableFeignClients
 public class SessionApplication {
 
     public static void main(String[] args) {

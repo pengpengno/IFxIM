@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.bind.support.WebExchangeBindException;
 import reactor.core.publisher.Mono;
-
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -39,16 +38,12 @@ public class AccountExceptionHandler {
     public Mono<ResponseEntity<ProblemDetail>> handleBindException(WebExchangeBindException bindException) {
         StringBuilder errorMsgBuilder = new StringBuilder();
         ProblemDetail problemDetail = ProblemDetail.forStatus(HttpStatus.BAD_REQUEST);
-
         List<ObjectError> allErrors = bindException.getAllErrors();
         if (CollectionUtil.isNotEmpty(allErrors)) {
             allErrors.forEach(e -> errorMsgBuilder.append(e.getDefaultMessage()));
             problemDetail.setDetail(errorMsgBuilder.toString());
-            problemDetail.setProperty("errorCode", 10000l);
         } else {
-            problemDetail.setDetail(bindException.getLocalizedMessage());
-            problemDetail.setProperty("errorCode", 10000l);
-            problemDetail.setProperty("errorType ", 10000l);
+            problemDetail.setDetail(bindException.getMessage());
         }
         return Mono.just(ResponseEntity.of(problemDetail).build());
     }
@@ -74,14 +69,14 @@ public class AccountExceptionHandler {
             StringBuilder sb = new StringBuilder();
             constraintViolations.forEach(e->sb.append(e.getMessage()).append(","));
             problemDetail.setDetail(sb.toString());
-            problemDetail.setProperty("errorCode",10000l);
         }
         else {
-            problemDetail.setDetail(exception.getLocalizedMessage());
-            problemDetail.setProperty("errorCode",10000l);
+            problemDetail.setDetail(exception.getMessage());
         }
         return Mono.just(ResponseEntity.of(problemDetail).build());
     }
+
+
     @ExceptionHandler
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public Mono<ResponseEntity<String>> illegalFail(IllegalAccessException exception){
@@ -90,11 +85,20 @@ public class AccountExceptionHandler {
     }
 
 
+    @ExceptionHandler
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public Mono<ResponseEntity<ProblemDetail>> IllegalArgumentException(IllegalArgumentException exception){
+        log.error("出现异常 {}",ExceptionUtil.stacktraceToString(exception));
+        ProblemDetail problemDetail = ProblemDetail.forStatus(HttpStatus.BAD_REQUEST);
+        problemDetail.setDetail(exception.getMessage());
+        return Mono.just(ResponseEntity.of(problemDetail).build());
+    }
+
+
 
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.BAD_GATEWAY)
     public Mono<ErrorResponse> exception(Exception exception){
-        log.info("ssssssss {} ",ExceptionUtil.stacktraceToString(exception));
         return Mono.just(ErrorResponse.builder(exception,HttpStatus.INTERNAL_SERVER_ERROR,ExceptionUtil.stacktraceToString(exception)).build());
     }
 
@@ -103,8 +107,7 @@ public class AccountExceptionHandler {
 
     @ExceptionHandler(Throwable.class)
     @ResponseStatus(HttpStatus.BAD_GATEWAY)
-    public Mono<ErrorResponse> exception(Throwable exception){
-        log.info("ssssssss");
+    public Mono<ErrorResponse> throwable(Throwable exception){
         return Mono.just(ErrorResponse.builder(exception,HttpStatus.INTERNAL_SERVER_ERROR,ExceptionUtil.stacktraceToString(exception)).build());
     }
 }

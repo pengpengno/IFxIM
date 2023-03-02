@@ -1,9 +1,12 @@
 package com.ifx.client.app.controller;
 
 
+import com.ifx.account.route.accout.AccRoute;
+import com.ifx.account.vo.AccountAuthenticateVo;
 import com.ifx.account.vo.AccountVo;
 import com.ifx.client.service.helper.AccountHelper;
 import com.ifx.client.util.FxmlLoader;
+import com.ifx.connect.proto.Auth;
 import com.ifx.connect.proto.Protocol;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -87,7 +90,7 @@ public class LoginController  implements Initializable {
         alert.setTitle("登录状态");
         webClient
             .post()
-            .uri("/api/account/login")
+            .uri(AccRoute.ACCOUNT_ROUTE+AccRoute.AUTH_POST)
             .contentType(MediaType.APPLICATION_JSON)
             .bodyValue(accountVo)
             .retrieve()
@@ -98,15 +101,18 @@ public class LoginController  implements Initializable {
                     .flatMap(problemDetail ->
                         Mono.error(()->
                             new RuntimeException(problemDetail.getDetail()))))
-            .bodyToMono(AccountVo.class)
+            .bodyToMono(AccountAuthenticateVo.class)
                 .doOnError((throwable)-> {
                     log.error( throwable.getMessage());
-                    log.info( throwable.getMessage());
                 })
             .subscribe(acc -> {
                 Platform.runLater(()->  {
                     hide();
                     MainController.show();
+//                    1. 开始链接服务器
+                    String jwt = acc.getJwt();
+                    Auth.Authenticate.newBuilder().setJwt(jwt).build();
+
                 });
             });
 

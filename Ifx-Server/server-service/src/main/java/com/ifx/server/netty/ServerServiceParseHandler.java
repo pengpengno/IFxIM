@@ -23,6 +23,7 @@ import java.util.concurrent.ExecutorService;
 @Slf4j
 @ChannelHandler.Sharable
 @Singleton
+@Deprecated
 public class ServerServiceParseHandler extends ChannelDuplexHandler {
 
     private ExecutorService serverService;

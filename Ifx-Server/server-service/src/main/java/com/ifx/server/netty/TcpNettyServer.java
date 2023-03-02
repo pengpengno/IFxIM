@@ -3,6 +3,7 @@ package com.ifx.server.netty;
 import com.google.inject.Guice;
 import com.ifx.connect.handler.decoder.ProtocolDecoder;
 import com.ifx.connect.handler.encoder.ProtocolEncoder;
+import com.ifx.connect.proto.enums.ProtoSerialEnum;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
@@ -97,9 +98,9 @@ public class TcpNettyServer {
      * reactor-netty 实现
      * @param address
      */
-    public void createServer(InetSocketAddress address){
+    public void startUp(InetSocketAddress address){
         ConcurrentMap<String, Channel> stringChannelConcurrentMap = new ConcurrentHashMapV8<>();
-        log.info("start netty server ");
+        log.debug("netty tcp server loading ");
         TcpServer tcpServer = TcpServer.create();
         DisposableServer server =
             tcpServer
@@ -108,26 +109,27 @@ public class TcpNettyServer {
                 .wiretap(this.getClass().getName(), LogLevel.INFO)
                 .handle((nettyInbound, nettyOutbound) -> {
                     nettyInbound.receive().subscribe(msg -> {
-                        log.info("receivemsg {}", String.valueOf(msg.readByte()));
+                        log.info("receive msg is  {}", String.valueOf(msg.readByte()));
                     });
                     return nettyOutbound.neverComplete();
                 })
                 .doOnConnection(connection -> connection.addHandlerFirst(new IdleStateHandler(20,20,20)))//  free channel  checkout
                 .doOnChannelInit((connectionObserver, channel, remoteAddress) -> {
                     channel.pipeline()
-                            .addLast(new LoggingHandler())
-                            .addLast(new ProtocolEncoder())
-                            .addLast(new ProtocolDecoder())
-                            .addLast(Guice.createInjector().getInstance(ServerServiceParseHandler.class));
+                        .addLast(new LoggingHandler())
+                        .addLast(new ProtocolEncoder())
+                        .addLast(new ProtocolDecoder())
+                        .addLast(Guice.createInjector().getInstance(ServerServiceParseHandler.class));
                 })
                 .bindNow()
                 ;
 //        server.channel().attr(AttributeKey.valueOf("sss"),"sd")
-
+//        IMessage.Message.parseFrom()
         server.onDispose()
 //                .block()
         ;
-        log.info("netty server start done. host {}  port {}",address.getHostName(),address.getPort());
+
+        log.debug("netty server has startup . host {}  port {}",address.getHostName(),address.getPort());
     }
 
 
