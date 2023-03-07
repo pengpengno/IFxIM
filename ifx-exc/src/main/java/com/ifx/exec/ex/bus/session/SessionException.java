@@ -1,5 +1,6 @@
 package com.ifx.exec.ex.bus.session;
 
+import com.ifx.exec.errorMsg.IErrorMsg;
 import com.ifx.exec.ex.bus.IFXException;
 
 /**
@@ -7,13 +8,18 @@ import com.ifx.exec.ex.bus.IFXException;
  * @date 2022/12/9
  */
 public class SessionException extends IFXException {
-    public SessionException(ExceptionMessage exceptionMessage) {
-        super(exceptionMessage);
 
+
+    public SessionException(IErrorMsg errorMsg) {
+        super(errorMsg);
     }
 
-    public SessionException(ExceptionMessage exceptionMessage, String detailMsg) {
-        super(exceptionMessage, detailMsg);
+    public SessionException(IErrorMsg errorMsg, String detailMsg) {
+        super(errorMsg, detailMsg);
+    }
+
+    public SessionException() {
+        super();
     }
 
 

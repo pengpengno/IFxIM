@@ -1,5 +1,6 @@
 package com.ifx.exec.ex.bus.acc;
 
+import com.ifx.exec.errorMsg.IErrorMsg;
 import com.ifx.exec.ex.bus.IFXException;
 
 /**
@@ -10,12 +11,12 @@ import com.ifx.exec.ex.bus.IFXException;
 public class AccountException extends IFXException {
 
 
-    public AccountException(ExceptionMessage exceptionMessage) {
-        super(exceptionMessage);
+    public AccountException(IErrorMsg errorMsg) {
+        super(errorMsg);
     }
 
-    public AccountException(ExceptionMessage exceptionMessage, String detailMsg) {
-        super(exceptionMessage, detailMsg);
+    public AccountException(IErrorMsg errorMsg, String detailMsg) {
+        super(errorMsg, detailMsg);
     }
 
     public AccountException() {

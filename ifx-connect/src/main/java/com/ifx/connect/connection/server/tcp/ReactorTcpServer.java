@@ -4,7 +4,7 @@ import com.google.inject.Singleton;
 import com.ifx.common.base.AccountInfo;
 import com.ifx.connect.connection.server.ReactiveServer;
 import com.ifx.connect.connection.server.ServerToolkit;
-import com.ifx.connect.connection.server.context.Con;
+import com.ifx.connect.connection.server.context.ReactorConnection;
 import com.ifx.connect.connection.server.context.IConnectContextAction;
 import com.ifx.connect.connection.server.context.IConnection;
 import io.netty.channel.Channel;
@@ -76,13 +76,13 @@ public class ReactorTcpServer implements ReactiveServer {
                 .doOnConnection(conn -> {
                     Channel channel = conn.channel();
                     AccountInfo accountInfo = channel.attr(attribute).get();
-                    IConnection build = Con.builder()
+                    IConnection build = ReactorConnection.builder()
                             .connection(conn)
                             .accountInfo(accountInfo)
                             .channel(channel)
                             .build();
                     // Remove the connection when it's idle
-                    conn.onReadIdle(36000 , ()-> contextAction.closeAndRmConnection(accountInfo.getAccount());
+                    conn.onReadIdle(36000 , ()-> contextAction.closeAndRmConnection(accountInfo.getAccount()));
                     // Store the connection for later use
                     contextAction.putConnection(build);
                     conn.onDispose().subscribe(v -> {
