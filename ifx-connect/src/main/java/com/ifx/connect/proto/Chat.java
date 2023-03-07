@@ -49,6 +49,56 @@ public final class Chat {
      */
     com.google.protobuf.ByteString
         getContentBytes();
+
+    /**
+     * <code>string fromAccount = 5;</code>
+     * @return The fromAccount.
+     */
+    java.lang.String getFromAccount();
+    /**
+     * <code>string fromAccount = 5;</code>
+     * @return The bytes for fromAccount.
+     */
+    com.google.protobuf.ByteString
+        getFromAccountBytes();
+
+    /**
+     * <code>string toAccount = 6;</code>
+     * @return The toAccount.
+     */
+    java.lang.String getToAccount();
+    /**
+     * <code>string toAccount = 6;</code>
+     * @return The bytes for toAccount.
+     */
+    com.google.protobuf.ByteString
+        getToAccountBytes();
+
+    /**
+     * <code>.com.ifx.connect.proto.ProtocolHeader j3 = 4;</code>
+     * @return Whether the j3 field is set.
+     */
+    boolean hasJ3();
+    /**
+     * <code>.com.ifx.connect.proto.ProtocolHeader j3 = 4;</code>
+     * @return The j3.
+     */
+    com.ifx.connect.proto.ProtoMessage.ProtocolHeader getJ3();
+    /**
+     * <code>.com.ifx.connect.proto.ProtocolHeader j3 = 4;</code>
+     */
+    com.ifx.connect.proto.ProtoMessage.ProtocolHeaderOrBuilder getJ3OrBuilder();
+
+    /**
+     * <code>.com.ifx.connect.proto.ProtocolMessageEnum en = 8;</code>
+     * @return The enum numeric value on the wire for en.
+     */
+    int getEnValue();
+    /**
+     * <code>.com.ifx.connect.proto.ProtocolMessageEnum en = 8;</code>
+     * @return The en.
+     */
+    com.ifx.connect.proto.ProtocolMessage.ProtocolMessageEnum getEn();
   }
   /**
    * Protobuf type {@code com.ifx.connect.proto.ChatMessage}
@@ -65,6 +115,9 @@ public final class Chat {
     private ChatMessage() {
       jwt_ = "";
       content_ = "";
+      fromAccount_ = "";
+      toAccount_ = "";
+      en_ = 0;
     }
 
     @java.lang.Override
@@ -173,6 +226,128 @@ public final class Chat {
       }
     }
 
+    public static final int FROMACCOUNT_FIELD_NUMBER = 5;
+    @SuppressWarnings("serial")
+    private volatile java.lang.Object fromAccount_ = "";
+    /**
+     * <code>string fromAccount = 5;</code>
+     * @return The fromAccount.
+     */
+    @java.lang.Override
+    public java.lang.String getFromAccount() {
+      java.lang.Object ref = fromAccount_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        fromAccount_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string fromAccount = 5;</code>
+     * @return The bytes for fromAccount.
+     */
+    @java.lang.Override
+    public com.google.protobuf.ByteString
+        getFromAccountBytes() {
+      java.lang.Object ref = fromAccount_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        fromAccount_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int TOACCOUNT_FIELD_NUMBER = 6;
+    @SuppressWarnings("serial")
+    private volatile java.lang.Object toAccount_ = "";
+    /**
+     * <code>string toAccount = 6;</code>
+     * @return The toAccount.
+     */
+    @java.lang.Override
+    public java.lang.String getToAccount() {
+      java.lang.Object ref = toAccount_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        toAccount_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string toAccount = 6;</code>
+     * @return The bytes for toAccount.
+     */
+    @java.lang.Override
+    public com.google.protobuf.ByteString
+        getToAccountBytes() {
+      java.lang.Object ref = toAccount_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        toAccount_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int J3_FIELD_NUMBER = 4;
+    private com.ifx.connect.proto.ProtoMessage.ProtocolHeader j3_;
+    /**
+     * <code>.com.ifx.connect.proto.ProtocolHeader j3 = 4;</code>
+     * @return Whether the j3 field is set.
+     */
+    @java.lang.Override
+    public boolean hasJ3() {
+      return j3_ != null;
+    }
+    /**
+     * <code>.com.ifx.connect.proto.ProtocolHeader j3 = 4;</code>
+     * @return The j3.
+     */
+    @java.lang.Override
+    public com.ifx.connect.proto.ProtoMessage.ProtocolHeader getJ3() {
+      return j3_ == null ? com.ifx.connect.proto.ProtoMessage.ProtocolHeader.getDefaultInstance() : j3_;
+    }
+    /**
+     * <code>.com.ifx.connect.proto.ProtocolHeader j3 = 4;</code>
+     */
+    @java.lang.Override
+    public com.ifx.connect.proto.ProtoMessage.ProtocolHeaderOrBuilder getJ3OrBuilder() {
+      return j3_ == null ? com.ifx.connect.proto.ProtoMessage.ProtocolHeader.getDefaultInstance() : j3_;
+    }
+
+    public static final int EN_FIELD_NUMBER = 8;
+    private int en_ = 0;
+    /**
+     * <code>.com.ifx.connect.proto.ProtocolMessageEnum en = 8;</code>
+     * @return The enum numeric value on the wire for en.
+     */
+    @java.lang.Override public int getEnValue() {
+      return en_;
+    }
+    /**
+     * <code>.com.ifx.connect.proto.ProtocolMessageEnum en = 8;</code>
+     * @return The en.
+     */
+    @java.lang.Override public com.ifx.connect.proto.ProtocolMessage.ProtocolMessageEnum getEn() {
+      com.ifx.connect.proto.ProtocolMessage.ProtocolMessageEnum result = com.ifx.connect.proto.ProtocolMessage.ProtocolMessageEnum.forNumber(en_);
+      return result == null ? com.ifx.connect.proto.ProtocolMessage.ProtocolMessageEnum.UNRECOGNIZED : result;
+    }
+
     private byte memoizedIsInitialized = -1;
     @java.lang.Override
     public final boolean isInitialized() {
@@ -193,6 +368,18 @@ public final class Chat {
       if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(content_)) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 3, content_);
       }
+      if (j3_ != null) {
+        output.writeMessage(4, getJ3());
+      }
+      if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(fromAccount_)) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 5, fromAccount_);
+      }
+      if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(toAccount_)) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 6, toAccount_);
+      }
+      if (en_ != com.ifx.connect.proto.ProtocolMessage.ProtocolMessageEnum.TMP.getNumber()) {
+        output.writeEnum(8, en_);
+      }
       getUnknownFields().writeTo(output);
     }
 
@@ -207,6 +394,20 @@ public final class Chat {
       }
       if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(content_)) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(3, content_);
+      }
+      if (j3_ != null) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(4, getJ3());
+      }
+      if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(fromAccount_)) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(5, fromAccount_);
+      }
+      if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(toAccount_)) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(6, toAccount_);
+      }
+      if (en_ != com.ifx.connect.proto.ProtocolMessage.ProtocolMessageEnum.TMP.getNumber()) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeEnumSize(8, en_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSize = size;
@@ -227,6 +428,16 @@ public final class Chat {
           .equals(other.getJwt())) return false;
       if (!getContent()
           .equals(other.getContent())) return false;
+      if (!getFromAccount()
+          .equals(other.getFromAccount())) return false;
+      if (!getToAccount()
+          .equals(other.getToAccount())) return false;
+      if (hasJ3() != other.hasJ3()) return false;
+      if (hasJ3()) {
+        if (!getJ3()
+            .equals(other.getJ3())) return false;
+      }
+      if (en_ != other.en_) return false;
       if (!getUnknownFields().equals(other.getUnknownFields())) return false;
       return true;
     }
@@ -242,6 +453,16 @@ public final class Chat {
       hash = (53 * hash) + getJwt().hashCode();
       hash = (37 * hash) + CONTENT_FIELD_NUMBER;
       hash = (53 * hash) + getContent().hashCode();
+      hash = (37 * hash) + FROMACCOUNT_FIELD_NUMBER;
+      hash = (53 * hash) + getFromAccount().hashCode();
+      hash = (37 * hash) + TOACCOUNT_FIELD_NUMBER;
+      hash = (53 * hash) + getToAccount().hashCode();
+      if (hasJ3()) {
+        hash = (37 * hash) + J3_FIELD_NUMBER;
+        hash = (53 * hash) + getJ3().hashCode();
+      }
+      hash = (37 * hash) + EN_FIELD_NUMBER;
+      hash = (53 * hash) + en_;
       hash = (29 * hash) + getUnknownFields().hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -373,6 +594,14 @@ public final class Chat {
         bitField0_ = 0;
         jwt_ = "";
         content_ = "";
+        fromAccount_ = "";
+        toAccount_ = "";
+        j3_ = null;
+        if (j3Builder_ != null) {
+          j3Builder_.dispose();
+          j3Builder_ = null;
+        }
+        en_ = 0;
         return this;
       }
 
@@ -412,6 +641,20 @@ public final class Chat {
         if (((from_bitField0_ & 0x00000002) != 0)) {
           result.content_ = content_;
         }
+        if (((from_bitField0_ & 0x00000004) != 0)) {
+          result.fromAccount_ = fromAccount_;
+        }
+        if (((from_bitField0_ & 0x00000008) != 0)) {
+          result.toAccount_ = toAccount_;
+        }
+        if (((from_bitField0_ & 0x00000010) != 0)) {
+          result.j3_ = j3Builder_ == null
+              ? j3_
+              : j3Builder_.build();
+        }
+        if (((from_bitField0_ & 0x00000020) != 0)) {
+          result.en_ = en_;
+        }
       }
 
       @java.lang.Override
@@ -435,6 +678,22 @@ public final class Chat {
           content_ = other.content_;
           bitField0_ |= 0x00000002;
           onChanged();
+        }
+        if (!other.getFromAccount().isEmpty()) {
+          fromAccount_ = other.fromAccount_;
+          bitField0_ |= 0x00000004;
+          onChanged();
+        }
+        if (!other.getToAccount().isEmpty()) {
+          toAccount_ = other.toAccount_;
+          bitField0_ |= 0x00000008;
+          onChanged();
+        }
+        if (other.hasJ3()) {
+          mergeJ3(other.getJ3());
+        }
+        if (other.en_ != 0) {
+          setEnValue(other.getEnValue());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         onChanged();
@@ -472,6 +731,28 @@ public final class Chat {
                 bitField0_ |= 0x00000002;
                 break;
               } // case 26
+              case 34: {
+                input.readMessage(
+                    getJ3FieldBuilder().getBuilder(),
+                    extensionRegistry);
+                bitField0_ |= 0x00000010;
+                break;
+              } // case 34
+              case 42: {
+                fromAccount_ = input.readStringRequireUtf8();
+                bitField0_ |= 0x00000004;
+                break;
+              } // case 42
+              case 50: {
+                toAccount_ = input.readStringRequireUtf8();
+                bitField0_ |= 0x00000008;
+                break;
+              } // case 50
+              case 64: {
+                en_ = input.readEnum();
+                bitField0_ |= 0x00000020;
+                break;
+              } // case 64
               default: {
                 if (!super.parseUnknownField(input, extensionRegistry, tag)) {
                   done = true; // was an endgroup tag
@@ -652,6 +933,322 @@ public final class Chat {
         onChanged();
         return this;
       }
+
+      private java.lang.Object fromAccount_ = "";
+      /**
+       * <code>string fromAccount = 5;</code>
+       * @return The fromAccount.
+       */
+      public java.lang.String getFromAccount() {
+        java.lang.Object ref = fromAccount_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          fromAccount_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string fromAccount = 5;</code>
+       * @return The bytes for fromAccount.
+       */
+      public com.google.protobuf.ByteString
+          getFromAccountBytes() {
+        java.lang.Object ref = fromAccount_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          fromAccount_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string fromAccount = 5;</code>
+       * @param value The fromAccount to set.
+       * @return This builder for chaining.
+       */
+      public Builder setFromAccount(
+          java.lang.String value) {
+        if (value == null) { throw new NullPointerException(); }
+        fromAccount_ = value;
+        bitField0_ |= 0x00000004;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string fromAccount = 5;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearFromAccount() {
+        fromAccount_ = getDefaultInstance().getFromAccount();
+        bitField0_ = (bitField0_ & ~0x00000004);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string fromAccount = 5;</code>
+       * @param value The bytes for fromAccount to set.
+       * @return This builder for chaining.
+       */
+      public Builder setFromAccountBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) { throw new NullPointerException(); }
+        checkByteStringIsUtf8(value);
+        fromAccount_ = value;
+        bitField0_ |= 0x00000004;
+        onChanged();
+        return this;
+      }
+
+      private java.lang.Object toAccount_ = "";
+      /**
+       * <code>string toAccount = 6;</code>
+       * @return The toAccount.
+       */
+      public java.lang.String getToAccount() {
+        java.lang.Object ref = toAccount_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          toAccount_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string toAccount = 6;</code>
+       * @return The bytes for toAccount.
+       */
+      public com.google.protobuf.ByteString
+          getToAccountBytes() {
+        java.lang.Object ref = toAccount_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          toAccount_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string toAccount = 6;</code>
+       * @param value The toAccount to set.
+       * @return This builder for chaining.
+       */
+      public Builder setToAccount(
+          java.lang.String value) {
+        if (value == null) { throw new NullPointerException(); }
+        toAccount_ = value;
+        bitField0_ |= 0x00000008;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string toAccount = 6;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearToAccount() {
+        toAccount_ = getDefaultInstance().getToAccount();
+        bitField0_ = (bitField0_ & ~0x00000008);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string toAccount = 6;</code>
+       * @param value The bytes for toAccount to set.
+       * @return This builder for chaining.
+       */
+      public Builder setToAccountBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) { throw new NullPointerException(); }
+        checkByteStringIsUtf8(value);
+        toAccount_ = value;
+        bitField0_ |= 0x00000008;
+        onChanged();
+        return this;
+      }
+
+      private com.ifx.connect.proto.ProtoMessage.ProtocolHeader j3_;
+      private com.google.protobuf.SingleFieldBuilderV3<
+          com.ifx.connect.proto.ProtoMessage.ProtocolHeader, com.ifx.connect.proto.ProtoMessage.ProtocolHeader.Builder, com.ifx.connect.proto.ProtoMessage.ProtocolHeaderOrBuilder> j3Builder_;
+      /**
+       * <code>.com.ifx.connect.proto.ProtocolHeader j3 = 4;</code>
+       * @return Whether the j3 field is set.
+       */
+      public boolean hasJ3() {
+        return ((bitField0_ & 0x00000010) != 0);
+      }
+      /**
+       * <code>.com.ifx.connect.proto.ProtocolHeader j3 = 4;</code>
+       * @return The j3.
+       */
+      public com.ifx.connect.proto.ProtoMessage.ProtocolHeader getJ3() {
+        if (j3Builder_ == null) {
+          return j3_ == null ? com.ifx.connect.proto.ProtoMessage.ProtocolHeader.getDefaultInstance() : j3_;
+        } else {
+          return j3Builder_.getMessage();
+        }
+      }
+      /**
+       * <code>.com.ifx.connect.proto.ProtocolHeader j3 = 4;</code>
+       */
+      public Builder setJ3(com.ifx.connect.proto.ProtoMessage.ProtocolHeader value) {
+        if (j3Builder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          j3_ = value;
+        } else {
+          j3Builder_.setMessage(value);
+        }
+        bitField0_ |= 0x00000010;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>.com.ifx.connect.proto.ProtocolHeader j3 = 4;</code>
+       */
+      public Builder setJ3(
+          com.ifx.connect.proto.ProtoMessage.ProtocolHeader.Builder builderForValue) {
+        if (j3Builder_ == null) {
+          j3_ = builderForValue.build();
+        } else {
+          j3Builder_.setMessage(builderForValue.build());
+        }
+        bitField0_ |= 0x00000010;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>.com.ifx.connect.proto.ProtocolHeader j3 = 4;</code>
+       */
+      public Builder mergeJ3(com.ifx.connect.proto.ProtoMessage.ProtocolHeader value) {
+        if (j3Builder_ == null) {
+          if (((bitField0_ & 0x00000010) != 0) &&
+            j3_ != null &&
+            j3_ != com.ifx.connect.proto.ProtoMessage.ProtocolHeader.getDefaultInstance()) {
+            getJ3Builder().mergeFrom(value);
+          } else {
+            j3_ = value;
+          }
+        } else {
+          j3Builder_.mergeFrom(value);
+        }
+        bitField0_ |= 0x00000010;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>.com.ifx.connect.proto.ProtocolHeader j3 = 4;</code>
+       */
+      public Builder clearJ3() {
+        bitField0_ = (bitField0_ & ~0x00000010);
+        j3_ = null;
+        if (j3Builder_ != null) {
+          j3Builder_.dispose();
+          j3Builder_ = null;
+        }
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>.com.ifx.connect.proto.ProtocolHeader j3 = 4;</code>
+       */
+      public com.ifx.connect.proto.ProtoMessage.ProtocolHeader.Builder getJ3Builder() {
+        bitField0_ |= 0x00000010;
+        onChanged();
+        return getJ3FieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.com.ifx.connect.proto.ProtocolHeader j3 = 4;</code>
+       */
+      public com.ifx.connect.proto.ProtoMessage.ProtocolHeaderOrBuilder getJ3OrBuilder() {
+        if (j3Builder_ != null) {
+          return j3Builder_.getMessageOrBuilder();
+        } else {
+          return j3_ == null ?
+              com.ifx.connect.proto.ProtoMessage.ProtocolHeader.getDefaultInstance() : j3_;
+        }
+      }
+      /**
+       * <code>.com.ifx.connect.proto.ProtocolHeader j3 = 4;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilderV3<
+          com.ifx.connect.proto.ProtoMessage.ProtocolHeader, com.ifx.connect.proto.ProtoMessage.ProtocolHeader.Builder, com.ifx.connect.proto.ProtoMessage.ProtocolHeaderOrBuilder> 
+          getJ3FieldBuilder() {
+        if (j3Builder_ == null) {
+          j3Builder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              com.ifx.connect.proto.ProtoMessage.ProtocolHeader, com.ifx.connect.proto.ProtoMessage.ProtocolHeader.Builder, com.ifx.connect.proto.ProtoMessage.ProtocolHeaderOrBuilder>(
+                  getJ3(),
+                  getParentForChildren(),
+                  isClean());
+          j3_ = null;
+        }
+        return j3Builder_;
+      }
+
+      private int en_ = 0;
+      /**
+       * <code>.com.ifx.connect.proto.ProtocolMessageEnum en = 8;</code>
+       * @return The enum numeric value on the wire for en.
+       */
+      @java.lang.Override public int getEnValue() {
+        return en_;
+      }
+      /**
+       * <code>.com.ifx.connect.proto.ProtocolMessageEnum en = 8;</code>
+       * @param value The enum numeric value on the wire for en to set.
+       * @return This builder for chaining.
+       */
+      public Builder setEnValue(int value) {
+        en_ = value;
+        bitField0_ |= 0x00000020;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>.com.ifx.connect.proto.ProtocolMessageEnum en = 8;</code>
+       * @return The en.
+       */
+      @java.lang.Override
+      public com.ifx.connect.proto.ProtocolMessage.ProtocolMessageEnum getEn() {
+        com.ifx.connect.proto.ProtocolMessage.ProtocolMessageEnum result = com.ifx.connect.proto.ProtocolMessage.ProtocolMessageEnum.forNumber(en_);
+        return result == null ? com.ifx.connect.proto.ProtocolMessage.ProtocolMessageEnum.UNRECOGNIZED : result;
+      }
+      /**
+       * <code>.com.ifx.connect.proto.ProtocolMessageEnum en = 8;</code>
+       * @param value The en to set.
+       * @return This builder for chaining.
+       */
+      public Builder setEn(com.ifx.connect.proto.ProtocolMessage.ProtocolMessageEnum value) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        bitField0_ |= 0x00000020;
+        en_ = value.getNumber();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>.com.ifx.connect.proto.ProtocolMessageEnum en = 8;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearEn() {
+        bitField0_ = (bitField0_ & ~0x00000020);
+        en_ = 0;
+        onChanged();
+        return this;
+      }
       @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
@@ -730,21 +1327,32 @@ public final class Chat {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\rMessage.proto\022\025com.ifx.connect.proto\"+" +
-      "\n\013ChatMessage\022\013\n\003jwt\030\002 \001(\t\022\017\n\007content\030\003 " +
-      "\001(\tB\035\n\025com.ifx.connect.protoB\004Chatb\006prot" +
-      "o3"
+      "\n\rMessage.proto\022\025com.ifx.connect.proto\032\024" +
+      "ActionProtocol.proto\032\021MessageEnum.proto\032" +
+      "\031google/protobuf/any.proto\"\276\001\n\013ChatMessa" +
+      "ge\022\013\n\003jwt\030\002 \001(\t\022\017\n\007content\030\003 \001(\t\022\023\n\013from" +
+      "Account\030\005 \001(\t\022\021\n\ttoAccount\030\006 \001(\t\0221\n\002j3\030\004" +
+      " \001(\0132%.com.ifx.connect.proto.ProtocolHea" +
+      "der\0226\n\002en\030\010 \001(\0162*.com.ifx.connect.proto." +
+      "ProtocolMessageEnumB\035\n\025com.ifx.connect.p" +
+      "rotoB\004Chatb\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
         new com.google.protobuf.Descriptors.FileDescriptor[] {
+          com.ifx.connect.proto.ProtoMessage.getDescriptor(),
+          com.ifx.connect.proto.ProtocolMessage.getDescriptor(),
+          com.google.protobuf.AnyProto.getDescriptor(),
         });
     internal_static_com_ifx_connect_proto_ChatMessage_descriptor =
       getDescriptor().getMessageTypes().get(0);
     internal_static_com_ifx_connect_proto_ChatMessage_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_com_ifx_connect_proto_ChatMessage_descriptor,
-        new java.lang.String[] { "Jwt", "Content", });
+        new java.lang.String[] { "Jwt", "Content", "FromAccount", "ToAccount", "J3", "En", });
+    com.ifx.connect.proto.ProtoMessage.getDescriptor();
+    com.ifx.connect.proto.ProtocolMessage.getDescriptor();
+    com.google.protobuf.AnyProto.getDescriptor();
   }
 
   // @@protoc_insertion_point(outer_class_scope)

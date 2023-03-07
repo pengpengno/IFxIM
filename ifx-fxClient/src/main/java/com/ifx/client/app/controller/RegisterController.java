@@ -2,7 +2,6 @@ package com.ifx.client.app.controller;
 
 import cn.hutool.core.util.StrUtil;
 import com.ifx.account.vo.AccountVo;
-import com.ifx.client.service.helper.RegisterHelper;
 import com.ifx.client.util.FxmlLoader;
 import com.ifx.common.res.Result;
 import com.ifx.connect.connection.client.ClientToolkit;

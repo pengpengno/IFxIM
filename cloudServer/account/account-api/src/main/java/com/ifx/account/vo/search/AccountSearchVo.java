@@ -1,6 +1,9 @@
 package com.ifx.account.vo.search;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 
@@ -8,6 +11,9 @@ import java.io.Serializable;
  * 账户搜索vo
  */
 @Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class AccountSearchVo implements Serializable {
 
     private String account;

@@ -4,18 +4,15 @@ import com.ifx.connect.proto.Protocol;
 import com.ifx.connect.proto.ProtocolHeaderConst;
 import io.netty.channel.ChannelHandlerContext;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Component;
-
-import javax.annotation.Resource;
 /**
  * 服务端协议接收层<br/>
  *
  */
-@Component
+//@Component
 @Slf4j
 public class ServerProtoReceive  {
 
-    @Resource
+//    @Resource
     private GateInvoke gateInvoke;
 
     /**

@@ -2,7 +2,10 @@ package com.ifx.account.vo;
 
 import com.ifx.account.validator.ACCOUNTLOGIN;
 import com.ifx.common.acc.AccountSPI;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
@@ -11,6 +14,9 @@ import java.io.Serializable;
  * 用户基础信息
  */
 @Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class AccountVo implements Serializable , AccountSPI {
 
     private Long userId;

@@ -1,7 +1,6 @@
 package com.ifx.exec.ex.bus;
 
 import com.ifx.exec.BaseException;
-import com.ifx.exec.ExceptionMessage;
 import com.ifx.exec.errorMsg.IErrorMsg;
 
 /**

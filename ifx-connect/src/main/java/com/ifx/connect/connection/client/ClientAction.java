@@ -1,5 +1,6 @@
 package com.ifx.connect.connection.client;
 
+import com.google.protobuf.Message;
 import com.ifx.connect.proto.Protocol;
 import com.ifx.connect.task.handler.TaskHandler;
 import com.ifx.exec.ex.net.NetException;
@@ -29,6 +30,8 @@ public interface ClientAction {
      */
     public Boolean sendJsonMsg(Protocol protocol, TaskHandler taskHandler);
 
+
+    public Boolean send(Message message);
 
     /**
      * 发送消息协议 muqian buzuo shixian

@@ -1,7 +1,7 @@
 package com.ifx.account.security;
 
-import org.junit.Test;
-//import org.springframework.security.access.prepost.PreAuthorize;
+
+import org.junit.jupiter.api.Test;
 
 /**
  * @author pengpeng

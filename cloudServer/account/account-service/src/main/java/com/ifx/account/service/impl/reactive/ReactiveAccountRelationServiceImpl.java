@@ -49,7 +49,6 @@ public class ReactiveAccountRelationServiceImpl implements ReactiveAccountRelati
     private ReactiveRedisTemplate<String,Object> redisTemplate;
 
 
-
     /***
      * 关系缓存key
      */
@@ -82,12 +81,10 @@ public class ReactiveAccountRelationServiceImpl implements ReactiveAccountRelati
                 .map(AccountRelation::getAccountRelations)
                 .flatMap(this::splitRelations)
                 .collect(Collectors.toSet())
-                .flatMap(li -> {
-                    return Mono.just(AccountRelationVo.builder()
-                            .account(account)
-                            .friendAccountIds(li)
-                            .build());
-                })
+                .flatMap(li -> Mono.just(AccountRelationVo.builder()
+                        .account(account)
+                        .friendAccountIds(li)
+                        .build()))
                 .onErrorResume(throwable -> Mono.empty())
                 ;
     }

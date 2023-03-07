@@ -1,6 +1,5 @@
 package com.ifx.exec.ex.net;
 
-import com.ifx.exec.ExceptionMessage;
 import com.ifx.exec.errorMsg.IErrorMsg;
 
 /***

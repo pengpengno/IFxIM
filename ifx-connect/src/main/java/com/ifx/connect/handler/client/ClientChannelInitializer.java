@@ -24,8 +24,10 @@ public class ClientChannelInitializer extends ChannelInitializer<Channel> {
 
     @Override
     protected void initChannel(Channel ch) throws Exception {
+
 //        ch.pipeline()
-//                .addLast()
+//                .addLast(Guice.createInjector().getInstance(ProtocolEncoder.class))
+//                .addLast(new ProtocolDecoder())
 
     }
 

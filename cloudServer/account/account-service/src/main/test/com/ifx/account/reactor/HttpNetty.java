@@ -1,10 +1,10 @@
 package com.ifx.account.reactor;
 
+import com.ifx.account.AccountApplication;
 import com.ifx.account.service.reactive.ReactiveAccountService;
 import lombok.extern.slf4j.Slf4j;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.SpringBootTest;
 import reactor.core.publisher.Mono;
 import reactor.netty.DisposableServer;
 import reactor.netty.http.server.HttpServer;
@@ -16,7 +16,8 @@ import reactor.netty.http.server.HttpServerRoutes;
  * @date 2023/2/14
  */
 @Slf4j
-@RunWith(SpringJUnit4ClassRunner.class)
+//@RunWith(SpringJUnit4ClassRunner.class)
+@SpringBootTest(classes = AccountApplication.class)
 public class HttpNetty {
 //    @Resource
 //    private AccountController accountController;

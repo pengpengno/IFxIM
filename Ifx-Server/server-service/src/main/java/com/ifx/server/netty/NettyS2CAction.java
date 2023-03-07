@@ -4,13 +4,14 @@ import com.ifx.connect.proto.Protocol;
 import com.ifx.server.netty.holder.NettyContext;
 import com.ifx.server.s2c.IServer2ClientAction;
 import io.netty.channel.Channel;
+import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.Resource;
 
 @Component
 @Slf4j
+@Deprecated
 public class NettyS2CAction implements IServer2ClientAction {
     @Resource
     private NettyContext nettyContext;

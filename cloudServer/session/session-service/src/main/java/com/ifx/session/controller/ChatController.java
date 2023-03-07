@@ -23,10 +23,8 @@ public class ChatController {
 
 
 
-    @PostMapping
+    @PostMapping(ChatRoute.CHAT)
     public Mono<Boolean>  sendMsg(@RequestBody ChatMsgVo chatMsgVo){
-
-
-
+        return null;
     }
 }

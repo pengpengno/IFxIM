@@ -19,6 +19,21 @@ public final class Auth {
       com.google.protobuf.MessageOrBuilder {
 
     /**
+     * <code>.com.ifx.connect.proto.ProtocolHeader actionProtocol = 2;</code>
+     * @return Whether the actionProtocol field is set.
+     */
+    boolean hasActionProtocol();
+    /**
+     * <code>.com.ifx.connect.proto.ProtocolHeader actionProtocol = 2;</code>
+     * @return The actionProtocol.
+     */
+    com.ifx.connect.proto.ProtoMessage.ProtocolHeader getActionProtocol();
+    /**
+     * <code>.com.ifx.connect.proto.ProtocolHeader actionProtocol = 2;</code>
+     */
+    com.ifx.connect.proto.ProtoMessage.ProtocolHeaderOrBuilder getActionProtocolOrBuilder();
+
+    /**
      * <code>string jwt = 1;</code>
      * @return The jwt.
      */
@@ -64,6 +79,32 @@ public final class Auth {
       return com.ifx.connect.proto.Auth.internal_static_com_ifx_connect_proto_Authenticate_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
               com.ifx.connect.proto.Auth.Authenticate.class, com.ifx.connect.proto.Auth.Authenticate.Builder.class);
+    }
+
+    public static final int ACTIONPROTOCOL_FIELD_NUMBER = 2;
+    private com.ifx.connect.proto.ProtoMessage.ProtocolHeader actionProtocol_;
+    /**
+     * <code>.com.ifx.connect.proto.ProtocolHeader actionProtocol = 2;</code>
+     * @return Whether the actionProtocol field is set.
+     */
+    @java.lang.Override
+    public boolean hasActionProtocol() {
+      return actionProtocol_ != null;
+    }
+    /**
+     * <code>.com.ifx.connect.proto.ProtocolHeader actionProtocol = 2;</code>
+     * @return The actionProtocol.
+     */
+    @java.lang.Override
+    public com.ifx.connect.proto.ProtoMessage.ProtocolHeader getActionProtocol() {
+      return actionProtocol_ == null ? com.ifx.connect.proto.ProtoMessage.ProtocolHeader.getDefaultInstance() : actionProtocol_;
+    }
+    /**
+     * <code>.com.ifx.connect.proto.ProtocolHeader actionProtocol = 2;</code>
+     */
+    @java.lang.Override
+    public com.ifx.connect.proto.ProtoMessage.ProtocolHeaderOrBuilder getActionProtocolOrBuilder() {
+      return actionProtocol_ == null ? com.ifx.connect.proto.ProtoMessage.ProtocolHeader.getDefaultInstance() : actionProtocol_;
     }
 
     public static final int JWT_FIELD_NUMBER = 1;
@@ -122,6 +163,9 @@ public final class Auth {
       if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(jwt_)) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 1, jwt_);
       }
+      if (actionProtocol_ != null) {
+        output.writeMessage(2, getActionProtocol());
+      }
       getUnknownFields().writeTo(output);
     }
 
@@ -133,6 +177,10 @@ public final class Auth {
       size = 0;
       if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(jwt_)) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, jwt_);
+      }
+      if (actionProtocol_ != null) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(2, getActionProtocol());
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSize = size;
@@ -149,6 +197,11 @@ public final class Auth {
       }
       com.ifx.connect.proto.Auth.Authenticate other = (com.ifx.connect.proto.Auth.Authenticate) obj;
 
+      if (hasActionProtocol() != other.hasActionProtocol()) return false;
+      if (hasActionProtocol()) {
+        if (!getActionProtocol()
+            .equals(other.getActionProtocol())) return false;
+      }
       if (!getJwt()
           .equals(other.getJwt())) return false;
       if (!getUnknownFields().equals(other.getUnknownFields())) return false;
@@ -162,6 +215,10 @@ public final class Auth {
       }
       int hash = 41;
       hash = (19 * hash) + getDescriptor().hashCode();
+      if (hasActionProtocol()) {
+        hash = (37 * hash) + ACTIONPROTOCOL_FIELD_NUMBER;
+        hash = (53 * hash) + getActionProtocol().hashCode();
+      }
       hash = (37 * hash) + JWT_FIELD_NUMBER;
       hash = (53 * hash) + getJwt().hashCode();
       hash = (29 * hash) + getUnknownFields().hashCode();
@@ -293,6 +350,11 @@ public final class Auth {
       public Builder clear() {
         super.clear();
         bitField0_ = 0;
+        actionProtocol_ = null;
+        if (actionProtocolBuilder_ != null) {
+          actionProtocolBuilder_.dispose();
+          actionProtocolBuilder_ = null;
+        }
         jwt_ = "";
         return this;
       }
@@ -328,6 +390,11 @@ public final class Auth {
       private void buildPartial0(com.ifx.connect.proto.Auth.Authenticate result) {
         int from_bitField0_ = bitField0_;
         if (((from_bitField0_ & 0x00000001) != 0)) {
+          result.actionProtocol_ = actionProtocolBuilder_ == null
+              ? actionProtocol_
+              : actionProtocolBuilder_.build();
+        }
+        if (((from_bitField0_ & 0x00000002) != 0)) {
           result.jwt_ = jwt_;
         }
       }
@@ -344,9 +411,12 @@ public final class Auth {
 
       public Builder mergeFrom(com.ifx.connect.proto.Auth.Authenticate other) {
         if (other == com.ifx.connect.proto.Auth.Authenticate.getDefaultInstance()) return this;
+        if (other.hasActionProtocol()) {
+          mergeActionProtocol(other.getActionProtocol());
+        }
         if (!other.getJwt().isEmpty()) {
           jwt_ = other.jwt_;
-          bitField0_ |= 0x00000001;
+          bitField0_ |= 0x00000002;
           onChanged();
         }
         this.mergeUnknownFields(other.getUnknownFields());
@@ -377,9 +447,16 @@ public final class Auth {
                 break;
               case 10: {
                 jwt_ = input.readStringRequireUtf8();
-                bitField0_ |= 0x00000001;
+                bitField0_ |= 0x00000002;
                 break;
               } // case 10
+              case 18: {
+                input.readMessage(
+                    getActionProtocolFieldBuilder().getBuilder(),
+                    extensionRegistry);
+                bitField0_ |= 0x00000001;
+                break;
+              } // case 18
               default: {
                 if (!super.parseUnknownField(input, extensionRegistry, tag)) {
                   done = true; // was an endgroup tag
@@ -396,6 +473,125 @@ public final class Auth {
         return this;
       }
       private int bitField0_;
+
+      private com.ifx.connect.proto.ProtoMessage.ProtocolHeader actionProtocol_;
+      private com.google.protobuf.SingleFieldBuilderV3<
+          com.ifx.connect.proto.ProtoMessage.ProtocolHeader, com.ifx.connect.proto.ProtoMessage.ProtocolHeader.Builder, com.ifx.connect.proto.ProtoMessage.ProtocolHeaderOrBuilder> actionProtocolBuilder_;
+      /**
+       * <code>.com.ifx.connect.proto.ProtocolHeader actionProtocol = 2;</code>
+       * @return Whether the actionProtocol field is set.
+       */
+      public boolean hasActionProtocol() {
+        return ((bitField0_ & 0x00000001) != 0);
+      }
+      /**
+       * <code>.com.ifx.connect.proto.ProtocolHeader actionProtocol = 2;</code>
+       * @return The actionProtocol.
+       */
+      public com.ifx.connect.proto.ProtoMessage.ProtocolHeader getActionProtocol() {
+        if (actionProtocolBuilder_ == null) {
+          return actionProtocol_ == null ? com.ifx.connect.proto.ProtoMessage.ProtocolHeader.getDefaultInstance() : actionProtocol_;
+        } else {
+          return actionProtocolBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>.com.ifx.connect.proto.ProtocolHeader actionProtocol = 2;</code>
+       */
+      public Builder setActionProtocol(com.ifx.connect.proto.ProtoMessage.ProtocolHeader value) {
+        if (actionProtocolBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          actionProtocol_ = value;
+        } else {
+          actionProtocolBuilder_.setMessage(value);
+        }
+        bitField0_ |= 0x00000001;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>.com.ifx.connect.proto.ProtocolHeader actionProtocol = 2;</code>
+       */
+      public Builder setActionProtocol(
+          com.ifx.connect.proto.ProtoMessage.ProtocolHeader.Builder builderForValue) {
+        if (actionProtocolBuilder_ == null) {
+          actionProtocol_ = builderForValue.build();
+        } else {
+          actionProtocolBuilder_.setMessage(builderForValue.build());
+        }
+        bitField0_ |= 0x00000001;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>.com.ifx.connect.proto.ProtocolHeader actionProtocol = 2;</code>
+       */
+      public Builder mergeActionProtocol(com.ifx.connect.proto.ProtoMessage.ProtocolHeader value) {
+        if (actionProtocolBuilder_ == null) {
+          if (((bitField0_ & 0x00000001) != 0) &&
+            actionProtocol_ != null &&
+            actionProtocol_ != com.ifx.connect.proto.ProtoMessage.ProtocolHeader.getDefaultInstance()) {
+            getActionProtocolBuilder().mergeFrom(value);
+          } else {
+            actionProtocol_ = value;
+          }
+        } else {
+          actionProtocolBuilder_.mergeFrom(value);
+        }
+        bitField0_ |= 0x00000001;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>.com.ifx.connect.proto.ProtocolHeader actionProtocol = 2;</code>
+       */
+      public Builder clearActionProtocol() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        actionProtocol_ = null;
+        if (actionProtocolBuilder_ != null) {
+          actionProtocolBuilder_.dispose();
+          actionProtocolBuilder_ = null;
+        }
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>.com.ifx.connect.proto.ProtocolHeader actionProtocol = 2;</code>
+       */
+      public com.ifx.connect.proto.ProtoMessage.ProtocolHeader.Builder getActionProtocolBuilder() {
+        bitField0_ |= 0x00000001;
+        onChanged();
+        return getActionProtocolFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.com.ifx.connect.proto.ProtocolHeader actionProtocol = 2;</code>
+       */
+      public com.ifx.connect.proto.ProtoMessage.ProtocolHeaderOrBuilder getActionProtocolOrBuilder() {
+        if (actionProtocolBuilder_ != null) {
+          return actionProtocolBuilder_.getMessageOrBuilder();
+        } else {
+          return actionProtocol_ == null ?
+              com.ifx.connect.proto.ProtoMessage.ProtocolHeader.getDefaultInstance() : actionProtocol_;
+        }
+      }
+      /**
+       * <code>.com.ifx.connect.proto.ProtocolHeader actionProtocol = 2;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilderV3<
+          com.ifx.connect.proto.ProtoMessage.ProtocolHeader, com.ifx.connect.proto.ProtoMessage.ProtocolHeader.Builder, com.ifx.connect.proto.ProtoMessage.ProtocolHeaderOrBuilder> 
+          getActionProtocolFieldBuilder() {
+        if (actionProtocolBuilder_ == null) {
+          actionProtocolBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              com.ifx.connect.proto.ProtoMessage.ProtocolHeader, com.ifx.connect.proto.ProtoMessage.ProtocolHeader.Builder, com.ifx.connect.proto.ProtoMessage.ProtocolHeaderOrBuilder>(
+                  getActionProtocol(),
+                  getParentForChildren(),
+                  isClean());
+          actionProtocol_ = null;
+        }
+        return actionProtocolBuilder_;
+      }
 
       private java.lang.Object jwt_ = "";
       /**
@@ -440,7 +636,7 @@ public final class Auth {
           java.lang.String value) {
         if (value == null) { throw new NullPointerException(); }
         jwt_ = value;
-        bitField0_ |= 0x00000001;
+        bitField0_ |= 0x00000002;
         onChanged();
         return this;
       }
@@ -450,7 +646,7 @@ public final class Auth {
        */
       public Builder clearJwt() {
         jwt_ = getDefaultInstance().getJwt();
-        bitField0_ = (bitField0_ & ~0x00000001);
+        bitField0_ = (bitField0_ & ~0x00000002);
         onChanged();
         return this;
       }
@@ -464,7 +660,7 @@ public final class Auth {
         if (value == null) { throw new NullPointerException(); }
         checkByteStringIsUtf8(value);
         jwt_ = value;
-        bitField0_ |= 0x00000001;
+        bitField0_ |= 0x00000002;
         onChanged();
         return this;
       }
@@ -546,20 +742,24 @@ public final class Auth {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\nAuth.proto\022\025com.ifx.connect.proto\"\033\n\014A" +
-      "uthenticate\022\013\n\003jwt\030\001 \001(\tB\035\n\025com.ifx.conn" +
-      "ect.protoB\004Authb\006proto3"
+      "\n\nAuth.proto\022\025com.ifx.connect.proto\032\024Act" +
+      "ionProtocol.proto\"Z\n\014Authenticate\022=\n\016act" +
+      "ionProtocol\030\002 \001(\0132%.com.ifx.connect.prot" +
+      "o.ProtocolHeader\022\013\n\003jwt\030\001 \001(\tB\035\n\025com.ifx" +
+      ".connect.protoB\004Authb\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
         new com.google.protobuf.Descriptors.FileDescriptor[] {
+          com.ifx.connect.proto.ProtoMessage.getDescriptor(),
         });
     internal_static_com_ifx_connect_proto_Authenticate_descriptor =
       getDescriptor().getMessageTypes().get(0);
     internal_static_com_ifx_connect_proto_Authenticate_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_com_ifx_connect_proto_Authenticate_descriptor,
-        new java.lang.String[] { "Jwt", });
+        new java.lang.String[] { "ActionProtocol", "Jwt", });
+    com.ifx.connect.proto.ProtoMessage.getDescriptor();
   }
 
   // @@protoc_insertion_point(outer_class_scope)

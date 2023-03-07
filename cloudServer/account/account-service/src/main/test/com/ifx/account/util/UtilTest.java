@@ -3,8 +3,8 @@ package com.ifx.account.util;
 import com.ifx.account.entity.Account;
 import com.ifx.account.mapstruct.AccountHelper;
 import com.ifx.common.base.AccountInfo;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 /**
  * @author pengpeng
@@ -21,6 +21,6 @@ public class UtilTest {
         //when
         accountInfo = AccountHelper.INSTANCE.buildAccountInfo(account );
         //then
-        Assert.assertEquals(accountInfo.getAccount(),account.getAccount());
+        Assertions.assertEquals(accountInfo.getAccount(),account.getAccount());
     }
 }

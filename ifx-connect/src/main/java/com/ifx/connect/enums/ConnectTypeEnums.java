@@ -10,6 +10,7 @@ public enum ConnectTypeEnums {
     TCP,
     UDP,
     HTTP1,
+    HTTP2,
     WEBSOCKET,
     ;
 

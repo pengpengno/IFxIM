@@ -16,19 +16,16 @@ import io.netty.channel.socket.nio.NioSocketChannel;
 import lombok.extern.slf4j.Slf4j;
 import reactor.netty.Connection;
 import reactor.netty.tcp.TcpClient;
-
 import java.net.InetSocketAddress;
 
 /***
  * Tcp netty 实现
  */
 @Slf4j
-public class TcpNettyClient {
+public final class TcpNettyClient {
 
     private InetSocketAddress address;
 
-
-    private Bootstrap bootstrap;
 
     private Channel channel;
 
@@ -75,7 +72,7 @@ public class TcpNettyClient {
          * @Description  配置相应的参数，提供连接到远端的方法
          **/
         EventLoopGroup group = new NioEventLoopGroup();   //I/O线程池
-        bootstrap = new Bootstrap();//客户端辅助启动类
+        Bootstrap bootstrap = new Bootstrap();//客户端辅助启动类
         bootstrap.group(group)
                     .channel(NioSocketChannel.class)//实例化一个Channel
                     .remoteAddress(address)

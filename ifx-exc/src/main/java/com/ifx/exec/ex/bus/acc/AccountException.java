@@ -1,6 +1,5 @@
 package com.ifx.exec.ex.bus.acc;
 
-import com.ifx.exec.ExceptionMessage;
 import com.ifx.exec.ex.bus.IFXException;
 
 /**

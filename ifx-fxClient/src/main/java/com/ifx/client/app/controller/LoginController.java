@@ -1,13 +1,9 @@
 package com.ifx.client.app.controller;
 
 
-import com.ifx.account.route.accout.AccRoute;
-import com.ifx.account.vo.AccountAuthenticateVo;
 import com.ifx.account.vo.AccountVo;
-import com.ifx.client.service.helper.AccountHelper;
+import com.ifx.client.api.AccountApi;
 import com.ifx.client.util.FxmlLoader;
-import com.ifx.connect.proto.Auth;
-import com.ifx.connect.proto.Protocol;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -19,12 +15,8 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatusCode;
-import org.springframework.http.MediaType;
-import org.springframework.http.ProblemDetail;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
-import reactor.core.publisher.Mono;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -73,55 +65,37 @@ public class LoginController  implements Initializable {
     @Autowired
     private WebClient webClient;
 
+    @Autowired
+    private AccountApi accountApi;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         passwordField.setText("wangpeng");
         accountField.setText("wangpeng");
-        log.info ("initialing login controller ");
+        log.debug ("initialing login controller ");
     }
 
     @FXML
     public void login(MouseEvent event) {
-        AccountVo accountVo = new AccountVo();
-        accountVo.setAccount( accountField.getText());
-        accountVo.setPassword(passwordField.getText());
+        AccountVo accountVo = AccountVo.builder().account(accountField.getText())
+                .password(accountField.getText()).build();
+
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("登录状态");
-        webClient
-            .post()
-            .uri(AccRoute.ACCOUNT_ROUTE+AccRoute.AUTH_POST)
-            .contentType(MediaType.APPLICATION_JSON)
-            .bodyValue(accountVo)
-            .retrieve()
-            .onStatus(HttpStatusCode::isError,
-                (clientResponse ) ->
-                    clientResponse
-                    .bodyToMono(ProblemDetail.class)
-                    .flatMap(problemDetail ->
-                        Mono.error(()->
-                            new RuntimeException(problemDetail.getDetail()))))
-            .bodyToMono(AccountAuthenticateVo.class)
-                .doOnError((throwable)-> {
-                    log.error( throwable.getMessage());
-                })
+        accountApi.auth(accountVo)
             .subscribe(acc -> {
                 Platform.runLater(()->  {
                     hide();
                     MainController.show();
-//                    1. 开始链接服务器
                     String jwt = acc.getJwt();
+//                    ClientToolkit.getDefaultClientAction()
                     Auth.Authenticate.newBuilder().setJwt(jwt).build();
-
                 });
             });
 
         alert.contentTextProperty().addListener((a1,a2,a3)-> {
             alert.show();
         });
-
-        log.info("启动登录");
-        Protocol login = AccountHelper.applyLogins(accountVo);
     }
 
 

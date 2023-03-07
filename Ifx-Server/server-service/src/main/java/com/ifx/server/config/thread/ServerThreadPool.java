@@ -17,7 +17,6 @@ public class ServerThreadPool {
 
 
 
-
     private enum SingleInstance{
         INSTANCE;
         private final ServerThreadPool instance;
@@ -36,4 +35,9 @@ public class ServerThreadPool {
         return new ThreadPoolExecutor(100, 300, 1,TimeUnit.SECONDS, new LinkedBlockingQueue<>(1024),
                 new ThreadFactoryBuilder().setNameFormat("socket-%d").build(), new ThreadPoolExecutor.CallerRunsPolicy());
     }
+
+
+
+
+
 }

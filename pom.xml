@@ -29,7 +29,6 @@
     <nacos.starter.version>2021.1</nacos.starter.version>
     <spring.starter.version>3.0.0</spring.starter.version>
     <spring.cloud.starter.version>4.0.0</spring.cloud.starter.version>
-    <spring.test.version>5.2.8.RELEASE</spring.test.version>
     <sl4j.version>2.0.2</sl4j.version>
     <dubbo.starter.version>3.0.9</dubbo.starter.version>
     <hutool-all.version>5.8.4</hutool-all.version>
@@ -129,13 +128,6 @@
         <artifactId>micrometer-registry-prometheus</artifactId>
         <version>${micrometer.version}</version>
         <scope>compile</scope>
-      </dependency>
-      <!--            spring test 框架-->
-      <dependency>
-        <groupId>org.springframework</groupId>
-        <artifactId>spring-test</artifactId>
-        <version>${spring.test.version}</version>
-        <scope>test</scope>
       </dependency>
       <dependency>
         <groupId>com.baomidou</groupId>

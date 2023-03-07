@@ -1,6 +1,5 @@
 package com.ifx.exec.errorMsg;
 
-import com.ifx.exec.ExceptionMessage;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -9,7 +8,7 @@ import lombok.Getter;
  */
 @Getter
 @AllArgsConstructor
-public enum ProtocolError implements ExceptionMessage {
+public enum ProtocolError implements IErrorMsg {
 
     PROTOCOL_NOT_SUPPORT(2000001,"协议不支持！"),
     ;
@@ -20,12 +19,12 @@ public enum ProtocolError implements ExceptionMessage {
 
 
     @Override
-    public String getMessage() {
+    public String getErrorMessage() {
         return message;
     }
 
     @Override
-    public Integer getCode() {
+    public Integer getErrorCode() {
         return code;
     }
 }

@@ -90,10 +90,6 @@ public class AccountJwtUtil {
         return  parseJwt(jwtToken).getBody();
     }
 
-    public static AccountInfo verifyAndParseJwt2Acc(String jwtToken){
-        return parseJwt(jwtToken).getBody().get();
-    }
-
 
     /***
      * 验证jwt

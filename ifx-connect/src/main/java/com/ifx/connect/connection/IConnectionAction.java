@@ -7,5 +7,4 @@ package com.ifx.connect.connection;
  */
 public interface IConnectionAction {
 
-    public Boolean sendString();
 }

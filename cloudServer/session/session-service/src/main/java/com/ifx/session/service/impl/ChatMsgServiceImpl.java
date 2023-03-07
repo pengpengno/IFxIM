@@ -3,6 +3,7 @@ package com.ifx.session.service.impl;
 import com.ifx.session.service.ChatMsgService;
 import com.ifx.session.vo.ChatMsgVo;
 import org.springframework.stereotype.Service;
+import reactor.core.publisher.Mono;
 
 /**
 * @author HP
@@ -20,7 +21,10 @@ public class ChatMsgServiceImpl  implements ChatMsgService{
     }
 
 
-
+    @Override
+    public Mono<Boolean> chat(ChatMsgVo chatMsgVo) {
+        return null;
+    }
 }
 
 

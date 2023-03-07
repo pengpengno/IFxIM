@@ -4,17 +4,24 @@ syntax = "proto3";
 package com.ifx.connect.proto;
 option java_package = "com.ifx.connect.proto";
 option java_outer_classname = "Chat";
+import "ActionProtocol.proto";
+import "MessageEnum.proto";
+import "google/protobuf/any.proto";
 
 
-message ChatMessage{
-
+message ChatMessage  {
 
   string jwt = 2; // java-web-token
 
-  string content  =3;
+  string content  = 3 ;
 
+  string fromAccount = 5 ;
 
+  string toAccount = 6 ;
 
+  ProtocolHeader j3 = 4;
+
+  ProtocolMessageEnum en = 8;
 
 
 }

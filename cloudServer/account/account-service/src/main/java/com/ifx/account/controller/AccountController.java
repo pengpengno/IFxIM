@@ -40,12 +40,17 @@ public class AccountController {
     }
 
 
-
-
     @PostMapping("/auth")
     public Mono<AccountAuthenticateVo> authenticateVoMono(@RequestBody @Validated(value = ACCOUNTLOGIN.class) AccountVo accountVo){
         return accountService.auth(accountVo);
     }
+
+
+
+//    @PostMapping("/upload/file")
+//    public Mono<ResponseEntity<Object>>convertFile( @RequestPart("file") FilePart filePart, @RequestPart(required = false,value = "meta") ConvertFileRequest request) {
+//        return Mono.just(ResponseEntity.ok().build());
+//    }
 
 
     @PostMapping("/jwt")
@@ -60,7 +65,6 @@ public class AccountController {
     }
 
 
-//    @PostMapping
     @PostMapping(path = "/register")
     public Mono<AccountInfo> register(@RequestBody @Valid() AccountVo accountVo){
         log.info(" {} ", JSON.toJSONString(accountVo));

@@ -1,6 +1,7 @@
 package com.ifx.connect.connection.client.tcp;
 
 import cn.hutool.core.exceptions.ExceptionUtil;
+import com.google.protobuf.Message;
 import com.ifx.connect.connection.client.ClientAction;
 import com.ifx.connect.connection.client.ClientLifeStyle;
 import com.ifx.connect.proto.Protocol;
@@ -9,6 +10,7 @@ import com.ifx.connect.task.handler.def.DefaultHandler;
 import com.ifx.exec.errorMsg.NetError;
 import com.ifx.exec.ex.net.NetException;
 import com.ifx.exec.ex.net.NettyException;
+import io.netty.buffer.ByteBuf;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelFuture;
 import lombok.extern.slf4j.Slf4j;
@@ -104,6 +106,14 @@ public class NettyClientAction implements ClientAction, ClientLifeStyle {
         return sendJsonMsg(protocol);
     }
 
+
+    @Override
+    public Boolean send(Message message) {
+        Channel channel = tcpNettyClient.getChannel();
+        ByteBuf byteBuf = channel.alloc().buffer().readBytes(message.toByteArray());
+        channel.flush();
+        return null;
+    }
 
     @Override
     public Boolean sendJsonMsg(Protocol protocol) throws NetException {
