@@ -2,11 +2,11 @@ package com.ifx.connect.connection.server.context;
 
 import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
-import com.google.inject.Singleton;
 import com.ifx.exec.errorMsg.connect.ConnectErrorMsg;
 import com.ifx.exec.ex.connect.ConnectException;
 import org.springframework.util.Assert;
 import reactor.core.publisher.Mono;
+
 import java.util.Objects;
 
 /**
@@ -15,13 +15,25 @@ import java.util.Objects;
  * @description
  * @date 2023/3/6
  */
-@Singleton
 public class IConnectContext implements IConnectContextAction {
 
 
     private final Cache<String, IConnection> connectionCache = Caffeine.newBuilder()
             .build();;
 
+    private enum SingleInstance{
+        INSTANCE;
+        private final IConnectContext instance;
+        SingleInstance(){
+            instance = new IConnectContext();
+        }
+        private IConnectContext getInstance(){
+            return instance;
+        }
+    }
+    public static IConnectContextAction getInstance(){
+        return IConnectContext.SingleInstance.INSTANCE.getInstance();
+    }
 
 
 

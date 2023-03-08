@@ -1,5 +1,6 @@
 package com.ifx.connect.connection.server.context;
 
+
 import com.ifx.common.base.AccountInfo;
 import com.ifx.connect.enums.ConnectionStatus;
 import io.netty.channel.Channel;
@@ -10,7 +11,7 @@ import lombok.NoArgsConstructor;
 import reactor.netty.Connection;
 
 /**
- * 基础 connection
+ * 链接 connection
  * @author pengpeng
  * @description
  * @date 2023/3/6
@@ -19,7 +20,7 @@ import reactor.netty.Connection;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class Con implements IConnection{
+public class ReactorConnection implements IConnection{
 
 
     private Channel channel;

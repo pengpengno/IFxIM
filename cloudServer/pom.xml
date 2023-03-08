@@ -29,14 +29,6 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <version>${spring.starter.version}</version>
-                <configuration>
-                    <!--          <excludes>-->
-                    <!--            <exclude>-->
-                    <!--              <groupId>org.springframework.boot</groupId>-->
-                    <!--              <artifactId>spring-boot-configuration-processor</artifactId>-->
-                    <!--            </exclude>-->
-                    <!--          </excludes>-->
-                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>

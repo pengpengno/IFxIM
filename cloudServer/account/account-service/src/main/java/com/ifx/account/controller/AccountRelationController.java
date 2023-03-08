@@ -32,23 +32,6 @@ public class AccountRelationController {
     private ReactiveAccountRelationService relationService;
 
 
-//    @GetMapping(path = "/{account}")
-//    @ResponseStatus(code = HttpStatus.OK)
-//    public Mono<AccountRelationVo> getAccountInfo(@PathVariable("account") String account){
-//        log.info("传入的 账户 {}",account);
-////        EntityModel.of(accountService.findByAccount(account), Link.of())
-//        return relationService.listRelationWithAccount(account);
-//    }
-
-//    @GetMapping(path = "/acc")
-//    @ResponseStatus(code = HttpStatus.OK)
-//    public Mono<AccountInfo> test( @RequestParam(required = false) @NotNull(message = "account not be null") String account){
-//        log.info("传入的 账户 {}",account);
-////        EntityModel.of(accountService.findByAccount(account), Link.of())
-//        return null;
-//    }
-
-
 
 
 

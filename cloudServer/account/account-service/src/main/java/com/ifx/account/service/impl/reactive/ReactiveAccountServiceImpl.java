@@ -6,11 +6,11 @@ import com.ifx.account.entity.Account;
 import com.ifx.account.mapstruct.AccountHelper;
 import com.ifx.account.repository.impl.AccountRepositoryImpl;
 import com.ifx.account.service.reactive.ReactiveAccountService;
-import com.ifx.account.utils.AccountJwtUtil;
 import com.ifx.account.utils.PasswordUtils;
 import com.ifx.account.vo.AccountAuthenticateVo;
 import com.ifx.account.vo.AccountVo;
 import com.ifx.common.base.AccountInfo;
+import com.ifx.common.utils.AccountJwtUtil;
 import io.jsonwebtoken.security.SignatureException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -73,6 +73,8 @@ public class ReactiveAccountServiceImpl implements ReactiveAccountService {
 
     @Override
     public Mono<AccountAuthenticateVo> auth(AccountVo accountVo) {
+//        Mono.just(accountVo)
+//                .map()
         return findByAccount(accountVo.getAccount())
                 .map(ac -> AccountAuthenticateVo.builder().jwt(generateJwt(ac)).build())
                 ;

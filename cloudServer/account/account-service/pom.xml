@@ -188,8 +188,8 @@
                 <version>${maven.plugin.version}</version>
                 <configuration>
                     <encoding>UTF-8</encoding>
-                    <source>${ifx.maven.compiler.source}</source>
-                    <target>${ifx.maven.compiler.target}</target>
+                    <source>${maven.compiler.source}</source>
+                    <target>${maven.compiler.target}</target>
                     <annotationProcessorPaths>
                         <path>
                             <groupId>org.mapstruct</groupId>

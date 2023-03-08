@@ -16,12 +16,6 @@ import reactor.netty.http.client.HttpClient;
 @EnableConfigurationProperties({ServerRouteConfigProperties.class})
 @Slf4j
 public class ClientConnectConfig {
-    /** server host C2S /C2C */
-//    private String host ;
-    /** server  port  C2S /C2C   */
-//    private Long port ;
-//    @Resource
-//    private ClientNettyConfigProperties configProperties;
 
     @Autowired
     private ClientNettyConfigProperties clientNettyConfigProperties;
@@ -38,7 +32,7 @@ public class ClientConnectConfig {
     /**
      * 默认 webclient
      * @param client
-     * @return
+     * @return 返回 webFlux http调用实例
      */
     @Bean("webClient")
     @ConditionalOnBean(HttpClient.class)

@@ -1,18 +1,16 @@
 package com.ifx.connect.handler.server;
 
-import com.ifx.connect.handler.decoder.ProtocolDecoder;
-import com.ifx.connect.handler.encoder.ProtocolEncoder;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInitializer;
-import io.netty.handler.logging.LoggingHandler;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * @author pengpeng
  * @description
  * @date 2023/3/1
  */
-
+@Slf4j
 public class ServerChannelInitializer extends ChannelInitializer<Channel> {
 
 
@@ -24,13 +22,17 @@ public class ServerChannelInitializer extends ChannelInitializer<Channel> {
 
     @Override
     protected void initChannel(Channel ch) throws Exception {
-
-        ch.pipeline().addLast(new LoggingHandler())
-                .addLast(new ProtocolEncoder())
-                .addLast(new ProtocolDecoder())
+        log.info(" channel is loading ");
+        ch.pipeline().addLast(new TokenParserHandler())
+//                .addLast(new ProtocolEncoder())
+//                .addLast(new ProtocolDecoder())
                 ;
     }
 
 
+    @Override
+    public void channelUnregistered(ChannelHandlerContext ctx) throws Exception {
+        super.channelUnregistered(ctx);
+    }
 
 }

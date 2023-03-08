@@ -18,6 +18,7 @@ public class APP implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
+//        ClientToolkit.getDefaultClientLifeStyle().connect();
         log.info("spring start up  success");
     }
 

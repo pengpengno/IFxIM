@@ -14,5 +14,7 @@ enum ProtocolMessageEnum{
 
   CHAT = 1002;
 
+  REQUEST = 1003;
+
 
 }

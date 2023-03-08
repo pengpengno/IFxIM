@@ -1,6 +1,7 @@
 package com.ifx.connect.reactor.netty.tcp;
 
 import com.ifx.common.base.AccountInfo;
+import com.ifx.connect.handler.client.ClientInboundHandler;
 import io.netty.handler.logging.LogLevel;
 import io.netty.util.AttributeKey;
 import lombok.extern.slf4j.Slf4j;
@@ -39,7 +40,24 @@ public class ReactiveClientTest {
         connect.inbound().receive().asString().doOnNext(log::info).then().subscribe();
         connect.outbound().sendString(Mono.just("nice to meet you")).then().subscribe();
         connect.onDispose().block();
+    }
 
+    @Test
+    public void createJwtClient(){
+        String jwt = "eyJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2NzgyNzM1ODcsImV4cCI6MTY3ODM1OTk4NywiQUNDT1VOVCI6eyJ1c2VySWQiOm51bGwsImFjY291bnQiOiJ3YW5ncGVuZyIsInVzZXJOYW1lIjpudWxsLCJlbWFpbCI6bnVsbH19.KjmiH4PXvzKmMOFMtpwWQjHdm8bpr8-c4_-oHxzH1vA";
+        Connection connect = TcpClient.create()
+                .host(HOST)
+                .port(8094)
+                .wiretap("client",LogLevel.INFO)
+                .doOnChannelInit((connectionObserver, channel, remoteAddress) -> {
+                    channel.pipeline().addLast(new ClientInboundHandler(jwt));
+                })
+                .handle((nettyInbound, nettyOutbound) -> Mono.never())
+                .connectNow();
+        log.info("{}", connect.isDisposed());
+        connect.inbound().receive().asString().doOnNext(log::info).then().subscribe();
+        connect.outbound().sendString(Mono.just("nice to meet you")).then().subscribe();
+        connect.onDispose().block();
     }
 
 }

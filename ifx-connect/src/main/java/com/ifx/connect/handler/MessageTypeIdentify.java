@@ -1,9 +1,11 @@
 package com.ifx.connect.handler;
 
-import com.google.protobuf.Message;
+import com.ifx.connect.proto.ProtocolType;
+import io.netty.buffer.ByteBuf;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.Function;
 
 /**
  * @author pengpeng
@@ -13,9 +15,10 @@ import java.util.Map;
 public class MessageTypeIdentify {
 
 
-    private static Map<Integer,Class<Message>> = new HashMap<>();
+    private static Map<ProtocolType, Function<ByteBuf,Void>>  functionMap = new HashMap<>();
 
-    public static s(){
+    public static void s(){
+        ProtocolType.ProtocolMessageEnum protocolMessageEnum = ProtocolType.ProtocolMessageEnum.forNumber(1);
 
     }
 }

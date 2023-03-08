@@ -13,8 +13,6 @@ import reactor.netty.Connection;
  */
 public interface IConnection {
 
-
-
     public Channel channel();
 
     public Connection connection();

@@ -1,13 +1,14 @@
-package com.ifx.account.utils;
+package com.ifx.common.utils;
 
 import cn.hutool.core.date.DateTime;
 import cn.hutool.core.date.DateUtil;
 import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
-import com.ifx.account.security.SecurityConstants;
 import com.ifx.common.base.AccountInfo;
+import com.ifx.common.security.SecurityConstants;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
+
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 
@@ -53,10 +54,7 @@ public class AccountJwtUtil {
                 .setExpiration(DateUtil.offsetDay(date,1))
                 .signWith(Keys.hmacShaKeyFor(jwtSecret)) // Set the signature algorithm and secret key
                 ;
-
     }
-
-
 
 
     /***

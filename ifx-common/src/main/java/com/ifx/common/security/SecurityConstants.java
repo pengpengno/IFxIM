@@ -1,4 +1,4 @@
-package com.ifx.account.security;
+package com.ifx.common.security;
 
 import java.util.concurrent.TimeUnit;
 

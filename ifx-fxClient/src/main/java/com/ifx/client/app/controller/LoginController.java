@@ -89,6 +89,7 @@ public class LoginController  implements Initializable {
                     hide();
                     MainController.show();
                     String jwt = acc.getJwt();
+                    log.info(" jwt is  {}", jwt);
 //                    ClientToolkit.getDefaultClientAction()
                     Auth.Authenticate.newBuilder().setJwt(jwt).build();
                 });

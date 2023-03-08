@@ -12,16 +12,6 @@ import com.ifx.exec.ex.connect.ConnectException;
 public interface IConnectContextAction {
 
 
-//    /***
-//     * 获取默认的连接容器基础接口
-//     * @param context
-//     * @return 默认 connection 容器
-//     */
-//    @Inject
-//    public default IConnectContextAction getInstance(IConnectContext context){
-//        return context;
-//    }
-
 
     /***
      * 获取指定 account 对应的connection
