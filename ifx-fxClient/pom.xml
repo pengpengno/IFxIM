@@ -15,8 +15,7 @@
     <properties>
         <javafx-plus.version>1.2.1-RELEASE</javafx-plus.version>
         <javafx.version>19.0.2</javafx.version>
-        <ifx.maven.compiler.source>19</ifx.maven.compiler.source>
-        <ifx.maven.compiler.target>19</ifx.maven.compiler.target>
+
     </properties>
     <dependencies>
         <!-- https://mvnrepository.com/artifact/org.openjfx/javafx-base -->

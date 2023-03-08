@@ -10,14 +10,6 @@ import com.ifx.exec.ex.bus.IFXException;
 public class AccountException extends IFXException {
 
 
-    public AccountException(ExceptionMessage exceptionMessage) {
-        super(exceptionMessage);
-    }
-
-    public AccountException(ExceptionMessage exceptionMessage, String detailMsg) {
-        super(exceptionMessage, detailMsg);
-    }
-
     public AccountException() {
         super();
     }

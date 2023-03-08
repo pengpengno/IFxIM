@@ -14,7 +14,7 @@ import com.ifx.connect.module.ConnectionModule;
  */
 public class ServerToolkit {
 
-    private static Injector inject = Guice.createInjector(new ConnectionModule());
+    private static final Injector inject = Guice.createInjector(new ConnectionModule());
 
 
 

@@ -1,7 +1,6 @@
 package com.ifx.server;
 
-import com.google.inject.Guice;
-import com.ifx.connect.connection.server.tcp.ReactorTcpServer;
+import com.ifx.connect.connection.server.ServerToolkit;
 import com.ifx.connect.properties.ServerNettyConfigProperties;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,9 +19,8 @@ public class ServerApplication implements CommandLineRunner {
     private ServerNettyConfigProperties config;
 
     public void run(String... args)  {
-        ReactorTcpServer instance = Guice.createInjector().getInstance(ReactorTcpServer.class);
-        instance
-        .create(new InetSocketAddress(config.getHost(),config.getPort()));
+        ServerToolkit.reactiveServer()
+        .start(new InetSocketAddress(config.getHost(),config.getPort()));
 //                        Runtime.getRuntime().addShutdownHook(new Thread(() -> TcpNettyServer.getInstance().destroy()));
 //        Mono.fromCallable(()->
 //            new InetSocketAddress(serverNettyConfigProperties.getHost(),

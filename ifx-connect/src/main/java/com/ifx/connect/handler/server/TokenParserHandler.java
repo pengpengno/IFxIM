@@ -1,4 +1,4 @@
-package com.ifx.connect.handler;
+package com.ifx.connect.handler.server;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelDuplexHandler;
@@ -37,6 +37,8 @@ public class TokenParserHandler extends ChannelDuplexHandler {
 
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
+
+        ctx.channel().
         if (msg instanceof ByteBuf) {
             ByteBuf buf = (ByteBuf) msg;
             int tokenLength = buf.readByte();

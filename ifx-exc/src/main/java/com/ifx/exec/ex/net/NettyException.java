@@ -6,9 +6,6 @@ import com.ifx.exec.errorMsg.IErrorMsg;
  * Netty 异常信息
  */
 public class NettyException extends NetException {
-    public NettyException(ExceptionMessage exceptionMessage) {
-        super(exceptionMessage);
-    }
 
     public NettyException(IErrorMsg errorMsg, String detailMsg) {
         super(errorMsg, detailMsg);
@@ -18,9 +15,6 @@ public class NettyException extends NetException {
         super(iErrorMsg);
     }
 
-    public NettyException(ExceptionMessage exceptionMessage, String detailMsg) {
-        super(exceptionMessage, detailMsg);
-    }
 
     public NettyException() {
         super();

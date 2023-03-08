@@ -4,11 +4,9 @@ syntax = "proto3";
 package com.ifx.connect.proto;
 option java_package = "com.ifx.connect.proto";
 option java_outer_classname = "Auth";
-import "ActionProtocol.proto";
 
 message Authenticate{
 
-  ProtocolHeader actionProtocol = 2;
 
   string jwt = 1;
 

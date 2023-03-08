@@ -32,12 +32,12 @@ public class AccountApi {
                 .bodyValue(accountVo)
                 .retrieve()
                 .onStatus(HttpStatusCode::isError,
-                        (clientResponse ) ->
-                                clientResponse
-                                        .bodyToMono(ProblemDetail.class)
-                                        .flatMap(problemDetail ->
-                                                Mono.error(()->
-                                                        new RuntimeException(problemDetail.getDetail()))))
+                    (clientResponse ) ->
+                        clientResponse
+                            .bodyToMono(ProblemDetail.class)
+                            .flatMap(problemDetail ->
+                                Mono.error(()->
+                                    new RuntimeException(problemDetail.getDetail()))))
                 .bodyToMono(AccountAuthenticateVo.class)
                 .doOnError((throwable)-> {
                     log.error( throwable.getMessage());

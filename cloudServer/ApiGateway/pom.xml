@@ -11,7 +11,7 @@
     <packaging>jar</packaging>
 
 
-    <artifactId>IfxServerGateway</artifactId>
+    <artifactId>ApiGateway</artifactId>
 
     <properties>
     </properties>

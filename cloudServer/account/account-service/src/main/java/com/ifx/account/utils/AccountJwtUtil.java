@@ -1,26 +1,24 @@
 package com.ifx.account.utils;
 
-import cn.hutool.core.date.DateField;
 import cn.hutool.core.date.DateTime;
 import cn.hutool.core.date.DateUtil;
 import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
-import com.ifx.common.base.AccountInfo;
 import com.ifx.account.security.SecurityConstants;
+import com.ifx.common.base.AccountInfo;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
-
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 
 
 /**
+ * jwt 工具类
  * @author pengpeng
  * @description
  * @date 2023/3/2
  */
 public class AccountJwtUtil {
-
 
     private static final Cache<String, String> JWT_CACHE = Caffeine.newBuilder()
             .expireAfterWrite(SecurityConstants.JWT_LACK_TIME,SecurityConstants.JWT_LACK_TIME_UNIT)
@@ -40,13 +38,9 @@ public class AccountJwtUtil {
     }
 
 
-
-
     public static AccountInfo verifyAndGetClaim(String jwt ){
         return verifyJwt(jwt).get(SecurityConstants.ACCOUNT_JWT_SIGN,AccountInfo.class);
     }
-
-
 
 
 
@@ -60,21 +54,6 @@ public class AccountJwtUtil {
                 .signWith(Keys.hmacShaKeyFor(jwtSecret)) // Set the signature algorithm and secret key
                 ;
 
-    }
-
-
-
-
-    protected static String generateJwt(String subject, String extraInfo, String secret ,Integer times , DateField unit){
-        byte[]  jwtSecret = Base64.getUrlEncoder().encode(secret.getBytes(StandardCharsets.UTF_8));
-        // Generate the JWT token
-        return Jwts.builder()
-                .setSubject(subject) // Set the subject (user ID)
-                .claim("claim", extraInfo) // Set the user role as a claim
-                .setIssuedAt(DateUtil.date())
-                .setExpiration(DateUtil.date().offset(unit,times))
-                .signWith(Keys.hmacShaKeyFor(jwtSecret)) // Set the signature algorithm and secret key
-                .compact();
     }
 
 

@@ -11,9 +11,8 @@
     <groupId>com.ifx.connect</groupId>
     <artifactId>ifx-connect</artifactId>
     <properties>
-        <ifx.maven.compiler.source>19</ifx.maven.compiler.source>
-        <ifx.maven.compiler.target>19</ifx.maven.compiler.target>
-        <netty.all.version>4.1.8.Final</netty.all.version>
+
+<!--        <netty.all.version>4.1.8.Final</netty.all.version>-->
     </properties>
     <dependencies>
         <dependency>
@@ -28,18 +27,18 @@
             <groupId>io.projectreactor.netty</groupId>
             <artifactId>reactor-netty-http</artifactId>
         </dependency>
-        <dependency>
-            <groupId>io.netty</groupId>
-            <artifactId>netty-all</artifactId>
-            <version>${netty.all.version}</version>
-        </dependency>
-        <!-- https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-api -->
-        <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter-api</artifactId>
-            <version>5.8.2</version>
-            <scope>test</scope>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>io.netty</groupId>-->
+<!--            <artifactId>netty-all</artifactId>-->
+<!--            <version>${netty.all.version}</version>-->
+<!--        </dependency>-->
+<!--        &lt;!&ndash; https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-api &ndash;&gt;-->
+<!--        <dependency>-->
+<!--            <groupId>org.junit.jupiter</groupId>-->
+<!--            <artifactId>junit-jupiter-api</artifactId>-->
+<!--            <version>5.8.2</version>-->
+<!--            <scope>test</scope>-->
+<!--        </dependency>-->
 
         <dependency>
             <groupId>com.ifx.exec</groupId>

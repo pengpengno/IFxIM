@@ -12,8 +12,7 @@
     <artifactId>server-service</artifactId>
 
     <properties>
-        <ifx.maven.compiler.source>17</ifx.maven.compiler.source>
-        <ifx.maven.compiler.target>17</ifx.maven.compiler.target>
+
     </properties>
     <dependencies>
 

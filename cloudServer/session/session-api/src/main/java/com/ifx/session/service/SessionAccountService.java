@@ -1,7 +1,6 @@
 package com.ifx.session.service;
 
 
-import com.ifx.session.entity.SessionAccount;
 import com.ifx.session.vo.session.SessionAccountVo;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -26,7 +25,7 @@ public interface SessionAccountService  {
      * @param sessionAccountVo
      * @return
      */
-    Mono<SessionAccount> addAcc2Session(SessionAccountVo sessionAccountVo);
+    Mono<SessionAccountVo> addAcc2Session(SessionAccountVo sessionAccountVo);
 
 
 

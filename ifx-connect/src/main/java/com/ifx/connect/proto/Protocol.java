@@ -1,7 +1,6 @@
 package com.ifx.connect.proto;
 
 import com.ifx.common.res.Result;
-import com.ifx.connect.proto.dubbo.DubboApiMetaData;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -10,6 +9,7 @@ import java.io.Serializable;
  * 通讯基础协议包
  */
 @Data
+@Deprecated
 public class Protocol implements Serializable {
 
   private String protocol;   //协议头 标识协议体中类型

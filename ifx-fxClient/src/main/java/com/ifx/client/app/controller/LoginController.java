@@ -4,6 +4,7 @@ package com.ifx.client.app.controller;
 import com.ifx.account.vo.AccountVo;
 import com.ifx.client.api.AccountApi;
 import com.ifx.client.util.FxmlLoader;
+import com.ifx.connect.proto.Auth;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;

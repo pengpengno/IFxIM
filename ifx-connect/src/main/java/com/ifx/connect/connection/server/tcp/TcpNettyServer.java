@@ -1,7 +1,5 @@
 package com.ifx.connect.connection.server.tcp;
 
-import com.ifx.connect.handler.decoder.ProtocolDecoder;
-import com.ifx.connect.handler.encoder.ProtocolEncoder;
 import com.ifx.connect.handler.server.ServerChannelInitializer;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.Channel;
@@ -10,16 +8,10 @@ import io.netty.channel.ChannelOption;
 import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
-import io.netty.handler.logging.LogLevel;
-import io.netty.handler.logging.LoggingHandler;
 import io.netty.handler.timeout.IdleStateHandler;
-import io.netty.util.internal.chmv8.ConcurrentHashMapV8;
 import lombok.extern.slf4j.Slf4j;
-import reactor.netty.DisposableServer;
-import reactor.netty.tcp.TcpServer;
 
 import java.net.InetSocketAddress;
-import java.util.concurrent.ConcurrentMap;
 
 /***
  * Tcp netty 服务器
@@ -86,37 +78,6 @@ public class TcpNettyServer {
         return channelFuture;
     }
 
-    /***
-     * reactor-netty 实现
-     * @param address
-     */
-    public void startUp(InetSocketAddress address){
-        ConcurrentMap<String, Channel> stringChannelConcurrentMap = new ConcurrentHashMapV8<>();
-        log.debug("netty tcp server loading ");
-        TcpServer tcpServer = TcpServer.create();
-        DisposableServer server =
-            tcpServer
-                .host(address.getAddress().getHostAddress())
-                .port(address.getPort())
-                .wiretap(this.getClass().getName(), LogLevel.INFO)
-                .handle((nettyInbound, nettyOutbound) -> {
-                    nettyInbound.receive().subscribe(msg -> log.info("receive msg is  {}", String.valueOf(msg.readByte())));
-                    return nettyOutbound.neverComplete();
-                })
-                .doOnConnection(connection -> connection.addHandlerFirst(new IdleStateHandler(20,20,20)))//  free channel  checkout
-                .doOnChannelInit((connectionObserver, channel, remoteAddress) -> {
-                    channel.pipeline()
-                        .addLast(new LoggingHandler())
-                        .addLast(new ProtocolEncoder())
-                        .addLast(new ProtocolDecoder())
-                            ;
-                })
-                .bindNow()
-                ;
-                server.onDispose()
-        ;
-        log.debug("netty server has startup . host {}  port {}",address.getHostName(),address.getPort());
-    }
 
 
     public void destroy() {

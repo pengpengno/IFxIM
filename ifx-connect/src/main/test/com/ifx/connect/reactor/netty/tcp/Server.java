@@ -1,12 +1,15 @@
 package com.ifx.connect.reactor.netty.tcp;
 
+import com.ifx.connect.connection.server.ServerToolkit;
 import io.netty.handler.logging.LogLevel;
 import lombok.extern.slf4j.Slf4j;
+import org.junit.jupiter.api.Test;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.netty.DisposableServer;
 import reactor.netty.tcp.TcpServer;
 
+import java.net.InetSocketAddress;
 import java.nio.charset.StandardCharsets;
 import java.util.Scanner;
 
@@ -55,5 +58,11 @@ public class Server {
 
         // Wait for the server to stop
         server.onDispose().block();
+    }
+
+    @Test
+    public void startReactiveServer(){
+
+        ServerToolkit.reactiveServer().start(new InetSocketAddress("localhost",8094));
     }
 }

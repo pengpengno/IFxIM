@@ -1,16 +1,9 @@
 package com.ifx.client.proxy;
 
 import com.google.inject.Singleton;
-import com.ifx.client.util.IdUtil;
-import com.ifx.common.constant.CommonConstant;
-import com.ifx.connect.connection.client.ClientToolkit;
-import com.ifx.connect.proto.Protocol;
-import com.ifx.connect.proto.ifx.IFxMsgProtocol;
-import com.ifx.connect.proto.parse.DubboGenericParse;
 import lombok.extern.slf4j.Slf4j;
 import net.sf.cglib.proxy.MethodInterceptor;
 import net.sf.cglib.proxy.MethodProxy;
-import org.slf4j.MDC;
 
 import java.lang.reflect.Method;
 
@@ -37,13 +30,13 @@ public class ClientApiProxy implements MethodInterceptor {
     @Override
     public Object intercept(Object obj, Method method, Object[] args, MethodProxy proxy) throws Throwable {
             log.debug(" load apiProxy  prev");
-            Protocol protocol = DubboGenericParse.applyMsgProtocol( method, args);
-            protocol.setType(IFxMsgProtocol.CLIENT_TO_SERVER_MSG_HEADER);
-            String serverTrace = IdUtil.traceId();
-            protocol.setServerTrace(serverTrace);
-            ClientToolkit.getDefaultClientAction().sendJsonMsg(protocol);
-            MDC.put(CommonConstant.SERVER_TRACE,serverTrace);
-            log.debug(" load apiProxy  prev server trace {}",serverTrace);
+//            Protocol protocol = DubboGenericParse.applyMsgProtocol( method, args);
+//            protocol.setType(IFxMsgProtocol.CLIENT_TO_SERVER_MSG_HEADER);
+//            String serverTrace = IdUtil.traceId();
+//            protocol.setServerTrace(serverTrace);
+//            ClientToolkit.getDefaultClientAction().sendJsonMsg(protocol);
+//            MDC.put(CommonConstant.SERVER_TRACE,serverTrace);
+//            log.debug(" load apiProxy  prev server trace {}",serverTrace);
         return null;
     }
 

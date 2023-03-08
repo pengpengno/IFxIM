@@ -22,9 +22,7 @@ public class IConnectContext implements IConnectContextAction {
     private final Cache<String, IConnection> connectionCache = Caffeine.newBuilder()
             .build();;
 
-    private IConnectContext(){
 
-    }
 
 
     @Override
@@ -53,6 +51,9 @@ public class IConnectContext implements IConnectContextAction {
         applyConnection(account).close();
         return null;
     }
+
+
+
 
 
 

@@ -42,7 +42,6 @@ public class RegisterController  {
     private VBox registerFrame;
 
 
-    private RegisterHelper registerHelper;
 
     @FXML
     void register(MouseEvent event) throws NoSuchMethodException {
@@ -60,8 +59,6 @@ public class RegisterController  {
             }
             log.info("注册成功！");
         };
-        Protocol registerProtocol = registerHelper.applyRegister(accountVo);
-        ClientToolkit.getDefaultClientAction().sendJsonMsg(registerProtocol, taskHandler);
     }
 
     @FXML

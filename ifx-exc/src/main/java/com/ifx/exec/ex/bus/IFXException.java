@@ -9,16 +9,13 @@ import com.ifx.exec.errorMsg.IErrorMsg;
  */
 public class IFXException extends BaseException {
 
-    private IErrorMsg errorMsg;
 
-    private String detailMsg;
-
-    public IFXException(ExceptionMessage exceptionMessage) {
-        super(exceptionMessage);
+    public IFXException(IErrorMsg errorMsg) {
+        super(errorMsg);
     }
 
-    public IFXException(ExceptionMessage exceptionMessage, String detailMsg) {
-        super(exceptionMessage, detailMsg);
+    public IFXException(IErrorMsg errorMsg, String detailMsg) {
+        super(errorMsg, detailMsg);
     }
 
     public IFXException() {

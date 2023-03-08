@@ -11,7 +11,7 @@
     <artifactId>cloudServer</artifactId>
     <packaging>pom</packaging>
     <modules>
-        <module>IfxServerGateway</module>
+        <module>ApiGateway</module>
         <module>account</module>
         <module>session</module>
     </modules>
