@@ -23,31 +23,29 @@ public class ClientInboundHandler extends ChannelInboundHandlerAdapter {
     public ClientInboundHandler(String token){
         jwt = token;
     }
-
-    @Override
-    public void channelRegistered(ChannelHandlerContext ctx) throws Exception {
-        log.info("channel  register success");
-        ctx.channel().writeAndFlush(jwt);
-        Channel channel = ctx.channel();
-        Auth.Authenticate auth = Auth.Authenticate.newBuilder()
-                .setJwt(jwt)
-                .build();
-        try {
-            byte[] bytes = auth.toByteArray();
-            int length = bytes.length;
-            ByteBuf buffer = channel.alloc().buffer(8+ length);
-//            ByteBuf buf = Unpooled.buffer(8 + length);
-            buffer.writeInt(length);
-            buffer.writeInt(ProtocolType.ProtocolMessageEnum.AUTH_VALUE);
-            buffer.writeBytes(bytes);
-//            out.writeBytes(buf);
-            channel.writeAndFlush(buffer);
-            buffer.release();
-        } catch (Exception e) {
-            log.error("[client] msg encode has error", e);
-        }
+//
+//    @Override
+//    public void channelRegistered(ChannelHandlerContext ctx) throws Exception {
+//        log.info("channel  register success");
+//        Channel channel = ctx.channel();
+//        Auth.Authenticate auth = Auth.Authenticate.newBuilder()
+//                .setJwt(jwt)
+//                .build();
+//        try {
+//            byte[] bytes = auth.toByteArray();
+//            int length = bytes.length;
+//            ByteBuf buffer = channel.alloc().buffer(8+ length);
+////            ByteBuf buf = Unpooled.buffer(8 + length);
+//            buffer.writeInt(length);
+//            buffer.writeInt(ProtocolType.ProtocolMessageEnum.AUTH_VALUE);
+//            buffer.writeBytes(bytes);
+//            channel.writeAndFlush(buffer);
+////            buffer.release();
+//        } catch (Exception e) {
+//            log.error("[client] msg encode has error", e);
+//        }
 //        super.channelRegistered(ctx);
-    }
+//    }
 
     @Override
     public void channelUnregistered(ChannelHandlerContext ctx) throws Exception {
@@ -56,8 +54,7 @@ public class ClientInboundHandler extends ChannelInboundHandlerAdapter {
 
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
-        log.info("channel is active");
-        ctx.channel().writeAndFlush(jwt);
+        log.info("channel  register success");
         Channel channel = ctx.channel();
         Auth.Authenticate auth = Auth.Authenticate.newBuilder()
                 .setJwt(jwt)
@@ -70,13 +67,12 @@ public class ClientInboundHandler extends ChannelInboundHandlerAdapter {
             buffer.writeInt(length);
             buffer.writeInt(ProtocolType.ProtocolMessageEnum.AUTH_VALUE);
             buffer.writeBytes(bytes);
-//            out.writeBytes(buf);
             channel.writeAndFlush(buffer);
-            buffer.release();
+//            buffer.release();
         } catch (Exception e) {
             log.error("[client] msg encode has error", e);
         }
-//        super.channelActive(ctx);
+        super.channelActive(ctx);
     }
 
     @Override

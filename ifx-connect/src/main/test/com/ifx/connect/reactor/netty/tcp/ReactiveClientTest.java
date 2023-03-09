@@ -52,12 +52,16 @@ public class ReactiveClientTest {
                 .doOnChannelInit((connectionObserver, channel, remoteAddress) -> {
                     channel.pipeline().addLast(new ClientInboundHandler(jwt));
                 })
-                .handle((nettyInbound, nettyOutbound) -> Mono.never())
-                .connectNow();
+//                .handle((nettyInbound, nettyOutbound) -> Mono.never())
+//                .handle(((nettyInbound, nettyOutbound) -> Mono.never()))
+                .connectNow().bind();
         log.info("{}", connect.isDisposed());
-        connect.inbound().receive().asString().doOnNext(log::info).then().subscribe();
+//        connect.inbound().receive().asString().doOnNext(log::info).then().subscribe();
         connect.outbound().sendString(Mono.just("nice to meet you")).then().subscribe();
-        connect.onDispose().block();
+        connect.outbound().sendString(Mono.just("send  twice ")).then().subscribe();
+        connect.onDispose()
+                .block()
+        ;
     }
 
 }

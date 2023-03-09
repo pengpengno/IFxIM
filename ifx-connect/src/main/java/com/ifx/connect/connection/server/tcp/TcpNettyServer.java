@@ -1,6 +1,5 @@
 package com.ifx.connect.connection.server.tcp;
 
-import com.ifx.connect.handler.server.ServerChannelInitializer;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelFuture;
@@ -63,7 +62,7 @@ public class TcpNettyServer {
                     .option(ChannelOption.SO_BACKLOG, 128)
                     .childOption(ChannelOption.SO_KEEPALIVE,true)
                     .childHandler(new IdleStateHandler(20,20,20)) //  free channel  checkout
-                    .childHandler(new ServerChannelInitializer());
+            ;
             channelFuture = b.bind(address).syncUninterruptibly();
              channel = channelFuture.channel();
         } catch (Exception e) {
