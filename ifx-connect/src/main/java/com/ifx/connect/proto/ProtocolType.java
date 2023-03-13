@@ -28,9 +28,17 @@ public final class ProtocolType {
      */
     AUTH(1001),
     /**
+     * <code>ACCOUNTINFO = 1004;</code>
+     */
+    ACCOUNTINFO(1004),
+    /**
      * <code>CHAT = 1002;</code>
      */
     CHAT(1002),
+    /**
+     * <code>REQUEST = 1003;</code>
+     */
+    REQUEST(1003),
     UNRECOGNIZED(-1),
     ;
 
@@ -43,9 +51,17 @@ public final class ProtocolType {
      */
     public static final int AUTH_VALUE = 1001;
     /**
+     * <code>ACCOUNTINFO = 1004;</code>
+     */
+    public static final int ACCOUNTINFO_VALUE = 1004;
+    /**
      * <code>CHAT = 1002;</code>
      */
     public static final int CHAT_VALUE = 1002;
+    /**
+     * <code>REQUEST = 1003;</code>
+     */
+    public static final int REQUEST_VALUE = 1003;
 
 
     public final int getNumber() {
@@ -74,7 +90,9 @@ public final class ProtocolType {
       switch (value) {
         case 0: return TMP;
         case 1001: return AUTH;
+        case 1004: return ACCOUNTINFO;
         case 1002: return CHAT;
+        case 1003: return REQUEST;
         default: return null;
       }
     }
@@ -141,9 +159,10 @@ public final class ProtocolType {
   static {
     java.lang.String[] descriptorData = {
       "\n\021MessageEnum.proto\022\025com.ifx.connect.pro" +
-      "to*4\n\023ProtocolMessageEnum\022\007\n\003TMP\020\000\022\t\n\004AU" +
-      "TH\020\351\007\022\t\n\004CHAT\020\352\007B%\n\025com.ifx.connect.prot" +
-      "oB\014ProtocolTypeb\006proto3"
+      "to*T\n\023ProtocolMessageEnum\022\007\n\003TMP\020\000\022\t\n\004AU" +
+      "TH\020\351\007\022\020\n\013ACCOUNTINFO\020\354\007\022\t\n\004CHAT\020\352\007\022\014\n\007RE" +
+      "QUEST\020\353\007B%\n\025com.ifx.connect.protoB\014Proto" +
+      "colTypeb\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,

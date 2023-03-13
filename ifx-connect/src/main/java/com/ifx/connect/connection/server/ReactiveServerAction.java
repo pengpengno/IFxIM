@@ -1,5 +1,6 @@
 package com.ifx.connect.connection.server;
 
+import com.google.protobuf.Message;
 import com.ifx.connect.connection.server.context.IConnection;
 import reactor.core.publisher.Mono;
 
@@ -10,8 +11,15 @@ import reactor.core.publisher.Mono;
  */
 public interface ReactiveServerAction {
 
+
     Mono<String>  sendString(IConnection connection,String message);
+
     Mono<String>  sendString(String account,String  message);
+
+    Mono<Message>  sendMessage(String account , Message message);
+
+
+
 
 
 

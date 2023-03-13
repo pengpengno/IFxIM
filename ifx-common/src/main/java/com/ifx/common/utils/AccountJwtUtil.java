@@ -10,6 +10,7 @@ import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 
 import java.nio.charset.StandardCharsets;
+import java.security.Key;
 import java.util.Base64;
 
 
@@ -34,6 +35,7 @@ public class AccountJwtUtil {
      */
     public static String generateJwt(String subject,AccountInfo claim){
         return JWT_CACHE.get(subject,(str)-> defaultJwtBuilder()
+                .setSubject(str)
                 .claim(SecurityConstants.ACCOUNT_JWT_SIGN,claim)
                 .compact());
     }
@@ -48,6 +50,7 @@ public class AccountJwtUtil {
     protected static JwtBuilder defaultJwtBuilder(){
         byte[]  jwtSecret = Base64.getUrlEncoder().encode(SecurityConstants.JWT_SECRET.getBytes(StandardCharsets.UTF_8));
         // Generate the JWT token
+        Key key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
         DateTime date = DateUtil.date();
         return Jwts.builder()
                 .setIssuedAt(date)

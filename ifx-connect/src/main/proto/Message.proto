@@ -4,22 +4,41 @@ syntax = "proto3";
 package com.ifx.connect.proto;
 option java_package = "com.ifx.connect.proto";
 option java_outer_classname = "Chat";
-import "MessageEnum.proto";
-import "google/protobuf/any.proto";
+
 
 
 message ChatMessage  {
-
-//  string jwt = 2; // java-web-token
 
   string content  = 3 ;
 
   string fromAccount = 5 ;
 
-  string toAccount = 6 ;
+  MessageDestEnum msgDestEnum = 9;
+
+  message Group{
+    float sessionId = 1 ;
+    repeated string toAccounts = 8 ;  // the receive  account
+  }
+  message Single{
+    float toAccount = 1;
+  }
+}
+
+enum MessageDestEnum{
+  GROUP = 0 ;
+
+  SINGLE = 1;
+}
 
 
-  ProtocolMessageEnum messageType = 8;
+enum MessageType{
 
+  TEXT = 0 ;
+
+  FILE = 1 ;
+
+  STREAM = 2 ;
+
+  VIDEO = 3 ;
 
 }

@@ -1,6 +1,5 @@
 package com.ifx.client.app.pane.sys;
 
-import com.ifx.client.app.pane.SearchPane;
 import com.ifx.connect.properties.ClientNettyConfigProperties;
 import javafx.scene.layout.Pane;
 import lombok.extern.slf4j.Slf4j;

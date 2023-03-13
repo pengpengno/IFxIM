@@ -6,7 +6,6 @@ import com.ifx.connect.connection.client.ClientAction;
 import com.ifx.connect.connection.client.ClientLifeStyle;
 import com.ifx.connect.proto.Protocol;
 import com.ifx.connect.task.handler.TaskHandler;
-import com.ifx.connect.task.handler.def.DefaultHandler;
 import com.ifx.exec.errorMsg.NetError;
 import com.ifx.exec.ex.net.NetException;
 import com.ifx.exec.ex.net.NettyException;
@@ -89,17 +88,8 @@ public class NettyClientAction implements ClientAction, ClientLifeStyle {
     }
 
 
-    @Override
-    public void init()  {
-       connect();
-    }
 
 
-
-    @Override
-    public void resetConnect() {
-            log.debug("reset channel");
-    }
 
     @Override
     public Boolean sendJsonMsg(Protocol protocol, TaskHandler taskHandler) {
@@ -141,11 +131,6 @@ public class NettyClientAction implements ClientAction, ClientLifeStyle {
         return Boolean.TRUE;
     }
 
-    @Override
-    public void keepAlive() {
-//        心跳包机制  此处无需手动实现
-        sendJsonMsg(new Protocol(), DefaultHandler.HEART_BEAT_HANDLER);
-    }
 
     @Override
     public void releaseChannel() {

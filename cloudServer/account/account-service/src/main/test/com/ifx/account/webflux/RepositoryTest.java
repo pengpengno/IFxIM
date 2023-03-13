@@ -31,9 +31,8 @@ public class RepositoryTest {
     @Test
     public void r2dbcEntity(){
 //        new
-        Mono<Account> pengpeng = accountRepository.findByAccount1("pengpeng");
+        Mono<Account> pengpeng = accountRepository.findByAccount("pengpeng");
         System.out.println(pengpeng.block());
         pengpeng.doOnNext(s-> log.info(JSON.toJSONString(s))).subscribe();
-//        r2dbcEntityTemplate.select()
     }
 }

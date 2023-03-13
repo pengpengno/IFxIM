@@ -3,12 +3,26 @@ syntax = "proto3";
 //option java_multiple_files = true;
 package com.ifx.connect.proto;
 option java_package = "com.ifx.connect.proto";
-option java_outer_classname = "Auth";
+option java_outer_classname = "Account";
 
 message Authenticate{
 
 
   string jwt = 1;
 
+  AccountInfo accountInfo = 2;
+
+
+}
+
+message AccountInfo{
+
+  string account = 1 ;
+
+  string accountName = 2 ;
+
+  string userId  = 3 ;
+
+  string eMail = 4 ;
 
 }

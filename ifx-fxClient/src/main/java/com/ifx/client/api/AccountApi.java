@@ -3,6 +3,7 @@ package com.ifx.client.api;
 import com.ifx.account.route.accout.AccRoute;
 import com.ifx.account.vo.AccountAuthenticateVo;
 import com.ifx.account.vo.AccountVo;
+import com.ifx.common.base.AccountInfo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatusCode;
@@ -39,6 +40,32 @@ public class AccountApi {
                                 Mono.error(()->
                                     new RuntimeException(problemDetail.getDetail()))))
                 .bodyToMono(AccountAuthenticateVo.class)
+                .doOnError((throwable)-> {
+                    log.error( throwable.getMessage());
+                });
+    }
+
+
+    /***
+     * 登录 Api
+     * @param accountVo
+     * @return
+     */
+    public Mono<AccountInfo> login (AccountVo accountVo) {
+        return webClient
+                .post()
+                .uri(AccRoute.ACCOUNT_ROUTE+AccRoute.LOGIN)
+                .contentType(MediaType.APPLICATION_JSON)
+                .bodyValue(accountVo)
+                .retrieve()
+                .onStatus(HttpStatusCode::isError,
+                        (clientResponse ) ->
+                        clientResponse
+                        .bodyToMono(ProblemDetail.class)
+                        .flatMap(problemDetail ->
+                        Mono.error(()->
+                        new RuntimeException(problemDetail.getDetail()))))
+                .bodyToMono(AccountInfo.class)
                 .doOnError((throwable)-> {
                     log.error( throwable.getMessage());
                 });

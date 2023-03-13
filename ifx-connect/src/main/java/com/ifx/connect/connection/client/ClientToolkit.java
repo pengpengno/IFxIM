@@ -2,6 +2,7 @@ package com.ifx.connect.connection.client;
 
 import com.ifx.connect.config.ConnectionDefaultValue;
 import com.ifx.connect.connection.client.tcp.NettyClientAction;
+import com.ifx.connect.connection.client.tcp.reactive.ReactorTcpClient;
 import com.ifx.connect.enums.ConnectTypeEnums;
 
 /**
@@ -32,12 +33,21 @@ public  class ClientToolkit {
         return  NettyClientAction.getInstance();
     }
 
-    public static  ClientLifeStyle getDefaultClientLifeStyle(){
+    public static  ClientLifeStyle clientLifeStyle(){
         ConnectTypeEnums defaultValue = ConnectionDefaultValue.getDefaultConnectType();
         if (defaultValue == ConnectTypeEnums.TCP){
-            return  NettyClientAction.getInstance();
+            return  ReactorTcpClient.getInstance();
         }
-        return  NettyClientAction.getInstance();
+        return  ReactorTcpClient.getInstance();
+    }
+
+
+    public static ReactiveClientAction reactiveClientAction(){
+        ConnectTypeEnums defaultValue = ConnectionDefaultValue.getDefaultConnectType();
+        if (defaultValue == ConnectTypeEnums.TCP){
+            return  ReactorTcpClient.getInstance();
+        }
+        return  ReactorTcpClient.getInstance();
     }
 
 

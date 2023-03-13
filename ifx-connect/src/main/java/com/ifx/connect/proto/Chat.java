@@ -14,6 +14,240 @@ public final class Chat {
     registerAllExtensions(
         (com.google.protobuf.ExtensionRegistryLite) registry);
   }
+  /**
+   * Protobuf enum {@code com.ifx.connect.proto.MessageDestEnum}
+   */
+  public enum MessageDestEnum
+      implements com.google.protobuf.ProtocolMessageEnum {
+    /**
+     * <code>GROUP = 0;</code>
+     */
+    GROUP(0),
+    /**
+     * <code>SINGLE = 1;</code>
+     */
+    SINGLE(1),
+    UNRECOGNIZED(-1),
+    ;
+
+    /**
+     * <code>GROUP = 0;</code>
+     */
+    public static final int GROUP_VALUE = 0;
+    /**
+     * <code>SINGLE = 1;</code>
+     */
+    public static final int SINGLE_VALUE = 1;
+
+
+    public final int getNumber() {
+      if (this == UNRECOGNIZED) {
+        throw new java.lang.IllegalArgumentException(
+            "Can't get the number of an unknown enum value.");
+      }
+      return value;
+    }
+
+    /**
+     * @param value The numeric wire value of the corresponding enum entry.
+     * @return The enum associated with the given numeric wire value.
+     * @deprecated Use {@link #forNumber(int)} instead.
+     */
+    @java.lang.Deprecated
+    public static MessageDestEnum valueOf(int value) {
+      return forNumber(value);
+    }
+
+    /**
+     * @param value The numeric wire value of the corresponding enum entry.
+     * @return The enum associated with the given numeric wire value.
+     */
+    public static MessageDestEnum forNumber(int value) {
+      switch (value) {
+        case 0: return GROUP;
+        case 1: return SINGLE;
+        default: return null;
+      }
+    }
+
+    public static com.google.protobuf.Internal.EnumLiteMap<MessageDestEnum>
+        internalGetValueMap() {
+      return internalValueMap;
+    }
+    private static final com.google.protobuf.Internal.EnumLiteMap<
+        MessageDestEnum> internalValueMap =
+          new com.google.protobuf.Internal.EnumLiteMap<MessageDestEnum>() {
+            public MessageDestEnum findValueByNumber(int number) {
+              return MessageDestEnum.forNumber(number);
+            }
+          };
+
+    public final com.google.protobuf.Descriptors.EnumValueDescriptor
+        getValueDescriptor() {
+      if (this == UNRECOGNIZED) {
+        throw new java.lang.IllegalStateException(
+            "Can't get the descriptor of an unrecognized enum value.");
+      }
+      return getDescriptor().getValues().get(ordinal());
+    }
+    public final com.google.protobuf.Descriptors.EnumDescriptor
+        getDescriptorForType() {
+      return getDescriptor();
+    }
+    public static final com.google.protobuf.Descriptors.EnumDescriptor
+        getDescriptor() {
+      return com.ifx.connect.proto.Chat.getDescriptor().getEnumTypes().get(0);
+    }
+
+    private static final MessageDestEnum[] VALUES = values();
+
+    public static MessageDestEnum valueOf(
+        com.google.protobuf.Descriptors.EnumValueDescriptor desc) {
+      if (desc.getType() != getDescriptor()) {
+        throw new java.lang.IllegalArgumentException(
+          "EnumValueDescriptor is not for this type.");
+      }
+      if (desc.getIndex() == -1) {
+        return UNRECOGNIZED;
+      }
+      return VALUES[desc.getIndex()];
+    }
+
+    private final int value;
+
+    private MessageDestEnum(int value) {
+      this.value = value;
+    }
+
+    // @@protoc_insertion_point(enum_scope:com.ifx.connect.proto.MessageDestEnum)
+  }
+
+  /**
+   * Protobuf enum {@code com.ifx.connect.proto.MessageType}
+   */
+  public enum MessageType
+      implements com.google.protobuf.ProtocolMessageEnum {
+    /**
+     * <code>TEXT = 0;</code>
+     */
+    TEXT(0),
+    /**
+     * <code>FILE = 1;</code>
+     */
+    FILE(1),
+    /**
+     * <code>STREAM = 2;</code>
+     */
+    STREAM(2),
+    /**
+     * <code>VIDEO = 3;</code>
+     */
+    VIDEO(3),
+    UNRECOGNIZED(-1),
+    ;
+
+    /**
+     * <code>TEXT = 0;</code>
+     */
+    public static final int TEXT_VALUE = 0;
+    /**
+     * <code>FILE = 1;</code>
+     */
+    public static final int FILE_VALUE = 1;
+    /**
+     * <code>STREAM = 2;</code>
+     */
+    public static final int STREAM_VALUE = 2;
+    /**
+     * <code>VIDEO = 3;</code>
+     */
+    public static final int VIDEO_VALUE = 3;
+
+
+    public final int getNumber() {
+      if (this == UNRECOGNIZED) {
+        throw new java.lang.IllegalArgumentException(
+            "Can't get the number of an unknown enum value.");
+      }
+      return value;
+    }
+
+    /**
+     * @param value The numeric wire value of the corresponding enum entry.
+     * @return The enum associated with the given numeric wire value.
+     * @deprecated Use {@link #forNumber(int)} instead.
+     */
+    @java.lang.Deprecated
+    public static MessageType valueOf(int value) {
+      return forNumber(value);
+    }
+
+    /**
+     * @param value The numeric wire value of the corresponding enum entry.
+     * @return The enum associated with the given numeric wire value.
+     */
+    public static MessageType forNumber(int value) {
+      switch (value) {
+        case 0: return TEXT;
+        case 1: return FILE;
+        case 2: return STREAM;
+        case 3: return VIDEO;
+        default: return null;
+      }
+    }
+
+    public static com.google.protobuf.Internal.EnumLiteMap<MessageType>
+        internalGetValueMap() {
+      return internalValueMap;
+    }
+    private static final com.google.protobuf.Internal.EnumLiteMap<
+        MessageType> internalValueMap =
+          new com.google.protobuf.Internal.EnumLiteMap<MessageType>() {
+            public MessageType findValueByNumber(int number) {
+              return MessageType.forNumber(number);
+            }
+          };
+
+    public final com.google.protobuf.Descriptors.EnumValueDescriptor
+        getValueDescriptor() {
+      if (this == UNRECOGNIZED) {
+        throw new java.lang.IllegalStateException(
+            "Can't get the descriptor of an unrecognized enum value.");
+      }
+      return getDescriptor().getValues().get(ordinal());
+    }
+    public final com.google.protobuf.Descriptors.EnumDescriptor
+        getDescriptorForType() {
+      return getDescriptor();
+    }
+    public static final com.google.protobuf.Descriptors.EnumDescriptor
+        getDescriptor() {
+      return com.ifx.connect.proto.Chat.getDescriptor().getEnumTypes().get(1);
+    }
+
+    private static final MessageType[] VALUES = values();
+
+    public static MessageType valueOf(
+        com.google.protobuf.Descriptors.EnumValueDescriptor desc) {
+      if (desc.getType() != getDescriptor()) {
+        throw new java.lang.IllegalArgumentException(
+          "EnumValueDescriptor is not for this type.");
+      }
+      if (desc.getIndex() == -1) {
+        return UNRECOGNIZED;
+      }
+      return VALUES[desc.getIndex()];
+    }
+
+    private final int value;
+
+    private MessageType(int value) {
+      this.value = value;
+    }
+
+    // @@protoc_insertion_point(enum_scope:com.ifx.connect.proto.MessageType)
+  }
+
   public interface ChatMessageOrBuilder extends
       // @@protoc_insertion_point(interface_extends:com.ifx.connect.proto.ChatMessage)
       com.google.protobuf.MessageOrBuilder {
@@ -43,27 +277,15 @@ public final class Chat {
         getFromAccountBytes();
 
     /**
-     * <code>string toAccount = 6;</code>
-     * @return The toAccount.
+     * <code>.com.ifx.connect.proto.MessageDestEnum msgDestEnum = 9;</code>
+     * @return The enum numeric value on the wire for msgDestEnum.
      */
-    java.lang.String getToAccount();
+    int getMsgDestEnumValue();
     /**
-     * <code>string toAccount = 6;</code>
-     * @return The bytes for toAccount.
+     * <code>.com.ifx.connect.proto.MessageDestEnum msgDestEnum = 9;</code>
+     * @return The msgDestEnum.
      */
-    com.google.protobuf.ByteString
-        getToAccountBytes();
-
-    /**
-     * <code>.com.ifx.connect.proto.ProtocolMessageEnum messageType = 8;</code>
-     * @return The enum numeric value on the wire for messageType.
-     */
-    int getMessageTypeValue();
-    /**
-     * <code>.com.ifx.connect.proto.ProtocolMessageEnum messageType = 8;</code>
-     * @return The messageType.
-     */
-    com.ifx.connect.proto.ProtocolType.ProtocolMessageEnum getMessageType();
+    com.ifx.connect.proto.Chat.MessageDestEnum getMsgDestEnum();
   }
   /**
    * Protobuf type {@code com.ifx.connect.proto.ChatMessage}
@@ -80,8 +302,7 @@ public final class Chat {
     private ChatMessage() {
       content_ = "";
       fromAccount_ = "";
-      toAccount_ = "";
-      messageType_ = 0;
+      msgDestEnum_ = 0;
     }
 
     @java.lang.Override
@@ -102,6 +323,1176 @@ public final class Chat {
       return com.ifx.connect.proto.Chat.internal_static_com_ifx_connect_proto_ChatMessage_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
               com.ifx.connect.proto.Chat.ChatMessage.class, com.ifx.connect.proto.Chat.ChatMessage.Builder.class);
+    }
+
+    public interface GroupOrBuilder extends
+        // @@protoc_insertion_point(interface_extends:com.ifx.connect.proto.ChatMessage.Group)
+        com.google.protobuf.MessageOrBuilder {
+
+      /**
+       * <code>float sessionId = 1;</code>
+       * @return The sessionId.
+       */
+      float getSessionId();
+
+      /**
+       * <pre>
+       * the receive  account
+       * </pre>
+       *
+       * <code>repeated string toAccounts = 8;</code>
+       * @return A list containing the toAccounts.
+       */
+      java.util.List<java.lang.String>
+          getToAccountsList();
+      /**
+       * <pre>
+       * the receive  account
+       * </pre>
+       *
+       * <code>repeated string toAccounts = 8;</code>
+       * @return The count of toAccounts.
+       */
+      int getToAccountsCount();
+      /**
+       * <pre>
+       * the receive  account
+       * </pre>
+       *
+       * <code>repeated string toAccounts = 8;</code>
+       * @param index The index of the element to return.
+       * @return The toAccounts at the given index.
+       */
+      java.lang.String getToAccounts(int index);
+      /**
+       * <pre>
+       * the receive  account
+       * </pre>
+       *
+       * <code>repeated string toAccounts = 8;</code>
+       * @param index The index of the value to return.
+       * @return The bytes of the toAccounts at the given index.
+       */
+      com.google.protobuf.ByteString
+          getToAccountsBytes(int index);
+    }
+    /**
+     * Protobuf type {@code com.ifx.connect.proto.ChatMessage.Group}
+     */
+    public static final class Group extends
+        com.google.protobuf.GeneratedMessageV3 implements
+        // @@protoc_insertion_point(message_implements:com.ifx.connect.proto.ChatMessage.Group)
+        GroupOrBuilder {
+    private static final long serialVersionUID = 0L;
+      // Use Group.newBuilder() to construct.
+      private Group(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+        super(builder);
+      }
+      private Group() {
+        toAccounts_ =
+            com.google.protobuf.LazyStringArrayList.emptyList();
+      }
+
+      @java.lang.Override
+      @SuppressWarnings({"unused"})
+      protected java.lang.Object newInstance(
+          UnusedPrivateParameter unused) {
+        return new Group();
+      }
+
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return com.ifx.connect.proto.Chat.internal_static_com_ifx_connect_proto_ChatMessage_Group_descriptor;
+      }
+
+      @java.lang.Override
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return com.ifx.connect.proto.Chat.internal_static_com_ifx_connect_proto_ChatMessage_Group_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                com.ifx.connect.proto.Chat.ChatMessage.Group.class, com.ifx.connect.proto.Chat.ChatMessage.Group.Builder.class);
+      }
+
+      public static final int SESSIONID_FIELD_NUMBER = 1;
+      private float sessionId_ = 0F;
+      /**
+       * <code>float sessionId = 1;</code>
+       * @return The sessionId.
+       */
+      @java.lang.Override
+      public float getSessionId() {
+        return sessionId_;
+      }
+
+      public static final int TOACCOUNTS_FIELD_NUMBER = 8;
+      @SuppressWarnings("serial")
+      private com.google.protobuf.LazyStringArrayList toAccounts_ =
+          com.google.protobuf.LazyStringArrayList.emptyList();
+      /**
+       * <pre>
+       * the receive  account
+       * </pre>
+       *
+       * <code>repeated string toAccounts = 8;</code>
+       * @return A list containing the toAccounts.
+       */
+      public com.google.protobuf.ProtocolStringList
+          getToAccountsList() {
+        return toAccounts_;
+      }
+      /**
+       * <pre>
+       * the receive  account
+       * </pre>
+       *
+       * <code>repeated string toAccounts = 8;</code>
+       * @return The count of toAccounts.
+       */
+      public int getToAccountsCount() {
+        return toAccounts_.size();
+      }
+      /**
+       * <pre>
+       * the receive  account
+       * </pre>
+       *
+       * <code>repeated string toAccounts = 8;</code>
+       * @param index The index of the element to return.
+       * @return The toAccounts at the given index.
+       */
+      public java.lang.String getToAccounts(int index) {
+        return toAccounts_.get(index);
+      }
+      /**
+       * <pre>
+       * the receive  account
+       * </pre>
+       *
+       * <code>repeated string toAccounts = 8;</code>
+       * @param index The index of the value to return.
+       * @return The bytes of the toAccounts at the given index.
+       */
+      public com.google.protobuf.ByteString
+          getToAccountsBytes(int index) {
+        return toAccounts_.getByteString(index);
+      }
+
+      private byte memoizedIsInitialized = -1;
+      @java.lang.Override
+      public final boolean isInitialized() {
+        byte isInitialized = memoizedIsInitialized;
+        if (isInitialized == 1) return true;
+        if (isInitialized == 0) return false;
+
+        memoizedIsInitialized = 1;
+        return true;
+      }
+
+      @java.lang.Override
+      public void writeTo(com.google.protobuf.CodedOutputStream output)
+                          throws java.io.IOException {
+        if (java.lang.Float.floatToRawIntBits(sessionId_) != 0) {
+          output.writeFloat(1, sessionId_);
+        }
+        for (int i = 0; i < toAccounts_.size(); i++) {
+          com.google.protobuf.GeneratedMessageV3.writeString(output, 8, toAccounts_.getRaw(i));
+        }
+        getUnknownFields().writeTo(output);
+      }
+
+      @java.lang.Override
+      public int getSerializedSize() {
+        int size = memoizedSize;
+        if (size != -1) return size;
+
+        size = 0;
+        if (java.lang.Float.floatToRawIntBits(sessionId_) != 0) {
+          size += com.google.protobuf.CodedOutputStream
+            .computeFloatSize(1, sessionId_);
+        }
+        {
+          int dataSize = 0;
+          for (int i = 0; i < toAccounts_.size(); i++) {
+            dataSize += computeStringSizeNoTag(toAccounts_.getRaw(i));
+          }
+          size += dataSize;
+          size += 1 * getToAccountsList().size();
+        }
+        size += getUnknownFields().getSerializedSize();
+        memoizedSize = size;
+        return size;
+      }
+
+      @java.lang.Override
+      public boolean equals(final java.lang.Object obj) {
+        if (obj == this) {
+         return true;
+        }
+        if (!(obj instanceof com.ifx.connect.proto.Chat.ChatMessage.Group)) {
+          return super.equals(obj);
+        }
+        com.ifx.connect.proto.Chat.ChatMessage.Group other = (com.ifx.connect.proto.Chat.ChatMessage.Group) obj;
+
+        if (java.lang.Float.floatToIntBits(getSessionId())
+            != java.lang.Float.floatToIntBits(
+                other.getSessionId())) return false;
+        if (!getToAccountsList()
+            .equals(other.getToAccountsList())) return false;
+        if (!getUnknownFields().equals(other.getUnknownFields())) return false;
+        return true;
+      }
+
+      @java.lang.Override
+      public int hashCode() {
+        if (memoizedHashCode != 0) {
+          return memoizedHashCode;
+        }
+        int hash = 41;
+        hash = (19 * hash) + getDescriptor().hashCode();
+        hash = (37 * hash) + SESSIONID_FIELD_NUMBER;
+        hash = (53 * hash) + java.lang.Float.floatToIntBits(
+            getSessionId());
+        if (getToAccountsCount() > 0) {
+          hash = (37 * hash) + TOACCOUNTS_FIELD_NUMBER;
+          hash = (53 * hash) + getToAccountsList().hashCode();
+        }
+        hash = (29 * hash) + getUnknownFields().hashCode();
+        memoizedHashCode = hash;
+        return hash;
+      }
+
+      public static com.ifx.connect.proto.Chat.ChatMessage.Group parseFrom(
+          java.nio.ByteBuffer data)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data);
+      }
+      public static com.ifx.connect.proto.Chat.ChatMessage.Group parseFrom(
+          java.nio.ByteBuffer data,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data, extensionRegistry);
+      }
+      public static com.ifx.connect.proto.Chat.ChatMessage.Group parseFrom(
+          com.google.protobuf.ByteString data)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data);
+      }
+      public static com.ifx.connect.proto.Chat.ChatMessage.Group parseFrom(
+          com.google.protobuf.ByteString data,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data, extensionRegistry);
+      }
+      public static com.ifx.connect.proto.Chat.ChatMessage.Group parseFrom(byte[] data)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data);
+      }
+      public static com.ifx.connect.proto.Chat.ChatMessage.Group parseFrom(
+          byte[] data,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data, extensionRegistry);
+      }
+      public static com.ifx.connect.proto.Chat.ChatMessage.Group parseFrom(java.io.InputStream input)
+          throws java.io.IOException {
+        return com.google.protobuf.GeneratedMessageV3
+            .parseWithIOException(PARSER, input);
+      }
+      public static com.ifx.connect.proto.Chat.ChatMessage.Group parseFrom(
+          java.io.InputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        return com.google.protobuf.GeneratedMessageV3
+            .parseWithIOException(PARSER, input, extensionRegistry);
+      }
+      public static com.ifx.connect.proto.Chat.ChatMessage.Group parseDelimitedFrom(java.io.InputStream input)
+          throws java.io.IOException {
+        return com.google.protobuf.GeneratedMessageV3
+            .parseDelimitedWithIOException(PARSER, input);
+      }
+      public static com.ifx.connect.proto.Chat.ChatMessage.Group parseDelimitedFrom(
+          java.io.InputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        return com.google.protobuf.GeneratedMessageV3
+            .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+      }
+      public static com.ifx.connect.proto.Chat.ChatMessage.Group parseFrom(
+          com.google.protobuf.CodedInputStream input)
+          throws java.io.IOException {
+        return com.google.protobuf.GeneratedMessageV3
+            .parseWithIOException(PARSER, input);
+      }
+      public static com.ifx.connect.proto.Chat.ChatMessage.Group parseFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        return com.google.protobuf.GeneratedMessageV3
+            .parseWithIOException(PARSER, input, extensionRegistry);
+      }
+
+      @java.lang.Override
+      public Builder newBuilderForType() { return newBuilder(); }
+      public static Builder newBuilder() {
+        return DEFAULT_INSTANCE.toBuilder();
+      }
+      public static Builder newBuilder(com.ifx.connect.proto.Chat.ChatMessage.Group prototype) {
+        return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+      }
+      @java.lang.Override
+      public Builder toBuilder() {
+        return this == DEFAULT_INSTANCE
+            ? new Builder() : new Builder().mergeFrom(this);
+      }
+
+      @java.lang.Override
+      protected Builder newBuilderForType(
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        Builder builder = new Builder(parent);
+        return builder;
+      }
+      /**
+       * Protobuf type {@code com.ifx.connect.proto.ChatMessage.Group}
+       */
+      public static final class Builder extends
+          com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+          // @@protoc_insertion_point(builder_implements:com.ifx.connect.proto.ChatMessage.Group)
+          com.ifx.connect.proto.Chat.ChatMessage.GroupOrBuilder {
+        public static final com.google.protobuf.Descriptors.Descriptor
+            getDescriptor() {
+          return com.ifx.connect.proto.Chat.internal_static_com_ifx_connect_proto_ChatMessage_Group_descriptor;
+        }
+
+        @java.lang.Override
+        protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+            internalGetFieldAccessorTable() {
+          return com.ifx.connect.proto.Chat.internal_static_com_ifx_connect_proto_ChatMessage_Group_fieldAccessorTable
+              .ensureFieldAccessorsInitialized(
+                  com.ifx.connect.proto.Chat.ChatMessage.Group.class, com.ifx.connect.proto.Chat.ChatMessage.Group.Builder.class);
+        }
+
+        // Construct using com.ifx.connect.proto.Chat.ChatMessage.Group.newBuilder()
+        private Builder() {
+
+        }
+
+        private Builder(
+            com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+          super(parent);
+
+        }
+        @java.lang.Override
+        public Builder clear() {
+          super.clear();
+          bitField0_ = 0;
+          sessionId_ = 0F;
+          toAccounts_ =
+              com.google.protobuf.LazyStringArrayList.emptyList();
+          return this;
+        }
+
+        @java.lang.Override
+        public com.google.protobuf.Descriptors.Descriptor
+            getDescriptorForType() {
+          return com.ifx.connect.proto.Chat.internal_static_com_ifx_connect_proto_ChatMessage_Group_descriptor;
+        }
+
+        @java.lang.Override
+        public com.ifx.connect.proto.Chat.ChatMessage.Group getDefaultInstanceForType() {
+          return com.ifx.connect.proto.Chat.ChatMessage.Group.getDefaultInstance();
+        }
+
+        @java.lang.Override
+        public com.ifx.connect.proto.Chat.ChatMessage.Group build() {
+          com.ifx.connect.proto.Chat.ChatMessage.Group result = buildPartial();
+          if (!result.isInitialized()) {
+            throw newUninitializedMessageException(result);
+          }
+          return result;
+        }
+
+        @java.lang.Override
+        public com.ifx.connect.proto.Chat.ChatMessage.Group buildPartial() {
+          com.ifx.connect.proto.Chat.ChatMessage.Group result = new com.ifx.connect.proto.Chat.ChatMessage.Group(this);
+          if (bitField0_ != 0) { buildPartial0(result); }
+          onBuilt();
+          return result;
+        }
+
+        private void buildPartial0(com.ifx.connect.proto.Chat.ChatMessage.Group result) {
+          int from_bitField0_ = bitField0_;
+          if (((from_bitField0_ & 0x00000001) != 0)) {
+            result.sessionId_ = sessionId_;
+          }
+          if (((from_bitField0_ & 0x00000002) != 0)) {
+            toAccounts_.makeImmutable();
+            result.toAccounts_ = toAccounts_;
+          }
+        }
+
+        @java.lang.Override
+        public Builder mergeFrom(com.google.protobuf.Message other) {
+          if (other instanceof com.ifx.connect.proto.Chat.ChatMessage.Group) {
+            return mergeFrom((com.ifx.connect.proto.Chat.ChatMessage.Group)other);
+          } else {
+            super.mergeFrom(other);
+            return this;
+          }
+        }
+
+        public Builder mergeFrom(com.ifx.connect.proto.Chat.ChatMessage.Group other) {
+          if (other == com.ifx.connect.proto.Chat.ChatMessage.Group.getDefaultInstance()) return this;
+          if (other.getSessionId() != 0F) {
+            setSessionId(other.getSessionId());
+          }
+          if (!other.toAccounts_.isEmpty()) {
+            if (toAccounts_.isEmpty()) {
+              toAccounts_ = other.toAccounts_;
+              bitField0_ |= 0x00000002;
+            } else {
+              ensureToAccountsIsMutable();
+              toAccounts_.addAll(other.toAccounts_);
+            }
+            onChanged();
+          }
+          this.mergeUnknownFields(other.getUnknownFields());
+          onChanged();
+          return this;
+        }
+
+        @java.lang.Override
+        public final boolean isInitialized() {
+          return true;
+        }
+
+        @java.lang.Override
+        public Builder mergeFrom(
+            com.google.protobuf.CodedInputStream input,
+            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+            throws java.io.IOException {
+          if (extensionRegistry == null) {
+            throw new java.lang.NullPointerException();
+          }
+          try {
+            boolean done = false;
+            while (!done) {
+              int tag = input.readTag();
+              switch (tag) {
+                case 0:
+                  done = true;
+                  break;
+                case 13: {
+                  sessionId_ = input.readFloat();
+                  bitField0_ |= 0x00000001;
+                  break;
+                } // case 13
+                case 66: {
+                  java.lang.String s = input.readStringRequireUtf8();
+                  ensureToAccountsIsMutable();
+                  toAccounts_.add(s);
+                  break;
+                } // case 66
+                default: {
+                  if (!super.parseUnknownField(input, extensionRegistry, tag)) {
+                    done = true; // was an endgroup tag
+                  }
+                  break;
+                } // default:
+              } // switch (tag)
+            } // while (!done)
+          } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+            throw e.unwrapIOException();
+          } finally {
+            onChanged();
+          } // finally
+          return this;
+        }
+        private int bitField0_;
+
+        private float sessionId_ ;
+        /**
+         * <code>float sessionId = 1;</code>
+         * @return The sessionId.
+         */
+        @java.lang.Override
+        public float getSessionId() {
+          return sessionId_;
+        }
+        /**
+         * <code>float sessionId = 1;</code>
+         * @param value The sessionId to set.
+         * @return This builder for chaining.
+         */
+        public Builder setSessionId(float value) {
+
+          sessionId_ = value;
+          bitField0_ |= 0x00000001;
+          onChanged();
+          return this;
+        }
+        /**
+         * <code>float sessionId = 1;</code>
+         * @return This builder for chaining.
+         */
+        public Builder clearSessionId() {
+          bitField0_ = (bitField0_ & ~0x00000001);
+          sessionId_ = 0F;
+          onChanged();
+          return this;
+        }
+
+        private com.google.protobuf.LazyStringArrayList toAccounts_ =
+            com.google.protobuf.LazyStringArrayList.emptyList();
+        private void ensureToAccountsIsMutable() {
+          if (!toAccounts_.isModifiable()) {
+            toAccounts_ = new com.google.protobuf.LazyStringArrayList(toAccounts_);
+          }
+          bitField0_ |= 0x00000002;
+        }
+        /**
+         * <pre>
+         * the receive  account
+         * </pre>
+         *
+         * <code>repeated string toAccounts = 8;</code>
+         * @return A list containing the toAccounts.
+         */
+        public com.google.protobuf.ProtocolStringList
+            getToAccountsList() {
+          toAccounts_.makeImmutable();
+          return toAccounts_;
+        }
+        /**
+         * <pre>
+         * the receive  account
+         * </pre>
+         *
+         * <code>repeated string toAccounts = 8;</code>
+         * @return The count of toAccounts.
+         */
+        public int getToAccountsCount() {
+          return toAccounts_.size();
+        }
+        /**
+         * <pre>
+         * the receive  account
+         * </pre>
+         *
+         * <code>repeated string toAccounts = 8;</code>
+         * @param index The index of the element to return.
+         * @return The toAccounts at the given index.
+         */
+        public java.lang.String getToAccounts(int index) {
+          return toAccounts_.get(index);
+        }
+        /**
+         * <pre>
+         * the receive  account
+         * </pre>
+         *
+         * <code>repeated string toAccounts = 8;</code>
+         * @param index The index of the value to return.
+         * @return The bytes of the toAccounts at the given index.
+         */
+        public com.google.protobuf.ByteString
+            getToAccountsBytes(int index) {
+          return toAccounts_.getByteString(index);
+        }
+        /**
+         * <pre>
+         * the receive  account
+         * </pre>
+         *
+         * <code>repeated string toAccounts = 8;</code>
+         * @param index The index to set the value at.
+         * @param value The toAccounts to set.
+         * @return This builder for chaining.
+         */
+        public Builder setToAccounts(
+            int index, java.lang.String value) {
+          if (value == null) { throw new NullPointerException(); }
+          ensureToAccountsIsMutable();
+          toAccounts_.set(index, value);
+          bitField0_ |= 0x00000002;
+          onChanged();
+          return this;
+        }
+        /**
+         * <pre>
+         * the receive  account
+         * </pre>
+         *
+         * <code>repeated string toAccounts = 8;</code>
+         * @param value The toAccounts to add.
+         * @return This builder for chaining.
+         */
+        public Builder addToAccounts(
+            java.lang.String value) {
+          if (value == null) { throw new NullPointerException(); }
+          ensureToAccountsIsMutable();
+          toAccounts_.add(value);
+          bitField0_ |= 0x00000002;
+          onChanged();
+          return this;
+        }
+        /**
+         * <pre>
+         * the receive  account
+         * </pre>
+         *
+         * <code>repeated string toAccounts = 8;</code>
+         * @param values The toAccounts to add.
+         * @return This builder for chaining.
+         */
+        public Builder addAllToAccounts(
+            java.lang.Iterable<java.lang.String> values) {
+          ensureToAccountsIsMutable();
+          com.google.protobuf.AbstractMessageLite.Builder.addAll(
+              values, toAccounts_);
+          bitField0_ |= 0x00000002;
+          onChanged();
+          return this;
+        }
+        /**
+         * <pre>
+         * the receive  account
+         * </pre>
+         *
+         * <code>repeated string toAccounts = 8;</code>
+         * @return This builder for chaining.
+         */
+        public Builder clearToAccounts() {
+          toAccounts_ =
+            com.google.protobuf.LazyStringArrayList.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000002);;
+          onChanged();
+          return this;
+        }
+        /**
+         * <pre>
+         * the receive  account
+         * </pre>
+         *
+         * <code>repeated string toAccounts = 8;</code>
+         * @param value The bytes of the toAccounts to add.
+         * @return This builder for chaining.
+         */
+        public Builder addToAccountsBytes(
+            com.google.protobuf.ByteString value) {
+          if (value == null) { throw new NullPointerException(); }
+          checkByteStringIsUtf8(value);
+          ensureToAccountsIsMutable();
+          toAccounts_.add(value);
+          bitField0_ |= 0x00000002;
+          onChanged();
+          return this;
+        }
+        @java.lang.Override
+        public final Builder setUnknownFields(
+            final com.google.protobuf.UnknownFieldSet unknownFields) {
+          return super.setUnknownFields(unknownFields);
+        }
+
+        @java.lang.Override
+        public final Builder mergeUnknownFields(
+            final com.google.protobuf.UnknownFieldSet unknownFields) {
+          return super.mergeUnknownFields(unknownFields);
+        }
+
+
+        // @@protoc_insertion_point(builder_scope:com.ifx.connect.proto.ChatMessage.Group)
+      }
+
+      // @@protoc_insertion_point(class_scope:com.ifx.connect.proto.ChatMessage.Group)
+      private static final com.ifx.connect.proto.Chat.ChatMessage.Group DEFAULT_INSTANCE;
+      static {
+        DEFAULT_INSTANCE = new com.ifx.connect.proto.Chat.ChatMessage.Group();
+      }
+
+      public static com.ifx.connect.proto.Chat.ChatMessage.Group getDefaultInstance() {
+        return DEFAULT_INSTANCE;
+      }
+
+      private static final com.google.protobuf.Parser<Group>
+          PARSER = new com.google.protobuf.AbstractParser<Group>() {
+        @java.lang.Override
+        public Group parsePartialFrom(
+            com.google.protobuf.CodedInputStream input,
+            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+            throws com.google.protobuf.InvalidProtocolBufferException {
+          Builder builder = newBuilder();
+          try {
+            builder.mergeFrom(input, extensionRegistry);
+          } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+            throw e.setUnfinishedMessage(builder.buildPartial());
+          } catch (com.google.protobuf.UninitializedMessageException e) {
+            throw e.asInvalidProtocolBufferException().setUnfinishedMessage(builder.buildPartial());
+          } catch (java.io.IOException e) {
+            throw new com.google.protobuf.InvalidProtocolBufferException(e)
+                .setUnfinishedMessage(builder.buildPartial());
+          }
+          return builder.buildPartial();
+        }
+      };
+
+      public static com.google.protobuf.Parser<Group> parser() {
+        return PARSER;
+      }
+
+      @java.lang.Override
+      public com.google.protobuf.Parser<Group> getParserForType() {
+        return PARSER;
+      }
+
+      @java.lang.Override
+      public com.ifx.connect.proto.Chat.ChatMessage.Group getDefaultInstanceForType() {
+        return DEFAULT_INSTANCE;
+      }
+
+    }
+
+    public interface SingleOrBuilder extends
+        // @@protoc_insertion_point(interface_extends:com.ifx.connect.proto.ChatMessage.Single)
+        com.google.protobuf.MessageOrBuilder {
+
+      /**
+       * <code>float toAccount = 1;</code>
+       * @return The toAccount.
+       */
+      float getToAccount();
+    }
+    /**
+     * Protobuf type {@code com.ifx.connect.proto.ChatMessage.Single}
+     */
+    public static final class Single extends
+        com.google.protobuf.GeneratedMessageV3 implements
+        // @@protoc_insertion_point(message_implements:com.ifx.connect.proto.ChatMessage.Single)
+        SingleOrBuilder {
+    private static final long serialVersionUID = 0L;
+      // Use Single.newBuilder() to construct.
+      private Single(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+        super(builder);
+      }
+      private Single() {
+      }
+
+      @java.lang.Override
+      @SuppressWarnings({"unused"})
+      protected java.lang.Object newInstance(
+          UnusedPrivateParameter unused) {
+        return new Single();
+      }
+
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return com.ifx.connect.proto.Chat.internal_static_com_ifx_connect_proto_ChatMessage_Single_descriptor;
+      }
+
+      @java.lang.Override
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return com.ifx.connect.proto.Chat.internal_static_com_ifx_connect_proto_ChatMessage_Single_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                com.ifx.connect.proto.Chat.ChatMessage.Single.class, com.ifx.connect.proto.Chat.ChatMessage.Single.Builder.class);
+      }
+
+      public static final int TOACCOUNT_FIELD_NUMBER = 1;
+      private float toAccount_ = 0F;
+      /**
+       * <code>float toAccount = 1;</code>
+       * @return The toAccount.
+       */
+      @java.lang.Override
+      public float getToAccount() {
+        return toAccount_;
+      }
+
+      private byte memoizedIsInitialized = -1;
+      @java.lang.Override
+      public final boolean isInitialized() {
+        byte isInitialized = memoizedIsInitialized;
+        if (isInitialized == 1) return true;
+        if (isInitialized == 0) return false;
+
+        memoizedIsInitialized = 1;
+        return true;
+      }
+
+      @java.lang.Override
+      public void writeTo(com.google.protobuf.CodedOutputStream output)
+                          throws java.io.IOException {
+        if (java.lang.Float.floatToRawIntBits(toAccount_) != 0) {
+          output.writeFloat(1, toAccount_);
+        }
+        getUnknownFields().writeTo(output);
+      }
+
+      @java.lang.Override
+      public int getSerializedSize() {
+        int size = memoizedSize;
+        if (size != -1) return size;
+
+        size = 0;
+        if (java.lang.Float.floatToRawIntBits(toAccount_) != 0) {
+          size += com.google.protobuf.CodedOutputStream
+            .computeFloatSize(1, toAccount_);
+        }
+        size += getUnknownFields().getSerializedSize();
+        memoizedSize = size;
+        return size;
+      }
+
+      @java.lang.Override
+      public boolean equals(final java.lang.Object obj) {
+        if (obj == this) {
+         return true;
+        }
+        if (!(obj instanceof com.ifx.connect.proto.Chat.ChatMessage.Single)) {
+          return super.equals(obj);
+        }
+        com.ifx.connect.proto.Chat.ChatMessage.Single other = (com.ifx.connect.proto.Chat.ChatMessage.Single) obj;
+
+        if (java.lang.Float.floatToIntBits(getToAccount())
+            != java.lang.Float.floatToIntBits(
+                other.getToAccount())) return false;
+        if (!getUnknownFields().equals(other.getUnknownFields())) return false;
+        return true;
+      }
+
+      @java.lang.Override
+      public int hashCode() {
+        if (memoizedHashCode != 0) {
+          return memoizedHashCode;
+        }
+        int hash = 41;
+        hash = (19 * hash) + getDescriptor().hashCode();
+        hash = (37 * hash) + TOACCOUNT_FIELD_NUMBER;
+        hash = (53 * hash) + java.lang.Float.floatToIntBits(
+            getToAccount());
+        hash = (29 * hash) + getUnknownFields().hashCode();
+        memoizedHashCode = hash;
+        return hash;
+      }
+
+      public static com.ifx.connect.proto.Chat.ChatMessage.Single parseFrom(
+          java.nio.ByteBuffer data)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data);
+      }
+      public static com.ifx.connect.proto.Chat.ChatMessage.Single parseFrom(
+          java.nio.ByteBuffer data,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data, extensionRegistry);
+      }
+      public static com.ifx.connect.proto.Chat.ChatMessage.Single parseFrom(
+          com.google.protobuf.ByteString data)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data);
+      }
+      public static com.ifx.connect.proto.Chat.ChatMessage.Single parseFrom(
+          com.google.protobuf.ByteString data,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data, extensionRegistry);
+      }
+      public static com.ifx.connect.proto.Chat.ChatMessage.Single parseFrom(byte[] data)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data);
+      }
+      public static com.ifx.connect.proto.Chat.ChatMessage.Single parseFrom(
+          byte[] data,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data, extensionRegistry);
+      }
+      public static com.ifx.connect.proto.Chat.ChatMessage.Single parseFrom(java.io.InputStream input)
+          throws java.io.IOException {
+        return com.google.protobuf.GeneratedMessageV3
+            .parseWithIOException(PARSER, input);
+      }
+      public static com.ifx.connect.proto.Chat.ChatMessage.Single parseFrom(
+          java.io.InputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        return com.google.protobuf.GeneratedMessageV3
+            .parseWithIOException(PARSER, input, extensionRegistry);
+      }
+      public static com.ifx.connect.proto.Chat.ChatMessage.Single parseDelimitedFrom(java.io.InputStream input)
+          throws java.io.IOException {
+        return com.google.protobuf.GeneratedMessageV3
+            .parseDelimitedWithIOException(PARSER, input);
+      }
+      public static com.ifx.connect.proto.Chat.ChatMessage.Single parseDelimitedFrom(
+          java.io.InputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        return com.google.protobuf.GeneratedMessageV3
+            .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+      }
+      public static com.ifx.connect.proto.Chat.ChatMessage.Single parseFrom(
+          com.google.protobuf.CodedInputStream input)
+          throws java.io.IOException {
+        return com.google.protobuf.GeneratedMessageV3
+            .parseWithIOException(PARSER, input);
+      }
+      public static com.ifx.connect.proto.Chat.ChatMessage.Single parseFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        return com.google.protobuf.GeneratedMessageV3
+            .parseWithIOException(PARSER, input, extensionRegistry);
+      }
+
+      @java.lang.Override
+      public Builder newBuilderForType() { return newBuilder(); }
+      public static Builder newBuilder() {
+        return DEFAULT_INSTANCE.toBuilder();
+      }
+      public static Builder newBuilder(com.ifx.connect.proto.Chat.ChatMessage.Single prototype) {
+        return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+      }
+      @java.lang.Override
+      public Builder toBuilder() {
+        return this == DEFAULT_INSTANCE
+            ? new Builder() : new Builder().mergeFrom(this);
+      }
+
+      @java.lang.Override
+      protected Builder newBuilderForType(
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        Builder builder = new Builder(parent);
+        return builder;
+      }
+      /**
+       * Protobuf type {@code com.ifx.connect.proto.ChatMessage.Single}
+       */
+      public static final class Builder extends
+          com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+          // @@protoc_insertion_point(builder_implements:com.ifx.connect.proto.ChatMessage.Single)
+          com.ifx.connect.proto.Chat.ChatMessage.SingleOrBuilder {
+        public static final com.google.protobuf.Descriptors.Descriptor
+            getDescriptor() {
+          return com.ifx.connect.proto.Chat.internal_static_com_ifx_connect_proto_ChatMessage_Single_descriptor;
+        }
+
+        @java.lang.Override
+        protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+            internalGetFieldAccessorTable() {
+          return com.ifx.connect.proto.Chat.internal_static_com_ifx_connect_proto_ChatMessage_Single_fieldAccessorTable
+              .ensureFieldAccessorsInitialized(
+                  com.ifx.connect.proto.Chat.ChatMessage.Single.class, com.ifx.connect.proto.Chat.ChatMessage.Single.Builder.class);
+        }
+
+        // Construct using com.ifx.connect.proto.Chat.ChatMessage.Single.newBuilder()
+        private Builder() {
+
+        }
+
+        private Builder(
+            com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+          super(parent);
+
+        }
+        @java.lang.Override
+        public Builder clear() {
+          super.clear();
+          bitField0_ = 0;
+          toAccount_ = 0F;
+          return this;
+        }
+
+        @java.lang.Override
+        public com.google.protobuf.Descriptors.Descriptor
+            getDescriptorForType() {
+          return com.ifx.connect.proto.Chat.internal_static_com_ifx_connect_proto_ChatMessage_Single_descriptor;
+        }
+
+        @java.lang.Override
+        public com.ifx.connect.proto.Chat.ChatMessage.Single getDefaultInstanceForType() {
+          return com.ifx.connect.proto.Chat.ChatMessage.Single.getDefaultInstance();
+        }
+
+        @java.lang.Override
+        public com.ifx.connect.proto.Chat.ChatMessage.Single build() {
+          com.ifx.connect.proto.Chat.ChatMessage.Single result = buildPartial();
+          if (!result.isInitialized()) {
+            throw newUninitializedMessageException(result);
+          }
+          return result;
+        }
+
+        @java.lang.Override
+        public com.ifx.connect.proto.Chat.ChatMessage.Single buildPartial() {
+          com.ifx.connect.proto.Chat.ChatMessage.Single result = new com.ifx.connect.proto.Chat.ChatMessage.Single(this);
+          if (bitField0_ != 0) { buildPartial0(result); }
+          onBuilt();
+          return result;
+        }
+
+        private void buildPartial0(com.ifx.connect.proto.Chat.ChatMessage.Single result) {
+          int from_bitField0_ = bitField0_;
+          if (((from_bitField0_ & 0x00000001) != 0)) {
+            result.toAccount_ = toAccount_;
+          }
+        }
+
+        @java.lang.Override
+        public Builder mergeFrom(com.google.protobuf.Message other) {
+          if (other instanceof com.ifx.connect.proto.Chat.ChatMessage.Single) {
+            return mergeFrom((com.ifx.connect.proto.Chat.ChatMessage.Single)other);
+          } else {
+            super.mergeFrom(other);
+            return this;
+          }
+        }
+
+        public Builder mergeFrom(com.ifx.connect.proto.Chat.ChatMessage.Single other) {
+          if (other == com.ifx.connect.proto.Chat.ChatMessage.Single.getDefaultInstance()) return this;
+          if (other.getToAccount() != 0F) {
+            setToAccount(other.getToAccount());
+          }
+          this.mergeUnknownFields(other.getUnknownFields());
+          onChanged();
+          return this;
+        }
+
+        @java.lang.Override
+        public final boolean isInitialized() {
+          return true;
+        }
+
+        @java.lang.Override
+        public Builder mergeFrom(
+            com.google.protobuf.CodedInputStream input,
+            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+            throws java.io.IOException {
+          if (extensionRegistry == null) {
+            throw new java.lang.NullPointerException();
+          }
+          try {
+            boolean done = false;
+            while (!done) {
+              int tag = input.readTag();
+              switch (tag) {
+                case 0:
+                  done = true;
+                  break;
+                case 13: {
+                  toAccount_ = input.readFloat();
+                  bitField0_ |= 0x00000001;
+                  break;
+                } // case 13
+                default: {
+                  if (!super.parseUnknownField(input, extensionRegistry, tag)) {
+                    done = true; // was an endgroup tag
+                  }
+                  break;
+                } // default:
+              } // switch (tag)
+            } // while (!done)
+          } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+            throw e.unwrapIOException();
+          } finally {
+            onChanged();
+          } // finally
+          return this;
+        }
+        private int bitField0_;
+
+        private float toAccount_ ;
+        /**
+         * <code>float toAccount = 1;</code>
+         * @return The toAccount.
+         */
+        @java.lang.Override
+        public float getToAccount() {
+          return toAccount_;
+        }
+        /**
+         * <code>float toAccount = 1;</code>
+         * @param value The toAccount to set.
+         * @return This builder for chaining.
+         */
+        public Builder setToAccount(float value) {
+
+          toAccount_ = value;
+          bitField0_ |= 0x00000001;
+          onChanged();
+          return this;
+        }
+        /**
+         * <code>float toAccount = 1;</code>
+         * @return This builder for chaining.
+         */
+        public Builder clearToAccount() {
+          bitField0_ = (bitField0_ & ~0x00000001);
+          toAccount_ = 0F;
+          onChanged();
+          return this;
+        }
+        @java.lang.Override
+        public final Builder setUnknownFields(
+            final com.google.protobuf.UnknownFieldSet unknownFields) {
+          return super.setUnknownFields(unknownFields);
+        }
+
+        @java.lang.Override
+        public final Builder mergeUnknownFields(
+            final com.google.protobuf.UnknownFieldSet unknownFields) {
+          return super.mergeUnknownFields(unknownFields);
+        }
+
+
+        // @@protoc_insertion_point(builder_scope:com.ifx.connect.proto.ChatMessage.Single)
+      }
+
+      // @@protoc_insertion_point(class_scope:com.ifx.connect.proto.ChatMessage.Single)
+      private static final com.ifx.connect.proto.Chat.ChatMessage.Single DEFAULT_INSTANCE;
+      static {
+        DEFAULT_INSTANCE = new com.ifx.connect.proto.Chat.ChatMessage.Single();
+      }
+
+      public static com.ifx.connect.proto.Chat.ChatMessage.Single getDefaultInstance() {
+        return DEFAULT_INSTANCE;
+      }
+
+      private static final com.google.protobuf.Parser<Single>
+          PARSER = new com.google.protobuf.AbstractParser<Single>() {
+        @java.lang.Override
+        public Single parsePartialFrom(
+            com.google.protobuf.CodedInputStream input,
+            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+            throws com.google.protobuf.InvalidProtocolBufferException {
+          Builder builder = newBuilder();
+          try {
+            builder.mergeFrom(input, extensionRegistry);
+          } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+            throw e.setUnfinishedMessage(builder.buildPartial());
+          } catch (com.google.protobuf.UninitializedMessageException e) {
+            throw e.asInvalidProtocolBufferException().setUnfinishedMessage(builder.buildPartial());
+          } catch (java.io.IOException e) {
+            throw new com.google.protobuf.InvalidProtocolBufferException(e)
+                .setUnfinishedMessage(builder.buildPartial());
+          }
+          return builder.buildPartial();
+        }
+      };
+
+      public static com.google.protobuf.Parser<Single> parser() {
+        return PARSER;
+      }
+
+      @java.lang.Override
+      public com.google.protobuf.Parser<Single> getParserForType() {
+        return PARSER;
+      }
+
+      @java.lang.Override
+      public com.ifx.connect.proto.Chat.ChatMessage.Single getDefaultInstanceForType() {
+        return DEFAULT_INSTANCE;
+      }
+
     }
 
     public static final int CONTENT_FIELD_NUMBER = 3;
@@ -182,61 +1573,22 @@ public final class Chat {
       }
     }
 
-    public static final int TOACCOUNT_FIELD_NUMBER = 6;
-    @SuppressWarnings("serial")
-    private volatile java.lang.Object toAccount_ = "";
+    public static final int MSGDESTENUM_FIELD_NUMBER = 9;
+    private int msgDestEnum_ = 0;
     /**
-     * <code>string toAccount = 6;</code>
-     * @return The toAccount.
+     * <code>.com.ifx.connect.proto.MessageDestEnum msgDestEnum = 9;</code>
+     * @return The enum numeric value on the wire for msgDestEnum.
      */
-    @java.lang.Override
-    public java.lang.String getToAccount() {
-      java.lang.Object ref = toAccount_;
-      if (ref instanceof java.lang.String) {
-        return (java.lang.String) ref;
-      } else {
-        com.google.protobuf.ByteString bs = 
-            (com.google.protobuf.ByteString) ref;
-        java.lang.String s = bs.toStringUtf8();
-        toAccount_ = s;
-        return s;
-      }
+    @java.lang.Override public int getMsgDestEnumValue() {
+      return msgDestEnum_;
     }
     /**
-     * <code>string toAccount = 6;</code>
-     * @return The bytes for toAccount.
+     * <code>.com.ifx.connect.proto.MessageDestEnum msgDestEnum = 9;</code>
+     * @return The msgDestEnum.
      */
-    @java.lang.Override
-    public com.google.protobuf.ByteString
-        getToAccountBytes() {
-      java.lang.Object ref = toAccount_;
-      if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b = 
-            com.google.protobuf.ByteString.copyFromUtf8(
-                (java.lang.String) ref);
-        toAccount_ = b;
-        return b;
-      } else {
-        return (com.google.protobuf.ByteString) ref;
-      }
-    }
-
-    public static final int MESSAGETYPE_FIELD_NUMBER = 8;
-    private int messageType_ = 0;
-    /**
-     * <code>.com.ifx.connect.proto.ProtocolMessageEnum messageType = 8;</code>
-     * @return The enum numeric value on the wire for messageType.
-     */
-    @java.lang.Override public int getMessageTypeValue() {
-      return messageType_;
-    }
-    /**
-     * <code>.com.ifx.connect.proto.ProtocolMessageEnum messageType = 8;</code>
-     * @return The messageType.
-     */
-    @java.lang.Override public com.ifx.connect.proto.ProtocolType.ProtocolMessageEnum getMessageType() {
-      com.ifx.connect.proto.ProtocolType.ProtocolMessageEnum result = com.ifx.connect.proto.ProtocolType.ProtocolMessageEnum.forNumber(messageType_);
-      return result == null ? com.ifx.connect.proto.ProtocolType.ProtocolMessageEnum.UNRECOGNIZED : result;
+    @java.lang.Override public com.ifx.connect.proto.Chat.MessageDestEnum getMsgDestEnum() {
+      com.ifx.connect.proto.Chat.MessageDestEnum result = com.ifx.connect.proto.Chat.MessageDestEnum.forNumber(msgDestEnum_);
+      return result == null ? com.ifx.connect.proto.Chat.MessageDestEnum.UNRECOGNIZED : result;
     }
 
     private byte memoizedIsInitialized = -1;
@@ -259,11 +1611,8 @@ public final class Chat {
       if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(fromAccount_)) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 5, fromAccount_);
       }
-      if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(toAccount_)) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 6, toAccount_);
-      }
-      if (messageType_ != com.ifx.connect.proto.ProtocolType.ProtocolMessageEnum.TMP.getNumber()) {
-        output.writeEnum(8, messageType_);
+      if (msgDestEnum_ != com.ifx.connect.proto.Chat.MessageDestEnum.GROUP.getNumber()) {
+        output.writeEnum(9, msgDestEnum_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -280,12 +1629,9 @@ public final class Chat {
       if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(fromAccount_)) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(5, fromAccount_);
       }
-      if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(toAccount_)) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(6, toAccount_);
-      }
-      if (messageType_ != com.ifx.connect.proto.ProtocolType.ProtocolMessageEnum.TMP.getNumber()) {
+      if (msgDestEnum_ != com.ifx.connect.proto.Chat.MessageDestEnum.GROUP.getNumber()) {
         size += com.google.protobuf.CodedOutputStream
-          .computeEnumSize(8, messageType_);
+          .computeEnumSize(9, msgDestEnum_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSize = size;
@@ -306,9 +1652,7 @@ public final class Chat {
           .equals(other.getContent())) return false;
       if (!getFromAccount()
           .equals(other.getFromAccount())) return false;
-      if (!getToAccount()
-          .equals(other.getToAccount())) return false;
-      if (messageType_ != other.messageType_) return false;
+      if (msgDestEnum_ != other.msgDestEnum_) return false;
       if (!getUnknownFields().equals(other.getUnknownFields())) return false;
       return true;
     }
@@ -324,10 +1668,8 @@ public final class Chat {
       hash = (53 * hash) + getContent().hashCode();
       hash = (37 * hash) + FROMACCOUNT_FIELD_NUMBER;
       hash = (53 * hash) + getFromAccount().hashCode();
-      hash = (37 * hash) + TOACCOUNT_FIELD_NUMBER;
-      hash = (53 * hash) + getToAccount().hashCode();
-      hash = (37 * hash) + MESSAGETYPE_FIELD_NUMBER;
-      hash = (53 * hash) + messageType_;
+      hash = (37 * hash) + MSGDESTENUM_FIELD_NUMBER;
+      hash = (53 * hash) + msgDestEnum_;
       hash = (29 * hash) + getUnknownFields().hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -459,8 +1801,7 @@ public final class Chat {
         bitField0_ = 0;
         content_ = "";
         fromAccount_ = "";
-        toAccount_ = "";
-        messageType_ = 0;
+        msgDestEnum_ = 0;
         return this;
       }
 
@@ -501,10 +1842,7 @@ public final class Chat {
           result.fromAccount_ = fromAccount_;
         }
         if (((from_bitField0_ & 0x00000004) != 0)) {
-          result.toAccount_ = toAccount_;
-        }
-        if (((from_bitField0_ & 0x00000008) != 0)) {
-          result.messageType_ = messageType_;
+          result.msgDestEnum_ = msgDestEnum_;
         }
       }
 
@@ -530,13 +1868,8 @@ public final class Chat {
           bitField0_ |= 0x00000002;
           onChanged();
         }
-        if (!other.getToAccount().isEmpty()) {
-          toAccount_ = other.toAccount_;
-          bitField0_ |= 0x00000004;
-          onChanged();
-        }
-        if (other.messageType_ != 0) {
-          setMessageTypeValue(other.getMessageTypeValue());
+        if (other.msgDestEnum_ != 0) {
+          setMsgDestEnumValue(other.getMsgDestEnumValue());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         onChanged();
@@ -574,16 +1907,11 @@ public final class Chat {
                 bitField0_ |= 0x00000002;
                 break;
               } // case 42
-              case 50: {
-                toAccount_ = input.readStringRequireUtf8();
+              case 72: {
+                msgDestEnum_ = input.readEnum();
                 bitField0_ |= 0x00000004;
                 break;
-              } // case 50
-              case 64: {
-                messageType_ = input.readEnum();
-                bitField0_ |= 0x00000008;
-                break;
-              } // case 64
+              } // case 72
               default: {
                 if (!super.parseUnknownField(input, extensionRegistry, tag)) {
                   done = true; // was an endgroup tag
@@ -745,127 +2073,55 @@ public final class Chat {
         return this;
       }
 
-      private java.lang.Object toAccount_ = "";
+      private int msgDestEnum_ = 0;
       /**
-       * <code>string toAccount = 6;</code>
-       * @return The toAccount.
+       * <code>.com.ifx.connect.proto.MessageDestEnum msgDestEnum = 9;</code>
+       * @return The enum numeric value on the wire for msgDestEnum.
        */
-      public java.lang.String getToAccount() {
-        java.lang.Object ref = toAccount_;
-        if (!(ref instanceof java.lang.String)) {
-          com.google.protobuf.ByteString bs =
-              (com.google.protobuf.ByteString) ref;
-          java.lang.String s = bs.toStringUtf8();
-          toAccount_ = s;
-          return s;
-        } else {
-          return (java.lang.String) ref;
-        }
+      @java.lang.Override public int getMsgDestEnumValue() {
+        return msgDestEnum_;
       }
       /**
-       * <code>string toAccount = 6;</code>
-       * @return The bytes for toAccount.
-       */
-      public com.google.protobuf.ByteString
-          getToAccountBytes() {
-        java.lang.Object ref = toAccount_;
-        if (ref instanceof String) {
-          com.google.protobuf.ByteString b = 
-              com.google.protobuf.ByteString.copyFromUtf8(
-                  (java.lang.String) ref);
-          toAccount_ = b;
-          return b;
-        } else {
-          return (com.google.protobuf.ByteString) ref;
-        }
-      }
-      /**
-       * <code>string toAccount = 6;</code>
-       * @param value The toAccount to set.
+       * <code>.com.ifx.connect.proto.MessageDestEnum msgDestEnum = 9;</code>
+       * @param value The enum numeric value on the wire for msgDestEnum to set.
        * @return This builder for chaining.
        */
-      public Builder setToAccount(
-          java.lang.String value) {
-        if (value == null) { throw new NullPointerException(); }
-        toAccount_ = value;
+      public Builder setMsgDestEnumValue(int value) {
+        msgDestEnum_ = value;
         bitField0_ |= 0x00000004;
         onChanged();
         return this;
       }
       /**
-       * <code>string toAccount = 6;</code>
-       * @return This builder for chaining.
-       */
-      public Builder clearToAccount() {
-        toAccount_ = getDefaultInstance().getToAccount();
-        bitField0_ = (bitField0_ & ~0x00000004);
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>string toAccount = 6;</code>
-       * @param value The bytes for toAccount to set.
-       * @return This builder for chaining.
-       */
-      public Builder setToAccountBytes(
-          com.google.protobuf.ByteString value) {
-        if (value == null) { throw new NullPointerException(); }
-        checkByteStringIsUtf8(value);
-        toAccount_ = value;
-        bitField0_ |= 0x00000004;
-        onChanged();
-        return this;
-      }
-
-      private int messageType_ = 0;
-      /**
-       * <code>.com.ifx.connect.proto.ProtocolMessageEnum messageType = 8;</code>
-       * @return The enum numeric value on the wire for messageType.
-       */
-      @java.lang.Override public int getMessageTypeValue() {
-        return messageType_;
-      }
-      /**
-       * <code>.com.ifx.connect.proto.ProtocolMessageEnum messageType = 8;</code>
-       * @param value The enum numeric value on the wire for messageType to set.
-       * @return This builder for chaining.
-       */
-      public Builder setMessageTypeValue(int value) {
-        messageType_ = value;
-        bitField0_ |= 0x00000008;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>.com.ifx.connect.proto.ProtocolMessageEnum messageType = 8;</code>
-       * @return The messageType.
+       * <code>.com.ifx.connect.proto.MessageDestEnum msgDestEnum = 9;</code>
+       * @return The msgDestEnum.
        */
       @java.lang.Override
-      public com.ifx.connect.proto.ProtocolType.ProtocolMessageEnum getMessageType() {
-        com.ifx.connect.proto.ProtocolType.ProtocolMessageEnum result = com.ifx.connect.proto.ProtocolType.ProtocolMessageEnum.forNumber(messageType_);
-        return result == null ? com.ifx.connect.proto.ProtocolType.ProtocolMessageEnum.UNRECOGNIZED : result;
+      public com.ifx.connect.proto.Chat.MessageDestEnum getMsgDestEnum() {
+        com.ifx.connect.proto.Chat.MessageDestEnum result = com.ifx.connect.proto.Chat.MessageDestEnum.forNumber(msgDestEnum_);
+        return result == null ? com.ifx.connect.proto.Chat.MessageDestEnum.UNRECOGNIZED : result;
       }
       /**
-       * <code>.com.ifx.connect.proto.ProtocolMessageEnum messageType = 8;</code>
-       * @param value The messageType to set.
+       * <code>.com.ifx.connect.proto.MessageDestEnum msgDestEnum = 9;</code>
+       * @param value The msgDestEnum to set.
        * @return This builder for chaining.
        */
-      public Builder setMessageType(com.ifx.connect.proto.ProtocolType.ProtocolMessageEnum value) {
+      public Builder setMsgDestEnum(com.ifx.connect.proto.Chat.MessageDestEnum value) {
         if (value == null) {
           throw new NullPointerException();
         }
-        bitField0_ |= 0x00000008;
-        messageType_ = value.getNumber();
+        bitField0_ |= 0x00000004;
+        msgDestEnum_ = value.getNumber();
         onChanged();
         return this;
       }
       /**
-       * <code>.com.ifx.connect.proto.ProtocolMessageEnum messageType = 8;</code>
+       * <code>.com.ifx.connect.proto.MessageDestEnum msgDestEnum = 9;</code>
        * @return This builder for chaining.
        */
-      public Builder clearMessageType() {
-        bitField0_ = (bitField0_ & ~0x00000008);
-        messageType_ = 0;
+      public Builder clearMsgDestEnum() {
+        bitField0_ = (bitField0_ & ~0x00000004);
+        msgDestEnum_ = 0;
         onChanged();
         return this;
       }
@@ -938,6 +2194,16 @@ public final class Chat {
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_com_ifx_connect_proto_ChatMessage_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_com_ifx_connect_proto_ChatMessage_Group_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_com_ifx_connect_proto_ChatMessage_Group_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_com_ifx_connect_proto_ChatMessage_Single_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_com_ifx_connect_proto_ChatMessage_Single_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -947,28 +2213,39 @@ public final class Chat {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\rMessage.proto\022\025com.ifx.connect.proto\032\021" +
-      "MessageEnum.proto\032\031google/protobuf/any.p" +
-      "roto\"\207\001\n\013ChatMessage\022\017\n\007content\030\003 \001(\t\022\023\n" +
-      "\013fromAccount\030\005 \001(\t\022\021\n\ttoAccount\030\006 \001(\t\022?\n" +
-      "\013messageType\030\010 \001(\0162*.com.ifx.connect.pro" +
-      "to.ProtocolMessageEnumB\035\n\025com.ifx.connec" +
-      "t.protoB\004Chatb\006proto3"
+      "\n\rMessage.proto\022\025com.ifx.connect.proto\"\275" +
+      "\001\n\013ChatMessage\022\017\n\007content\030\003 \001(\t\022\023\n\013fromA" +
+      "ccount\030\005 \001(\t\022;\n\013msgDestEnum\030\t \001(\0162&.com." +
+      "ifx.connect.proto.MessageDestEnum\032.\n\005Gro" +
+      "up\022\021\n\tsessionId\030\001 \001(\002\022\022\n\ntoAccounts\030\010 \003(" +
+      "\t\032\033\n\006Single\022\021\n\ttoAccount\030\001 \001(\002*(\n\017Messag" +
+      "eDestEnum\022\t\n\005GROUP\020\000\022\n\n\006SINGLE\020\001*8\n\013Mess" +
+      "ageType\022\010\n\004TEXT\020\000\022\010\n\004FILE\020\001\022\n\n\006STREAM\020\002\022" +
+      "\t\n\005VIDEO\020\003B\035\n\025com.ifx.connect.protoB\004Cha" +
+      "tb\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
         new com.google.protobuf.Descriptors.FileDescriptor[] {
-          com.ifx.connect.proto.ProtocolType.getDescriptor(),
-          com.google.protobuf.AnyProto.getDescriptor(),
         });
     internal_static_com_ifx_connect_proto_ChatMessage_descriptor =
       getDescriptor().getMessageTypes().get(0);
     internal_static_com_ifx_connect_proto_ChatMessage_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_com_ifx_connect_proto_ChatMessage_descriptor,
-        new java.lang.String[] { "Content", "FromAccount", "ToAccount", "MessageType", });
-    com.ifx.connect.proto.ProtocolType.getDescriptor();
-    com.google.protobuf.AnyProto.getDescriptor();
+        new java.lang.String[] { "Content", "FromAccount", "MsgDestEnum", });
+    internal_static_com_ifx_connect_proto_ChatMessage_Group_descriptor =
+      internal_static_com_ifx_connect_proto_ChatMessage_descriptor.getNestedTypes().get(0);
+    internal_static_com_ifx_connect_proto_ChatMessage_Group_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_com_ifx_connect_proto_ChatMessage_Group_descriptor,
+        new java.lang.String[] { "SessionId", "ToAccounts", });
+    internal_static_com_ifx_connect_proto_ChatMessage_Single_descriptor =
+      internal_static_com_ifx_connect_proto_ChatMessage_descriptor.getNestedTypes().get(1);
+    internal_static_com_ifx_connect_proto_ChatMessage_Single_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_com_ifx_connect_proto_ChatMessage_Single_descriptor,
+        new java.lang.String[] { "ToAccount", });
   }
 
   // @@protoc_insertion_point(outer_class_scope)

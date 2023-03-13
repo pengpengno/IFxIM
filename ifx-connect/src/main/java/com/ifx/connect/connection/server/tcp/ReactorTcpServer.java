@@ -1,17 +1,25 @@
 package com.ifx.connect.connection.server.tcp;
 
 import com.google.inject.Singleton;
+import com.ifx.common.base.AccountInfo;
+import com.ifx.common.utils.AccountJwtUtil;
 import com.ifx.connect.connection.server.ReactiveServer;
 import com.ifx.connect.connection.server.ServerToolkit;
 import com.ifx.connect.connection.server.context.IConnectContextAction;
+import com.ifx.connect.connection.server.context.IConnection;
+import com.ifx.connect.connection.server.context.ReactorConnection;
+import com.ifx.connect.handler.server.ServerInboundHandler;
+import com.ifx.connect.proto.Account;
+import com.ifx.connect.proto.ProtocolType;
+import io.netty.channel.Channel;
 import io.netty.handler.logging.LogLevel;
 import lombok.extern.slf4j.Slf4j;
 import reactor.core.publisher.Flux;
-import reactor.core.publisher.Mono;
+import reactor.netty.Connection;
+import reactor.netty.DisposableServer;
 import reactor.netty.tcp.TcpServer;
 
 import java.net.InetSocketAddress;
-import java.util.Date;
 
 /**
  * 响应式 tcp 链接
@@ -24,6 +32,7 @@ import java.util.Date;
 public class ReactorTcpServer implements ReactiveServer {
 
 
+    private InetSocketAddress address;
     private enum SingleInstance{
         INSTANCE;
         private final ReactiveServer instance;
@@ -40,6 +49,8 @@ public class ReactorTcpServer implements ReactiveServer {
 
 
     private IConnectContextAction contextAction ;
+    private TcpServer server;
+    private DisposableServer disposableServer;
 
     private ReactorTcpServer(){
         contextAction = ServerToolkit.contextAction();
@@ -48,88 +59,91 @@ public class ReactorTcpServer implements ReactiveServer {
     @Override
     public void start(InetSocketAddress address) {
         create(address);
+        start();
     }
 
     @Override
     public void stop() {
-
+        disposableServer.disposeNow();
     }
 
+//    public void
+
     public  void create(InetSocketAddress address){
-        TcpServer niceDone = TcpServer
+        this.address = address;
+        server = TcpServer
                 .create()
                 .wiretap("tcp-server", LogLevel.INFO)
-//                .bindAddress(()-> address)
                 .host(address.getHostName())
                 .port(address.getPort())
-                .doOnChannelInit((connectionObserver, channel, remoteAddress) -> {
-//                    channel.pipeline().addFirst(new ServerInboundHandler());
-                })
-//                .doOnConnection(conn -> {
-//                    log.info("connection start");
-//                    Channel channel = conn.channel();
-//                    conn.inbound().receive().asString().doOnNext(log::info).subscribe();
-//                    int i = channel.alloc().buffer().readableBytes();
-//                    AccountInfo accountInfo = channel.attr(ServerInboundHandler.AccAttr).get();
-//                    IConnection build = ReactorConnection.builder()
-//                            .connection(conn)
-//                            .accountInfo(accountInfo)
-//                            .channel(channel)
-//                            .build();
-//                    // Remove the connection when it's idle
-//                    conn.onReadIdle(36000 , ()-> contextAction.closeAndRmConnection(accountInfo.getAccount()));
-//                    // Store the connection for later use
-//                    contextAction.putConnection(build);
-//                    conn.onDispose().subscribe(v -> {
-//                        // Remove the connection when it's closed
-//                        contextAction.closeAndRmConnection(accountInfo.getAccount());
-//                    });
-//                })
-//                .handle((nettyInbound, nettyOutbound) -> nettyInbound.receive().asString().doOnNext(log::info).then())
                 .handle((in, out) -> {
-                    Flux<String> welcomeFlux =
-                            Flux.just("Welcome to "  + "!\r\n", "It is " + new Date() + " now.\r\n");
-//                    in.withConnection(connection -> {
-//                        ByteBufAllocator alloc = connection.channel().alloc();
-////                        alloc.
-//                        ByteBuf buffer = connection.channel().alloc().buffer();
-//                        if (buffer.readableBytes() > 4) {
-//                            int length = buffer.readInt();
-//                            int type = buffer.readInt();
-//                            log.info("length is  {}   , type is {} ",length,type);
-//                        }
-//                    });
-                    Flux<String> just = Flux.just("233");
+                    Flux<String> handle = in.receive().handle((byteBuf, sink) -> {
+                        in.withConnection(connection -> {
+                            int i = byteBuf.readableBytes();
+                            if (i > 0) {
 
-                    Flux<String> responses =
-                            in.receive()
-                                    .asString()
-                                    // Signals completion when 'bye' is encountered.
-                                    // Reactor Netty will perform the necessary clean up, including
-                                    // disposing the channel.
-                                    .takeUntil("bye"::equalsIgnoreCase)
-                                    .map(text -> {
-                                        String response = "Did you say '" + text + "'?";
-                                        if (text.isEmpty()) {
-                                            response = "Please type something.";
-                                        }
-                                        else if ("bye".equalsIgnoreCase(text)) {
-                                            response = "Have a good day!\r\n";
-                                        }
-                                        return response;
-                                    });
-                    Flux<String> test1 = Flux.defer(()-> Mono.just("23"))
-                            .handle((te,sink)-> {
-                                sink.next(te+"sdasdsadsa");
-                            });
+                                int length = byteBuf.readInt();
 
+                                int type = byteBuf.readInt();
 
-                    return out.sendString(Flux.concat(welcomeFlux, test1,just,responses));
+                                ProtocolType.ProtocolMessageEnum protocolMessageEnum = ProtocolType.ProtocolMessageEnum.forNumber(type);
+
+                                byte[] bytes;
+
+                                if (byteBuf.hasArray()) {  //  jvm  heap byteBuf 处理
+
+                                    bytes = byteBuf.array();
+
+                                } else {  //  memory  byteBuf 处理
+
+                                    bytes = new byte[length];
+
+                                    byteBuf.getBytes(byteBuf.readerIndex(),bytes);
+
+                                }
+                                sink.next(type(protocolMessageEnum, bytes,connection));
+
+                            }
+                        });
+
+                    });
+
+                    return out.sendString(handle);
                 })
         ;
         log.info("startup netty  on port {}",address.getPort());
-        niceDone.bindNow().onDispose().block();
 
     }
 
+    public void start(){
+        disposableServer = server.bindNow();
+        disposableServer.onDispose().block();
+    }
+
+
+
+    public  String  type(ProtocolType.ProtocolMessageEnum messageEnum, byte[] bytes, Connection connection){
+        try{
+            if (messageEnum == ProtocolType.ProtocolMessageEnum.AUTH){
+                Account.Authenticate authenticate = Account.Authenticate.parseFrom(bytes);
+                AccountInfo accountInfo = AccountJwtUtil.verifyAndGetClaim(authenticate.getJwt());
+                Channel channel = connection.channel();
+                channel.attr(ServerInboundHandler.AccAttr).set(accountInfo);
+                IConnection build = ReactorConnection.builder()
+                        .accountInfo(accountInfo)
+                        .channel(channel)
+                        .connection(connection)
+                        .build();
+                contextAction.putConnection(build);
+                return "I have receive your auth";
+
+            }else {
+                return "I receive  your  message";
+            }
+        }catch (Exception exception){
+
+            log.info(" occur  the error  ");
+            return "occur error ";
+        }
+    }
 }

@@ -23,7 +23,7 @@ public class CglibTest {
     @Test
     public void cglibTest(){
         InetSocketAddress inetSocketAddress = new InetSocketAddress("127.0.0.1",8099);
-        ClientToolkit.getDefaultClientLifeStyle().connect(inetSocketAddress);
+        ClientToolkit.clientLifeStyle().connect(inetSocketAddress);
         Enhancer enhancer = new Enhancer();
         enhancer.setSuperclass(SessionAccountService.class);
         enhancer.setCallback(new IFxDubboProtocolProxy());

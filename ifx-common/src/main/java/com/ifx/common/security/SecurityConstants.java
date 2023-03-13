@@ -10,7 +10,7 @@ import java.util.concurrent.TimeUnit;
 public interface SecurityConstants {
 
 
-    String JWT_SECRET = "NAME_SPACE_IFX_SECURITY";
+    String JWT_SECRET = "NAMESPACEIFXSECURITYADDMORE";
     String ACCOUNT_JWT_SIGN = "ACCOUNT";
 
 

@@ -59,7 +59,7 @@ public class AccountController {
     }
 
 
-    @PostMapping("/login")
+    @PostMapping(AccRoute.LOGIN)
     public Mono<AccountInfo> login(@RequestBody @Validated(value = ACCOUNTLOGIN.class) AccountVo accountVo){
         return accountService.login(accountVo);
     }

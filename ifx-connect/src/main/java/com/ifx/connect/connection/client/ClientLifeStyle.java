@@ -14,10 +14,9 @@ import java.time.Duration;
  */
 public interface ClientLifeStyle {
 
-    public void init ();  // 初始化连接
 
 
-    public Boolean connect (InetSocketAddress address) throws NetException;
+    public Boolean connect (InetSocketAddress address) throws NetException, IllegalAccessException;
 
     /**
      * 开启channel 通道连接
@@ -31,7 +30,7 @@ public interface ClientLifeStyle {
      * 重试连接 如果当前连接 处于正常状态则直接返回
      * @return
      */
-    public  default  Boolean reTryConnect(){
+    public  default Boolean reTryConnect(){
         if (isAlive()){
             return Boolean.TRUE;
         }
@@ -49,7 +48,7 @@ public interface ClientLifeStyle {
 
 
     /***
-     * 重试连接 如果当前连接 处于正常状态则直接返回
+     * 使用指定的地址连接服务器 如果当前连接 处于正常状态则直接返回
      * @return
      */
     public  default  Boolean reTryConnect(InetSocketAddress address){
@@ -72,15 +71,6 @@ public interface ClientLifeStyle {
             .subscribe();
         return Boolean.TRUE;
     }
-    /**
-     * 重置链接 channel
-     */
-    public void resetConnect();
-
-    /**
-     * 保持链接存活 心跳包机制
-     */
-    public void keepAlive();
 
     /**
      * 释放 channel 断线资源

@@ -32,9 +32,6 @@ public class AccountRelationController {
     private ReactiveAccountRelationService relationService;
 
 
-
-
-
     @PostMapping("/login")
     public Mono<AccountInfo> login(@RequestBody @Validated(value = ACCOUNTLOGIN.class) AccountVo accountVo){
         return null;

@@ -41,8 +41,12 @@ public class ReactorTcpAction implements ReactiveServerAction {
         return null;
     }
 
+    @Override
+    public Mono<Message> sendMessage(String account, Message message) {
+        return null;
+    }
 
-    public Mono<Message> sendProtoMessage(String account,Message message){
+    public Mono<Message> sendProtoMessage(String account, Message message){
         IConnection iConnection = contextAction.applyConnection(account);
 
         Chat.ChatMessage build = Chat.ChatMessage.newBuilder()

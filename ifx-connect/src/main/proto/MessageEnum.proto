@@ -12,6 +12,8 @@ enum ProtocolMessageEnum{
 
   AUTH = 1001;
 
+  ACCOUNTINFO =1004;
+
   CHAT = 1002;
 
   REQUEST = 1003;

@@ -1,6 +1,5 @@
 package com.ifx.connect.handler.client;
 
-import com.ifx.connect.proto.Auth;
 import com.ifx.connect.proto.ProtocolType;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.Channel;

@@ -4,7 +4,6 @@ package com.ifx.client.app.controller;
 import com.ifx.account.vo.AccountVo;
 import com.ifx.client.api.AccountApi;
 import com.ifx.client.util.FxmlLoader;
-import com.ifx.connect.proto.Auth;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -83,15 +82,15 @@ public class LoginController  implements Initializable {
 
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("登录状态");
-        accountApi.auth(accountVo)
+        accountApi.login(accountVo)
             .subscribe(acc -> {
                 Platform.runLater(()->  {
                     hide();
                     MainController.show();
-                    String jwt = acc.getJwt();
-                    log.info(" jwt is  {}", jwt);
-//                    ClientToolkit.getDefaultClientAction()
-                    Auth.Authenticate.newBuilder().setJwt(jwt).build();
+
+//                    log.info(" jwt is  {}", jwt);
+//                    Auth.Authenticate.newBuilder().setJwt(jwt).build();
+
                 });
             });
 

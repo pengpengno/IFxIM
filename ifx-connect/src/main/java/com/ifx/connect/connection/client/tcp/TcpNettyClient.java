@@ -42,7 +42,7 @@ public final class TcpNettyClient {
         return address;
     }
 
-    protected TcpNettyClient() {
+    private TcpNettyClient() {
     }
     
 

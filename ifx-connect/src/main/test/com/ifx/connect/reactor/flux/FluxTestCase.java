@@ -57,7 +57,7 @@ public class FluxTestCase {
 
 @Test
 public void startClient(){
-    Mono.just(ClientToolkit.getDefaultClientLifeStyle())
+    Mono.just(ClientToolkit.clientLifeStyle())
             .doOnNext(l-> {
                 InetSocketAddress inetSocketAddress =
                         new InetSocketAddress("127.0.0.1", 8094);

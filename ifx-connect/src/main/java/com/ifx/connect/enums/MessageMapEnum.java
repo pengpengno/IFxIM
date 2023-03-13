@@ -1,7 +1,7 @@
 package com.ifx.connect.enums;
 
 import cn.hutool.core.util.ObjectUtil;
-import com.ifx.connect.proto.Auth;
+import com.ifx.connect.proto.Account;
 import com.ifx.connect.proto.Chat;
 import com.ifx.connect.proto.ProtocolType;
 import lombok.AllArgsConstructor;
@@ -19,13 +19,13 @@ import java.util.Arrays;
 public enum MessageMapEnum {
 
     CHAT (ProtocolType.ProtocolMessageEnum.CHAT, Chat.ChatMessage.class),
-    AUTH (ProtocolType.ProtocolMessageEnum.AUTH, Auth.Authenticate.class),
+    AUTH (ProtocolType.ProtocolMessageEnum.AUTH, Account.Authenticate.class),
+
     ;
 
 
 
     private final ProtocolType.ProtocolMessageEnum typeEnum;  // 类型枚举
-
 
     private final Class<?> messageClass;  //  对应的实体类
 

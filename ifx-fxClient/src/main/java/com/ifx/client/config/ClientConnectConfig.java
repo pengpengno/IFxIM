@@ -1,10 +1,11 @@
 package com.ifx.client.config;
 
-import com.ifx.connect.properties.ClientNettyConfigProperties;
 import com.ifx.connect.properties.ServerRouteConfigProperties;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,14 +15,13 @@ import reactor.netty.http.client.HttpClient;
 
 @Configuration
 @EnableConfigurationProperties({ServerRouteConfigProperties.class})
+@ConditionalOnClass(value = {ServerRouteConfigProperties.class})
 @Slf4j
 public class ClientConnectConfig {
 
-    @Autowired
-    private ClientNettyConfigProperties clientNettyConfigProperties;
-
     @Bean("server")
     @ConditionalOnBean(ServerRouteConfigProperties.class)
+    @ConditionalOnProperty(prefix = "ifx.api.gateway",name = {"host","port"})
     public HttpClient httpClient(@Autowired ServerRouteConfigProperties properties){
         return HttpClient.create()
                 .host(properties.getHost())
