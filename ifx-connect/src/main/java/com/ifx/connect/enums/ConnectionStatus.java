@@ -9,12 +9,9 @@ import cn.hutool.core.util.ObjectUtil;
  */
 public enum ConnectionStatus {
 
-
-
     ACTIVE,
 
     OFFLINE,
-
 
     ;
 

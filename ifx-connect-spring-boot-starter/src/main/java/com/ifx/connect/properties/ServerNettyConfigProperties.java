@@ -6,14 +6,14 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
 
 @Component
-@ConfigurationProperties(prefix = "ifx.connect.netty.server")
+@ConfigurationProperties(prefix = "ifx.connect.server")
 @Data
 @Primary
 public class ServerNettyConfigProperties {
 
-    private Integer port = 8094;
+    private Integer port ;
 
-    private String  host = "127.0.0.1";
+    private String  host ;
 
     private Integer maxActiveSocket;
 

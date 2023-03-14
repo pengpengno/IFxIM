@@ -6,6 +6,7 @@ import com.ifx.connect.connection.server.tcp.ReactorTcpServer;
 import java.net.InetSocketAddress;
 
 /**
+ * 流式 server
  * @author pengpeng
  * @description
  * @date 2023/2/28
@@ -17,8 +18,10 @@ public interface ReactiveServer {
         return tcpServer;
     }
 
+
     public void start(InetSocketAddress address);
 
+    public void start();
 
 
     public void stop();

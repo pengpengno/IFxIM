@@ -17,17 +17,6 @@ public class ClientApplication extends Application {
     @Override
     public void start(Stage stage)   {
         LoginController.show();
-//        Injector injector = Guice.createInjector();
-//        configProperties = injector.getInstance(ClientNettyConfigProperties.class);
-//        //接管FXPlus属性的创建
-//        Mono.just(ClientToolkit.getDefaultClientLifeStyle())
-//            .doOnNext(l-> {
-//                InetSocketAddress inetSocketAddress =
-//                    new InetSocketAddress(configProperties.getServerHost(), configProperties.getServerPort());
-//                l.reTryConnect(inetSocketAddress);
-//            })
-//            .subscribe()
-//        ;
     }
 
     public static void main(String[] args){

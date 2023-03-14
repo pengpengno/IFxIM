@@ -15,8 +15,13 @@ import java.time.Duration;
 public interface ClientLifeStyle {
 
 
-
-    public Boolean connect (InetSocketAddress address) throws NetException, IllegalAccessException;
+    /***
+     * 连接远程节点
+     * @param address
+     * @return
+     * @throws NetException
+     */
+    public Boolean connect (InetSocketAddress address) throws NetException;
 
     /**
      * 开启channel 通道连接
@@ -40,8 +45,7 @@ public interface ClientLifeStyle {
             Retry
             .backoff(3, Duration.ofSeconds(1)).jitter(0.3d)
             .filter(throwable ->  throwable instanceof  NetException)
-            .onRetryExhaustedThrow((spec, rs) -> rs.failure())
-                    );
+            .onRetryExhaustedThrow((spec, rs) -> rs.failure()));
         flux.subscribe();
         return Boolean.TRUE;
     }

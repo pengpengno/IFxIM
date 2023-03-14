@@ -1,6 +1,7 @@
 package com.ifx.connect.connection.client.tcp.reactive;
 
 import com.google.protobuf.Message;
+import com.ifx.connect.spi.ReactiveHandlerSPI;
 import com.ifx.connect.connection.client.ClientLifeStyle;
 import com.ifx.connect.connection.client.ReactiveClientAction;
 import com.ifx.connect.proto.ProtoParseUtil;
@@ -24,26 +25,27 @@ public class ReactorTcpClient implements ClientLifeStyle , ReactiveClientAction 
 
     private InetSocketAddress address;
 
-
     @Override
     public Boolean connect(InetSocketAddress address) throws NetException{
+        this.address = address;
         TcpClient client =
                 TcpClient
                 .create()
-                .host(address.getHostString())
-                .port(address.getPort())
-                .doOnConnected(ReactiveClientHandlerSPI.wiredSpiHandler())
-                .handle((inbound, outbound) -> Mono.never());
-
-        connection = client
-                .connectNow();
+                .host(this.address.getHostString())
+                .port(this.address.getPort())
+                .doOnConnected(ReactiveHandlerSPI.wiredSpiHandler())
+                ;
+        connection = client.connectNow();
         return Boolean.TRUE;
     }
 
 
     @Override
     public Mono<Void> sendString(String message) {
-         return connection.outbound().sendString(Mono.just(message)).then();
+        if (isAlive()) {
+            return connection.outbound().sendString(Mono.just(message)).then();
+        }
+        throw new NetException("The connection is disConnect!");
     }
 
     @Override

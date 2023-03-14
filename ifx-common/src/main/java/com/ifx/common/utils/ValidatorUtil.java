@@ -6,6 +6,8 @@ import lombok.extern.slf4j.Slf4j;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -56,6 +58,8 @@ public class ValidatorUtil {
 
 
 
+
+
     /**
      * 验证单个实体
      *
@@ -79,6 +83,32 @@ public class ValidatorUtil {
     public static <T>  Boolean validateOutBoolean(T t , Class<?>... group) {
         Set<ConstraintViolation<T>> constraintViolations = validateOne(t, group);
         return CollectionUtil.isNotEmpty(constraintViolations);
+    }
+
+    public static <T> List<String> validate(T t , Class<?>... group)  {
+        ArrayList<String> messages = CollectionUtil.newArrayList();
+        if (t == null){
+            messages.add("The  specify is  valid !");
+            return messages;
+        }
+        Set<ConstraintViolation<T>> validations = validator.validate(t);
+        for (ConstraintViolation<T> validation : validations) {
+            messages.add(validation.getMessage());
+        }
+        return messages;
+    }
+
+    /***
+     * 校验参数 如果不合规 则以一条信息 作为 errorMessage 抛出
+     * @param t
+     * @param group
+     * @param <T>
+     */
+    public static <T> void validateThrows(T t, Class<?> group) throws IllegalArgumentException{
+        List<String> validate = validate(t, group);
+        if (CollectionUtil.isNotEmpty(validate)){
+         throw new IllegalArgumentException(validate.get(0));
+        }
     }
 
 //    /***

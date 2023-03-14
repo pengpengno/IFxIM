@@ -20,6 +20,7 @@ public enum MessageMapEnum {
 
     CHAT (ProtocolType.ProtocolMessageEnum.CHAT, Chat.ChatMessage.class),
     AUTH (ProtocolType.ProtocolMessageEnum.AUTH, Account.Authenticate.class),
+    ACCOUNT (ProtocolType.ProtocolMessageEnum.ACCOUNTINFO, Account.Authenticate.class),
 
     ;
 
@@ -32,10 +33,10 @@ public enum MessageMapEnum {
 
 
     public static MessageMapEnum  getByEnum(ProtocolType.ProtocolMessageEnum typeEnum){
-        return Arrays.stream(MessageMapEnum.values()).filter(e-> ObjectUtil.equals(e.typeEnum,typeEnum)).findFirst().orElseThrow(()-> new IllegalArgumentException("the enum provided is illegal!"));
+        return Arrays.stream(MessageMapEnum.values()).filter(e-> ObjectUtil.equals(e.typeEnum,typeEnum)).findFirst().orElseThrow(()-> new IllegalArgumentException("The provided  enum is illegal!"));
     }
 
     public static MessageMapEnum  getByMessageClass(Class<?> messageClass){
-        return Arrays.stream(MessageMapEnum.values()).filter(e-> ObjectUtil.equals(e.messageClass,messageClass)).findFirst().orElseThrow(()-> new IllegalArgumentException("the enum provided is illegal!"));
+        return Arrays.stream(MessageMapEnum.values()).filter(e-> ObjectUtil.equals(e.messageClass,messageClass)).findFirst().orElseThrow(()-> new IllegalArgumentException("the provided enum is illegal!"));
     }
 }

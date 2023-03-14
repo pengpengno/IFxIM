@@ -1,5 +1,6 @@
 package com.ifx.connect.handler.client;
 
+import com.ifx.connect.proto.Account;
 import com.ifx.connect.proto.ProtocolType;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.Channel;
@@ -55,7 +56,7 @@ public class ClientInboundHandler extends ChannelInboundHandlerAdapter {
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
         log.info("channel  register success");
         Channel channel = ctx.channel();
-        Auth.Authenticate auth = Auth.Authenticate.newBuilder()
+        Account.Authenticate auth = Account.Authenticate.newBuilder()
                 .setJwt(jwt)
                 .build();
         try {

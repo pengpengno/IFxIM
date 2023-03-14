@@ -17,7 +17,6 @@ public class AccountApplication {
     ReactiveAccountServiceImpl accountService;
 
 
-
     public static void main(String[] args) {
         SpringApplication.run(AccountApplication.class);
     }

@@ -15,9 +15,7 @@ public class ServerRouteConfigProperties {
 
     private Integer port;
 
-
     private Integer retryTimes;
-
 
     private Integer timeOut;
 }

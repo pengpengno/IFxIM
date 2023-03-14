@@ -30,6 +30,7 @@ spring:
 ifx:
   connect:
     server:
+      host: localhost
       port: 8094
 
 

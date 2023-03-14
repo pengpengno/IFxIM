@@ -6,7 +6,9 @@ import com.ifx.connect.connection.server.ServerToolkit;
 import com.ifx.connect.connection.server.context.IConnectContextAction;
 import com.ifx.connect.connection.server.context.IConnection;
 import com.ifx.connect.enums.ConnectionStatus;
+import com.ifx.connect.enums.MessageMapEnum;
 import com.ifx.connect.proto.Chat;
+import com.ifx.connect.proto.ProtocolType;
 import com.ifx.exec.ex.connect.ConnectException;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.ByteBufAllocator;
@@ -24,25 +26,24 @@ public class ReactorTcpAction implements ReactiveServerAction {
     private final IConnectContextAction contextAction = ServerToolkit.contextAction();
 
     @Override
-    public Mono<String> sendString(IConnection connection,String message) throws ConnectException {
+    public Mono<Void> sendString(IConnection connection,String message) throws ConnectException {
         Connection clientConnection = connection.connection();
         if (ConnectionStatus.statusActive(connection.status())){
-//            clientConnection.outbound().send()
+            return clientConnection.outbound().sendString(Mono.just("message")).then();
         }
         throw  new ConnectException("connection is ont active ");
     }
 
 
 
-
     @Override
-    public Mono<String> sendString(String account,String message) {
+    public Mono<Void> sendString(String account,String message) {
         IConnection iConnection = contextAction.applyConnection(account);
         return null;
     }
 
     @Override
-    public Mono<Message> sendMessage(String account, Message message) {
+    public Mono<Void> sendMessage(String account, Message message) {
         return null;
     }
 
@@ -61,7 +62,8 @@ public class ReactorTcpAction implements ReactiveServerAction {
 
     public NettyOutbound sendProtoMsg(String account,Message message){
         IConnection iConnection = contextAction.applyConnection(account);
-
+        MessageMapEnum messageMapEnum = MessageMapEnum.getByMessageClass(message.getClass());
+        ProtocolType.ProtocolMessageEnum typeEnum = messageMapEnum.getTypeEnum();
         Chat.ChatMessage build = Chat
                 .ChatMessage
                 .newBuilder()

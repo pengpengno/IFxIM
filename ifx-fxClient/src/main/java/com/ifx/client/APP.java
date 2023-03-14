@@ -1,7 +1,9 @@
 package com.ifx.client;
 
+import com.ifx.connect.connection.client.ReactiveClientAction;
 import javafx.application.Application;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -15,6 +17,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication(scanBasePackages = {"com.ifx","cn.hutool.extra.spring"})
 @Slf4j
 public class APP implements CommandLineRunner {
+
+    @Autowired
+    private ReactiveClientAction reactiveClientAction;
 
     @Override
     public void run(String... args) throws Exception {

@@ -1,7 +1,6 @@
 package com.ifx.connect.connection.client;
 
 import com.ifx.connect.config.ConnectionDefaultValue;
-import com.ifx.connect.connection.client.tcp.NettyClientAction;
 import com.ifx.connect.connection.client.tcp.reactive.ReactorTcpClient;
 import com.ifx.connect.enums.ConnectTypeEnums;
 
@@ -12,26 +11,6 @@ import com.ifx.connect.enums.ConnectTypeEnums;
  * @date 2023/1/9
  */
 public  class ClientToolkit {
-
-    /**
-     * 获取 {@link ClientAction} 的 Tcp 连接实现
-     * @return 返回 ClientAction 的 Tcp 实现
-     */
-    public static ClientAction getTcpInstance(){
-        return NettyClientAction.getInstance();
-    }
-
-    /***
-     * 获取系统默认的客户端连接
-     * @return 返回客户端连接实现
-     */
-    public static ClientAction getDefaultClientAction(){
-        ConnectTypeEnums defaultValue = ConnectionDefaultValue.getDefaultConnectType();
-        if (defaultValue == ConnectTypeEnums.TCP){
-            return  NettyClientAction.getInstance();
-        }
-        return  NettyClientAction.getInstance();
-    }
 
     public static  ClientLifeStyle clientLifeStyle(){
         ConnectTypeEnums defaultValue = ConnectionDefaultValue.getDefaultConnectType();

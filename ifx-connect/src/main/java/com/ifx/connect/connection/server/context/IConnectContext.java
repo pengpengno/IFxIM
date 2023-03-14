@@ -2,9 +2,9 @@ package com.ifx.connect.connection.server.context;
 
 import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
+import com.ifx.common.utils.ValidatorUtil;
 import com.ifx.exec.errorMsg.connect.ConnectErrorMsg;
 import com.ifx.exec.ex.connect.ConnectException;
-import org.springframework.util.Assert;
 import reactor.core.publisher.Mono;
 
 import java.util.Objects;
@@ -48,11 +48,12 @@ public class IConnectContext implements IConnectContextAction {
 
     @Override
     public IConnection putConnection(IConnection connection) {
-        Assert.notNull(connection,"connection could not be null , when put new connection in cache");
-        Assert.notNull(connection.accountInfo(),"connection accountInfo could not be null , when put new connection in cache");
-        Assert.notNull(connection.accountInfo().getAccount(),"connection accountInfo  accout could not be null , when put new connection in cache");
-        Assert.notNull(connection.channel(),"connection channel could not be null , when put new connection in cache");
-        Assert.notNull(connection.connection(),"connection connection could not be null , when put new connection in cache");
+         ValidatorUtil.validateThrows(connection, IConnection.Create.class);
+//        Assert.notNull(connection,"connection could not be null , when put new connection in cache");
+//        Assert.notNull(connection.accountInfo(),"connection accountInfo could not be null , when put new connection in cache");
+//        Assert.notNull(connection.accountInfo().getAccount(),"connection accountInfo  accout could not be null , when put new connection in cache");
+//        Assert.notNull(connection.channel(),"connection channel could not be null , when put new connection in cache");
+//        Assert.notNull(connection.connection(),"connection connection could not be null , when put new connection in cache");
         String account = connection.accountInfo().getAccount();
         connectionCache.put(account,connection);
         return connection;

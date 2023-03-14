@@ -12,7 +12,6 @@ import java.lang.reflect.Method;
  * @author pengpeng
  */
 @Slf4j
-@Singleton
 public class ClientApiProxy implements MethodInterceptor {
 
 

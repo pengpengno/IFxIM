@@ -12,11 +12,11 @@ import reactor.core.publisher.Mono;
 public interface ReactiveServerAction {
 
 
-    Mono<String>  sendString(IConnection connection,String message);
+    Mono<Void>  sendString(IConnection connection,String message);
 
-    Mono<String>  sendString(String account,String  message);
+    Mono<Void>  sendString(String account,String  message);
 
-    Mono<Message>  sendMessage(String account , Message message);
+    Mono<Void>  sendMessage(String account , Message message);
 
 
 

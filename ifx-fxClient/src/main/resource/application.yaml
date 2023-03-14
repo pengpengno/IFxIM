@@ -6,5 +6,5 @@ ifx:
   connect:
     client:
       serverHost: localhost
-      serverPort: 9087
+      serverPort: 8094
       connectTimeOut: 60000

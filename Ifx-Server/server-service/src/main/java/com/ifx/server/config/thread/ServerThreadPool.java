@@ -16,7 +16,6 @@ import java.util.concurrent.TimeUnit;
 public class ServerThreadPool {
 
 
-
     private enum SingleInstance{
         INSTANCE;
         private final ServerThreadPool instance;
@@ -33,7 +32,7 @@ public class ServerThreadPool {
 
     public  ExecutorService threadPool(){
         return new ThreadPoolExecutor(100, 300, 1,TimeUnit.SECONDS, new LinkedBlockingQueue<>(1024),
-                new ThreadFactoryBuilder().setNameFormat("socket-%d").build(), new ThreadPoolExecutor.CallerRunsPolicy());
+                new ThreadFactoryBuilder().setNameFormat("server-%d").build(), new ThreadPoolExecutor.CallerRunsPolicy());
     }
 
 

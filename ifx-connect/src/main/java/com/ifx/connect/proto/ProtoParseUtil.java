@@ -12,7 +12,12 @@ import io.netty.buffer.ByteBuf;
 public class ProtoParseUtil {
 
 
-
+    /***
+     * 将 message 写入 ByteBuf
+     * @param message
+     * @param buffer
+     * @return
+     */
     public static ByteBuf parseMessage2ByteBuf(Message message,ByteBuf buffer){
         if (null != message){
             MessageMapEnum mapEnum = MessageMapEnum.getByMessageClass(message.getClass());

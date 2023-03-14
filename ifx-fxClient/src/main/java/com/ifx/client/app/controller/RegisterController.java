@@ -1,12 +1,7 @@
 package com.ifx.client.app.controller;
 
-import cn.hutool.core.util.StrUtil;
 import com.ifx.account.vo.AccountVo;
 import com.ifx.client.util.FxmlLoader;
-import com.ifx.common.res.Result;
-import com.ifx.connect.connection.client.ClientToolkit;
-import com.ifx.connect.proto.Protocol;
-import com.ifx.connect.task.handler.TaskHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
@@ -50,15 +45,6 @@ public class RegisterController  {
         accountVo.setPassword(psdField.getText());
         accountVo.setEmail(mailField.getText());
 
-        TaskHandler taskHandler = resProtocol -> {
-            Result result = resProtocol.getResult();
-            Object res = result.getRes();
-            String account = result.getDataAsTClass(String.class);
-            if (StrUtil.isNotBlank(account)){
-                log.info("注册成功！ {} ",account);
-            }
-            log.info("注册成功！");
-        };
     }
 
     @FXML
