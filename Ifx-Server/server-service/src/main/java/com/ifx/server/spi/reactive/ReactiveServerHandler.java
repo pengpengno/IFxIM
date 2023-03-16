@@ -12,15 +12,16 @@ import com.ifx.connect.handler.MessageParser;
 import com.ifx.connect.handler.server.ServerInboundHandler;
 import com.ifx.connect.proto.Account;
 import com.ifx.connect.proto.ProtocolType;
+import com.ifx.server.service.MessageProcessService;
 import io.netty.channel.Channel;
 import lombok.extern.slf4j.Slf4j;
 import reactor.core.publisher.Flux;
-import reactor.core.publisher.Mono;
 import reactor.netty.Connection;
 
 import java.util.function.Consumer;
 
 /**
+ * 响应式 服务处理 Handler
  * @author pengpeng
  * @description
  * @date 2023/3/14
@@ -40,10 +41,9 @@ public class ReactiveServerHandler extends ConnectionConsumer {
                     if (i > 0) {
                         try{
 
-                            Message message = MessageParser.byteBuf2Message(byteBuf);
+                            Message message = MessageParser.byteBuf2Message(byteBuf); //   parse the byteBuf to  Message
 
-                            connection.outbound().sendString(Mono.just("trying")).then().subscribe();
-//                            sink.next(auth(protocolMessageEnum, bytes,connection));
+                            MessageProcessService.process(message);   // process service via message
 
                         }catch (Exception exception){
 
@@ -61,9 +61,6 @@ public class ReactiveServerHandler extends ConnectionConsumer {
         log.debug("The ReactorConnectionConsumer SPI FxReactiveClientHandler service provider is load ! ");
     }
 
-    public static void readMessage(){
-
-    }
 
 
     public static String auth(ProtocolType.ProtocolMessageEnum messageEnum, byte[] bytes, Connection connection){

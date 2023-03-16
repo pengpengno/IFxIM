@@ -20,7 +20,7 @@ public enum MessageMapEnum {
 
     CHAT (ProtocolType.ProtocolMessageEnum.CHAT, Chat.ChatMessage.class),
     AUTH (ProtocolType.ProtocolMessageEnum.AUTH, Account.Authenticate.class),
-    ACCOUNT (ProtocolType.ProtocolMessageEnum.ACCOUNTINFO, Account.Authenticate.class),
+    ACCOUNT (ProtocolType.ProtocolMessageEnum.ACCOUNTINFO, Account.AccountInfo.class),
 
     ;
 

@@ -1,7 +1,11 @@
 package com.ifx.connect.reactor.netty.tcp;
 
 import com.ifx.common.base.AccountInfo;
+import com.ifx.connect.handler.MessageParser;
 import com.ifx.connect.handler.client.ClientInboundHandler;
+import com.ifx.connect.proto.Account;
+import io.netty.buffer.ByteBuf;
+import io.netty.buffer.PooledByteBufAllocator;
 import io.netty.handler.logging.LogLevel;
 import io.netty.util.AttributeKey;
 import lombok.extern.slf4j.Slf4j;
@@ -18,7 +22,7 @@ import reactor.netty.tcp.TcpClient;
 @Slf4j
 public class ReactiveClientTest {
     public  static String  HOST = "127.0.0.1";
-    public  static Integer  PORT = 9087;
+    public  static Integer  PORT = 8094;
     public static String TCPLogger = "TCPLogger";
     private final AttributeKey<AccountInfo> attribute = AttributeKey.valueOf(AccountInfo.class.getName());
 
@@ -56,6 +60,32 @@ public class ReactiveClientTest {
         log.info("{}", connect.isDisposed());
         connect.outbound().sendString(Mono.just("nice to meet you")).then().subscribe();
         connect.outbound().sendString(Mono.just("send  twice ")).then().subscribe();
+        connect.onDispose()
+                .block()
+        ;
+    }
+
+    @Test
+    public void sentMessage(){
+        Connection connect = TcpClient.create()
+                .host(HOST)
+                .port(PORT)
+                .wiretap("client",LogLevel.INFO)
+//                .doOnChannelInit((connectionObserver, channel, remoteAddress) -> {
+//                })
+                .connectNow().bind();
+        log.info("{}", connect.isDisposed());
+        Account.AccountInfo build = Account.AccountInfo.newBuilder()
+                .setAccount("pengpeng")
+                .setAccountName("王鹏")
+                .setEMail("pengpeng_on@163.com")
+                .build();
+        ByteBuf buffer = PooledByteBufAllocator.DEFAULT.buffer();
+        ByteBuf byteBuf = MessageParser.message2ByteBuf(build, buffer);
+        connect.outbound().send(Mono.just(byteBuf)).then().subscribe();
+        connect.inbound().receive().asString().then().subscribe();
+//        connect.outbound().sendString(Mono.just("nice to meet you")).then().subscribe();
+//        connect.outbound().sendString(Mono.just("send  twice ")).then().subscribe();
         connect.onDispose()
                 .block()
         ;

@@ -1,9 +1,5 @@
 package com.ifx.connect.reactor.netty.tcp;
 
-import com.ifx.connect.handler.client.ClientBusinessHandler;
-import com.ifx.connect.handler.decoder.ProtocolDecoder;
-import com.ifx.connect.handler.encoder.ProtocolEncoder;
-import io.netty.channel.Channel;
 import io.netty.handler.logging.LogLevel;
 import io.netty.handler.ssl.util.InsecureTrustManagerFactory;
 import lombok.extern.slf4j.Slf4j;
@@ -16,13 +12,7 @@ import reactor.netty.DisposableServer;
 import reactor.netty.tcp.TcpClient;
 import reactor.netty.tcp.TcpServer;
 import reactor.netty.tcp.TcpSslContextSpec;
-import reactor.netty.transport.logging.AdvancedByteBufFormat;
 import reactor.test.StepVerifier;
-
-import java.net.InetSocketAddress;
-import java.net.SocketAddress;
-import java.util.concurrent.atomic.AtomicReference;
-import java.util.function.Supplier;
 
 /**
  * 异步线程处理
@@ -136,7 +126,7 @@ public class ReactorNettyTest {
     public  void localClient() {
         TcpClient client =
                 TcpClient.create()
-                        .port(PORT)
+                .port(PORT)
 //                        .wiretap(WIRETAP)
                 ;
 
@@ -154,25 +144,4 @@ public class ReactorNettyTest {
                 .block();
     }
 
-    @Test
-    public void customServer(){
-        AtomicReference<Channel> che = null;
-
-        Mono<? extends DisposableServer> bind = TcpServer.create()
-                .wiretap(TCPLogger, LogLevel.DEBUG, AdvancedByteBufFormat.SIMPLE)
-                .doOnConnection(connection -> {
-                    connection.addHandlerFirst(new ProtocolEncoder());
-                })
-                .doOnChannelInit((connectionObserver, channel, remoteAddress) -> {
-                    channel.pipeline()
-                            .addLast(new ProtocolEncoder())
-                            .addLast(new ProtocolDecoder())
-                            .addLast(new ClientBusinessHandler());
-                    che.set(channel);
-                })
-                .bindAddress((Supplier<? extends SocketAddress>) () -> {
-                    return new InetSocketAddress("127.0.0.1", 9081);
-                })
-                .bind();
-    }
 }

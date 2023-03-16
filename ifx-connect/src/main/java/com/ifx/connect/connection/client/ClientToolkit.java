@@ -12,6 +12,10 @@ import com.ifx.connect.enums.ConnectTypeEnums;
  */
 public  class ClientToolkit {
 
+    /***
+     * 获取默认的客户端 lifestyle
+     * @return ReactorTcpClient.getInstance()
+     */
     public static  ClientLifeStyle clientLifeStyle(){
         ConnectTypeEnums defaultValue = ConnectionDefaultValue.getDefaultConnectType();
         if (defaultValue == ConnectTypeEnums.TCP){
