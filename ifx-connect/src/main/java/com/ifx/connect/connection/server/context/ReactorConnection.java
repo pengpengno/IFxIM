@@ -1,8 +1,8 @@
 package com.ifx.connect.connection.server.context;
 
 
-import com.ifx.common.base.AccountInfo;
 import com.ifx.connect.enums.ConnectionStatus;
+import com.ifx.connect.proto.Account;
 import io.netty.channel.Channel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -27,7 +27,7 @@ public class ReactorConnection implements IConnection{
 
     private Connection connection;
 
-    private AccountInfo accountInfo;
+    private Account.AccountInfo accountInfo;
 
 
     @Override
@@ -41,7 +41,7 @@ public class ReactorConnection implements IConnection{
     }
 
     @Override
-    public AccountInfo accountInfo() {
+    public Account.AccountInfo accountInfo() {
         return accountInfo;
     }
 

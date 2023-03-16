@@ -1,6 +1,9 @@
 package com.ifx.connect.connection.client.tcp.reactive;
 
 import com.google.protobuf.Message;
+import com.ifx.connect.connection.ConnectionConstants;
+import com.ifx.connect.connection.server.ServerToolkit;
+import com.ifx.connect.proto.Account;
 import com.ifx.connect.spi.ReactiveHandlerSPI;
 import com.ifx.connect.connection.client.ClientLifeStyle;
 import com.ifx.connect.connection.client.ReactiveClientAction;
@@ -34,6 +37,13 @@ public class ReactorTcpClient implements ClientLifeStyle , ReactiveClientAction 
                 .host(this.address.getHostString())
                 .port(this.address.getPort())
                 .doOnConnected(ReactiveHandlerSPI.wiredSpiHandler())
+                .doOnDisconnected(con -> {
+                    Account.AccountInfo accountInfo = con.channel().attr(ConnectionConstants.BING_ACCOUNT_KEY).get();
+                    if (accountInfo == null){
+                        return;
+                    }
+                    ServerToolkit.contextAction().closeAndRmConnection(accountInfo.getAccount());
+                })
                 ;
         connection = client.connectNow();
         return Boolean.TRUE;

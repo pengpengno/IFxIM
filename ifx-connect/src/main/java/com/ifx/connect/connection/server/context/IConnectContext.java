@@ -3,9 +3,13 @@ package com.ifx.connect.connection.server.context;
 import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
 import com.ifx.common.utils.ValidatorUtil;
+import com.ifx.connect.connection.ConnectionConstants;
+import com.ifx.connect.proto.Account;
 import com.ifx.exec.errorMsg.connect.ConnectErrorMsg;
 import com.ifx.exec.ex.connect.ConnectException;
+import lombok.extern.slf4j.Slf4j;
 import reactor.core.publisher.Mono;
+import reactor.netty.Connection;
 
 import java.util.Objects;
 
@@ -15,6 +19,7 @@ import java.util.Objects;
  * @description
  * @date 2023/3/6
  */
+@Slf4j
 public class IConnectContext implements IConnectContextAction {
 
 
@@ -61,13 +66,20 @@ public class IConnectContext implements IConnectContextAction {
 
     @Override
     public Boolean closeAndRmConnection(String account) throws ConnectException {
-        applyConnection(account).close();
-        return null;
+        IConnection connection = applyConnection(account);
+        if (connection != null){
+            connection.close();
+        }
+        return Boolean.TRUE;
     }
 
-
-
-
-
-
+    @Override
+    public void close(Connection connection) {
+        Account.AccountInfo accountInfo = connection.channel().attr(ConnectionConstants.BING_ACCOUNT_KEY).get();
+        if (accountInfo == null){
+            log.info("Account is null , remove IConnection is unnecessary!");
+            return;
+        }
+        closeAndRmConnection(accountInfo.getAccount());
+    }
 }

@@ -1,6 +1,7 @@
 package com.ifx.connect.connection.server.context;
 
 import com.ifx.exec.ex.connect.ConnectException;
+import reactor.netty.Connection;
 
 /**
  *
@@ -32,6 +33,8 @@ public interface IConnectContextAction {
      * @return
      */
     public Boolean closeAndRmConnection(String account) throws ConnectException;
+
+    public void close(Connection connection);
 
 
 

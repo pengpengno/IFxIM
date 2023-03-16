@@ -1,7 +1,7 @@
 package com.ifx.connect.connection.server.context;
 
-import com.ifx.common.base.AccountInfo;
 import com.ifx.connect.enums.ConnectionStatus;
+import com.ifx.connect.proto.Account;
 import io.netty.channel.Channel;
 import reactor.netty.Connection;
 
@@ -22,7 +22,7 @@ public interface IConnection {
     public Connection connection();
 
     @NotNull(message = "accountInfo could not be null",groups = Create.class)
-    public AccountInfo accountInfo();
+    public Account.AccountInfo accountInfo();
 
     public ConnectionStatus status();
 

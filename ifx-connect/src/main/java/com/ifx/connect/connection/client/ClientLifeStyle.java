@@ -33,7 +33,7 @@ public interface ClientLifeStyle {
 
     /***
      * 重试连接 如果当前连接 处于正常状态则直接返回
-     * @return
+     * @return connect state
      */
     public  default Boolean reTryConnect(){
         if (isAlive()){

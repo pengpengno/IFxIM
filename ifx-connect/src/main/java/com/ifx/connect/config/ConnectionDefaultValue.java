@@ -9,6 +9,7 @@ import com.ifx.connect.enums.ConnectTypeEnums;
  * @date 2023/1/10
  */
 public class ConnectionDefaultValue {
+
     private static ConnectTypeEnums DEFAULT_CONNECT_TYPE =  ConnectTypeEnums.TCP;
 
     /**
