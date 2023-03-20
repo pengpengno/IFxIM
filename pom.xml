@@ -26,6 +26,7 @@
     <maven.compiler.source>17</maven.compiler.source>
     <maven.compiler.target>17</maven.compiler.target>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <feign-reactor.version>3.2.6</feign-reactor.version>
 
     <maven.plugin.version>3.6.1</maven.plugin.version>
     <nacos.starter.version>2021.1</nacos.starter.version>
@@ -457,6 +458,35 @@
         <artifactId>jjwt-jackson</artifactId>
         <version>${jjwt.version}</version>
         <scope>runtime</scope>
+      </dependency>
+
+      <dependency>
+        <groupId>org.springframework.cloud</groupId>
+        <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+      </dependency>
+
+      <dependency>
+        <groupId>com.playtika.reactivefeign</groupId>
+        <artifactId>feign-reactor-webclient</artifactId>
+        <version>${feign-reactor.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>com.playtika.reactivefeign</groupId>
+        <artifactId>feign-reactor-cloud</artifactId>
+        <version>${feign-reactor.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>com.playtika.reactivefeign</groupId>
+        <artifactId>feign-reactor-spring-configuration</artifactId>
+        <version>${feign-reactor.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>io.github.openfeign</groupId>
+        <artifactId>feign-slf4j</artifactId>
+        <version>11.2</version>
       </dependency>
     </dependencies>
   </dependencyManagement>

@@ -14,6 +14,7 @@
         <module>ApiGateway</module>
         <module>account</module>
         <module>session</module>
+        <module>eurekaServer</module>
     </modules>
     <properties>
 

@@ -22,7 +22,6 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.util.Set;
-import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 @Service
@@ -52,7 +51,7 @@ public class SessionLifeStyle implements ISessionLifeStyle {
     }
 
     private Mono<SessionInfoVo> selectSession(Long sessionId){
-        return sessionRepository.findById(sessionId).map(SessionMapper.INSTANCE::transform).flatMap();
+        return sessionRepository.findById(sessionId).map(SessionMapper.INSTANCE::transform);
     }
 
 
