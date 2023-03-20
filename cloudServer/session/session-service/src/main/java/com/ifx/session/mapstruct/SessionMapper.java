@@ -34,5 +34,13 @@ public interface SessionMapper {
     Session transform(SessionInfoVo sessionAccount);
 
 
+    /**
+     * @return
+     */
+    @Mappings(
+            @Mapping(source = "id",target = "sessionId")
+    )
+    SessionInfoVo transform(Session session);
+
 
 }

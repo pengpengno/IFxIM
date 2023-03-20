@@ -16,18 +16,6 @@ import reactor.core.publisher.Mono;
 public class RabbitMq {
 
     @Bean
-    @ConditionalOnProperty(prefix = "spring.rabbitmq",name = {"host","port","username","password"})
-    Mono<Connection> connectionMono(RabbitProperties rabbitProperties) {
-        ConnectionFactory connectionFactory = new ConnectionFactory();
-        connectionFactory.setHost(rabbitProperties.getHost());
-        connectionFactory.setPort(rabbitProperties.getPort());
-        connectionFactory.setUsername(rabbitProperties.getUsername());
-        connectionFactory.setPassword(rabbitProperties.getPassword());
-        connectionFactory.useNio();
-        return Mono.fromCallable(() -> connectionFactory.newConnection("reactor-rabbit")).cache();
-    }
-
-    @Bean
     @ConditionalOnMissingBean(ConnectionFactory.class)
     @ConditionalOnProperty(prefix = "spring.rabbitmq",name = {"host","port","username","password"})
     ConnectionFactory connectionFactory(RabbitProperties rabbitProperties) {
@@ -37,7 +25,6 @@ public class RabbitMq {
         connectionFactory.setUsername(rabbitProperties.getUsername());
         connectionFactory.setPassword(rabbitProperties.getPassword());
         connectionFactory.useNio();
-
         return connectionFactory;
     }
 

@@ -62,7 +62,7 @@ public class Account extends BaseEntity implements Serializable , AccountSPI {
 
 
     @Override
-    public String accountId() {
+    public String account() {
         return account;
     }
 
@@ -71,5 +71,8 @@ public class Account extends BaseEntity implements Serializable , AccountSPI {
         return userName;
     }
 
-
+    @Override
+    public Long userId() {
+        return getId();
+    }
 }

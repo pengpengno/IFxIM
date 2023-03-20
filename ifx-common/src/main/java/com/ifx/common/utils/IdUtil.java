@@ -12,6 +12,6 @@ public class IdUtil {
      * @return
      */
     public static Long getId(){
-        return cn.hutool.core.util.IdUtil.getSnowflakeNextId();
+        return cn.hutool.core.util.IdUtil.getSnowflake().nextId();
     }
 }

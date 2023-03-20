@@ -30,12 +30,17 @@ public class AccountVo implements Serializable , AccountSPI {
     private String email;  // 电子邮件
 
     @Override
-    public String accountId() {
+    public String account() {
         return account;
     }
 
     @Override
     public String accountName() {
         return userName;
+    }
+
+    @Override
+    public Long userId() {
+        return getUserId();
     }
 }

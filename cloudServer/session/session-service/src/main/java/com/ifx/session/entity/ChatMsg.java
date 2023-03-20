@@ -25,7 +25,7 @@ public class ChatMsg extends BaseEntity implements Serializable {
      * 接受的会话Id
      */
     @Column
-    private String toSessionId;
+    private String sessionId;
 
     /**
      * 消息文本
@@ -33,10 +33,17 @@ public class ChatMsg extends BaseEntity implements Serializable {
     @Column
     private String content;
     /***
-     * @see
+     * @see com.ifx.session.enums.ContentType
      * @description  消息文本类型
      */
     @Column
     private String contentType ;
+
+
+    /***
+     * @see com.ifx.session.enums.ChatMsgStatus
+     */
+    @Column
+    private String status ;
 
 }

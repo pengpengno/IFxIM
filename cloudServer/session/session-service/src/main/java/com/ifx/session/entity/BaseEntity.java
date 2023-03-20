@@ -1,6 +1,9 @@
 package com.ifx.session.entity;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.relational.core.mapping.Column;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -14,6 +17,9 @@ import java.time.LocalDateTime;
  * @date 2023/2/17
  */
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class BaseEntity implements Serializable {
     @Id
     private Long id;
@@ -32,7 +38,8 @@ public class BaseEntity implements Serializable {
     private LocalDateTime update_time;
 
 
-//    @Column("cr")
+    @Column("create_user_id")
+    private Long createUserId;
 
     /**
      * 删除标志

@@ -26,7 +26,7 @@ public class SessionCreatePane extends Pane implements Initializable {
 
     private Set<AccountInfo> accounts ;
 
-    private Set<String> accountSet;
+    private Set<Long> useIdSet;
 
     private TextArea sessionDetail =  new TextArea();
 
@@ -46,7 +46,7 @@ public class SessionCreatePane extends Pane implements Initializable {
         create = new Button(SessionConst.CREATE);
         create.addEventHandler(MouseEvent.MOUSE_CLICKED, (mouse) -> {
             log.debug("开始新建会话");
-            sessionAccountVo.setAddAccSet(accountSet);
+            sessionAccountVo.setAddUseIdSet(useIdSet);
         });
     }
 

@@ -17,6 +17,7 @@ import java.io.Serializable;
 @AllArgsConstructor
 public class AccountInfo implements Serializable, AccountSPI {
 
+    @NotNull(message = "userId could not be null ")
     private Long userId;  // 用户id
     @NotNull(message = "account  not null")
     private String account;  // 账户
@@ -28,8 +29,13 @@ public class AccountInfo implements Serializable, AccountSPI {
 
 
     @Override
-    public String accountId() {
+    public String account() {
         return getAccount();
+    }
+
+    @Override
+    public Long userId() {
+        return getUserId();
     }
 
     @Override

@@ -1,6 +1,5 @@
 package com.ifx.session.service.impl;
 
-import com.ifx.server.service.Server2ClientService;
 import com.ifx.session.service.IChatAction;
 import com.ifx.session.service.SessionAccountService;
 import com.ifx.session.vo.ChatMsgVo;
@@ -20,8 +19,7 @@ public class ChatAction implements IChatAction {
 
     @Autowired
     SessionAccountService sessionAccountService;
-//    @DubboReference
-    Server2ClientService server2ClientService;
+
 
 
     @Override

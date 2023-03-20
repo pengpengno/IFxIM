@@ -56,7 +56,7 @@ public class ReactiveAccountServiceImpl implements ReactiveAccountService {
 
     @Override
     public Mono<AccountInfo> login(AccountVo accountVo) {
-        return  accountRepository.findByAccount(accountVo.accountId())
+        return  accountRepository.findByAccount(accountVo.account())
                 .flatMap(acc -> {
                     if (ObjectUtil.isNull(acc)){
                         return Mono.error(new IllegalAccessException("用户名不存在！"));

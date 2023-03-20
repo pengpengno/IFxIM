@@ -15,8 +15,21 @@ public class BaseException extends RuntimeException{
 
     private IErrorMsg errorMsg;  // 异常接口
 
+    public String getDetailMsg() {
+        return detailMsg;
+    }
 
+    public void setDetailMsg(String detailMsg) {
+        this.detailMsg = detailMsg;
+    }
 
+    public IErrorMsg getErrorMsg() {
+        return errorMsg;
+    }
+
+    public void setErrorMsg(IErrorMsg errorMsg) {
+        this.errorMsg = errorMsg;
+    }
 
     public BaseException(IErrorMsg errorMsg){
         super(errorMsg.getErrorMessage());
