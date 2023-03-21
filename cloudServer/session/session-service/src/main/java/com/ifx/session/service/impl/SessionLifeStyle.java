@@ -1,5 +1,7 @@
 package com.ifx.session.service.impl;
 
+import cn.hutool.core.collection.CollectionUtil;
+import com.ifx.account.fegin.AccountApi;
 import com.ifx.common.base.AccountInfo;
 import com.ifx.common.utils.IdUtil;
 import com.ifx.common.utils.ValidatorUtil;
@@ -17,7 +19,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.r2dbc.core.R2dbcEntityTemplate;
 import org.springframework.stereotype.Service;
-import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
@@ -36,22 +37,36 @@ public class SessionLifeStyle implements ISessionLifeStyle {
     @Autowired
     private SessionRepository sessionRepository;
 
+
     @Autowired
-    private WebClient webClient;
+    private AccountApi accountApi;
 
     @Override
     public Mono<SessionInfoVo> init(String name) {
         return Mono.just(name)
                 .map(sessionName ->  {
-                    Session session = Session.builder()
-                            .sessionName(sessionName).build();
+                    Session session = new Session();
+
+                    session.setSessionName(sessionName);
                     session.setId(IdUtil.getId());
                     return session;
-                }).flatMap(l-> r2dbcEntityTemplate.insert(l).map(SessionMapper.INSTANCE::transform));
+                }).flatMap(l-> r2dbcEntityTemplate.insert(l).map(SessionMapper.INSTANCE::tyrmore));
     }
 
     private Mono<SessionInfoVo> selectSession(Long sessionId){
-        return sessionRepository.findById(sessionId).map(SessionMapper.INSTANCE::transform);
+        return sessionRepository.findById(sessionId).map(SessionMapper.INSTANCE::tyrmore);
+    }
+
+    private Mono<SessionInfoVo> selectSessionWithinCreator(Long sessionId){
+        return selectSession(sessionId).map(l-> {
+            Long userId = l.getCreateInfo().getUserId();
+            l.setCreateInfo(accountApi.getAccountInfo(userId));
+            return l;
+//            return accountApi.getAccountInfo(userId).map( k-> {
+//                l.setCreateInfo(k);
+//                return l;
+//            });
+        });
     }
 
 
@@ -86,9 +101,22 @@ public class SessionLifeStyle implements ISessionLifeStyle {
 
     @Override
     public Mono<SessionAccountVo> sessionAccountInfo(Long sessionId) {
-        return sessionAccountRepository.queryGroupBySessionId(sessionId).reduceWith(SessionAccountVo::new,(vo, sessionAccount)-> {
-            Mono<SessionInfoVo> sessionInfoVoMono = selectSession(sessionId);
-            return vo;
-        });
-    }
+        return sessionAccountRepository.queryGroupBySessionId(sessionId)
+                .reduceWith(()-> {
+                            SessionAccountVo vo = new SessionAccountVo();
+                            vo.setAddUseIdSet(CollectionUtil.newHashSet());
+                            vo.setSessionId(sessionId);
+                            return vo;
+                        },(vo, sessionAccount)-> {
+                            Long userId = sessionAccount.getUserId();
+                            vo.getAddUseIdSet().add(userId);
+                            return vo;
+                        }
+                    ).zipWith(selectSessionWithinCreator(sessionId),(w1,w2) -> {
+                        w1.setSessionName(w2.getSessionName());
+                        w1.setCreateInfo(w2.getCreateInfo());
+                        return w1;
+                });
+        }
+
 }

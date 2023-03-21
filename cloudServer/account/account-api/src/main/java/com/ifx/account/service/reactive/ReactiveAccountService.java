@@ -15,6 +15,8 @@ public interface ReactiveAccountService {
 
     Mono<AccountInfo> findByAccount(String account);
 
+    Mono<AccountInfo> findByUserId(Long userId);
+
 
     Mono<AccountInfo> login(AccountVo accountVo);
 

@@ -1,10 +1,8 @@
 package com.ifx.session.vo.session;
 
-import com.ifx.common.base.AccountInfo;
 import lombok.Data;
 
 import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
 import java.util.Set;
 
 /**
@@ -19,10 +17,6 @@ public class SessionAccountVo extends SessionInfoVo {
 
     @NotEmpty(message = "The specify account could not be empty!" , groups = {SessionAccountAdd.class})
     private Set<Long> addUseIdSet;
-
-    @NotNull(message = "创建会话的账户信息不可为空！", groups = {SessionAccountAdd.class})
-    private AccountInfo createInfo;   //创建账户信息
-
 
 
 

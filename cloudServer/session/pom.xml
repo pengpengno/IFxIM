@@ -23,34 +23,11 @@
 
     </dependencies>
     <build>
-        <finalName>${project.artifactId}</finalName>
-        <resources>
-            <resource>
-                <directory>src/main/resources</directory>
-                <includes>
-                    <include>application.yaml</include>
-                    <include>application.yaml</include>
-                    <include>**/*.xml</include>
-                    <include>conf/sqlMap/*.xml</include>
-                    <include>META-INF/**</include>
-                </includes>
-                <filtering>false</filtering>
-            </resource>
-        </resources>
-
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <version>${spring.starter.version}</version>
-                <configuration>
-                    <!--          <excludes>-->
-                    <!--            <exclude>-->
-                    <!--              <groupId>org.springframework.boot</groupId>-->
-                    <!--              <artifactId>spring-boot-configuration-processor</artifactId>-->
-                    <!--            </exclude>-->
-                    <!--          </excludes>-->
-                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -62,14 +39,14 @@
                     <target>${maven.compiler.target}</target>
                     <annotationProcessorPaths>
                         <path>
-                            <groupId>org.mapstruct</groupId>
-                            <artifactId>mapstruct-processor</artifactId>
-                            <version>${mapstruct.version}</version>
-                        </path>
-                        <path>
                             <groupId>org.projectlombok</groupId>
                             <artifactId>lombok</artifactId>
                             <version>${lombok.version}</version>
+                        </path>
+                        <path>
+                            <groupId>org.mapstruct</groupId>
+                            <artifactId>mapstruct-processor</artifactId>
+                            <version>${mapstruct.version}</version>
                         </path>
                         <path>
                             <groupId>org.projectlombok</groupId>

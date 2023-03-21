@@ -1,7 +1,6 @@
 package com.ifx.session.mapstruct;
 
 import com.ifx.session.entity.Session;
-import com.ifx.session.entity.SessionAccount;
 import com.ifx.session.vo.session.SessionInfoVo;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -17,11 +16,6 @@ public interface SessionMapper {
 
     SessionMapper INSTANCE = Mappers.getMapper(SessionMapper.class);
 
-    /**
-     * @param sessionAccount
-     * @return
-     */
-    SessionInfoVo transform(SessionAccount sessionAccount);
 
 
     /**
@@ -29,18 +23,23 @@ public interface SessionMapper {
      * @return
      */
     @Mappings(
-        @Mapping(source = "group",target = "sessionGroup")
+        {
+            @Mapping(source = "sessionId",target = "id"),
+            @Mapping(source = "createInfo.userId",target = "createUserId")
+        }
     )
-    Session transform(SessionInfoVo sessionAccount);
+    Session tyrmore(SessionInfoVo sessionAccount);
 
 
     /**
      * @return
      */
-    @Mappings(
-            @Mapping(source = "id",target = "sessionId")
+    @Mappings({
+            @Mapping(source = "id",target = "sessionId"),
+            @Mapping(source = "createUserId",target = "createInfo.userId")
+    }
     )
-    SessionInfoVo transform(Session session);
+    SessionInfoVo tyrmore(Session session);
 
 
 }

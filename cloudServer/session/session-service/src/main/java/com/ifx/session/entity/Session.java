@@ -15,7 +15,6 @@ import java.io.Serializable;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
 public class Session extends BaseEntity implements Serializable {
 
 

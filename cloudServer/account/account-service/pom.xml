@@ -27,6 +27,20 @@
             <groupId>com.ifx.account</groupId>
             <artifactId>account-api</artifactId>
             <version>${project.version}</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>spring-boot-autoconfigure</artifactId>
+                    <groupId>org.springframework.boot</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>spring-web</artifactId>
+                    <groupId>org.springframework</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>spring-aop</artifactId>
+                    <groupId>org.springframework</groupId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>io.projectreactor.netty</groupId>
@@ -132,7 +146,12 @@
             <groupId>io.jsonwebtoken</groupId>
             <artifactId>jjwt-jackson</artifactId>
         </dependency>
-
+        <!-- https://mvnrepository.com/artifact/org.springframework.cloud/spring-cloud-starter-openfeign -->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-openfeign</artifactId>
+            <version>${spring.cloud.starter.version}</version>
+        </dependency>
     </dependencies>
 
 
@@ -144,44 +163,7 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <version>${spring.starter.version}</version>
-                <configuration>
-                    <excludes>
-                        <exclude>
-                            <groupId>org.springframework.boot</groupId>
-                            <artifactId>spring-boot-configuration-processor</artifactId>
-                        </exclude>
-                    </excludes>
-                </configuration>
             </plugin>
-<!--            <plugin>-->
-<!--                <groupId>org.xolstice.maven.plugins</groupId>-->
-<!--                <artifactId>protobuf-maven-plugin</artifactId>-->
-<!--                <version>0.6.1</version>-->
-<!--                <configuration>-->
-<!--                    <protocArtifact>com.google.protobuf:protoc:${protoc.version}:exe:${os.detected.classifier}-->
-<!--                    </protocArtifact>-->
-<!--                    <pluginId>grpc-java</pluginId>-->
-<!--                    <pluginArtifact>io.grpc:protoc-gen-grpc-java:${grpc.version}:exe:${os.detected.classifier}-->
-<!--                    </pluginArtifact>-->
-<!--                    <protocPlugins>-->
-<!--                        <protocPlugin>-->
-<!--                            <id>dubbo</id>-->
-<!--                            <groupId>org.apache.dubbo</groupId>-->
-<!--                            <artifactId>dubbo-compiler</artifactId>-->
-<!--                            <version>${dubbo.version}</version>-->
-<!--&lt;!&ndash;                            <version>${dubbo.version}</version>&ndash;&gt;-->
-<!--                            <mainClass>org.apache.dubbo.gen.tri.reactive.ReactorDubbo3TripleGenerator</mainClass>-->
-<!--                        </protocPlugin>-->
-<!--                    </protocPlugins>-->
-<!--                </configuration>-->
-<!--                <executions>-->
-<!--                    <execution>-->
-<!--                        <goals>-->
-<!--                            <goal>compile</goal>-->
-<!--                        </goals>-->
-<!--                    </execution>-->
-<!--                </executions>-->
-<!--            </plugin>-->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>

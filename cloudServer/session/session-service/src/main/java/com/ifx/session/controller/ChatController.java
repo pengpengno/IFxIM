@@ -27,4 +27,7 @@ public class ChatController {
     public Mono<Boolean>  sendMsg(@RequestBody ChatMsgVo chatMsgVo){
         return null;
     }
+
+
+
 }

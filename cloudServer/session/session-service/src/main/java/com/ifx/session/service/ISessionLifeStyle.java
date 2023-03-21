@@ -19,7 +19,6 @@ public interface ISessionLifeStyle {
 
     Mono<SessionAccountVo>  sessionAccountInfo(Long sessionId);
 
-//    Mono<Long>  store()
 
 
 

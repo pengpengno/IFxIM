@@ -4,7 +4,7 @@ import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.ObjectUtil;
 import com.ifx.account.entity.Account;
 import com.ifx.account.mapstruct.AccountHelper;
-import com.ifx.account.repository.impl.AccountRepositoryImpl;
+import com.ifx.account.repository.AccountRepository;
 import com.ifx.account.service.reactive.ReactiveAccountService;
 import com.ifx.account.utils.PasswordUtils;
 import com.ifx.account.vo.AccountAuthenticateVo;
@@ -33,7 +33,7 @@ import java.util.function.Function;
 public class ReactiveAccountServiceImpl implements ReactiveAccountService {
 
     @Autowired
-    private AccountRepositoryImpl accountRepository ;
+    private AccountRepository accountRepository ;
 
     @Autowired
     private R2dbcEntityTemplate r2dbcEntityTemplate;
@@ -51,8 +51,10 @@ public class ReactiveAccountServiceImpl implements ReactiveAccountService {
                 ;
     }
 
-
-
+    @Override
+    public Mono<AccountInfo> findByUserId(Long userId) {
+        return accountRepository.findById(userId).map(AccountHelper.INSTANCE::buildAccountInfo);
+    }
 
     @Override
     public Mono<AccountInfo> login(AccountVo accountVo) {

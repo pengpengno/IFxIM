@@ -7,14 +7,11 @@ import com.ifx.session.vo.session.SessionInfoVo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-@RestController("account")
+@RestController
 @RequestMapping(SessionRoute.SESSION_ROUTE)
 @Slf4j
 @Validated
@@ -30,7 +27,7 @@ public class SessionController {
 
 
 
-    @GetMapping(SessionRoute.SESSION)
+    @PostMapping(SessionRoute.SESSION)
     public Flux<Long> addAccount(@RequestBody SessionAccountVo sessionAccountVo){
         return sessionLifeStyle.addAccount(sessionAccountVo);
     }

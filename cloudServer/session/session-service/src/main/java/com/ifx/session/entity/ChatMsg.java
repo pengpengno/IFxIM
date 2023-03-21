@@ -2,6 +2,7 @@ package com.ifx.session.entity;
 
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import org.springframework.data.relational.core.mapping.Column;
 import org.springframework.data.relational.core.mapping.Table;
 
@@ -11,6 +12,7 @@ import java.io.Serializable;
  * 消息表
  * @TableName chat_msg
  */
+@EqualsAndHashCode(callSuper = true)
 @Table("chat_msg")
 @Data
 public class ChatMsg extends BaseEntity implements Serializable {

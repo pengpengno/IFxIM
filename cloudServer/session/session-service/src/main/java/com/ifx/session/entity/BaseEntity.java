@@ -19,7 +19,6 @@ import java.time.LocalDateTime;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
 public class BaseEntity implements Serializable {
     @Id
     private Long id;

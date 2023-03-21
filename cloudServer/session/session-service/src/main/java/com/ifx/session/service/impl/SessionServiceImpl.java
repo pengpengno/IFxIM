@@ -38,12 +38,12 @@ public class SessionServiceImpl implements SessionService {
     @Override
     public Mono<Long> post2Session(SessionInfoVo sessionInfoVo) {
         return Mono.just(sessionInfoVo)
-            .map(SessionMapper.INSTANCE::transform)
+            .map(SessionMapper.INSTANCE::tyrmore)
                 .flatMap(session ->{
-                    Supplier<Long> id = session.getSessionId()==null? () -> {
+                    Supplier<Long> id = session.getId()==null? () -> {
                         session.setId(IdUtil.getSnowflakeNextId());
                         r2dbcEntityTemplate.insert(session);
-                        return session.getSessionId();
+                        return session.getId();
                     } : ()-> {
                         r2dbcEntityTemplate.update(session);
                         return session.getId();

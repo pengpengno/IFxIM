@@ -18,10 +18,8 @@ public class SessionInfoVo implements Serializable {
 
     private String sessionName ; // 会话名称
 
-
     private AccountInfo createInfo;
 
-    private String sessionType;
 
 
 }

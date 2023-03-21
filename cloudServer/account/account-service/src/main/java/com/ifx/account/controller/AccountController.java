@@ -34,9 +34,13 @@ public class AccountController {
     @GetMapping(path = "/{account}")
     @ResponseStatus(code = HttpStatus.OK)
     public Mono<AccountInfo> getAccountInfo(@PathVariable("account") String account){
-        log.info("传入的 账户 {}",account);
-//        EntityModel.of(accountService.findByAccount(account), Link.of())
         return accountService.findByAccount(account);
+    }
+
+    @GetMapping(path = "/accountInfo")
+    @ResponseStatus(code = HttpStatus.OK)
+    public Mono<AccountInfo> getAccountInfo(@RequestParam("userId") Long userId){
+        return accountService.findByUserId(userId);
     }
 
 
