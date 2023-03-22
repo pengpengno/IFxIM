@@ -14,10 +14,6 @@
 
     </properties>
     <dependencies>
-<!--        <dependency>-->
-<!--            <groupId>io.micrometer</groupId>-->
-<!--            <artifactId>micrometer-registry-prometheus</artifactId>-->
-<!--        </dependency>-->
         <dependency>
             <groupId>io.projectreactor.netty</groupId>
             <artifactId>reactor-netty-core</artifactId>

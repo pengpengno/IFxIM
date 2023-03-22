@@ -50,6 +50,7 @@
     <mybatis-plus.starter.version>3.4.0</mybatis-plus.starter.version>
     <mysql.connector.version>8.0.28</mysql.connector.version>
     <reactor.bom.version>2022.0.1</reactor.bom.version>
+    <amqp.client.version>5.17.0</amqp.client.version>
     <rxJava.version>3.1.5</rxJava.version>
     <micrometer.version>1.10.2</micrometer.version>
     <javax.el.version>3.0.0</javax.el.version>
@@ -272,7 +273,7 @@
       </dependency>
       <dependency>
         <groupId>org.springframework.cloud</groupId>
-        <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+        <artifactId>spring-cloud-starter-stream-rabbit</artifactId>
         <version>${spring.cloud.starter.version}</version>
       </dependency>
       <dependency>
@@ -290,12 +291,6 @@
             <artifactId>zookeeper</artifactId>
           </exclusion>
         </exclusions>
-      </dependency>
-      <!-- https://mvnrepository.com/artifact/org.springframework.cloud/spring-cloud-starter-openfeign -->
-      <dependency>
-        <groupId>org.springframework.cloud</groupId>
-        <artifactId>spring-cloud-starter-openfeign</artifactId>
-        <version>${spring.cloud.starter.version}</version>
       </dependency>
       <dependency>
         <groupId>org.springframework.cloud</groupId>
@@ -364,6 +359,11 @@
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-data-neo4j</artifactId>
         <version>${spring.starter.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.rabbitmq</groupId>
+        <artifactId>amqp-client</artifactId>
+        <version>${amqp.client.version}</version>
       </dependency>
       <dependency>
         <groupId>dev.miku</groupId>
@@ -462,6 +462,7 @@
       <dependency>
         <groupId>org.springframework.cloud</groupId>
         <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+        <version>${spring.cloud.starter.version}</version>
       </dependency>
       <!-- https://mvnrepository.com/artifact/org.springframework.cloud/spring-cloud-starter-openfeign -->
       <dependency>

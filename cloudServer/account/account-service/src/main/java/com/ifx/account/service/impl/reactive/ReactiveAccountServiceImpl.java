@@ -15,7 +15,6 @@ import io.jsonwebtoken.security.SignatureException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.r2dbc.core.R2dbcEntityTemplate;
-import org.springframework.r2dbc.core.DatabaseClient;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import reactor.core.publisher.Mono;
@@ -37,10 +36,6 @@ public class ReactiveAccountServiceImpl implements ReactiveAccountService {
 
     @Autowired
     private R2dbcEntityTemplate r2dbcEntityTemplate;
-
-    @Autowired
-    private DatabaseClient databaseClient;
-
 
 
 

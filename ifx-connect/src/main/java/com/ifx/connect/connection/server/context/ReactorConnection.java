@@ -1,6 +1,7 @@
 package com.ifx.connect.connection.server.context;
 
 
+import com.ifx.connect.connection.ConnectionConstants;
 import com.ifx.connect.enums.ConnectionStatus;
 import com.ifx.connect.proto.Account;
 import io.netty.channel.Channel;
@@ -42,6 +43,11 @@ public class ReactorConnection implements IConnection{
 
     @Override
     public Account.AccountInfo accountInfo() {
+        if (accountInfo != null){
+            return accountInfo;
+        }else {
+            accountInfo = channel.attr(ConnectionConstants.BING_ACCOUNT_KEY).get();
+        }
         return accountInfo;
     }
 
@@ -51,6 +57,11 @@ public class ReactorConnection implements IConnection{
             return ConnectionStatus.ACTIVE;
         }
         return ConnectionStatus.OFFLINE;
+    }
+
+    @Override
+    public Boolean online() {
+         return status() == ConnectionStatus.ACTIVE;
     }
 
     @Override

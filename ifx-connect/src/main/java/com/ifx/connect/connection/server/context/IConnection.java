@@ -26,6 +26,8 @@ public interface IConnection {
 
     public ConnectionStatus status();
 
+    public Boolean online();
+
     public void close();
 
 

@@ -5,13 +5,9 @@ import com.github.benmanes.caffeine.cache.Caffeine;
 import com.ifx.common.utils.ValidatorUtil;
 import com.ifx.connect.connection.ConnectionConstants;
 import com.ifx.connect.proto.Account;
-import com.ifx.exec.errorMsg.connect.ConnectErrorMsg;
 import com.ifx.exec.ex.connect.ConnectException;
 import lombok.extern.slf4j.Slf4j;
-import reactor.core.publisher.Mono;
 import reactor.netty.Connection;
-
-import java.util.Objects;
 
 /**
  * connection 容器
@@ -44,10 +40,12 @@ public class IConnectContext implements IConnectContextAction {
 
     @Override
     public IConnection applyConnection(String account) throws ConnectException {
-        return Mono.just(Objects.requireNonNull(connectionCache.getIfPresent(account)))
-                .onErrorResume((throwable) -> throwable instanceof NullPointerException,
-                        (throwable -> Mono.error(()-> new ConnectException(ConnectErrorMsg.NOT_FOUND_CONNECTION))))
-                .block();
+        return connectionCache.getIfPresent(account);
+//        return Mono.just(Objects.requireNonNull(connectionCache.getIfPresent(account)))
+//                .onErrorResume((throwable -> Mono.empty()))
+//                .onErrorResume((throwable) -> throwable instanceof NullPointerException,
+//                (throwable -> Mono.error(()-> new ConnectException(ConnectErrorMsg.NOT_FOUND_CONNECTION))))
+//                .block();
     }
 
 

@@ -21,7 +21,7 @@ import reactor.core.publisher.Mono;
  * @description
  * @date 2023/2/10
  */
-@RestController("account")
+@RestController
 @RequestMapping(AccRoute.ACCOUNT_ROUTE)
 @Slf4j
 @Validated

@@ -17,7 +17,7 @@ public interface IConnectContextAction {
     /***
      * 获取指定 account 对应的connection
      * @param account
-     * @return  返回指定账户的 connection
+     * @return  返回指定账户的 connection 如果不存在则返回空
      * @throws  ConnectException 异常抛出指定IErrorMsg {@link com.ifx.exec.errorMsg.connect.ConnectErrorMsg#NOT_FOUND_CONNECTION}
      */
     public IConnection applyConnection(String account) throws ConnectException;
@@ -26,13 +26,13 @@ public interface IConnectContextAction {
 
     public IConnection putConnection(IConnection connection);
 
-
     /***
      * 关闭指定账户的连接
      * @param account
      * @return
      */
     public Boolean closeAndRmConnection(String account) throws ConnectException;
+
 
     public void close(Connection connection);
 

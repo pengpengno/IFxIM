@@ -26,27 +26,26 @@ public class ReactorRabbit {
     private static  String virtualHost  = "reactormq";
 
     @Test
-    public void send(){
+    public void send() throws InterruptedException {
         SenderOptions senderOptions = new SenderOptions()
                 .connectionFactory(createFactory())
                 .resourceManagementScheduler(Schedulers.boundedElastic());
         Sender sender = RabbitFlux.createSender(senderOptions);
         Flux<OutboundMessage> map = Flux.range(0, 10)
                 .map(i -> new OutboundMessage("reactive.rabbit", "chat.message", ("sent tot you " + i).getBytes()));
-//        sender.send(map)
-//                .doOnError(e-> log.info(e.getMessage()))
-//                .subscribe();
         Mono<AMQP.Exchange.DeclareOk> exchange = sender.declareExchange(ExchangeSpecification.exchange("reactive.ifx"));
         exchange.subscribe();
         Mono<AMQP.Queue.DeclareOk> queue = sender.declareQueue(QueueSpecification.queue("receive.message"));
         queue.subscribe();
-//        Mono<AMQP.Queue.BindOk> bind = sender.bind(BindingSpecification.binding().queueBinding("reactive.rabbit", "chat.message", "receive.queue"));
-        Mono<AMQP.Queue.BindOk> bind = sender.bind(BindingSpecification.binding().queueBinding("reactive.ifx", "chat.message", "receive.message"));
+        Mono<AMQP.Queue.BindOk> bind = sender.bind(BindingSpecification.binding().queueBinding("reactive.rabbit", "chat.message", "receive.message"));
         bind.subscribe();
+//        sender.send(map).subscribe();
+//        Thread.sleep(60000);
         StepVerifier.create(sender.send(map)
                 .doOnError(e-> log.info(e.getMessage())))
                 .verifyComplete();
     }
+
 
 
     @Test
@@ -55,7 +54,7 @@ public class ReactorRabbit {
                 .connectionFactory(createFactory())
                 .connectionSubscriptionScheduler(Schedulers.boundedElastic());
         Receiver receiver = RabbitFlux.createReceiver(receiverOptions);
-        Flux<AcknowledgableDelivery> deliveryFlux = receiver.consumeManualAck("receive.queue");
+        Flux<AcknowledgableDelivery> deliveryFlux = receiver.consumeManualAck("receive.message");
         Flux<AcknowledgableDelivery> acknowledgableDeliveryFlux = deliveryFlux.doOnNext(ack -> {
             String s = new String(ack.getBody());
             log.info("the receive message is {}", s);
@@ -65,7 +64,7 @@ public class ReactorRabbit {
         Thread.sleep(60000);
 
     }
-    public ConnectionFactory createFactory(){
+    public static ConnectionFactory createFactory(){
         ConnectionFactory connectionFactory = new ConnectionFactory();
         connectionFactory.setHost(host);
         connectionFactory.setPort(port);

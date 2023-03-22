@@ -1,0 +1,13 @@
+syntax = "proto3";
+
+package com.ifx.connect.proto;
+option java_package = "com.ifx.connect.proto";
+option java_outer_classname = "OnLineUser";
+import "Auth.proto";
+
+
+message UserSearch{
+
+  repeated AccountInfo accounts = 1;
+
+}

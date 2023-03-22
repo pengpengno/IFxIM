@@ -31,7 +31,8 @@ public class BaseEntity implements Serializable {
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime update_time;
 
-
+    @Column("create_user_id")
+    private Long createUserId;
 
     /**
      * 删除标志

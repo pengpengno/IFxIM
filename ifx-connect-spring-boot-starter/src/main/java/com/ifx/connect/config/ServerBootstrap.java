@@ -2,8 +2,11 @@ package com.ifx.connect.config;
 
 import com.ifx.connect.connection.server.ReactiveServer;
 import com.ifx.connect.connection.server.ServerToolkit;
+import com.ifx.connect.connection.server.context.ConnectionContextUtil;
+import com.ifx.connect.connection.server.context.IConnectContextAction;
 import com.ifx.connect.connection.server.tcp.ReactorTcpServer;
 import com.ifx.connect.properties.ServerNettyConfigProperties;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -32,13 +35,19 @@ public class ServerBootstrap {
     }
 
 
-//    @Bean
-//    @ConditionalOnBean(value = {ReactiveServer.class, ReactorTcpServer.class ,ServerNettyConfigProperties.class})
-//    public ReactiveServer startServer(@Autowired ServerNettyConfigProperties properties,@Autowired ReactiveServer reactiveServer){
-//        Integer port = properties.getPort();
-//        InetSocketAddress address = new InetSocketAddress(port);
-//        reactiveServer.start(address);
-//        reactiveServer.start();
-//        return reactiveServer;
-//    }
+
+    @Bean
+    @ConditionalOnMissingBean(IConnectContextAction.class)
+    public IConnectContextAction applyIConnectContextAction(){
+        return ServerToolkit.contextAction();
+    }
+
+    @Bean
+    @ConditionalOnBean(IConnectContextAction.class)
+    @ConditionalOnMissingBean(ConnectionContextUtil.class)
+    public ConnectionContextUtil applyConnectionContextUtil(){
+        return ConnectionContextUtil.getInstance();
+    }
+
+
 }
