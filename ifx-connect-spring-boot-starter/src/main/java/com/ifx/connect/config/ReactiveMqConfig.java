@@ -26,19 +26,7 @@ import reactor.rabbitmq.*;
 public class ReactiveMqConfig {
 
 
-    @Bean
-    @ConditionalOnMissingBean(ConnectionFactory.class)
-    @ConditionalOnProperty(prefix = "spring.rabbitmq",name = {"host","port","username","password","virtualHost"})
-    ConnectionFactory connectionFactory(RabbitProperties rabbitProperties) {
-        ConnectionFactory connectionFactory = new ConnectionFactory();
-        connectionFactory.setHost(rabbitProperties.getHost());
-        connectionFactory.setPort(rabbitProperties.getPort());
-        connectionFactory.setUsername(rabbitProperties.getUsername());
-        connectionFactory.setPassword(rabbitProperties.getPassword());
-        connectionFactory.setVirtualHost(rabbitProperties.getVirtualHost());
-        connectionFactory.useNio();
-        return connectionFactory;
-    }
+
 
     @Bean
     @ConditionalOnBean(ConnectionFactory.class)

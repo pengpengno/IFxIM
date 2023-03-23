@@ -4,6 +4,11 @@ import com.google.protobuf.InvalidProtocolBufferException;
 import com.ifx.connect.connection.server.context.ConnectionContextUtil;
 import com.ifx.connect.connection.server.context.IConnectContextAction;
 import com.ifx.connect.proto.OnLineUser;
+import org.springframework.amqp.core.ExchangeTypes;
+import org.springframework.amqp.rabbit.annotation.Exchange;
+import org.springframework.amqp.rabbit.annotation.Queue;
+import org.springframework.amqp.rabbit.annotation.QueueBinding;
+import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -47,10 +52,13 @@ public class OnlineUserMq {
     @Autowired
     private ConnectionContextUtil contextUtil;
 
+
+
     /***
      * 接受在线状态搜索
      */
     public void receiveOnlineSearch(){
+
         Flux<AcknowledgableDelivery> onLineUser = receiver.consumeManualAck(onlineMqQueue);
         onLineUser.map(delivery -> {
             byte[] body = delivery.getBody();
@@ -62,14 +70,17 @@ public class OnlineUserMq {
                 throw new IllegalArgumentException(e);
             }
         }).onErrorResume(throwable -> Mono.empty())
-        .map(userSearch ->  {
-            return contextUtil.filterOnlineByUserSearch(userSearch);
-        })
-        .doOnNext(userSearch -> sender.send(Mono.just(new OutboundMessage(onlineUserExchange,onlineUserRouteKey,userSearch.toByteArray()))));
+        .map(userSearch -> contextUtil.filterOnlineByUserSearch(userSearch))
+        .map(userSearch -> sender.send(Mono.just(new OutboundMessage(onlineUserExchange,onlineUserRouteKey,userSearch.toByteArray())))).subscribe();
     }
 
+    @RabbitListener(queues = {"${online.user.search.queue:online.user.search}"},
+            bindings = {@QueueBinding(
+                value = @Queue(value = "${online.user.search.queue:online.user.search}"),
+                key = "${online.user.routeKey}",
+                exchange = @Exchange(name = "${online.user.exchange:online.user.exchange}",type = ExchangeTypes.DIRECT))})
+    public void sendOnlineMessage(byte[] data){
 
-    public void sendOnlineMessage(){
 
     }
 }

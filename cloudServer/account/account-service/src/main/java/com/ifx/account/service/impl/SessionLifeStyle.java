@@ -16,6 +16,8 @@ import com.ifx.common.utils.IdUtil;
 import com.ifx.common.utils.ValidatorUtil;
 import com.ifx.exec.ex.valid.ValidationException;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.amqp.core.Message;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.r2dbc.core.R2dbcEntityTemplate;
 import org.springframework.stereotype.Service;
@@ -40,6 +42,8 @@ public class SessionLifeStyle implements ISessionLifeStyle {
     @Autowired
     private ReactiveAccountService accountService;
 
+    @Autowired
+    private RabbitTemplate rabbitTemplate;
     @Override
     public Mono<SessionInfoVo> init(String name) {
         return Mono.just(name)
@@ -106,6 +110,9 @@ public class SessionLifeStyle implements ISessionLifeStyle {
 
     @Override
     public Mono<SessionAccountVo> sessionAccountInfo(Long sessionId) {
+        Message message = new Message();
+        rabbitTemplate.sendAndReceive(Message)
+
         return sessionAccountRepository.queryGroupBySessionId(sessionId)
                 .reduceWith(()-> {
                             SessionAccountVo vo = new SessionAccountVo();
@@ -122,6 +129,7 @@ public class SessionLifeStyle implements ISessionLifeStyle {
                         w1.setCreateInfo(w2.getCreateInfo());
                         return w1;
                 });
+
         }
 
 
