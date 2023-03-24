@@ -68,6 +68,67 @@ public final class Account {
       return new Authenticate();
     }
 
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return this.unknownFields;
+    }
+    private Authenticate(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            case 10: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              jwt_ = s;
+              break;
+            }
+            case 18: {
+              com.ifx.connect.proto.Account.AccountInfo.Builder subBuilder = null;
+              if (accountInfo_ != null) {
+                subBuilder = accountInfo_.toBuilder();
+              }
+              accountInfo_ = input.readMessage(com.ifx.connect.proto.Account.AccountInfo.parser(), extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(accountInfo_);
+                accountInfo_ = subBuilder.buildPartial();
+              }
+
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
       return com.ifx.connect.proto.Account.internal_static_com_ifx_connect_proto_Authenticate_descriptor;
@@ -82,8 +143,7 @@ public final class Account {
     }
 
     public static final int JWT_FIELD_NUMBER = 1;
-    @SuppressWarnings("serial")
-    private volatile java.lang.Object jwt_ = "";
+    private volatile java.lang.Object jwt_;
     /**
      * <code>string jwt = 1;</code>
      * @return The jwt.
@@ -143,7 +203,7 @@ public final class Account {
      */
     @java.lang.Override
     public com.ifx.connect.proto.Account.AccountInfoOrBuilder getAccountInfoOrBuilder() {
-      return accountInfo_ == null ? com.ifx.connect.proto.Account.AccountInfo.getDefaultInstance() : accountInfo_;
+      return getAccountInfo();
     }
 
     private byte memoizedIsInitialized = -1;
@@ -160,13 +220,13 @@ public final class Account {
     @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
-      if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(jwt_)) {
+      if (!getJwtBytes().isEmpty()) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 1, jwt_);
       }
       if (accountInfo_ != null) {
         output.writeMessage(2, getAccountInfo());
       }
-      getUnknownFields().writeTo(output);
+      unknownFields.writeTo(output);
     }
 
     @java.lang.Override
@@ -175,14 +235,14 @@ public final class Account {
       if (size != -1) return size;
 
       size = 0;
-      if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(jwt_)) {
+      if (!getJwtBytes().isEmpty()) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, jwt_);
       }
       if (accountInfo_ != null) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(2, getAccountInfo());
       }
-      size += getUnknownFields().getSerializedSize();
+      size += unknownFields.getSerializedSize();
       memoizedSize = size;
       return size;
     }
@@ -204,7 +264,7 @@ public final class Account {
         if (!getAccountInfo()
             .equals(other.getAccountInfo())) return false;
       }
-      if (!getUnknownFields().equals(other.getUnknownFields())) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
       return true;
     }
 
@@ -221,7 +281,7 @@ public final class Account {
         hash = (37 * hash) + ACCOUNTINFO_FIELD_NUMBER;
         hash = (53 * hash) + getAccountInfo().hashCode();
       }
-      hash = (29 * hash) + getUnknownFields().hashCode();
+      hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
     }
@@ -338,22 +398,28 @@ public final class Account {
 
       // Construct using com.ifx.connect.proto.Account.Authenticate.newBuilder()
       private Builder() {
-
+        maybeForceBuilderInitialization();
       }
 
       private Builder(
           com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
         super(parent);
-
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+        }
       }
       @java.lang.Override
       public Builder clear() {
         super.clear();
-        bitField0_ = 0;
         jwt_ = "";
-        accountInfo_ = null;
-        if (accountInfoBuilder_ != null) {
-          accountInfoBuilder_.dispose();
+
+        if (accountInfoBuilder_ == null) {
+          accountInfo_ = null;
+        } else {
+          accountInfo_ = null;
           accountInfoBuilder_ = null;
         }
         return this;
@@ -382,23 +448,48 @@ public final class Account {
       @java.lang.Override
       public com.ifx.connect.proto.Account.Authenticate buildPartial() {
         com.ifx.connect.proto.Account.Authenticate result = new com.ifx.connect.proto.Account.Authenticate(this);
-        if (bitField0_ != 0) { buildPartial0(result); }
+        result.jwt_ = jwt_;
+        if (accountInfoBuilder_ == null) {
+          result.accountInfo_ = accountInfo_;
+        } else {
+          result.accountInfo_ = accountInfoBuilder_.build();
+        }
         onBuilt();
         return result;
       }
 
-      private void buildPartial0(com.ifx.connect.proto.Account.Authenticate result) {
-        int from_bitField0_ = bitField0_;
-        if (((from_bitField0_ & 0x00000001) != 0)) {
-          result.jwt_ = jwt_;
-        }
-        if (((from_bitField0_ & 0x00000002) != 0)) {
-          result.accountInfo_ = accountInfoBuilder_ == null
-              ? accountInfo_
-              : accountInfoBuilder_.build();
-        }
+      @java.lang.Override
+      public Builder clone() {
+        return super.clone();
       }
-
+      @java.lang.Override
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return super.setField(field, value);
+      }
+      @java.lang.Override
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return super.clearField(field);
+      }
+      @java.lang.Override
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return super.clearOneof(oneof);
+      }
+      @java.lang.Override
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, java.lang.Object value) {
+        return super.setRepeatedField(field, index, value);
+      }
+      @java.lang.Override
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return super.addRepeatedField(field, value);
+      }
       @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof com.ifx.connect.proto.Account.Authenticate) {
@@ -413,13 +504,12 @@ public final class Account {
         if (other == com.ifx.connect.proto.Account.Authenticate.getDefaultInstance()) return this;
         if (!other.getJwt().isEmpty()) {
           jwt_ = other.jwt_;
-          bitField0_ |= 0x00000001;
           onChanged();
         }
         if (other.hasAccountInfo()) {
           mergeAccountInfo(other.getAccountInfo());
         }
-        this.mergeUnknownFields(other.getUnknownFields());
+        this.mergeUnknownFields(other.unknownFields);
         onChanged();
         return this;
       }
@@ -434,45 +524,19 @@ public final class Account {
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws java.io.IOException {
-        if (extensionRegistry == null) {
-          throw new java.lang.NullPointerException();
-        }
+        com.ifx.connect.proto.Account.Authenticate parsedMessage = null;
         try {
-          boolean done = false;
-          while (!done) {
-            int tag = input.readTag();
-            switch (tag) {
-              case 0:
-                done = true;
-                break;
-              case 10: {
-                jwt_ = input.readStringRequireUtf8();
-                bitField0_ |= 0x00000001;
-                break;
-              } // case 10
-              case 18: {
-                input.readMessage(
-                    getAccountInfoFieldBuilder().getBuilder(),
-                    extensionRegistry);
-                bitField0_ |= 0x00000002;
-                break;
-              } // case 18
-              default: {
-                if (!super.parseUnknownField(input, extensionRegistry, tag)) {
-                  done = true; // was an endgroup tag
-                }
-                break;
-              } // default:
-            } // switch (tag)
-          } // while (!done)
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (com.ifx.connect.proto.Account.Authenticate) e.getUnfinishedMessage();
           throw e.unwrapIOException();
         } finally {
-          onChanged();
-        } // finally
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
         return this;
       }
-      private int bitField0_;
 
       private java.lang.Object jwt_ = "";
       /**
@@ -515,9 +579,11 @@ public final class Account {
        */
       public Builder setJwt(
           java.lang.String value) {
-        if (value == null) { throw new NullPointerException(); }
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
         jwt_ = value;
-        bitField0_ |= 0x00000001;
         onChanged();
         return this;
       }
@@ -526,8 +592,8 @@ public final class Account {
        * @return This builder for chaining.
        */
       public Builder clearJwt() {
+        
         jwt_ = getDefaultInstance().getJwt();
-        bitField0_ = (bitField0_ & ~0x00000001);
         onChanged();
         return this;
       }
@@ -538,10 +604,12 @@ public final class Account {
        */
       public Builder setJwtBytes(
           com.google.protobuf.ByteString value) {
-        if (value == null) { throw new NullPointerException(); }
-        checkByteStringIsUtf8(value);
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
         jwt_ = value;
-        bitField0_ |= 0x00000001;
         onChanged();
         return this;
       }
@@ -554,7 +622,7 @@ public final class Account {
        * @return Whether the accountInfo field is set.
        */
       public boolean hasAccountInfo() {
-        return ((bitField0_ & 0x00000002) != 0);
+        return accountInfoBuilder_ != null || accountInfo_ != null;
       }
       /**
        * <code>.com.ifx.connect.proto.AccountInfo accountInfo = 2;</code>
@@ -576,11 +644,11 @@ public final class Account {
             throw new NullPointerException();
           }
           accountInfo_ = value;
+          onChanged();
         } else {
           accountInfoBuilder_.setMessage(value);
         }
-        bitField0_ |= 0x00000002;
-        onChanged();
+
         return this;
       }
       /**
@@ -590,11 +658,11 @@ public final class Account {
           com.ifx.connect.proto.Account.AccountInfo.Builder builderForValue) {
         if (accountInfoBuilder_ == null) {
           accountInfo_ = builderForValue.build();
+          onChanged();
         } else {
           accountInfoBuilder_.setMessage(builderForValue.build());
         }
-        bitField0_ |= 0x00000002;
-        onChanged();
+
         return this;
       }
       /**
@@ -602,38 +670,38 @@ public final class Account {
        */
       public Builder mergeAccountInfo(com.ifx.connect.proto.Account.AccountInfo value) {
         if (accountInfoBuilder_ == null) {
-          if (((bitField0_ & 0x00000002) != 0) &&
-            accountInfo_ != null &&
-            accountInfo_ != com.ifx.connect.proto.Account.AccountInfo.getDefaultInstance()) {
-            getAccountInfoBuilder().mergeFrom(value);
+          if (accountInfo_ != null) {
+            accountInfo_ =
+              com.ifx.connect.proto.Account.AccountInfo.newBuilder(accountInfo_).mergeFrom(value).buildPartial();
           } else {
             accountInfo_ = value;
           }
+          onChanged();
         } else {
           accountInfoBuilder_.mergeFrom(value);
         }
-        bitField0_ |= 0x00000002;
-        onChanged();
+
         return this;
       }
       /**
        * <code>.com.ifx.connect.proto.AccountInfo accountInfo = 2;</code>
        */
       public Builder clearAccountInfo() {
-        bitField0_ = (bitField0_ & ~0x00000002);
-        accountInfo_ = null;
-        if (accountInfoBuilder_ != null) {
-          accountInfoBuilder_.dispose();
+        if (accountInfoBuilder_ == null) {
+          accountInfo_ = null;
+          onChanged();
+        } else {
+          accountInfo_ = null;
           accountInfoBuilder_ = null;
         }
-        onChanged();
+
         return this;
       }
       /**
        * <code>.com.ifx.connect.proto.AccountInfo accountInfo = 2;</code>
        */
       public com.ifx.connect.proto.Account.AccountInfo.Builder getAccountInfoBuilder() {
-        bitField0_ |= 0x00000002;
+        
         onChanged();
         return getAccountInfoFieldBuilder().getBuilder();
       }
@@ -697,18 +765,7 @@ public final class Account {
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-        Builder builder = newBuilder();
-        try {
-          builder.mergeFrom(input, extensionRegistry);
-        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          throw e.setUnfinishedMessage(builder.buildPartial());
-        } catch (com.google.protobuf.UninitializedMessageException e) {
-          throw e.asInvalidProtocolBufferException().setUnfinishedMessage(builder.buildPartial());
-        } catch (java.io.IOException e) {
-          throw new com.google.protobuf.InvalidProtocolBufferException(e)
-              .setUnfinishedMessage(builder.buildPartial());
-        }
-        return builder.buildPartial();
+        return new Authenticate(input, extensionRegistry);
       }
     };
 
@@ -757,16 +814,10 @@ public final class Account {
         getAccountNameBytes();
 
     /**
-     * <code>string userId = 3;</code>
+     * <code>int64 userId = 3;</code>
      * @return The userId.
      */
-    java.lang.String getUserId();
-    /**
-     * <code>string userId = 3;</code>
-     * @return The bytes for userId.
-     */
-    com.google.protobuf.ByteString
-        getUserIdBytes();
+    long getUserId();
 
     /**
      * <code>string eMail = 4;</code>
@@ -795,7 +846,6 @@ public final class Account {
     private AccountInfo() {
       account_ = "";
       accountName_ = "";
-      userId_ = "";
       eMail_ = "";
     }
 
@@ -806,6 +856,71 @@ public final class Account {
       return new AccountInfo();
     }
 
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return this.unknownFields;
+    }
+    private AccountInfo(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            case 10: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              account_ = s;
+              break;
+            }
+            case 18: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              accountName_ = s;
+              break;
+            }
+            case 24: {
+
+              userId_ = input.readInt64();
+              break;
+            }
+            case 34: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              eMail_ = s;
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
       return com.ifx.connect.proto.Account.internal_static_com_ifx_connect_proto_AccountInfo_descriptor;
@@ -820,8 +935,7 @@ public final class Account {
     }
 
     public static final int ACCOUNT_FIELD_NUMBER = 1;
-    @SuppressWarnings("serial")
-    private volatile java.lang.Object account_ = "";
+    private volatile java.lang.Object account_;
     /**
      * <code>string account = 1;</code>
      * @return The account.
@@ -859,8 +973,7 @@ public final class Account {
     }
 
     public static final int ACCOUNTNAME_FIELD_NUMBER = 2;
-    @SuppressWarnings("serial")
-    private volatile java.lang.Object accountName_ = "";
+    private volatile java.lang.Object accountName_;
     /**
      * <code>string accountName = 2;</code>
      * @return The accountName.
@@ -898,47 +1011,18 @@ public final class Account {
     }
 
     public static final int USERID_FIELD_NUMBER = 3;
-    @SuppressWarnings("serial")
-    private volatile java.lang.Object userId_ = "";
+    private long userId_;
     /**
-     * <code>string userId = 3;</code>
+     * <code>int64 userId = 3;</code>
      * @return The userId.
      */
     @java.lang.Override
-    public java.lang.String getUserId() {
-      java.lang.Object ref = userId_;
-      if (ref instanceof java.lang.String) {
-        return (java.lang.String) ref;
-      } else {
-        com.google.protobuf.ByteString bs = 
-            (com.google.protobuf.ByteString) ref;
-        java.lang.String s = bs.toStringUtf8();
-        userId_ = s;
-        return s;
-      }
-    }
-    /**
-     * <code>string userId = 3;</code>
-     * @return The bytes for userId.
-     */
-    @java.lang.Override
-    public com.google.protobuf.ByteString
-        getUserIdBytes() {
-      java.lang.Object ref = userId_;
-      if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b = 
-            com.google.protobuf.ByteString.copyFromUtf8(
-                (java.lang.String) ref);
-        userId_ = b;
-        return b;
-      } else {
-        return (com.google.protobuf.ByteString) ref;
-      }
+    public long getUserId() {
+      return userId_;
     }
 
     public static final int EMAIL_FIELD_NUMBER = 4;
-    @SuppressWarnings("serial")
-    private volatile java.lang.Object eMail_ = "";
+    private volatile java.lang.Object eMail_;
     /**
      * <code>string eMail = 4;</code>
      * @return The eMail.
@@ -989,19 +1073,19 @@ public final class Account {
     @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
-      if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(account_)) {
+      if (!getAccountBytes().isEmpty()) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 1, account_);
       }
-      if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(accountName_)) {
+      if (!getAccountNameBytes().isEmpty()) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 2, accountName_);
       }
-      if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(userId_)) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 3, userId_);
+      if (userId_ != 0L) {
+        output.writeInt64(3, userId_);
       }
-      if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(eMail_)) {
+      if (!getEMailBytes().isEmpty()) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 4, eMail_);
       }
-      getUnknownFields().writeTo(output);
+      unknownFields.writeTo(output);
     }
 
     @java.lang.Override
@@ -1010,19 +1094,20 @@ public final class Account {
       if (size != -1) return size;
 
       size = 0;
-      if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(account_)) {
+      if (!getAccountBytes().isEmpty()) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, account_);
       }
-      if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(accountName_)) {
+      if (!getAccountNameBytes().isEmpty()) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, accountName_);
       }
-      if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(userId_)) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(3, userId_);
+      if (userId_ != 0L) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt64Size(3, userId_);
       }
-      if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(eMail_)) {
+      if (!getEMailBytes().isEmpty()) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(4, eMail_);
       }
-      size += getUnknownFields().getSerializedSize();
+      size += unknownFields.getSerializedSize();
       memoizedSize = size;
       return size;
     }
@@ -1041,11 +1126,11 @@ public final class Account {
           .equals(other.getAccount())) return false;
       if (!getAccountName()
           .equals(other.getAccountName())) return false;
-      if (!getUserId()
-          .equals(other.getUserId())) return false;
+      if (getUserId()
+          != other.getUserId()) return false;
       if (!getEMail()
           .equals(other.getEMail())) return false;
-      if (!getUnknownFields().equals(other.getUnknownFields())) return false;
+      if (!unknownFields.equals(other.unknownFields)) return false;
       return true;
     }
 
@@ -1061,10 +1146,11 @@ public final class Account {
       hash = (37 * hash) + ACCOUNTNAME_FIELD_NUMBER;
       hash = (53 * hash) + getAccountName().hashCode();
       hash = (37 * hash) + USERID_FIELD_NUMBER;
-      hash = (53 * hash) + getUserId().hashCode();
+      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+          getUserId());
       hash = (37 * hash) + EMAIL_FIELD_NUMBER;
       hash = (53 * hash) + getEMail().hashCode();
-      hash = (29 * hash) + getUnknownFields().hashCode();
+      hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
     }
@@ -1181,22 +1267,30 @@ public final class Account {
 
       // Construct using com.ifx.connect.proto.Account.AccountInfo.newBuilder()
       private Builder() {
-
+        maybeForceBuilderInitialization();
       }
 
       private Builder(
           com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
         super(parent);
-
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+        }
       }
       @java.lang.Override
       public Builder clear() {
         super.clear();
-        bitField0_ = 0;
         account_ = "";
+
         accountName_ = "";
-        userId_ = "";
+
+        userId_ = 0L;
+
         eMail_ = "";
+
         return this;
       }
 
@@ -1223,27 +1317,46 @@ public final class Account {
       @java.lang.Override
       public com.ifx.connect.proto.Account.AccountInfo buildPartial() {
         com.ifx.connect.proto.Account.AccountInfo result = new com.ifx.connect.proto.Account.AccountInfo(this);
-        if (bitField0_ != 0) { buildPartial0(result); }
+        result.account_ = account_;
+        result.accountName_ = accountName_;
+        result.userId_ = userId_;
+        result.eMail_ = eMail_;
         onBuilt();
         return result;
       }
 
-      private void buildPartial0(com.ifx.connect.proto.Account.AccountInfo result) {
-        int from_bitField0_ = bitField0_;
-        if (((from_bitField0_ & 0x00000001) != 0)) {
-          result.account_ = account_;
-        }
-        if (((from_bitField0_ & 0x00000002) != 0)) {
-          result.accountName_ = accountName_;
-        }
-        if (((from_bitField0_ & 0x00000004) != 0)) {
-          result.userId_ = userId_;
-        }
-        if (((from_bitField0_ & 0x00000008) != 0)) {
-          result.eMail_ = eMail_;
-        }
+      @java.lang.Override
+      public Builder clone() {
+        return super.clone();
       }
-
+      @java.lang.Override
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return super.setField(field, value);
+      }
+      @java.lang.Override
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return super.clearField(field);
+      }
+      @java.lang.Override
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return super.clearOneof(oneof);
+      }
+      @java.lang.Override
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, java.lang.Object value) {
+        return super.setRepeatedField(field, index, value);
+      }
+      @java.lang.Override
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return super.addRepeatedField(field, value);
+      }
       @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof com.ifx.connect.proto.Account.AccountInfo) {
@@ -1258,25 +1371,20 @@ public final class Account {
         if (other == com.ifx.connect.proto.Account.AccountInfo.getDefaultInstance()) return this;
         if (!other.getAccount().isEmpty()) {
           account_ = other.account_;
-          bitField0_ |= 0x00000001;
           onChanged();
         }
         if (!other.getAccountName().isEmpty()) {
           accountName_ = other.accountName_;
-          bitField0_ |= 0x00000002;
           onChanged();
         }
-        if (!other.getUserId().isEmpty()) {
-          userId_ = other.userId_;
-          bitField0_ |= 0x00000004;
-          onChanged();
+        if (other.getUserId() != 0L) {
+          setUserId(other.getUserId());
         }
         if (!other.getEMail().isEmpty()) {
           eMail_ = other.eMail_;
-          bitField0_ |= 0x00000008;
           onChanged();
         }
-        this.mergeUnknownFields(other.getUnknownFields());
+        this.mergeUnknownFields(other.unknownFields);
         onChanged();
         return this;
       }
@@ -1291,53 +1399,19 @@ public final class Account {
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws java.io.IOException {
-        if (extensionRegistry == null) {
-          throw new java.lang.NullPointerException();
-        }
+        com.ifx.connect.proto.Account.AccountInfo parsedMessage = null;
         try {
-          boolean done = false;
-          while (!done) {
-            int tag = input.readTag();
-            switch (tag) {
-              case 0:
-                done = true;
-                break;
-              case 10: {
-                account_ = input.readStringRequireUtf8();
-                bitField0_ |= 0x00000001;
-                break;
-              } // case 10
-              case 18: {
-                accountName_ = input.readStringRequireUtf8();
-                bitField0_ |= 0x00000002;
-                break;
-              } // case 18
-              case 26: {
-                userId_ = input.readStringRequireUtf8();
-                bitField0_ |= 0x00000004;
-                break;
-              } // case 26
-              case 34: {
-                eMail_ = input.readStringRequireUtf8();
-                bitField0_ |= 0x00000008;
-                break;
-              } // case 34
-              default: {
-                if (!super.parseUnknownField(input, extensionRegistry, tag)) {
-                  done = true; // was an endgroup tag
-                }
-                break;
-              } // default:
-            } // switch (tag)
-          } // while (!done)
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (com.ifx.connect.proto.Account.AccountInfo) e.getUnfinishedMessage();
           throw e.unwrapIOException();
         } finally {
-          onChanged();
-        } // finally
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
         return this;
       }
-      private int bitField0_;
 
       private java.lang.Object account_ = "";
       /**
@@ -1380,9 +1454,11 @@ public final class Account {
        */
       public Builder setAccount(
           java.lang.String value) {
-        if (value == null) { throw new NullPointerException(); }
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
         account_ = value;
-        bitField0_ |= 0x00000001;
         onChanged();
         return this;
       }
@@ -1391,8 +1467,8 @@ public final class Account {
        * @return This builder for chaining.
        */
       public Builder clearAccount() {
+        
         account_ = getDefaultInstance().getAccount();
-        bitField0_ = (bitField0_ & ~0x00000001);
         onChanged();
         return this;
       }
@@ -1403,10 +1479,12 @@ public final class Account {
        */
       public Builder setAccountBytes(
           com.google.protobuf.ByteString value) {
-        if (value == null) { throw new NullPointerException(); }
-        checkByteStringIsUtf8(value);
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
         account_ = value;
-        bitField0_ |= 0x00000001;
         onChanged();
         return this;
       }
@@ -1452,9 +1530,11 @@ public final class Account {
        */
       public Builder setAccountName(
           java.lang.String value) {
-        if (value == null) { throw new NullPointerException(); }
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
         accountName_ = value;
-        bitField0_ |= 0x00000002;
         onChanged();
         return this;
       }
@@ -1463,8 +1543,8 @@ public final class Account {
        * @return This builder for chaining.
        */
       public Builder clearAccountName() {
+        
         accountName_ = getDefaultInstance().getAccountName();
-        bitField0_ = (bitField0_ & ~0x00000002);
         onChanged();
         return this;
       }
@@ -1475,82 +1555,43 @@ public final class Account {
        */
       public Builder setAccountNameBytes(
           com.google.protobuf.ByteString value) {
-        if (value == null) { throw new NullPointerException(); }
-        checkByteStringIsUtf8(value);
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
         accountName_ = value;
-        bitField0_ |= 0x00000002;
         onChanged();
         return this;
       }
 
-      private java.lang.Object userId_ = "";
+      private long userId_ ;
       /**
-       * <code>string userId = 3;</code>
+       * <code>int64 userId = 3;</code>
        * @return The userId.
        */
-      public java.lang.String getUserId() {
-        java.lang.Object ref = userId_;
-        if (!(ref instanceof java.lang.String)) {
-          com.google.protobuf.ByteString bs =
-              (com.google.protobuf.ByteString) ref;
-          java.lang.String s = bs.toStringUtf8();
-          userId_ = s;
-          return s;
-        } else {
-          return (java.lang.String) ref;
-        }
+      @java.lang.Override
+      public long getUserId() {
+        return userId_;
       }
       /**
-       * <code>string userId = 3;</code>
-       * @return The bytes for userId.
-       */
-      public com.google.protobuf.ByteString
-          getUserIdBytes() {
-        java.lang.Object ref = userId_;
-        if (ref instanceof String) {
-          com.google.protobuf.ByteString b = 
-              com.google.protobuf.ByteString.copyFromUtf8(
-                  (java.lang.String) ref);
-          userId_ = b;
-          return b;
-        } else {
-          return (com.google.protobuf.ByteString) ref;
-        }
-      }
-      /**
-       * <code>string userId = 3;</code>
+       * <code>int64 userId = 3;</code>
        * @param value The userId to set.
        * @return This builder for chaining.
        */
-      public Builder setUserId(
-          java.lang.String value) {
-        if (value == null) { throw new NullPointerException(); }
+      public Builder setUserId(long value) {
+        
         userId_ = value;
-        bitField0_ |= 0x00000004;
         onChanged();
         return this;
       }
       /**
-       * <code>string userId = 3;</code>
+       * <code>int64 userId = 3;</code>
        * @return This builder for chaining.
        */
       public Builder clearUserId() {
-        userId_ = getDefaultInstance().getUserId();
-        bitField0_ = (bitField0_ & ~0x00000004);
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>string userId = 3;</code>
-       * @param value The bytes for userId to set.
-       * @return This builder for chaining.
-       */
-      public Builder setUserIdBytes(
-          com.google.protobuf.ByteString value) {
-        if (value == null) { throw new NullPointerException(); }
-        checkByteStringIsUtf8(value);
-        userId_ = value;
-        bitField0_ |= 0x00000004;
+        
+        userId_ = 0L;
         onChanged();
         return this;
       }
@@ -1596,9 +1637,11 @@ public final class Account {
        */
       public Builder setEMail(
           java.lang.String value) {
-        if (value == null) { throw new NullPointerException(); }
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
         eMail_ = value;
-        bitField0_ |= 0x00000008;
         onChanged();
         return this;
       }
@@ -1607,8 +1650,8 @@ public final class Account {
        * @return This builder for chaining.
        */
       public Builder clearEMail() {
+        
         eMail_ = getDefaultInstance().getEMail();
-        bitField0_ = (bitField0_ & ~0x00000008);
         onChanged();
         return this;
       }
@@ -1619,10 +1662,12 @@ public final class Account {
        */
       public Builder setEMailBytes(
           com.google.protobuf.ByteString value) {
-        if (value == null) { throw new NullPointerException(); }
-        checkByteStringIsUtf8(value);
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
         eMail_ = value;
-        bitField0_ |= 0x00000008;
         onChanged();
         return this;
       }
@@ -1659,18 +1704,7 @@ public final class Account {
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-        Builder builder = newBuilder();
-        try {
-          builder.mergeFrom(input, extensionRegistry);
-        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          throw e.setUnfinishedMessage(builder.buildPartial());
-        } catch (com.google.protobuf.UninitializedMessageException e) {
-          throw e.asInvalidProtocolBufferException().setUnfinishedMessage(builder.buildPartial());
-        } catch (java.io.IOException e) {
-          throw new com.google.protobuf.InvalidProtocolBufferException(e)
-              .setUnfinishedMessage(builder.buildPartial());
-        }
-        return builder.buildPartial();
+        return new AccountInfo(input, extensionRegistry);
       }
     };
 
@@ -1713,7 +1747,7 @@ public final class Account {
       "uthenticate\022\013\n\003jwt\030\001 \001(\t\0227\n\013accountInfo\030" +
       "\002 \001(\0132\".com.ifx.connect.proto.AccountInf" +
       "o\"R\n\013AccountInfo\022\017\n\007account\030\001 \001(\t\022\023\n\013acc" +
-      "ountName\030\002 \001(\t\022\016\n\006userId\030\003 \001(\t\022\r\n\005eMail\030" +
+      "ountName\030\002 \001(\t\022\016\n\006userId\030\003 \001(\003\022\r\n\005eMail\030" +
       "\004 \001(\tB \n\025com.ifx.connect.protoB\007Accountb" +
       "\006proto3"
     };

@@ -48,19 +48,13 @@ public class ReactorTcpServer implements ReactiveServer {
     }
 
     @Override
-    public void start(InetSocketAddress address) {
-        create(address);
-        start();
-    }
-
-    @Override
     public void stop() {
         disposableServer.disposeNow();
     }
 
 //    public void
 
-    public  void create(InetSocketAddress address){
+    public  void init(InetSocketAddress address){
         this.address = address;
         server = TcpServer
                 .create()
@@ -72,6 +66,7 @@ public class ReactorTcpServer implements ReactiveServer {
         log.info("startup netty  on port {}",address.getPort());
 
     }
+
 
     public void start(){
         disposableServer = server.bindNow();

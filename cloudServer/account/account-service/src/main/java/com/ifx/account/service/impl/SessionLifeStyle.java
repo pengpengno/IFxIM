@@ -1,6 +1,7 @@
 package com.ifx.account.service.impl;
 
 import cn.hutool.core.collection.CollectionUtil;
+import com.google.protobuf.InvalidProtocolBufferException;
 import com.ifx.account.entity.BaseEntity;
 import com.ifx.account.entity.Session;
 import com.ifx.account.entity.SessionAccount;
@@ -14,16 +15,25 @@ import com.ifx.account.vo.session.SessionInfoVo;
 import com.ifx.common.base.AccountInfo;
 import com.ifx.common.utils.IdUtil;
 import com.ifx.common.utils.ValidatorUtil;
+import com.ifx.connect.mapstruct.ProtoBufMapper;
+import com.ifx.connect.proto.Account;
+import com.ifx.connect.proto.OnLineUser;
 import com.ifx.exec.ex.valid.ValidationException;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.amqp.core.Address;
 import org.springframework.amqp.core.Message;
+import org.springframework.amqp.rabbit.connection.CorrelationData;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.r2dbc.core.R2dbcEntityTemplate;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+import reactor.rabbitmq.RpcClient;
+import reactor.rabbitmq.Sender;
 
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -44,6 +54,12 @@ public class SessionLifeStyle implements ISessionLifeStyle {
 
     @Autowired
     private RabbitTemplate rabbitTemplate;
+
+    @Autowired
+    private Sender sender;
+
+    @Value("${online.user.search.queue:online.user.search}")
+    private String onlineQueue ;
     @Override
     public Mono<SessionInfoVo> init(String name) {
         return Mono.just(name)
@@ -110,8 +126,6 @@ public class SessionLifeStyle implements ISessionLifeStyle {
 
     @Override
     public Mono<SessionAccountVo> sessionAccountInfo(Long sessionId) {
-        Message message = new Message();
-        rabbitTemplate.sendAndReceive(Message)
 
         return sessionAccountRepository.queryGroupBySessionId(sessionId)
                 .reduceWith(()-> {
@@ -130,7 +144,43 @@ public class SessionLifeStyle implements ISessionLifeStyle {
                         return w1;
                 });
 
-        }
+    }
+
+
+    /***
+     * 检查线上用户状态
+     * @param accountInfos
+     * @return
+     */
+    public Flux<AccountInfo> checkoutUserOnlineStatus(List<AccountInfo> accountInfos){
+        return Mono.just(accountInfos)
+            .map(SessionMapper.INSTANCE::buildSearch)
+                .flatMap(l -> sender.rpcClient("",onlineQueue).rpc(Mono.just(new RpcClient.RpcRequest(l.toByteArray()))))
+                .map(res -> {
+                    byte[] body = res.getBody();
+                    try {
+                        return OnLineUser.UserSearch.parseFrom(body);
+                    } catch (InvalidProtocolBufferException e) {
+                        throw new RuntimeException("格式异常！");
+                    }
+                })
+                .flatMapMany(userSearch -> {
+                    List<Account.AccountInfo> accountsList = userSearch.getAccountsList();
+                    return Flux.fromIterable(accountsList)
+                            .map(ProtoBufMapper.INSTANCE::proto2Acc);
+                });
+    }
+
+
+
+    public void checkoutOnlineUser(List<AccountInfo> accountInfos){
+        OnLineUser.UserSearch userSearch = SessionMapper.INSTANCE.buildSearch(accountInfos);
+        // global config  message body length
+        Message.setMaxBodyLength(200);
+        Message message = new Message(userSearch.toByteArray());
+        message.getMessageProperties().setReplyTo(Address.AMQ_RABBITMQ_REPLY_TO);
+        Message message1 = rabbitTemplate.sendAndReceive(message,new CorrelationData());
+    }
 
 
 }

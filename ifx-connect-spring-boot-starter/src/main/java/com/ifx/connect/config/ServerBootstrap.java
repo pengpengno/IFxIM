@@ -6,6 +6,7 @@ import com.ifx.connect.connection.server.context.ConnectionContextUtil;
 import com.ifx.connect.connection.server.context.IConnectContextAction;
 import com.ifx.connect.connection.server.tcp.ReactorTcpServer;
 import com.ifx.connect.properties.ServerNettyConfigProperties;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -13,6 +14,8 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+
+import java.net.InetSocketAddress;
 
 /**
  * 长连接 bean
@@ -27,12 +30,6 @@ import org.springframework.context.annotation.Configuration;
 @ConditionalOnProperty(prefix = "ifx.connect.server",name = "port")
 public class ServerBootstrap {
 
-
-    @Bean
-    @ConditionalOnMissingBean(value = {ReactiveServer.class, ReactorTcpServer.class})
-    public ReactiveServer applyReactiveServer(){
-        return ServerToolkit.reactiveServer();
-    }
 
 
 
@@ -50,4 +47,14 @@ public class ServerBootstrap {
     }
 
 
+    @Bean
+    @ConditionalOnBean(value = {ServerNettyConfigProperties.class})
+    public ReactiveServer initServer(@Autowired ServerNettyConfigProperties serverNettyConfigProperties){
+        ReactiveServer reactiveServer = ServerToolkit.reactiveServer();
+        Integer port = serverNettyConfigProperties.getPort();
+        String host = serverNettyConfigProperties.getHost();
+        InetSocketAddress address = new InetSocketAddress(host,port);
+         reactiveServer.init(address);
+         return reactiveServer;
+    }
 }

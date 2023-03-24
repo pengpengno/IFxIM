@@ -1,5 +1,6 @@
 package com.ifx.connect.reactor.netty.tcp;
 
+import com.ifx.connect.connection.server.ReactiveServer;
 import com.ifx.connect.connection.server.ServerToolkit;
 import io.netty.handler.logging.LogLevel;
 import lombok.extern.slf4j.Slf4j;
@@ -63,6 +64,8 @@ public class Server {
     @Test
     public void startReactiveServer(){
 
-        ServerToolkit.reactiveServer().start(new InetSocketAddress("localhost",8094));
+        ReactiveServer reactiveServer = ServerToolkit.reactiveServer();
+        reactiveServer.init(new InetSocketAddress("localhost",8094));
+        reactiveServer.start();
     }
 }

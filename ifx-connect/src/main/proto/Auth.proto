@@ -21,7 +21,7 @@ message AccountInfo{
 
   string accountName = 2 ;
 
-  string userId  = 3 ;
+  int64 userId  = 3 ;
 
   string eMail = 4 ;
 

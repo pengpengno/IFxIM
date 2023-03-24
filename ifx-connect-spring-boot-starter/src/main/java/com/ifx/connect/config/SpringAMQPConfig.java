@@ -19,14 +19,14 @@ import reactor.rabbitmq.Sender;
  * @date 2023/3/23
  */
 @Configuration
-@ConditionalOnClass(value = {Sender.class, Receiver.class})
-@ConditionalOnProperty(prefix = "spring.rabbitmq",name = {"host","port","username","password","virtualHost"})
+@ConditionalOnClass(value = {Sender.class, Receiver.class,RabbitProperties.class})
+@ConditionalOnProperty(prefix = "spring.rabbitmq",name = {"host","port","username","password","virtual-host"})
 public class SpringAMQPConfig {
 
 
     @Bean
     @ConditionalOnMissingBean(ConnectionFactory.class)
-    @ConditionalOnProperty(prefix = "spring.rabbitmq",name = {"host","port","username","password","virtualHost"})
+    @ConditionalOnProperty(prefix = "spring.rabbitmq",name = {"host","port","username","password","virtual-host"})
     ConnectionFactory connectionFactory(@Autowired RabbitProperties rabbitProperties) {
         ConnectionFactory connectionFactory = new CachingConnectionFactory().getRabbitConnectionFactory();
         connectionFactory.setHost(rabbitProperties.getHost());
@@ -41,7 +41,7 @@ public class SpringAMQPConfig {
     @Bean
     @ConditionalOnMissingBean(org.springframework.amqp.rabbit.connection.ConnectionFactory.class)
     @ConditionalOnBean(ConnectionFactory.class)
-    org.springframework.amqp.rabbit.connection.ConnectionFactory connectionFactory (@Autowired ConnectionFactory connectionFactory) {
+    org.springframework.amqp.rabbit.connection.ConnectionFactory springConnectionFactory (@Autowired ConnectionFactory connectionFactory) {
         return new CachingConnectionFactory(connectionFactory);
     }
 

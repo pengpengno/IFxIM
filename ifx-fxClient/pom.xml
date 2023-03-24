@@ -179,7 +179,7 @@
             <artifactId>retrofit</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.ifx.ifx</groupId>
+            <groupId>com.ifx.connect</groupId>
             <artifactId>ifx-connect-spring-boot-starter</artifactId>
             <version>1.0-SNAPSHOT</version>
             <scope>compile</scope>

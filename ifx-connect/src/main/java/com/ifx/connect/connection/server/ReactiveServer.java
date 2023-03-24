@@ -18,8 +18,8 @@ public interface ReactiveServer {
         return tcpServer;
     }
 
+    public void init (InetSocketAddress address);
 
-    public void start(InetSocketAddress address);
 
     public void start();
 

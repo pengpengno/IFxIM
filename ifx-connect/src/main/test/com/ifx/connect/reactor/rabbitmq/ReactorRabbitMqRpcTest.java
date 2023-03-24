@@ -1,8 +1,8 @@
 package com.ifx.connect.reactor.rabbitmq;
 
-import com.rabbitmq.client.Channel;
+import com.ifx.connect.proto.OnLineUser;
+import com.rabbitmq.client.AMQP;
 import com.rabbitmq.client.Delivery;
-import com.rabbitmq.client.RpcServer;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -10,9 +10,6 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.core.scheduler.Schedulers;
 import reactor.rabbitmq.*;
-import reactor.test.StepVerifier;
-
-import java.io.IOException;
 
 /**
  * @author pengpeng
@@ -24,6 +21,7 @@ public class ReactorRabbitMqRpcTest {
 
 
     String queue = "rpc.server.queue";
+    String queue2 = "amqp.rpc.reply.to";
     String exchange = "rpc.server.exchange";
     String routeKey = "rpc.server.routeKey";
     Sender sender ;
@@ -31,47 +29,50 @@ public class ReactorRabbitMqRpcTest {
     String id = "233j3j1k31";
 
     @Test
-    public void rpcClient(){
+    public void rpcClient() throws InterruptedException {
+        AMQP.BasicProperties basicProperties = new AMQP.BasicProperties();
         RpcClient rpcClient = sender.rpcClient("", queue,()-> id);
+        OnLineUser.UserSearch build = OnLineUser.UserSearch.newBuilder().build();
         Mono<Delivery> reply = rpcClient.rpc(Mono.just(
-                new RpcClient.RpcRequest("hello".getBytes())
+                new RpcClient.RpcRequest( "hello world".getBytes())
         )).doOnNext(e-> {
             byte[] body = e.getBody();
             String s = new String(body);
             log.info("接受的数据为 {}", s);
         });
-        StepVerifier.create(reply)
-                .verifyComplete();
+        reply.subscribe();
+        Thread.sleep(50000);
     }
 
-
-    public class HookServer extends RpcServer{
-
-        public HookServer(Channel channel) throws IOException {
-            super(channel);
-        }
-
-    }
     @Test
-    public void rpcClientReceive() throws InterruptedException {
-
-
-        Flux<Delivery> deliveryFlux = receiver.consumeAutoAck(queue)
+    public void rpcReceive () throws InterruptedException {
+        Flux<Delivery> deliveryFlux = receiver.consumeAutoAck(queue2)
                 .doOnNext(e -> {
                     String correlationId = e.getProperties().getCorrelationId();
                     byte[] body = e.getBody();
                     String s = new String(body);
                     log.info("传输的数据为 {}  {}", s,correlationId);
                     String replyTo = e.getProperties().getReplyTo();
-//                    e.getProperties().writePropertiesTo();
-//                    sender.rpcClient("",queue,()-> correlationId).rpc(Mono.just(new RpcClient.RpcRequest("I have receive ".getBytes()))).subscribe();
-//                    e.getEnvelope().getExchange()
                 });
         deliveryFlux.subscribe();
         Thread.sleep(50000);
-//        StepVerifier.create(deliveryFlux)
-//                .verifyComplete();
+    }
 
+
+    @Test
+    public void rpcClientReceive() throws InterruptedException {
+
+        Flux<Delivery> deliveryFlux = receiver.consumeAutoAck(queue)
+                .doOnNext(e -> {
+                    String correlationId = e.getProperties().getCorrelationId();
+                    byte[] body = e.getBody();
+                    String s = new String(body);
+                    String replyTo = e.getProperties().getReplyTo();
+                    log.info("传输的数据为 {}  {}  {} " , s,correlationId,replyTo);
+                    sender.rpcClient("",replyTo,()-> correlationId).rpc(Mono.just(new RpcClient.RpcRequest("I have receive  message".getBytes()))).subscribe();
+                });
+        deliveryFlux.subscribe();
+        Thread.sleep(50000);
     }
 
     @BeforeEach
@@ -89,6 +90,7 @@ public class ReactorRabbitMqRpcTest {
     public void declareExchange(){
         sender.declare(ExchangeSpecification.exchange(exchange))
                 .then(sender.declare(QueueSpecification.queue(queue)))
+                .then(sender.declare(QueueSpecification.queue(queue2)))
                 .then(sender.bind(BindingSpecification.queueBinding(exchange,routeKey,queue)))
                 .subscribe(e-> log.info("The exchange and  queue is binding!"));
     }

@@ -19,6 +19,7 @@ spring:
     host: localhost
     username: admin
     password: wangpeng
+    virtual-host: reactormq
   data:
     mongodb:
       host: 124.221.168.200

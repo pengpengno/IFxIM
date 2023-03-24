@@ -1,7 +1,7 @@
 package com.ifx.session.service.impl;
 
 import cn.hutool.core.collection.CollectionUtil;
-import com.ifx.account.fegin.AccountApi;
+import com.ifx.account.service.reactive.ReactiveAccountService;
 import com.ifx.common.base.AccountInfo;
 import com.ifx.common.utils.IdUtil;
 import com.ifx.common.utils.ValidatorUtil;
@@ -39,7 +39,7 @@ public class SessionLifeStyle implements ISessionLifeStyle {
 
 
     @Autowired
-    private AccountApi accountApi;
+    ReactiveAccountService accountService;
 
     @Override
     public Mono<SessionInfoVo> init(String name) {
@@ -60,12 +60,8 @@ public class SessionLifeStyle implements ISessionLifeStyle {
     private Mono<SessionInfoVo> selectSessionWithinCreator(Long sessionId){
         return selectSession(sessionId).map(l-> {
             Long userId = l.getCreateInfo().getUserId();
-            l.setCreateInfo(accountApi.getAccountInfo(userId));
+            accountService.findByUserId(userId).doOnNext(l::setCreateInfo);
             return l;
-//            return accountApi.getAccountInfo(userId).map( k-> {
-//                l.setCreateInfo(k);
-//                return l;
-//            });
         });
     }
 

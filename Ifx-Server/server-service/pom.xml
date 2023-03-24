@@ -36,6 +36,12 @@
             <groupId>com.ifx.connect</groupId>
             <artifactId>ifx-connect-spring-boot-starter</artifactId>
             <version>1.0-SNAPSHOT</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>spring-cloud-starter-stream-rabbit</artifactId>
+                    <groupId>org.springframework.cloud</groupId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
         <dependency>
@@ -44,6 +50,7 @@
             <version>2.1.1</version>
             <scope>compile</scope>
         </dependency>
+
 
     </dependencies>
 

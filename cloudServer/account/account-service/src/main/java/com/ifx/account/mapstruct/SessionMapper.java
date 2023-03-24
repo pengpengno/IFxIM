@@ -2,10 +2,17 @@ package com.ifx.account.mapstruct;
 
 import com.ifx.account.entity.Session;
 import com.ifx.account.vo.session.SessionInfoVo;
+import com.ifx.common.base.AccountInfo;
+import com.ifx.connect.mapstruct.ProtoBufMapper;
+import com.ifx.connect.proto.Account;
+import com.ifx.connect.proto.OnLineUser;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
 import org.mapstruct.factory.Mappers;
+
+import java.util.ArrayList;
+import java.util.Iterator;
 
 /**
  *
@@ -41,5 +48,21 @@ public interface SessionMapper {
     )
     SessionInfoVo session2Vo(Session session);
 
+
+
+
+    default OnLineUser.UserSearch buildSearch(Iterable<AccountInfo> accountInfos){
+        if (accountInfos == null){
+            return OnLineUser.UserSearch.newBuilder().build();
+        }
+        Iterator<AccountInfo> iterator = accountInfos.iterator();
+        ArrayList<Account.AccountInfo> list = new ArrayList<>();
+        if (iterator.hasNext()) {
+            AccountInfo next = iterator.next();
+            Account.AccountInfo accountInfo = ProtoBufMapper.INSTANCE.protocolAccMap(next);
+            list.add(accountInfo);
+        }
+        return OnLineUser.UserSearch.newBuilder().addAllAccounts(list).build();
+    }
 
 }
