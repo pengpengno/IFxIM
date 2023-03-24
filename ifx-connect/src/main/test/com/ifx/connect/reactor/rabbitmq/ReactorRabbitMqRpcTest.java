@@ -2,6 +2,7 @@ package com.ifx.connect.reactor.rabbitmq;
 
 import com.ifx.connect.proto.OnLineUser;
 import com.rabbitmq.client.AMQP;
+import com.rabbitmq.client.ConnectionFactory;
 import com.rabbitmq.client.Delivery;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeEach;
@@ -77,13 +78,15 @@ public class ReactorRabbitMqRpcTest {
 
     @BeforeEach
     public void init () {
-        SenderOptions senderOptions = new SenderOptions().connectionFactory(ReactorRabbit.createFactory())
+        ConnectionFactory factory = ReactorRabbit.createFactory();
+        SenderOptions senderOptions = new SenderOptions().connectionFactory(factory)
                 .connectionSubscriptionScheduler(Schedulers.boundedElastic());
         ReceiverOptions receiverOptions = new ReceiverOptions()
-                .connectionFactory(ReactorRabbit.createFactory())
+                .connectionFactory(factory)
                 .connectionSubscriptionScheduler(Schedulers.boundedElastic());
         sender = RabbitFlux.createSender(senderOptions);
         receiver = RabbitFlux.createReceiver(receiverOptions);
+
         declareExchange();
     }
 
