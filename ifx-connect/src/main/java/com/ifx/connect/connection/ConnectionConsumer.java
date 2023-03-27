@@ -19,6 +19,7 @@ import static reactor.netty.ReactorNetty.format;
 @Slf4j
 public abstract class ConnectionConsumer implements Consumer<Connection> {
 
+
     final BiFunction<? super NettyInbound, ? super NettyOutbound, ? extends Publisher<Void>> handler;
 
     public ConnectionConsumer(BiFunction<? super NettyInbound, ? super NettyOutbound, ? extends Publisher<Void>> handler) {

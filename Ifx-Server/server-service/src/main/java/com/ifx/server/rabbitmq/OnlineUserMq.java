@@ -6,6 +6,7 @@ import com.ifx.connect.connection.server.context.IConnectContextAction;
 import com.ifx.connect.proto.OnLineUser;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.core.ExchangeTypes;
+import org.springframework.amqp.core.Message;
 import org.springframework.amqp.rabbit.annotation.Exchange;
 import org.springframework.amqp.rabbit.annotation.Queue;
 import org.springframework.amqp.rabbit.annotation.QueueBinding;
@@ -79,14 +80,15 @@ public class OnlineUserMq {
                 value = @Queue(value = "${online.user.search.queue:online.user.search}"),
                 key = "${online.user.routeKey:online.user.search}",
                 exchange = @Exchange(name = "${online.user.exchange:online.user.exchange}",type = ExchangeTypes.DIRECT))})
-    public OnLineUser.UserSearch sendOnlineMessage(byte[] body){
+    public Message sendOnlineMessage(Message message){
         log.info("接受到了mq 的数据");
         try {
+            byte[] body = message.getBody();
             OnLineUser.UserSearch userSearch = OnLineUser.UserSearch.parseFrom(body);
             log.debug("正在搜索在线用户");
-            return contextUtil.filterOnlineByUserSearch(userSearch);
+            return new Message(contextUtil.filterOnlineByUserSearch(userSearch).toByteArray());
         } catch (InvalidProtocolBufferException e) {
-            throw new IllegalArgumentException(e);
+            throw new IllegalArgumentException("传入数据格式非法！");
         }
     }
 }

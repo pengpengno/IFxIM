@@ -18,8 +18,8 @@
     <module>ifx-starter</module>
     <module>fx-boot-starter</module>
     <module>ifx-exc</module>
-      <module>ifx-connect-spring-boot-starter</module>
-      <module>ifx-reactorRabbitmq</module>
+    <module>ifx-connect-spring-boot-starter</module>
+    <module>ifx-reactorRabbitmq</module>
   </modules>
   <packaging>pom</packaging>
   <properties>
@@ -155,7 +155,7 @@
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-test</artifactId>
         <version>${spring.starter.version}</version>
-        <scope>test</scope>
+<!--        <scope>test</scope>-->
       </dependency>
       <!--            动态线程池-->
       <dependency>
@@ -528,12 +528,6 @@
         <artifactId>spring-boot-maven-plugin</artifactId>
         <version>${spring.starter.version}</version>
         <configuration>
-<!--          <excludes>-->
-<!--            <exclude>-->
-<!--              <groupId>org.springframework.boot</groupId>-->
-<!--              <artifactId>spring-boot-configuration-processor</artifactId>-->
-<!--            </exclude>-->
-<!--          </excludes>-->
         </configuration>
       </plugin>
       <plugin>

@@ -1,6 +1,7 @@
 package com.ifx.client;
 
-import com.ifx.connect.connection.client.ReactiveClientAction;
+import com.ifx.connect.connection.client.ClientLifeStyle;
+import com.ifx.connect.properties.ClientNettyConfigProperties;
 import javafx.application.Application;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,15 +17,22 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  */
 @SpringBootApplication(scanBasePackages = {"com.ifx","cn.hutool.extra.spring"})
 @Slf4j
-public class APP implements CommandLineRunner {
+public class APP  implements CommandLineRunner {
+
 
     @Autowired
-    private ReactiveClientAction reactiveClientAction;
+    ClientLifeStyle clientLifeStyle;
 
+    @Autowired
+    ClientNettyConfigProperties configProperties;
     @Override
     public void run(String... args) throws Exception {
-//        ClientToolkit.getDefaultClientLifeStyle().connect();
-        log.info("spring start up  success");
+        try{
+            clientLifeStyle.connect();
+        }catch (Exception exception){
+            log.error("remote server  connect fail ");
+            clientLifeStyle.reTryConnect();
+        }
     }
 
     public static void main(String[] args) {

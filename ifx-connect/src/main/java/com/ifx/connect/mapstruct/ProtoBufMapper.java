@@ -5,6 +5,8 @@ import com.ifx.connect.proto.Account;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
+import java.util.List;
+
 /**
  * @author pengpeng
  * @description
@@ -29,6 +31,7 @@ public interface ProtoBufMapper {
                 .build();
     }
 
+      List<AccountInfo> proto2AccIterable(List<Account.AccountInfo> accountInfo);
     default  AccountInfo proto2Acc(Account.AccountInfo accountInfo){
         if (accountInfo == null){
             return null;
@@ -40,5 +43,8 @@ public interface ProtoBufMapper {
         res.setUserName(accountInfo.getAccountName());
         return res;
     }
+
+
+
 
 }

@@ -1,11 +1,5 @@
 package com.ifx.account.fegin;
 
-import com.ifx.common.base.AccountInfo;
-import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseStatus;
-
 /**
  * @author pengpeng
  * @description
@@ -20,9 +14,9 @@ public interface AccountApi {
 //    AccountInfo register(@RequestBody @Valid() AccountVo accountVo);
 
 
-    @GetMapping(path = "/accountInfo")
-    @ResponseStatus(code = HttpStatus.OK)
-    AccountInfo getAccountInfo(@RequestParam("userId") Long userId);
+//    @GetMapping(path = "/accountInfo")
+//    @ResponseStatus(code = HttpStatus.OK)
+//    AccountInfo getAccountInfo(@RequestParam("userId") Long userId);
 //    public Mono<AccountInfo> getAccountInfo(@RequestParam("userId") Long userId);
 
 

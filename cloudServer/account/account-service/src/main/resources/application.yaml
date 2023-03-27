@@ -1,16 +1,12 @@
-eureka:
-  instance:
-    hostname: account-service
-    appname: account-service
-    healthCheckUrlPath: ${server.servletPath}/health
-  client:
-    healthcheck:
-      enabled: true
-    service-url:
-      defaultZone: http://localhost:8761/eureka/
 server:
   port: 8001
 spring:
+  rabbitmq:
+    port: 5672
+    host: localhost
+    username: admin
+    password: wangpeng
+    virtual-host: reactormq
   application:
     name: account
   r2dbc:

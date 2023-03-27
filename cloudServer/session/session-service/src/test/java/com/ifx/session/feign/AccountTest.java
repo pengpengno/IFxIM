@@ -1,10 +1,8 @@
 package com.ifx.session.feign;
 
 import cn.hutool.core.date.StopWatch;
-import com.alibaba.fastjson2.JSON;
 import com.ifx.account.fegin.AccountApi;
 import com.ifx.account.vo.AccountVo;
-import com.ifx.common.base.AccountInfo;
 import com.ifx.session.SessionApplication;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
@@ -26,9 +24,9 @@ public class AccountTest {
         stopWatch.start("sent message");
         Long userId = 1630119513067073536L;
 //        AccountInfo block = accountApi.getAccountInfo(userId).block();
-        AccountInfo block = accountApi.getAccountInfo(userId);
+//        AccountInfo block = accountApi.getAccountInfo(userId);
         stopWatch.stop();
-        log.info("time cost {}ms, user {}" , stopWatch.getLastTaskTimeMillis(),JSON.toJSONString(block));
+//        log.info("time cost {}ms, user {}" , stopWatch.getLastTaskTimeMillis(),JSON.toJSONString(block));
     }
 
     @Test

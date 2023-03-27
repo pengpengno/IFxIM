@@ -7,9 +7,10 @@ import org.springframework.boot.autoconfigure.data.redis.RedisRepositoriesAutoCo
 import org.springframework.data.r2dbc.repository.config.EnableR2dbcRepositories;
 import org.springframework.web.reactive.config.EnableWebFlux;
 
-@SpringBootApplication(scanBasePackages = {"com.ifx","reactivefeign.spring.config"},exclude = {RedisRepositoriesAutoConfiguration.class, MongoRepositoriesAutoConfiguration.class})
+@SpringBootApplication(scanBasePackages = {"com.ifx"},exclude = {RedisRepositoriesAutoConfiguration.class, MongoRepositoriesAutoConfiguration.class})
 @EnableR2dbcRepositories(basePackages = "com.ifx")
 @EnableWebFlux
+//@EnableReactorMq
 public class AccountApplication {
 
 

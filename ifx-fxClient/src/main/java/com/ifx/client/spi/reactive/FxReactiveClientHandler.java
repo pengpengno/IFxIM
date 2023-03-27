@@ -1,11 +1,9 @@
 package com.ifx.client.spi.reactive;
 
 import com.ifx.connect.connection.ConnectionConsumer;
-import com.ifx.connect.proto.ProtocolType;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.ByteBufAllocator;
 import lombok.extern.slf4j.Slf4j;
-import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.netty.Connection;
 
@@ -19,7 +17,7 @@ import java.util.function.Consumer;
 @Slf4j
 public class FxReactiveClientHandler extends ConnectionConsumer {
 
-    FxReactiveClientHandler(){
+    public FxReactiveClientHandler(){
         super((nettyInbound, nettyOutbound) -> {
 
             nettyInbound.withConnection(connection -> {

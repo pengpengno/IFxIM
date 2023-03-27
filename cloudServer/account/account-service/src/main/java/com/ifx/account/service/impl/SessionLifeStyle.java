@@ -152,7 +152,20 @@ public class SessionLifeStyle implements ISessionLifeStyle {
      * @param accountInfos
      * @return
      */
-    public Flux<AccountInfo> checkoutUserOnlineStatus(List<AccountInfo> accountInfos){
+    public List<AccountInfo> checkoutUserOnlineStatus(List<AccountInfo> accountInfos){
+        OnLineUser.UserSearch userSearch = SessionMapper.INSTANCE.buildSearch(accountInfos);
+        Message message = new Message(userSearch.toByteArray());
+        Message returnMessage = rabbitTemplate.sendAndReceive(message, new CorrelationData());
+        byte[] body = returnMessage.getBody();
+        try {
+            OnLineUser.UserSearch returnSearch = OnLineUser.UserSearch.parseFrom(body);
+            List<Account.AccountInfo> accountsList = returnSearch.getAccountsList();
+            return ProtoBufMapper.INSTANCE.proto2AccIterable(accountsList);
+        } catch (InvalidProtocolBufferException e) {
+            throw new RuntimeException("格式异常！");
+        }
+    }
+    public Flux<AccountInfo> checkoutUserOnlineStatusReactor(List<AccountInfo> accountInfos){
         return Mono.just(accountInfos)
             .map(SessionMapper.INSTANCE::buildSearch)
                 .flatMap(l -> sender.rpcClient("",onlineQueue).rpc(Mono.just(new RpcClient.RpcRequest(l.toByteArray()))))
@@ -170,6 +183,8 @@ public class SessionLifeStyle implements ISessionLifeStyle {
                             .map(ProtoBufMapper.INSTANCE::proto2Acc);
                 });
     }
+
+
 
 
 

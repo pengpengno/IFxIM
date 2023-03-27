@@ -5,6 +5,6 @@ ifx:
       port: ${IFX_API_PORT:8761}
   connect:
     client:
-      serverHost: localhost
-      serverPort: 8094
+      serverHost: ${IFX_CONNECT_HOST:localhost}
+      serverPort: ${IFX_CONNECT_PORT:8094}
       connectTimeOut: 60000

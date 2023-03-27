@@ -20,7 +20,7 @@ import reactor.rabbitmq.*;
 public class ReactorOnlineUserTest {
     Sender sender ;
     Receiver receiver;
-    private String  onlineMqQueue ="online.user.search";
+    private final String  onlineMqQueue ="online.user.search";
 
     @BeforeEach
     public void init () {
@@ -38,6 +38,7 @@ public class ReactorOnlineUserTest {
         sender.declareQueue(QueueSpecification.queue(onlineMqQueue).durable(true))
                 .subscribe(e-> log.info("The exchange and  queue is binding!"));
     }
+
     @Test
     public void onlineUserTest() throws InterruptedException {
         RpcClient rpcClient = sender.rpcClient("", onlineMqQueue);
@@ -56,9 +57,9 @@ public class ReactorOnlineUserTest {
         Thread.sleep(50000);
     }
 
+
     @Test
     public void receive() throws InterruptedException {
-
         Flux<Delivery> deliveryFlux = receiver.consumeAutoAck(onlineMqQueue)
                 .doOnNext(e -> {
                     String correlationId = e.getProperties().getCorrelationId();
