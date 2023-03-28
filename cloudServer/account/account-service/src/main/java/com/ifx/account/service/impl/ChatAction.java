@@ -7,6 +7,7 @@ import com.ifx.account.vo.ChatMsgVo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import reactor.core.publisher.Mono;
 
 import java.util.List;
 
@@ -37,9 +38,10 @@ public class ChatAction implements IChatAction {
     @Override
     public void pushMsg(ChatMsgVo chatMsgVo) {
         chatMsgService.saveMsg(chatMsgVo)
-                .then()
-                .just(chatMsgVo)
-                .map()
+                .then(Mono.just(chatMsgVo))
+                .map(e->e.getSessionId())
+                .map(e-> e)
+
         ;
 
     }
