@@ -54,7 +54,7 @@ public class ValidatorUtil {
             messages.add("The  specify is  valid !");
             return messages;
         }
-        Set<ConstraintViolation<T>> validations = validator.validate(t);
+        Set<ConstraintViolation<T>> validations = validator.validate(t,group);
         for (ConstraintViolation<T> validation : validations) {
             messages.add(validation.getMessage());
         }
@@ -68,7 +68,7 @@ public class ValidatorUtil {
      * @param <T> 实体类型
      * @throws ValidationException 错误异常 默认情况抛出第一条错误的 message
      */
-    public static <T> void validateThrows(T t, Class<?> group) throws ValidationException {
+    public static <T> void validateThrows(T t, Class<?>... group) throws ValidationException {
         List<String> validate = validate(t, group);
         if (CollectionUtil.isNotEmpty(validate)){
             throw new ValidationException(validate.get(0));

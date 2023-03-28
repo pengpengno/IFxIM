@@ -1,14 +1,14 @@
-package com.ifx.account.service.impl;
+package com.ifx.account.service.impl.reactive;
 
 import cn.hutool.core.util.IdUtil;
 import com.ifx.account.mapstruct.SessionMapper;
+import com.ifx.account.repository.SessionRepository;
+import com.ifx.account.service.reactive.ReactiveAccountService;
 import com.ifx.account.service.reactive.SessionService;
 import com.ifx.account.vo.session.SessionInfoVo;
-import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.r2dbc.core.R2dbcEntityTemplate;
-import org.springframework.data.redis.core.ReactiveRedisTemplate;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
 
@@ -27,8 +27,14 @@ public class SessionServiceImpl implements SessionService {
     @Autowired
     private R2dbcEntityTemplate r2dbcEntityTemplate;
 
-    @Resource
-    private ReactiveRedisTemplate<String,Object> reactiveRedisTemplate;
+    @Autowired
+    private SessionRepository sessionRepository;
+
+    @Autowired
+    private ReactiveAccountService accountService;
+//
+//    @Resource
+//    private ReactiveRedisTemplate<String,Object> reactiveRedisTemplate;
 
     @Override
     public Mono<Long> post2Session(SessionInfoVo sessionInfoVo) {
@@ -47,6 +53,25 @@ public class SessionServiceImpl implements SessionService {
                 });
     }
 
+    public Mono<SessionInfoVo> selectSession(Long sessionId){
+        return sessionRepository.findById(sessionId).map(SessionMapper.INSTANCE::session2Vo);
+    }
+
+
+    /**
+     * 查询 session 配置 及其 创建者信息
+     * @param sessionId
+     * @return
+     */
+    public Mono<SessionInfoVo> selectSessionWithinCreator(Long sessionId){
+        return selectSession(sessionId).flatMap(l-> {
+            Long userId = l.getCreateInfo().getUserId();
+            return accountService.findByUserId(userId).map(e-> {
+                l.setCreateInfo(e);
+                return l;
+            });
+        });
+    }
 }
 
 

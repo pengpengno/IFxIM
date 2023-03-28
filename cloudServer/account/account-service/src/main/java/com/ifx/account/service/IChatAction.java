@@ -25,11 +25,7 @@ public interface IChatAction {
      */
     public List<ChatMsgVo> pullMsg(String fromAccount, Long sessionId);
 
-    /**
-     * 查询用户离线消息库
-     * @param account
-     */
-    public List<ChatMsgVo> pullOffline(String account);
+
 
     /**
      * 拉取历史消息

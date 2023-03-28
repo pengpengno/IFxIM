@@ -19,6 +19,10 @@ public interface ChatMsgService  {
      */
     public Mono<Void> pushMsg(ChatMsgVo chatMsgVo);  //写扩散
 
+    public Mono<Long> saveMsg(ChatMsgVo chatMsgVo);  //写扩散
+
+
+
 
     public Mono<Boolean>  chat(ChatMsgVo chatMsgVo);
 

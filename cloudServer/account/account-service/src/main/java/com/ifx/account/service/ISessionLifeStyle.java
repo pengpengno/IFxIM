@@ -3,6 +3,7 @@ package com.ifx.account.service;
 
 import com.ifx.account.vo.session.SessionAccountVo;
 import com.ifx.account.vo.session.SessionInfoVo;
+import com.ifx.common.base.AccountInfo;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
@@ -20,6 +21,8 @@ public interface ISessionLifeStyle {
     Mono<SessionAccountVo>  sessionAccountInfo(Long sessionId);
 
 
+
+    Flux<AccountInfo> checkoutUserOnlineStatusBySessionId(Iterable<Long> sessionId);
 
 
 

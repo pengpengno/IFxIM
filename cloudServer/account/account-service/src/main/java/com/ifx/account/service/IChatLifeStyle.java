@@ -8,6 +8,7 @@ import com.ifx.account.vo.ChatMsgVo;
  */
 public interface IChatLifeStyle {
 
+
     public void init();
 
     /**

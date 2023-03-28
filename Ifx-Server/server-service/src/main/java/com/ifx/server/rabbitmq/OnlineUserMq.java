@@ -16,7 +16,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import reactor.rabbitmq.Receiver;
-import reactor.rabbitmq.Sender;
 
 /**
  * 在线用户mq
@@ -47,33 +46,11 @@ public class OnlineUserMq {
     private IConnectContextAction contextAction;
 
     @Autowired
-    private Sender sender;
-
-    @Autowired
     private ConnectionContextUtil contextUtil;
     @Autowired
     private RabbitTemplate rabbitTemplate;
 
 
-
-//    /***
-//     * 接受在线状态搜索
-//     */
-//    public void receiveOnlineSearch(){
-//
-//        Flux<AcknowledgableDelivery> onLineUser = receiver.consumeManualAck(onlineMqQueue);
-//        onLineUser.map(delivery -> {
-//            byte[] body = delivery.getBody();
-//            try {
-//                return OnLineUser.UserSearch.parseFrom(body);
-//            } catch (InvalidProtocolBufferException e) {
-//                delivery.nack(false);
-//                throw new IllegalArgumentException(e);
-//            }
-//        }).onErrorResume(throwable -> Mono.empty())
-//        .map(userSearch -> contextUtil.filterOnlineByUserSearch(userSearch))
-//        .map(userSearch -> sender.send(Mono.just(new OutboundMessage(onlineUserExchange,onlineUserRouteKey,userSearch.toByteArray())))).subscribe();
-//    }
 
     @RabbitListener(
             bindings = {@QueueBinding(

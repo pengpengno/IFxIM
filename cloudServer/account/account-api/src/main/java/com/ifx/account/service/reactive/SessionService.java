@@ -13,6 +13,9 @@ public interface SessionService  {
 
      Mono<Long> post2Session(SessionInfoVo sessionInfoVo);
 
+     public Mono<SessionInfoVo> selectSession(Long sessionId);
+
+     Mono<SessionInfoVo> selectSessionWithinCreator(Long sessionId);
 
 
 

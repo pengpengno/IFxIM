@@ -8,6 +8,7 @@ import com.ifx.account.entity.SessionAccount;
 import com.ifx.account.mapstruct.SessionMapper;
 import com.ifx.account.repository.SessionAccountRepository;
 import com.ifx.account.repository.SessionRepository;
+import com.ifx.account.service.ISessionAccountService;
 import com.ifx.account.service.ISessionLifeStyle;
 import com.ifx.account.service.reactive.ReactiveAccountService;
 import com.ifx.account.vo.session.SessionAccountVo;
@@ -20,7 +21,6 @@ import com.ifx.connect.proto.Account;
 import com.ifx.connect.proto.OnLineUser;
 import com.ifx.exec.ex.valid.ValidationException;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.amqp.core.Address;
 import org.springframework.amqp.core.Message;
 import org.springframework.amqp.rabbit.connection.CorrelationData;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
@@ -33,7 +33,9 @@ import reactor.core.publisher.Mono;
 import reactor.rabbitmq.RpcClient;
 import reactor.rabbitmq.Sender;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -56,10 +58,18 @@ public class SessionLifeStyle implements ISessionLifeStyle {
     private RabbitTemplate rabbitTemplate;
 
     @Autowired
+    private ISessionAccountService sessionAccountService;
+
+    @Autowired
     private Sender sender;
 
     @Value("${online.user.search.queue:online.user.search}")
     private String onlineQueue ;
+
+    @Value("${online.user.routeKey:online.user.search}")
+    private String onlineUserRouteKey;
+
+
     @Override
     public Mono<SessionInfoVo> init(String name) {
         return Mono.just(name)
@@ -71,80 +81,41 @@ public class SessionLifeStyle implements ISessionLifeStyle {
                 }).flatMap(l-> r2dbcEntityTemplate.insert(l).map(SessionMapper.INSTANCE::session2Vo));
     }
 
-    private Mono<SessionInfoVo> selectSession(Long sessionId){
-        return sessionRepository.findById(sessionId).map(SessionMapper.INSTANCE::session2Vo);
+
+
+    private Flux<SessionInfoVo> selectSessionInfos(Iterable<Long> sessionIds) {
+        return sessionRepository.findAllById(sessionIds).map(SessionMapper.INSTANCE::session2Vo);
     }
 
-    private Mono<SessionInfoVo> selectSessionWithinCreator(Long sessionId){
-        return selectSession(sessionId).flatMap(l-> {
-            Long userId = l.getCreateInfo().getUserId();
-           return accountService.findByUserId(userId).map(e-> {
-               l.setCreateInfo(e);
-               return l;
-           });
-        });
-    }
+
 
 
     @Override
     public Flux<Long> addAccount(SessionAccountVo sessionAccountVo) {
-        return Mono.just(sessionAccountVo)
-                .doOnNext(l-> ValidatorUtil.validateThrows(sessionAccountVo, SessionAccountVo.SessionAccountAdd.class))
-                .map(vo -> {
-                    // take the
-                    sessionAccountInfo(vo.getSessionId()).doOnNext(info-> {
-                        Set<Long> existsAccounts = info.getAddUseIdSet();
-                        Set<Long> notExistsId = vo.getAddUseIdSet().stream().filter(id -> existsAccounts.contains(id)).collect(Collectors.toSet());
-                        vo.setAddUseIdSet(notExistsId);
-                    });
-                    return vo;
-                })
-                .doOnNext(vo -> {
-                    Long sessionId = vo.getSessionId();
-                    sessionRepository.findById(sessionId).hasElement().doOnNext(exist -> {
-                        if (!exist){
-                            throw new ValidationException("The specify session is not exists!");
-                        }
-                    });
-                })
-                .map(vo-> {
-                    AccountInfo createInfo = vo.getCreateInfo();
-                    Long sessionId = vo.getSessionId();
-                    Long userId = createInfo.userId();
-                    Set<Long> addAccSet = vo.getAddUseIdSet();
-                    return addAccSet.stream().map(e -> {
-                        SessionAccount sessionAccount = SessionAccount.builder().sessionId(sessionId)
-                                .userId(e)
-                                .build();
-                        sessionAccount.setCreateUserId(userId);
-                        return sessionAccount;
-                    }).collect(Collectors.toList());
-                })
-                .flatMapMany(elements -> sessionAccountRepository.saveAll(elements).map(BaseEntity::getId));
+        return sessionAccountService.addAccount(sessionAccountVo);
+    }
+
+
+    @Override
+    public Flux<AccountInfo> checkoutUserOnlineStatusBySessionId(Iterable<Long> sessionId) {
+
+        ArrayList<AccountInfo> accInfos = CollectionUtil.newArrayList();
+
+        Flux<SessionInfoVo> sessionInfoVoFlux = Mono.justOrEmpty(Optional.ofNullable(sessionId))
+                .flatMapMany(this::selectSessionInfos)
+               .reduce(accInfos, (accountInfos , sessions)->{  } )
+
+        ;
+        return null;
     }
 
 
     @Override
     public Mono<SessionAccountVo> sessionAccountInfo(Long sessionId) {
-
-        return sessionAccountRepository.queryGroupBySessionId(sessionId)
-                .reduceWith(()-> {
-                            SessionAccountVo vo = new SessionAccountVo();
-                            vo.setAddUseIdSet(CollectionUtil.newHashSet());
-                            vo.setSessionId(sessionId);
-                            return vo;
-                        },(vo, sessionAccount)-> {
-                            Long userId = sessionAccount.getUserId();
-                            vo.getAddUseIdSet().add(userId);
-                            return vo;
-                        }
-                    ).zipWith(selectSessionWithinCreator(sessionId),(w1,w2) -> {
-                        w1.setSessionName(w2.getSessionName());
-                        w1.setCreateInfo(w2.getCreateInfo());
-                        return w1;
-                });
-
+        return sessionAccountService.sessionAccount(sessionId);
     }
+
+
 
 
     /***
@@ -152,10 +123,10 @@ public class SessionLifeStyle implements ISessionLifeStyle {
      * @param accountInfos
      * @return
      */
-    public List<AccountInfo> checkoutUserOnlineStatus(List<AccountInfo> accountInfos){
+    private List<AccountInfo> checkoutUserOnlineStatus(List<AccountInfo> accountInfos){
         OnLineUser.UserSearch userSearch = SessionMapper.INSTANCE.buildSearch(accountInfos);
         Message message = new Message(userSearch.toByteArray());
-        Message returnMessage = rabbitTemplate.sendAndReceive(message, new CorrelationData());
+        Message returnMessage = rabbitTemplate.sendAndReceive(onlineUserRouteKey,message, new CorrelationData());
         byte[] body = returnMessage.getBody();
         try {
             OnLineUser.UserSearch returnSearch = OnLineUser.UserSearch.parseFrom(body);
@@ -165,6 +136,13 @@ public class SessionLifeStyle implements ISessionLifeStyle {
             throw new RuntimeException("格式异常！");
         }
     }
+
+
+    /***
+     * 检查用户上线状态
+     * @param accountInfos
+     * @return
+     */
     public Flux<AccountInfo> checkoutUserOnlineStatusReactor(List<AccountInfo> accountInfos){
         return Mono.just(accountInfos)
             .map(SessionMapper.INSTANCE::buildSearch)
@@ -183,19 +161,5 @@ public class SessionLifeStyle implements ISessionLifeStyle {
                             .map(ProtoBufMapper.INSTANCE::proto2Acc);
                 });
     }
-
-
-
-
-
-    public void checkoutOnlineUser(List<AccountInfo> accountInfos){
-        OnLineUser.UserSearch userSearch = SessionMapper.INSTANCE.buildSearch(accountInfos);
-        // global config  message body length
-        Message.setMaxBodyLength(200);
-        Message message = new Message(userSearch.toByteArray());
-        message.getMessageProperties().setReplyTo(Address.AMQ_RABBITMQ_REPLY_TO);
-        Message message1 = rabbitTemplate.sendAndReceive(message,new CorrelationData());
-    }
-
 
 }

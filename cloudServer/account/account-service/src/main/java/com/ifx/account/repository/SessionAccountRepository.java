@@ -12,6 +12,10 @@ import reactor.core.publisher.Flux;
 public interface SessionAccountRepository extends ReactiveCrudRepository<SessionAccount,Long> {
 
     @Query("select * from  session_account where session_id = :sessionId" )
-    Flux<SessionAccount> queryGroupBySessionId(@Param("sessionId") Long sessionId);
+    Flux<SessionAccount> queryBySessionId(@Param("sessionId") Long sessionId);
+
+
+
+
 
 }

@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.r2dbc.core.R2dbcEntityTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import javax.security.auth.login.AccountException;
@@ -49,6 +50,11 @@ public class ReactiveAccountServiceImpl implements ReactiveAccountService {
     @Override
     public Mono<AccountInfo> findByUserId(Long userId) {
         return accountRepository.findById(userId).map(AccountHelper.INSTANCE::buildAccountInfo);
+    }
+
+    @Override
+    public Flux<AccountInfo> findByUserIds(Iterable<Long> userIds) {
+        return accountRepository.findByAccountIdIn(userIds).map(AccountHelper.INSTANCE::buildAccountInfo);
     }
 
     @Override

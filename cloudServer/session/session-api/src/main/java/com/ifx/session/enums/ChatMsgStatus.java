@@ -4,16 +4,19 @@ package com.ifx.session.enums;
  * 消息状态
  */
 public enum ChatMsgStatus {
+    UNSENT ,  // 未发送
 
-    READ ,
-    UNREAD ,
+    SENT , // 已发送
 
-    SENT ,
+    SENTFAIL ,  //  发送失败
 
-    UNSENT ,
+    READ ,  // 已读
+    UNREAD , // 未读
 
-    SENTFAIL ,
-    HISTORY ,
+
+
+
+    HISTORY ,  // 历史消息
     ;
 
 

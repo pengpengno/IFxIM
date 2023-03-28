@@ -21,7 +21,6 @@ public class SessionAccountVo extends SessionInfoVo {
     private Set<Long> addUseIdSet;
 
 
-
     /**
      * @author pengpeng
      * @description
