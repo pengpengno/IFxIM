@@ -2,16 +2,8 @@ package com.ifx.client.app.controller;
 
 
 import com.ifx.account.vo.AccountVo;
-import com.ifx.client.ann.ProxyService;
-import com.ifx.client.service.helper.AccountHelper;
+import com.ifx.client.api.AccountApi;
 import com.ifx.client.util.FxmlLoader;
-import com.ifx.common.base.AccountInfo;
-import com.ifx.common.context.AccountContext;
-import com.ifx.connect.connection.client.ClientToolkit;
-import com.ifx.connect.proto.Protocol;
-import com.ifx.connect.proto.parse.ProtocolResultParser;
-import com.ifx.connect.task.handler.TaskHandler;
-import com.ifx.session.service.SessionAccountService;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -22,24 +14,21 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.util.Assert;
-import reactor.core.publisher.Mono;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import org.springframework.web.reactive.function.client.WebClient;
 
 import java.net.URL;
-import java.util.Objects;
 import java.util.ResourceBundle;
-import java.util.Set;
 
 
 @Slf4j
+@Component
 public class LoginController  implements Initializable {
-
 
     @FXML
     private Label account;
 
-    @ProxyService
-    private SessionAccountService sessionAccountService;
     @FXML
     private TextField accountField;
 
@@ -73,40 +62,41 @@ public class LoginController  implements Initializable {
     @FXML
     private CheckBox remberPsdCheckBox;
 
+    @Autowired
+    private WebClient webClient;
 
-
+    @Autowired
+    private AccountApi accountApi;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         passwordField.setText("wangpeng");
         accountField.setText("wangpeng");
-        log.info ("initialing login controller ");
+        log.debug ("initialing login controller ");
     }
 
     @FXML
     public void login(MouseEvent event) {
-        AccountVo accountVo = new AccountVo();
-        accountVo.setAccount( accountField.getText());
-        accountVo.setPassword(passwordField.getText());
-        Set<String> strings = sessionAccountService.listAccBySessionId(1l);
+        AccountVo accountVo = AccountVo.builder().account(accountField.getText())
+                .password(accountField.getText()).build();
 
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("登录状态");
+        accountApi.login(accountVo)
+            .subscribe(acc -> {
+                Platform.runLater(()->  {
+                    hide();
+                    MainController.show();
+
+//                    log.info(" jwt is  {}", jwt);
+//                    Auth.Authenticate.newBuilder().setJwt(jwt).build();
+
+                });
+            });
+
         alert.contentTextProperty().addListener((a1,a2,a3)-> {
             alert.show();
         });
-        TaskHandler taskHandler = protocol -> {
-            Mono.just(Objects.requireNonNull(ProtocolResultParser.getDataAsT(protocol, AccountInfo.class)))
-                    .doOnNext(ac-> Assert.isNull(ac,"登陆失败！"))
-                    .subscribe(AccountContext::setCurAccount);
-//            AccountInfo accountInfo = ProtocolResultParser.getDataAsT(protocol, AccountInfo.class);
-//            log.debug("login status {}",accountInfo);
-            hide();
-            MainController.show();
-        };
-        log.info("启动登录");
-        Protocol login = AccountHelper.applyLogins(accountVo);
-        ClientToolkit.getDefaultClientAction().sendJsonMsg(login,taskHandler);
     }
 
 

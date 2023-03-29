@@ -1,0 +1,49 @@
+syntax = "proto3";
+
+package com.ifx.connect.proto;
+option java_package = "com.ifx.connect.proto";
+option java_outer_classname = "Chat";
+import "google/protobuf/any.proto";
+
+
+message ChatMessage  {
+
+  string content  = 3 ;
+
+  string fromAccount = 5 ;
+
+  MessageDestEnum msgDestEnum = 9;
+
+  google.protobuf.Any chat = 10;
+
+  message Group{
+    float sessionId = 1 ;
+
+    repeated string toAccounts = 8 ;  // the receive  account
+
+  }
+
+  message Single{
+    float toAccount = 1;
+  }
+}
+
+enum MessageDestEnum{
+
+  GROUP = 0 ;
+
+  SINGLE = 1;
+}
+
+
+enum MessageType{
+
+  TEXT = 0 ;
+
+  FILE = 1 ;
+
+  STREAM = 2 ;
+
+  VIDEO = 3 ;
+
+}

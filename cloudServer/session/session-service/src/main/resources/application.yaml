@@ -1,0 +1,38 @@
+#ifx:
+#  api:
+#    gateway:
+#      host: ${IFX_API_HOST:localhost}
+#      port: ${IFX_API_PORT:8761}
+server:
+  port: 8002
+
+spring:
+  cloud:
+  application:
+    name: ifx-session
+  r2dbc:
+    url: r2dbc:mysql://124.221.168.200:3306/ifx?useUnicode=true&characterEncoding=utf-8&txcAppName=account&useSSL=true
+    username: ifx
+    password: ifx2022
+    pool:
+      #      enabled: true
+      initial-size: 100
+      max-size: 200
+      max-idle-time: 30m
+      validation-query: SELECT 1
+
+  data:
+    redis:
+      host: r-bp1qa05yeerb7tul4hpd.redis.rds.aliyuncs.com
+      port: 6379
+      timeout: 5000ms
+      password: Wal@!123
+      client-name: ifx
+    mongodb:
+      host: 124.221.168.200
+      port: 27017
+      username: admin
+      password: admin
+      database: ifx
+  datasource:
+

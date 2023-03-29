@@ -1,7 +1,7 @@
 package com.ifx.exec.ex.net;
 
 import com.ifx.exec.BaseException;
-import com.ifx.exec.ExceptionMessage;
+import com.ifx.exec.errorMsg.IErrorMsg;
 
 /**
  * 系统异常
@@ -10,12 +10,12 @@ import com.ifx.exec.ExceptionMessage;
  */
 public class SysException extends BaseException {
 
-    public SysException(ExceptionMessage exceptionMessage) {
-        super(exceptionMessage);
+    public SysException(IErrorMsg errorMsg) {
+        super(errorMsg);
     }
 
-    public SysException(ExceptionMessage exceptionMessage, String detailMsg) {
-        super(exceptionMessage, detailMsg);
+    public SysException(IErrorMsg errorMsg, String detailMsg) {
+        super(errorMsg, detailMsg);
     }
 
     public SysException() {

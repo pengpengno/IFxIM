@@ -5,7 +5,6 @@ import lombok.extern.slf4j.Slf4j;
 //import org.springframework.stereotype.Component;
 import java.util.concurrent.TimeUnit;
 
-//@Component("Memory")
 @Slf4j
 public class MemoryCacheUtil implements CacheUtil{
 

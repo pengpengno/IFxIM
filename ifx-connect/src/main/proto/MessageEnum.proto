@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+//option java_multiple_files = true;
+package com.ifx.connect.proto;
+option java_package = "com.ifx.connect.proto";
+option java_outer_classname = "ProtocolType";
+
+
+enum ProtocolMessageEnum{
+
+  TMP = 0;
+
+  AUTH = 1001;
+
+  ACCOUNTINFO =1004;
+
+  CHAT = 1002;
+
+  REQUEST = 1003;
+
+
+}

@@ -1,11 +1,6 @@
 package com.ifx.client.app.pane;
 
-import cn.hutool.core.util.ObjectUtil;
-import cn.hutool.core.util.ReflectUtil;
 import com.alibaba.fastjson2.JSON;
-import com.ifx.client.proxy.ProxyBean;
-import com.ifx.client.util.ProxyUtilTest;
-import com.ifx.common.ann.client.Proxy;
 import com.ifx.common.base.AccountInfo;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
@@ -17,12 +12,14 @@ import javafx.scene.layout.Pane;
 import lombok.extern.slf4j.Slf4j;
 
 import java.net.URL;
-import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.concurrent.ConcurrentHashMap;
 
 
+/***
+ * 搜索框
+ */
 @Slf4j
 public class SearchPane extends FlowPane {
 
@@ -113,21 +110,11 @@ public class SearchPane extends FlowPane {
 
         }
 
-        public static void main(String[] args) {
-            AccountMiniPane accountMiniPane = new AccountMiniPane();
-            Arrays.stream(AccountMiniPane.class.getFields())
-                    .filter(e-> ObjectUtil.isNotNull(e.getAnnotation(Proxy.class)))
-                    .forEach(k-> {
-                        k.setAccessible(true);
-                        ReflectUtil.setFieldValue(accountMiniPane,k,ProxyBean.getProxyBean(k.getType()));
-                    });
-        }
 
         public void init(){
 //        1.初始化标签文本
 //        2.初始化容器大小
 //            3. 添加 会话创建能力EventHandler
-            ProxyUtilTest.proxy(this);
             name = new Label(accountInfo.getUserName());
             name.setVisible(true);
             name.setLayoutX(20d);
@@ -135,14 +122,6 @@ public class SearchPane extends FlowPane {
             this.getChildren().add(name);
             this.addEventHandler(MouseEvent.MOUSE_CLICKED,(mouse)->{
                 log.debug("click button the account is {}", JSON.toJSONString(accountInfo));
-//                Protocol protocol = ProtocolHelper.applyDubboProtocol(ISessionLifeStyle.class, "initialize", new Object[]{});
-//                clientService.send(protocol, (res)-> {
-//                    log.info("返回了结果 {}" ,JSON.toJSONString(res));
-////                    创建了xxxx
-//                });
-//                clientService.send(protocol,(proRes)-> {
-//                    log.info ("成功创建会话");
-//                });
             });
             log.info("load {}  account {}" ,this.getClass().getName(),accountInfo);
 

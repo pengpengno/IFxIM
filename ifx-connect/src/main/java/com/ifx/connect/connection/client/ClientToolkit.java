@@ -1,7 +1,7 @@
 package com.ifx.connect.connection.client;
 
 import com.ifx.connect.config.ConnectionDefaultValue;
-import com.ifx.connect.connection.client.tcp.NettyClientAction;
+import com.ifx.connect.connection.client.tcp.reactive.ReactorTcpClient;
 import com.ifx.connect.enums.ConnectTypeEnums;
 
 /**
@@ -12,31 +12,27 @@ import com.ifx.connect.enums.ConnectTypeEnums;
  */
 public  class ClientToolkit {
 
-    /**
-     * 获取 {@link ClientAction} 的 Tcp 连接实现
-     * @return 返回 ClientAction 的 Tcp 实现
-     */
-    public static ClientAction getTcpInstance(){
-        return NettyClientAction.getInstance();
-    }
-
     /***
-     * 获取系统默认的客户端连接
-     * @return 返回客户端连接实现
+     * 获取默认的客户端 lifestyle
+     * @return ReactorTcpClient.getInstance()
      */
-    public static ClientAction getDefaultClientAction(){
+    public static  ClientLifeStyle clientLifeStyle(){
         ConnectTypeEnums defaultValue = ConnectionDefaultValue.getDefaultConnectType();
         if (defaultValue == ConnectTypeEnums.TCP){
-            return  NettyClientAction.getInstance();
+            return  ReactorTcpClient.getInstance();
         }
-        return  NettyClientAction.getInstance();
+        return  ReactorTcpClient.getInstance();
     }
 
-    public static  ClientLifeStyle getDefaultClientLifeStyle(){
+
+    public static ReactiveClientAction reactiveClientAction(){
         ConnectTypeEnums defaultValue = ConnectionDefaultValue.getDefaultConnectType();
         if (defaultValue == ConnectTypeEnums.TCP){
-            return  NettyClientAction.getInstance();
+            return  ReactorTcpClient.getInstance();
         }
-        return  NettyClientAction.getInstance();
+        return  ReactorTcpClient.getInstance();
     }
+
+
+
 }

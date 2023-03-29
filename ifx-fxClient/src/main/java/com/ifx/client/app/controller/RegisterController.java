@@ -1,13 +1,7 @@
 package com.ifx.client.app.controller;
 
-import cn.hutool.core.util.StrUtil;
 import com.ifx.account.vo.AccountVo;
-import com.ifx.client.service.helper.RegisterHelper;
 import com.ifx.client.util.FxmlLoader;
-import com.ifx.common.res.Result;
-import com.ifx.connect.connection.client.ClientToolkit;
-import com.ifx.connect.proto.Protocol;
-import com.ifx.connect.task.handler.TaskHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
@@ -16,8 +10,6 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
-
-import javax.annotation.Resource;
 
 /***
  * 注册界面
@@ -45,8 +37,6 @@ public class RegisterController  {
     private VBox registerFrame;
 
 
-    @Resource
-    private RegisterHelper registerHelper;
 
     @FXML
     void register(MouseEvent event) throws NoSuchMethodException {
@@ -55,18 +45,6 @@ public class RegisterController  {
         accountVo.setPassword(psdField.getText());
         accountVo.setEmail(mailField.getText());
 
-        TaskHandler taskHandler = resProtocol -> {
-//            String account = (String) resProtocol.getContent().getDataAsTClass().get(0);
-            Result result = resProtocol.getResult();
-            Object res = result.getRes();
-            String account = result.getDataAsTClass(String.class);
-            if (StrUtil.isNotBlank(account)){
-                log.info("注册成功！ {} ",account);
-            }
-            log.info("注册成功！");
-        };
-        Protocol registerProtocol = registerHelper.applyRegister(accountVo);
-        ClientToolkit.getDefaultClientAction().sendJsonMsg(registerProtocol, taskHandler);
     }
 
     @FXML

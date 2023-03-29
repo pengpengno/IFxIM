@@ -4,7 +4,6 @@ import com.ifx.common.base.AccountInfo;
 import io.netty.channel.Channel;
 import io.netty.util.Attribute;
 import io.netty.util.AttributeKey;
-import org.springframework.stereotype.Component;
 
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -12,7 +11,6 @@ import java.util.concurrent.ConcurrentHashMap;
  * netty 上下文处理
  * <p> 存储 netty Channel 通过 account 标识 获取 channel</p>
  */
-@Component
 public class NettyContext {
 
     private static ConcurrentHashMap<String, Channel> channelMap ; // <account ,channel>

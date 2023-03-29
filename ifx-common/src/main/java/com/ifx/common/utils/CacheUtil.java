@@ -9,7 +9,6 @@ public interface CacheUtil {
 
     public Boolean set(String  key,Object value);
 
-//    public Boolean expire(String  key, String value, Long expireTime, TimeUnit timeUnit);
 
     public Boolean expire(String  key, Object value, Long expireTime, TimeUnit timeUnit);
 

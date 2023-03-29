@@ -2,15 +2,9 @@ package com.ifx.client.app.controller;
 
 
 import cn.hutool.core.util.ObjectUtil;
-import com.alibaba.fastjson2.JSON;
 import com.ifx.account.vo.search.AccountSearchVo;
-import com.ifx.client.app.pane.SearchPane;
-import com.ifx.client.service.helper.AccountHelper;
 import com.ifx.client.util.FxmlLoader;
 import com.ifx.common.base.AccountInfo;
-import com.ifx.common.res.Result;
-import com.ifx.connect.connection.client.ClientToolkit;
-import com.ifx.connect.proto.parse.ProtocolResultParser;
 import javafx.application.ConditionalFeature;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -27,7 +21,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import java.net.URL;
-import java.util.List;
 import java.util.ResourceBundle;
 
 @Component
@@ -48,11 +41,6 @@ public class MainController implements Initializable {
 
     @FXML
     private TextField searchField;
-
-
-
-
-    private FxmlLoader fxmlLoader;
 
     @FXML
     private ListView<String> listView;
@@ -97,7 +85,7 @@ public class MainController implements Initializable {
     }
     @FXML
     void createSession(MouseEvent event) {
-        log.info("create sesssion ");
+        log.info("create session ");
         boolean supported = Platform.isSupported(ConditionalFeature.INPUT_METHOD);
 //        1. 发送信息
         String text = msgTextArea.getText();
@@ -110,38 +98,37 @@ public class MainController implements Initializable {
         searchField.textProperty().addListener((obs-> {
             searchPane.getChildren().clear();
             String text = searchField.getText();
-            log.debug("输入的文本为 {} ",text);
-            AccountSearchVo accountSearchVo = new AccountSearchVo();
-            accountSearchVo.setAccount(text);
-//             获取回调输出
-            ClientToolkit.getDefaultClientAction().sendJsonMsg(AccountHelper.applySearchAccount(accountSearchVo),(protoCol -> {
-                List<AccountInfo> accountInfos = ProtocolResultParser.getDataAsList(protoCol,AccountInfo.class);
-                log.info(JSON.toJSONString(protoCol));
-//                添加数据
-                accountInfos.forEach(e-> searchPane.getChildren().add(new SearchPane.AccountMiniPane(e)));
-            }));
+            AccountSearchVo build =
+                    AccountSearchVo.builder()
+                            .likeAccount(searchField.getText())
+                            .build();
+////             获取回调输出
+//            ClientToolkit.getDefaultClientAction().sendJsonMsg(AccountHelper.applySearchAccount(accountSearchVo),(protoCol -> {
+//                List<AccountInfo> accountInfos = ProtocolResultParser.getDataAsList(protoCol,AccountInfo.class);
+//                log.info(JSON.toJSONString(protoCol));
+////                添加数据
+//                accountInfos.forEach(e-> searchPane.getChildren().add(new SearchPane.AccountMiniPane(e)));
+//            }));
         }));
     }
 
     @FXML
     void searchAcc(InputMethodEvent event) {
-//        1. 查询 所有用户  (缓存没有则通过 请求 查询)
-//        2. 用户列表回传
         String text = searchField.getText();
         log.info("当前文本为 {} ",text);
-        AccountSearchVo accountSearchVo = new AccountSearchVo();
-        accountSearchVo.setAccount(text);
-        ClientToolkit.getDefaultClientAction().sendJsonMsg(AccountHelper.applySearchAccount(accountSearchVo),(protoCol -> {
-            Result result = protoCol.getResult();
-
-
-            List<AccountInfo> accountInfos = ProtocolResultParser.getDataAsList(protoCol,AccountInfo.class);
-            if (listView!= null){
-                accountInfos.stream().forEach(e-> {
-                    listView.getItems().add(e.getAccount());
-                });
-            }
-        }));
+        AccountSearchVo build =
+                AccountSearchVo.builder()
+                .likeAccount(searchField.getText())
+                .build();
+//        ClientToolkit.getDefaultClientAction().sendJsonMsg(AccountHelper.applySearchAccount(accountSearchVo),(protoCol -> {
+//            Result result = protoCol.getResult();
+//            List<AccountInfo> accountInfos = ProtocolResultParser.getDataAsList(protoCol,AccountInfo.class);
+//            if (listView!= null){
+//                accountInfos.stream().forEach(e-> {
+//                    listView.getItems().add(e.getAccount());
+//                });
+//            }
+//        }));
     }
 
     public static void show(){

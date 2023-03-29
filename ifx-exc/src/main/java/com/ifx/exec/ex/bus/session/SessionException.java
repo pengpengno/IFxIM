@@ -1,6 +1,5 @@
 package com.ifx.exec.ex.bus.session;
 
-import com.ifx.exec.ExceptionMessage;
 import com.ifx.exec.ex.bus.IFXException;
 
 /**
@@ -8,15 +7,9 @@ import com.ifx.exec.ex.bus.IFXException;
  * @date 2022/12/9
  */
 public class SessionException extends IFXException {
-    public SessionException(ExceptionMessage exceptionMessage) {
-        super(exceptionMessage);
-
+    public SessionException() {
+        super();
     }
-
-    public SessionException(ExceptionMessage exceptionMessage, String detailMsg) {
-        super(exceptionMessage, detailMsg);
-    }
-
 
     public SessionException(String message) {
         super(message);

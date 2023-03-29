@@ -12,7 +12,9 @@ public interface AccountSPI {
      * 获取用户身份唯一标识
      * @return
      */
-    public String accountId() ;
+    public String account() ;
+
+    public Long userId();
 
 
     public String accountName();

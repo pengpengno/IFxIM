@@ -1,0 +1,41 @@
+spring:
+  freemarker:
+    template-loader-path: classpath:/templates/
+    prefer-file-system-access: false
+  application:
+    name: gateway
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+          lower-case-service-id: true
+      routes:
+        - id: account-service
+#          uri: lb://account-service
+#          uri: ${account-service-url:http://localhost:8001}
+          uri: ${account-service-url:lb://account-service}
+          predicates:
+            - Path=/api/account/**
+          filters:
+            - StripPrefix=0
+        - id: session-service
+          uri: lb://session-service
+            - Path=/api/session/**
+          predicates:
+            - Path=/api/session/**
+          filters:
+            - StripPrefix=0
+  config:
+    activate:
+      on-cloud-platform:
+
+eureka:
+  instance:
+    namespace: gateway
+  client:
+    service-url:
+      defaultZone: ${EUREKA_URL:http://localhost:8761/eureka/}
+server:
+  port: 8080
+

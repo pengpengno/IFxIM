@@ -1,6 +1,5 @@
 package com.ifx.client.qos;
 
-import sun.reflect.Reflection;
 
 import java.io.IOException;
 

@@ -1,9 +1,5 @@
 package com.ifx.connect.reactor.netty.tcp;
 
-import com.ifx.connect.handler.client.ClientBusinessHandler;
-import com.ifx.connect.handler.decoder.ProtocolDecoder;
-import com.ifx.connect.handler.encoder.ProtocolEncoder;
-import io.netty.channel.Channel;
 import io.netty.handler.logging.LogLevel;
 import io.netty.handler.ssl.util.InsecureTrustManagerFactory;
 import lombok.extern.slf4j.Slf4j;
@@ -16,15 +12,7 @@ import reactor.netty.DisposableServer;
 import reactor.netty.tcp.TcpClient;
 import reactor.netty.tcp.TcpServer;
 import reactor.netty.tcp.TcpSslContextSpec;
-import reactor.netty.transport.logging.AdvancedByteBufFormat;
-
-import java.net.InetSocketAddress;
-import java.net.SocketAddress;
-import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
-import java.util.Scanner;
-import java.util.concurrent.atomic.AtomicReference;
-import java.util.function.Supplier;
+import reactor.test.StepVerifier;
 
 /**
  * 异步线程处理
@@ -40,84 +28,95 @@ public class ReactorNettyTest {
     public static String TCPLogger = "TCPLogger";
     @Test
     public void createServer(){
-        DisposableServer server =
-            TcpServer.create()
-                    .port(PORT)
-                    .wiretap("SLF4J",LogLevel.INFO)
-                    .handle((inbound, outbound) ->{
-                        inbound.receive().subscribe(k-> {
-                            log.info("接受到了数据 {}",k.toString(Charset.defaultCharset()));
-                        });
-                        return outbound.sendString(Mono.just("hello"));
-                            })
-                    .doOnUnbound(disposableServer -> log.info("端口 {}",disposableServer.address()))
-                    .bindNow()
-                    ;
-//        server.dispose();
-        server.onDispose()
-                .block();
-        log.info("sss");
+        DisposableServer server = TcpServer.create()
+                .host("localhost")
+                .port(PORT)
+                .wiretap("tcp-server", LogLevel.INFO)
+                .handle((inbound, outbound) -> {
+                    // Log any incoming messages
+                    outbound.sendString(Mono.just("hello"));
+                    return  inbound.receive().then();
+//                    return inbound.receive()
+//                            .asString()
+//                            .doOnNext(str -> System.out.println("Received: " + str))
+//                            // Transform the data and send it back to the client
+//                            .flatMap(str -> outbound.sendString(Mono.just("Echo: " + str)))
+//                            // Log any errors or exceptions
+//                            .doOnError(err -> System.err.println("Error handling connection: " + err))
+//                            .doFinally(onFinally -> System.out.println("Connection closed."));
+                })
+                .doOnConnection(l-> log.info(l.address().toString()))
+                .bindNow();
+
+        System.out.println("Server started on port " + server.port());
+
+        // Wait for the server to stop
+        server.onDispose().block();
     }
 
     @Test
-    public void  createClient() {
-        Connection connect = TcpClient.create()
-                .host(HOST)
+    public  void  createServer2(){
+        DisposableServer disposableServer1 = TcpServer.create()
                 .port(PORT)
-                .handle((nettyInbound, nettyOutbound) ->  nettyOutbound.sendString(Mono.just("weclome")))
-                .connectNow();
-        connect.outbound().sendString(Mono.just("sdasdasdsadsadas"));
-
-        connect.inbound()
-                .receive()
-                .asString(StandardCharsets.UTF_8)
-                .doOnNext(log::info)
-                .subscribe();
-        Scanner scanner = new Scanner(System.in, StandardCharsets.UTF_8.name());
-        while (scanner.hasNext()) {
-            String text = scanner.nextLine();
-            connect.outbound()
-                    .sendString(Mono.just(text + "\r\n"))
-                    .then()
-                    .subscribe();
-            if ("bye".equalsIgnoreCase(text)) {
-                break;
-            }
-
-        }
-        log.info("{}", connect.isDisposed());
-
-
+                .wiretap("SLF4J", LogLevel.DEBUG)
+                .handle((inbound, outbound) -> {
+//                    inbound.receive().subscribe(k -> {
+//                        log.info("接受到了数据 {}", k.toString(Charset.defaultCharset()));
+//                    });
+                    return outbound.sendString(Mono.just("hello"));
+                })
+                .doOnUnbound(disposableServer -> log.info("端口 {}", disposableServer.address()))
+                .bindNow();
+        disposableServer1.onDispose().block();
     }
 
-    public static void main(String[] args) {
+
+    @Test
+    public void  manyTimes(){
+        Connection connection =
+                TcpClient.create()
+                        .wiretap("client",LogLevel.INFO)
+                        .host("localhost")
+                        .port(PORT)
+                        .handle((inbound, outbound) -> outbound.sendString(Mono.just("geo it")))
+                        .connectNow();
+
+        StepVerifier.create(connection.outbound().sendString(Mono.just("s")))
+                .verifyComplete();
+    }
+    public static void main(String[] args) throws InterruptedException {
+
         Connection connect = TcpClient.create()
                 .host(HOST)
-                .port(PORT)
-                .wiretap("SLF4J",LogLevel.INFO)
-                .handle((nettyInbound, nettyOutbound) ->  nettyOutbound.sendString(Mono.just("weclome")))
+                .port(8094)
+                .wiretap("client",LogLevel.INFO)
+                .handle((nettyInbound, nettyOutbound) -> {
+//                    return nettyInbound.receive().asString().doOnNext(l-> log.info(l)).then();
+//                    Flux<String> objectFlux = Flux.create(fluxSink -> {
+//                        Scanner scanner = new Scanner(System.in, StandardCharsets.UTF_8);
+//                        while (scanner.hasNext()) {
+//                            log.info("wite");
+//                            String text = scanner.nextLine();
+//                            fluxSink.next(text);
+//                            if ("over".equalsIgnoreCase(text)) {
+//                                break;
+//                            }
+//                        }
+//                        fluxSink.complete();
+//                    });
+//                    nettyOutbound.sendString(Mono.just("sdda"));
+//                    return nettyOutbound.sendString(objectFlux);
+//                    return nettyOutbound.sendString(Mono.just("sdda"));
+                    return Mono.never();
+                })
                 .connectNow();
-//        connect.outbound().sendString(Mono.just("sdasdasdsadsadas"));
-
-//        connect.inbound()
-//                .receive()
-//                .asString(StandardCharsets.UTF_8)
-//                .doOnNext(log::info)
-//                .subscribe();
         log.info("{}", connect.isDisposed());
-
-        Scanner scanner = new Scanner(System.in, StandardCharsets.UTF_8.name());
-        while (scanner.hasNext()) {
-            String text = scanner.nextLine();
-            connect.outbound()
-                    .sendString(Mono.just(text + "\r\n"))
-                    .then()
-                    .subscribe();
-            if ("bye".equalsIgnoreCase(text)) {
-                break;
-            }
-
-        }
+        connect.inbound().receive().asString().doOnNext(f-> log.info(f)).then().subscribe();
+        connect.outbound().sendString(Mono.just("nice to meet you")).then().subscribe();
+        connect.onDispose().block();
+//        Thread.sleep(100000);
+//        StepVerifier.create(connect.outbound().sendString(Mono.just("s")))
+//                .verifyComplete();
     }
 
 //    static final boolean SECURE = System.getProperty("secure") != null;
@@ -127,7 +126,7 @@ public class ReactorNettyTest {
     public  void localClient() {
         TcpClient client =
                 TcpClient.create()
-                        .port(PORT)
+                .port(PORT)
 //                        .wiretap(WIRETAP)
                 ;
 
@@ -145,33 +144,4 @@ public class ReactorNettyTest {
                 .block();
     }
 
-    @Test
-    public void customServer(){
-        AtomicReference<Channel> che = null;
-
-        Mono<? extends DisposableServer> bind = TcpServer.create()
-                .wiretap(TCPLogger, LogLevel.DEBUG, AdvancedByteBufFormat.SIMPLE)
-                .doOnConnection(connection -> {
-                    connection.addHandlerFirst(new ProtocolEncoder());
-                })
-                .doOnChannelInit((connectionObserver, channel, remoteAddress) -> {
-                    channel.pipeline()
-                            .addLast(new ProtocolEncoder())
-                            .addLast(new ProtocolDecoder())
-                            .addLast(new ClientBusinessHandler());
-                    che.set(channel);
-                })
-                .bindAddress((Supplier<? extends SocketAddress>) () -> {
-                    return new InetSocketAddress("127.0.0.1", 9081);
-                })
-                .bind();
-//        che.get().writeAndFlush("sds");
-//        StepVerifier.create()
-//        bind.
-//        Disposable tcpServerDis = bind;
-
-//                .subscribe();
-//        tcpServerDis.
-
-    }
 }

@@ -1,7 +1,7 @@
 package com.ifx.client.app.pane.session;
 
 import cn.hutool.core.collection.CollectionUtil;
-import com.ifx.account.entity.Account;
+import com.ifx.common.base.AccountInfo;
 import com.ifx.session.vo.session.SessionAccountVo;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -24,9 +24,9 @@ public class SessionCreatePane extends Pane implements Initializable {
 
     private TextArea sessionTitle ;
 
-    private Set<Account> accounts ;
+    private Set<AccountInfo> accounts ;
 
-    private Set<String> accountSet;
+    private Set<Long> useIdSet;
 
     private TextArea sessionDetail =  new TextArea();
 
@@ -46,7 +46,7 @@ public class SessionCreatePane extends Pane implements Initializable {
         create = new Button(SessionConst.CREATE);
         create.addEventHandler(MouseEvent.MOUSE_CLICKED, (mouse) -> {
             log.debug("开始新建会话");
-            sessionAccountVo.setAddAccSet(accountSet);
+            sessionAccountVo.setAddUseIdSet(useIdSet);
         });
     }
 
