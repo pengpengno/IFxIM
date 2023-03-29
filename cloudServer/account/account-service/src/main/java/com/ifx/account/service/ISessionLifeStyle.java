@@ -21,9 +21,7 @@ public interface ISessionLifeStyle {
     Mono<SessionAccountVo>  sessionAccountInfo(Long sessionId);
 
 
-
-    Flux<AccountInfo> checkoutUserOnlineStatusBySessionId(Iterable<Long> sessionId);
-
+    public Flux<AccountInfo> checkOnlineUserBySessionId(Long sessionId);
 
 
 

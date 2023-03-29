@@ -4,12 +4,14 @@ import com.ifx.account.service.ChatMsgService;
 import com.ifx.account.service.IChatAction;
 import com.ifx.account.service.ISessionLifeStyle;
 import com.ifx.account.vo.ChatMsgVo;
+import com.ifx.common.utils.ValidatorUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
 
 import java.util.List;
+import java.util.Optional;
 
 /***
  * 消息
@@ -37,10 +39,16 @@ public class ChatAction implements IChatAction {
      */
     @Override
     public void pushMsg(ChatMsgVo chatMsgVo) {
-        chatMsgService.saveMsg(chatMsgVo)
-                .then(Mono.just(chatMsgVo))
-                .map(e->e.getSessionId())
-                .map(e-> e)
+
+        final ChatMsgVo tmp = chatMsgVo;
+        Mono.justOrEmpty(Optional.ofNullable(chatMsgVo))
+                        .doOnNext(e-> ValidatorUtil.validateThrows(chatMsgVo,ChatMsgVo.ChatPush.class)) //  验证实体合法性
+                        .flatMap(e->chatMsgService.saveMsg(e)) // 存储消息
+                .then(Mono.just(tmp)) // 消息投递
+                .map(e->tmp.getSessionId())
+                .map(e-> sessionLifeStyle.checkOnlineUserBySessionId(e))  // 查询在线用户
+                                                                            // 开始信息投递
+
 
         ;
 

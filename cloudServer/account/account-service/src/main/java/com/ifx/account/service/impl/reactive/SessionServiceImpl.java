@@ -32,16 +32,13 @@ public class SessionServiceImpl implements SessionService {
 
     @Autowired
     private ReactiveAccountService accountService;
-//
-//    @Resource
-//    private ReactiveRedisTemplate<String,Object> reactiveRedisTemplate;
 
     @Override
     public Mono<Long> post2Session(SessionInfoVo sessionInfoVo) {
         return Mono.just(sessionInfoVo)
             .map(SessionMapper.INSTANCE::vo2Session)
                 .flatMap(session ->{
-                    Supplier<Long> id = session.getId()==null? () -> {
+                    Supplier<Long> id = session.getId() == null? () -> {
                         session.setId(IdUtil.getSnowflakeNextId());
                         r2dbcEntityTemplate.insert(session);
                         return session.getId();

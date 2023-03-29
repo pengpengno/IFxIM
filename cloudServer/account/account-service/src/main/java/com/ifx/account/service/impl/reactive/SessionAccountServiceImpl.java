@@ -1,8 +1,10 @@
 package com.ifx.account.service.impl.reactive;
 
 import cn.hutool.core.collection.CollectionUtil;
+import com.google.protobuf.InvalidProtocolBufferException;
 import com.ifx.account.entity.BaseEntity;
 import com.ifx.account.entity.SessionAccount;
+import com.ifx.account.mapstruct.SessionMapper;
 import com.ifx.account.repository.SessionAccountRepository;
 import com.ifx.account.repository.SessionRepository;
 import com.ifx.account.service.ISessionAccountService;
@@ -12,12 +14,22 @@ import com.ifx.account.vo.session.SessionAccountContextVo;
 import com.ifx.account.vo.session.SessionAccountVo;
 import com.ifx.common.base.AccountInfo;
 import com.ifx.common.utils.ValidatorUtil;
+import com.ifx.connect.mapstruct.ProtoBufMapper;
+import com.ifx.connect.proto.Account;
+import com.ifx.connect.proto.OnLineUser;
 import com.ifx.exec.ex.valid.ValidationException;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.amqp.core.Message;
+import org.springframework.amqp.rabbit.connection.CorrelationData;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+import reactor.rabbitmq.RpcClient;
+import reactor.rabbitmq.Sender;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -39,6 +51,20 @@ public class SessionAccountServiceImpl implements ISessionAccountService {
 
     @Autowired
     private SessionService sessionService;
+
+
+    @Value("${online.user.search.queue:online.user.search}")
+    private String onlineQueue ;
+
+    @Value("${online.user.routeKey:online.user.search}")
+    private String onlineUserRouteKey;
+
+
+    @Autowired
+    private Sender sender;
+
+    @Autowired
+    private RabbitTemplate rabbitTemplate;
 
     @Autowired
     private SessionRepository sessionRepository;
@@ -99,9 +125,22 @@ public class SessionAccountServiceImpl implements ISessionAccountService {
                 .flatMapMany(elements -> sessionAccountRepository.saveAll(elements).map(BaseEntity::getId));
     }
 
+    @Override
+    public Mono<List<AccountInfo>> checkoutUserOnlineBySession(Long sessionId) {
+       return sessionAccContextVo(sessionId)
+                .flatMap(vo -> {
+                    Map<Long, AccountInfo> context = vo.getSessionAccountContext();
+                    if (CollectionUtil.isEmpty(context)){
+                        return Mono.just(context.values());
+                    }
+                    return Mono.empty();
+                })
+                .map(e-> checkoutUserOnlineStatus(e));
 
+    }
 
     public Mono<SessionAccountContextVo> sessionAccContextVo(Long sessionId) {
+        Assert.notNull(sessionId,"The specify session could not be null!");
         return sessionAccountRepository.queryBySessionId(sessionId)
                 .reduceWith(() -> {
                     SessionAccountContextVo sessionAccountVo = new SessionAccountContextVo();
@@ -118,6 +157,27 @@ public class SessionAccountServiceImpl implements ISessionAccountService {
                             .doOnNext(info -> context.put(info.getUserId(), info))
                             .then().flatMap(l -> Mono.just(e));
                 });
+    }
+
+
+
+    /***
+     * 检查线上用户状态
+     * @param accountInfos
+     * @return
+     */
+    public List<AccountInfo> checkoutUserOnlineStatus(Iterable<AccountInfo> accountInfos){
+        OnLineUser.UserSearch userSearch = SessionMapper.INSTANCE.buildSearch(accountInfos);
+        Message message = new Message(userSearch.toByteArray());
+        Message returnMessage = rabbitTemplate.sendAndReceive(onlineUserRouteKey,message, new CorrelationData());
+        byte[] body = returnMessage.getBody();
+        try {
+            OnLineUser.UserSearch returnSearch = OnLineUser.UserSearch.parseFrom(body);
+            List<Account.AccountInfo> accountsList = returnSearch.getAccountsList();
+            return ProtoBufMapper.INSTANCE.proto2AccIterable(accountsList);
+        } catch (InvalidProtocolBufferException e) {
+            throw new RuntimeException("格式异常！");
+        }
     }
 
 
@@ -141,4 +201,32 @@ public class SessionAccountServiceImpl implements ISessionAccountService {
                     return w1;
                 });
     }
+
+
+
+
+    /***
+     * 检查用户上线状态 reactor-rabbitmq 实现
+     * @param accountInfos
+     * @return
+     */
+    public Flux<AccountInfo> checkoutUserOnlineStatusReactor(List<AccountInfo> accountInfos){
+        return Mono.just(accountInfos)
+                .map(SessionMapper.INSTANCE::buildSearch)
+                .flatMap(l -> sender.rpcClient("",onlineQueue).rpc(Mono.just(new RpcClient.RpcRequest(l.toByteArray()))))
+                .map(res -> {
+                    byte[] body = res.getBody();
+                    try {
+                        return OnLineUser.UserSearch.parseFrom(body);
+                    } catch (InvalidProtocolBufferException e) {
+                        throw new RuntimeException("格式异常！");
+                    }
+                })
+                .flatMapMany(userSearch -> {
+                    List<Account.AccountInfo> accountsList = userSearch.getAccountsList();
+                    return Flux.fromIterable(accountsList)
+                            .map(ProtoBufMapper.INSTANCE::proto2Acc);
+                });
+    }
+
 }

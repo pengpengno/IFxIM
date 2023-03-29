@@ -10,7 +10,7 @@ public class ChatMsgVo implements Serializable {
 
     private String content;  // 消息文本
 
-    @NotNull(message = "会话类型不可为空！",groups = ChatPush.class)
+//    @NotNull(message = "会话类型不可为空！",groups = ChatPush.class)
     private String contentType;
 
 

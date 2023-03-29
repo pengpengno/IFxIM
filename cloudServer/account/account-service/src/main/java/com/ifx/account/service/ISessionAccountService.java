@@ -2,8 +2,11 @@ package com.ifx.account.service;
 
 import com.ifx.account.vo.session.SessionAccountContextVo;
 import com.ifx.account.vo.session.SessionAccountVo;
+import com.ifx.common.base.AccountInfo;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+
+import java.util.List;
 
 /**
  * @author pengpeng
@@ -21,5 +24,9 @@ public interface ISessionAccountService {
 
 
     public Mono<SessionAccountContextVo> sessionAccContextVo(Long sessionId);
+
+
+    public Mono<List<AccountInfo>> checkoutUserOnlineBySession(Long  sessionId);
+
 
 }

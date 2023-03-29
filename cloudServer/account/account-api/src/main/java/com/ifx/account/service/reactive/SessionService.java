@@ -11,6 +11,11 @@ import reactor.core.publisher.Mono;
 public interface SessionService  {
 
 
+     /**
+      * 创建/更新 session
+      * @param sessionInfoVo
+      * @return
+      */
      Mono<Long> post2Session(SessionInfoVo sessionInfoVo);
 
      public Mono<SessionInfoVo> selectSession(Long sessionId);
