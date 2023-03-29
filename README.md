@@ -13,6 +13,6 @@
 - 网络消息序列化[ProtocolBuf](https://protobuf.dev/getting-started/javatutorial/)
 
 ### Feature
-✨ 消息分级（权重）
-✨ 单聊场景下写扩散
-✨ 群聊场景下的读扩散
+- ✨ 消息分级（权重）
+- ✨ 单聊场景下写扩散
+- ✨ 群聊场景下的读扩散
