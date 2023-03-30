@@ -28,6 +28,7 @@ public class ChatAction implements IChatAction {
     ChatMsgService chatMsgService;
 
 
+    private static final String ONLINE_USER_CONTEXT_KEY = "ONLINE";  // 用户在线状态存储key
 
     /***
      * <p>存储消息</p>
@@ -38,16 +39,17 @@ public class ChatAction implements IChatAction {
      * @param chatMsgVo  消息实体
      */
     @Override
-    public void pushMsg(ChatMsgVo chatMsgVo) {
-
+    public Mono<Void> pushMsg(ChatMsgVo chatMsgVo) {
         final ChatMsgVo tmp = chatMsgVo;
-        Mono.justOrEmpty(Optional.ofNullable(chatMsgVo))
-                        .doOnNext(e-> ValidatorUtil.validateThrows(chatMsgVo,ChatMsgVo.ChatPush.class)) //  验证实体合法性
-                        .flatMap(e->chatMsgService.saveMsg(e)) // 存储消息
-                .then(Mono.just(tmp)) // 消息投递
-                .map(e->tmp.getSessionId())
-                .map(e-> sessionLifeStyle.checkOnlineUserBySessionId(e))  // 查询在线用户
-                                                                            // 开始信息投递
+        Mono<ChatMsgVo> chatMsgVoMono = Mono.justOrEmpty(Optional.ofNullable(tmp));
+        chatMsgVoMono
+            .doOnNext(e-> ValidatorUtil.validateThrows(chatMsgVo,ChatMsgVo.ChatPush.class)) //  验证实体合法性
+            .flatMap(e->chatMsgService.saveMsgReadPattern(e)) // 存储消息
+            .then(chatMsgVoMono) // 消息投递
+            .map(e->tmp.getSessionId())
+
+            .contextWrite(context -> context.put(ONLINE_USER_CONTEXT_KEY,sessionLifeStyle.checkOnlineUserBySessionId(tmp.getSessionId())))
+            .map()                                                            // 开始信息投递
 
 
         ;

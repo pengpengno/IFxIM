@@ -10,9 +10,10 @@ public class ChatMsgVo implements Serializable {
 
     private String content;  // 消息文本
 
-//    @NotNull(message = "会话类型不可为空！",groups = ChatPush.class)
+    /***
+     * @see com.ifx.account.enums.ContentType
+     */
     private String contentType;
-
 
     @NotNull(message = "发送人不可为空",groups = ChatPush.class)
     private AccountInfo fromAccount;

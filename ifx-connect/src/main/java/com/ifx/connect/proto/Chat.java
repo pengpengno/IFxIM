@@ -15,114 +15,6 @@ public final class Chat {
         (com.google.protobuf.ExtensionRegistryLite) registry);
   }
   /**
-   * Protobuf enum {@code com.ifx.connect.proto.MessageDestEnum}
-   */
-  public enum MessageDestEnum
-      implements com.google.protobuf.ProtocolMessageEnum {
-    /**
-     * <code>GROUP = 0;</code>
-     */
-    GROUP(0),
-    /**
-     * <code>SINGLE = 1;</code>
-     */
-    SINGLE(1),
-    UNRECOGNIZED(-1),
-    ;
-
-    /**
-     * <code>GROUP = 0;</code>
-     */
-    public static final int GROUP_VALUE = 0;
-    /**
-     * <code>SINGLE = 1;</code>
-     */
-    public static final int SINGLE_VALUE = 1;
-
-
-    public final int getNumber() {
-      if (this == UNRECOGNIZED) {
-        throw new java.lang.IllegalArgumentException(
-            "Can't get the number of an unknown enum value.");
-      }
-      return value;
-    }
-
-    /**
-     * @param value The numeric wire value of the corresponding enum entry.
-     * @return The enum associated with the given numeric wire value.
-     * @deprecated Use {@link #forNumber(int)} instead.
-     */
-    @java.lang.Deprecated
-    public static MessageDestEnum valueOf(int value) {
-      return forNumber(value);
-    }
-
-    /**
-     * @param value The numeric wire value of the corresponding enum entry.
-     * @return The enum associated with the given numeric wire value.
-     */
-    public static MessageDestEnum forNumber(int value) {
-      switch (value) {
-        case 0: return GROUP;
-        case 1: return SINGLE;
-        default: return null;
-      }
-    }
-
-    public static com.google.protobuf.Internal.EnumLiteMap<MessageDestEnum>
-        internalGetValueMap() {
-      return internalValueMap;
-    }
-    private static final com.google.protobuf.Internal.EnumLiteMap<
-        MessageDestEnum> internalValueMap =
-          new com.google.protobuf.Internal.EnumLiteMap<MessageDestEnum>() {
-            public MessageDestEnum findValueByNumber(int number) {
-              return MessageDestEnum.forNumber(number);
-            }
-          };
-
-    public final com.google.protobuf.Descriptors.EnumValueDescriptor
-        getValueDescriptor() {
-      if (this == UNRECOGNIZED) {
-        throw new java.lang.IllegalStateException(
-            "Can't get the descriptor of an unrecognized enum value.");
-      }
-      return getDescriptor().getValues().get(ordinal());
-    }
-    public final com.google.protobuf.Descriptors.EnumDescriptor
-        getDescriptorForType() {
-      return getDescriptor();
-    }
-    public static final com.google.protobuf.Descriptors.EnumDescriptor
-        getDescriptor() {
-      return com.ifx.connect.proto.Chat.getDescriptor().getEnumTypes().get(0);
-    }
-
-    private static final MessageDestEnum[] VALUES = values();
-
-    public static MessageDestEnum valueOf(
-        com.google.protobuf.Descriptors.EnumValueDescriptor desc) {
-      if (desc.getType() != getDescriptor()) {
-        throw new java.lang.IllegalArgumentException(
-          "EnumValueDescriptor is not for this type.");
-      }
-      if (desc.getIndex() == -1) {
-        return UNRECOGNIZED;
-      }
-      return VALUES[desc.getIndex()];
-    }
-
-    private final int value;
-
-    private MessageDestEnum(int value) {
-      this.value = value;
-    }
-
-    // @@protoc_insertion_point(enum_scope:com.ifx.connect.proto.MessageDestEnum)
-  }
-
-  /**
    * Protobuf enum {@code com.ifx.connect.proto.MessageType}
    */
   public enum MessageType
@@ -131,6 +23,10 @@ public final class Chat {
      * <code>TEXT = 0;</code>
      */
     TEXT(0),
+    /**
+     * <code>MARKDOWN = 5;</code>
+     */
+    MARKDOWN(5),
     /**
      * <code>FILE = 1;</code>
      */
@@ -150,6 +46,10 @@ public final class Chat {
      * <code>TEXT = 0;</code>
      */
     public static final int TEXT_VALUE = 0;
+    /**
+     * <code>MARKDOWN = 5;</code>
+     */
+    public static final int MARKDOWN_VALUE = 5;
     /**
      * <code>FILE = 1;</code>
      */
@@ -189,6 +89,7 @@ public final class Chat {
     public static MessageType forNumber(int value) {
       switch (value) {
         case 0: return TEXT;
+        case 5: return MARKDOWN;
         case 1: return FILE;
         case 2: return STREAM;
         case 3: return VIDEO;
@@ -222,7 +123,7 @@ public final class Chat {
     }
     public static final com.google.protobuf.Descriptors.EnumDescriptor
         getDescriptor() {
-      return com.ifx.connect.proto.Chat.getDescriptor().getEnumTypes().get(1);
+      return com.ifx.connect.proto.Chat.getDescriptor().getEnumTypes().get(0);
     }
 
     private static final MessageType[] VALUES = values();
@@ -253,6 +154,18 @@ public final class Chat {
       com.google.protobuf.MessageOrBuilder {
 
     /**
+     * <code>int64 msgId = 1;</code>
+     * @return The msgId.
+     */
+    long getMsgId();
+
+    /**
+     * <code>int64 sessionId = 5;</code>
+     * @return The sessionId.
+     */
+    long getSessionId();
+
+    /**
      * <code>string content = 3;</code>
      * @return The content.
      */
@@ -265,27 +178,45 @@ public final class Chat {
         getContentBytes();
 
     /**
-     * <code>string fromAccount = 5;</code>
-     * @return The fromAccount.
+     * <code>.com.ifx.connect.proto.AccountInfo fromAccountInfo = 2;</code>
+     * @return Whether the fromAccountInfo field is set.
      */
-    java.lang.String getFromAccount();
+    boolean hasFromAccountInfo();
     /**
-     * <code>string fromAccount = 5;</code>
-     * @return The bytes for fromAccount.
+     * <code>.com.ifx.connect.proto.AccountInfo fromAccountInfo = 2;</code>
+     * @return The fromAccountInfo.
      */
-    com.google.protobuf.ByteString
-        getFromAccountBytes();
+    com.ifx.connect.proto.Account.AccountInfo getFromAccountInfo();
+    /**
+     * <code>.com.ifx.connect.proto.AccountInfo fromAccountInfo = 2;</code>
+     */
+    com.ifx.connect.proto.Account.AccountInfoOrBuilder getFromAccountInfoOrBuilder();
 
     /**
-     * <code>.com.ifx.connect.proto.MessageDestEnum msgDestEnum = 9;</code>
-     * @return The enum numeric value on the wire for msgDestEnum.
+     * <code>.com.ifx.connect.proto.AccountInfo toAccountInfo = 8;</code>
+     * @return Whether the toAccountInfo field is set.
      */
-    int getMsgDestEnumValue();
+    boolean hasToAccountInfo();
     /**
-     * <code>.com.ifx.connect.proto.MessageDestEnum msgDestEnum = 9;</code>
-     * @return The msgDestEnum.
+     * <code>.com.ifx.connect.proto.AccountInfo toAccountInfo = 8;</code>
+     * @return The toAccountInfo.
      */
-    com.ifx.connect.proto.Chat.MessageDestEnum getMsgDestEnum();
+    com.ifx.connect.proto.Account.AccountInfo getToAccountInfo();
+    /**
+     * <code>.com.ifx.connect.proto.AccountInfo toAccountInfo = 8;</code>
+     */
+    com.ifx.connect.proto.Account.AccountInfoOrBuilder getToAccountInfoOrBuilder();
+
+    /**
+     * <code>.com.ifx.connect.proto.MessageType type = 6;</code>
+     * @return The enum numeric value on the wire for type.
+     */
+    int getTypeValue();
+    /**
+     * <code>.com.ifx.connect.proto.MessageType type = 6;</code>
+     * @return The type.
+     */
+    com.ifx.connect.proto.Chat.MessageType getType();
 
     /**
      * <code>.google.protobuf.Any chat = 10;</code>
@@ -316,8 +247,7 @@ public final class Chat {
     }
     private ChatMessage() {
       content_ = "";
-      fromAccount_ = "";
-      msgDestEnum_ = 0;
+      type_ = 0;
     }
 
     @java.lang.Override
@@ -350,22 +280,52 @@ public final class Chat {
             case 0:
               done = true;
               break;
+            case 8: {
+
+              msgId_ = input.readInt64();
+              break;
+            }
+            case 18: {
+              com.ifx.connect.proto.Account.AccountInfo.Builder subBuilder = null;
+              if (fromAccountInfo_ != null) {
+                subBuilder = fromAccountInfo_.toBuilder();
+              }
+              fromAccountInfo_ = input.readMessage(com.ifx.connect.proto.Account.AccountInfo.parser(), extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(fromAccountInfo_);
+                fromAccountInfo_ = subBuilder.buildPartial();
+              }
+
+              break;
+            }
             case 26: {
               java.lang.String s = input.readStringRequireUtf8();
 
               content_ = s;
               break;
             }
-            case 42: {
-              java.lang.String s = input.readStringRequireUtf8();
+            case 40: {
 
-              fromAccount_ = s;
+              sessionId_ = input.readInt64();
               break;
             }
-            case 72: {
+            case 48: {
               int rawValue = input.readEnum();
 
-              msgDestEnum_ = rawValue;
+              type_ = rawValue;
+              break;
+            }
+            case 66: {
+              com.ifx.connect.proto.Account.AccountInfo.Builder subBuilder = null;
+              if (toAccountInfo_ != null) {
+                subBuilder = toAccountInfo_.toBuilder();
+              }
+              toAccountInfo_ = input.readMessage(com.ifx.connect.proto.Account.AccountInfo.parser(), extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(toAccountInfo_);
+                toAccountInfo_ = subBuilder.buildPartial();
+              }
+
               break;
             }
             case 82: {
@@ -1681,6 +1641,28 @@ public final class Chat {
 
     }
 
+    public static final int MSGID_FIELD_NUMBER = 1;
+    private long msgId_;
+    /**
+     * <code>int64 msgId = 1;</code>
+     * @return The msgId.
+     */
+    @java.lang.Override
+    public long getMsgId() {
+      return msgId_;
+    }
+
+    public static final int SESSIONID_FIELD_NUMBER = 5;
+    private long sessionId_;
+    /**
+     * <code>int64 sessionId = 5;</code>
+     * @return The sessionId.
+     */
+    @java.lang.Override
+    public long getSessionId() {
+      return sessionId_;
+    }
+
     public static final int CONTENT_FIELD_NUMBER = 3;
     private volatile java.lang.Object content_;
     /**
@@ -1719,61 +1701,75 @@ public final class Chat {
       }
     }
 
-    public static final int FROMACCOUNT_FIELD_NUMBER = 5;
-    private volatile java.lang.Object fromAccount_;
+    public static final int FROMACCOUNTINFO_FIELD_NUMBER = 2;
+    private com.ifx.connect.proto.Account.AccountInfo fromAccountInfo_;
     /**
-     * <code>string fromAccount = 5;</code>
-     * @return The fromAccount.
+     * <code>.com.ifx.connect.proto.AccountInfo fromAccountInfo = 2;</code>
+     * @return Whether the fromAccountInfo field is set.
      */
     @java.lang.Override
-    public java.lang.String getFromAccount() {
-      java.lang.Object ref = fromAccount_;
-      if (ref instanceof java.lang.String) {
-        return (java.lang.String) ref;
-      } else {
-        com.google.protobuf.ByteString bs = 
-            (com.google.protobuf.ByteString) ref;
-        java.lang.String s = bs.toStringUtf8();
-        fromAccount_ = s;
-        return s;
-      }
+    public boolean hasFromAccountInfo() {
+      return fromAccountInfo_ != null;
     }
     /**
-     * <code>string fromAccount = 5;</code>
-     * @return The bytes for fromAccount.
+     * <code>.com.ifx.connect.proto.AccountInfo fromAccountInfo = 2;</code>
+     * @return The fromAccountInfo.
      */
     @java.lang.Override
-    public com.google.protobuf.ByteString
-        getFromAccountBytes() {
-      java.lang.Object ref = fromAccount_;
-      if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b = 
-            com.google.protobuf.ByteString.copyFromUtf8(
-                (java.lang.String) ref);
-        fromAccount_ = b;
-        return b;
-      } else {
-        return (com.google.protobuf.ByteString) ref;
-      }
+    public com.ifx.connect.proto.Account.AccountInfo getFromAccountInfo() {
+      return fromAccountInfo_ == null ? com.ifx.connect.proto.Account.AccountInfo.getDefaultInstance() : fromAccountInfo_;
+    }
+    /**
+     * <code>.com.ifx.connect.proto.AccountInfo fromAccountInfo = 2;</code>
+     */
+    @java.lang.Override
+    public com.ifx.connect.proto.Account.AccountInfoOrBuilder getFromAccountInfoOrBuilder() {
+      return getFromAccountInfo();
     }
 
-    public static final int MSGDESTENUM_FIELD_NUMBER = 9;
-    private int msgDestEnum_;
+    public static final int TOACCOUNTINFO_FIELD_NUMBER = 8;
+    private com.ifx.connect.proto.Account.AccountInfo toAccountInfo_;
     /**
-     * <code>.com.ifx.connect.proto.MessageDestEnum msgDestEnum = 9;</code>
-     * @return The enum numeric value on the wire for msgDestEnum.
+     * <code>.com.ifx.connect.proto.AccountInfo toAccountInfo = 8;</code>
+     * @return Whether the toAccountInfo field is set.
      */
-    @java.lang.Override public int getMsgDestEnumValue() {
-      return msgDestEnum_;
+    @java.lang.Override
+    public boolean hasToAccountInfo() {
+      return toAccountInfo_ != null;
     }
     /**
-     * <code>.com.ifx.connect.proto.MessageDestEnum msgDestEnum = 9;</code>
-     * @return The msgDestEnum.
+     * <code>.com.ifx.connect.proto.AccountInfo toAccountInfo = 8;</code>
+     * @return The toAccountInfo.
      */
-    @java.lang.Override public com.ifx.connect.proto.Chat.MessageDestEnum getMsgDestEnum() {
+    @java.lang.Override
+    public com.ifx.connect.proto.Account.AccountInfo getToAccountInfo() {
+      return toAccountInfo_ == null ? com.ifx.connect.proto.Account.AccountInfo.getDefaultInstance() : toAccountInfo_;
+    }
+    /**
+     * <code>.com.ifx.connect.proto.AccountInfo toAccountInfo = 8;</code>
+     */
+    @java.lang.Override
+    public com.ifx.connect.proto.Account.AccountInfoOrBuilder getToAccountInfoOrBuilder() {
+      return getToAccountInfo();
+    }
+
+    public static final int TYPE_FIELD_NUMBER = 6;
+    private int type_;
+    /**
+     * <code>.com.ifx.connect.proto.MessageType type = 6;</code>
+     * @return The enum numeric value on the wire for type.
+     */
+    @java.lang.Override public int getTypeValue() {
+      return type_;
+    }
+    /**
+     * <code>.com.ifx.connect.proto.MessageType type = 6;</code>
+     * @return The type.
+     */
+    @java.lang.Override public com.ifx.connect.proto.Chat.MessageType getType() {
       @SuppressWarnings("deprecation")
-      com.ifx.connect.proto.Chat.MessageDestEnum result = com.ifx.connect.proto.Chat.MessageDestEnum.valueOf(msgDestEnum_);
-      return result == null ? com.ifx.connect.proto.Chat.MessageDestEnum.UNRECOGNIZED : result;
+      com.ifx.connect.proto.Chat.MessageType result = com.ifx.connect.proto.Chat.MessageType.valueOf(type_);
+      return result == null ? com.ifx.connect.proto.Chat.MessageType.UNRECOGNIZED : result;
     }
 
     public static final int CHAT_FIELD_NUMBER = 10;
@@ -1816,14 +1812,23 @@ public final class Chat {
     @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
+      if (msgId_ != 0L) {
+        output.writeInt64(1, msgId_);
+      }
+      if (fromAccountInfo_ != null) {
+        output.writeMessage(2, getFromAccountInfo());
+      }
       if (!getContentBytes().isEmpty()) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 3, content_);
       }
-      if (!getFromAccountBytes().isEmpty()) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 5, fromAccount_);
+      if (sessionId_ != 0L) {
+        output.writeInt64(5, sessionId_);
       }
-      if (msgDestEnum_ != com.ifx.connect.proto.Chat.MessageDestEnum.GROUP.getNumber()) {
-        output.writeEnum(9, msgDestEnum_);
+      if (type_ != com.ifx.connect.proto.Chat.MessageType.TEXT.getNumber()) {
+        output.writeEnum(6, type_);
+      }
+      if (toAccountInfo_ != null) {
+        output.writeMessage(8, getToAccountInfo());
       }
       if (chat_ != null) {
         output.writeMessage(10, getChat());
@@ -1837,15 +1842,28 @@ public final class Chat {
       if (size != -1) return size;
 
       size = 0;
+      if (msgId_ != 0L) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt64Size(1, msgId_);
+      }
+      if (fromAccountInfo_ != null) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(2, getFromAccountInfo());
+      }
       if (!getContentBytes().isEmpty()) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(3, content_);
       }
-      if (!getFromAccountBytes().isEmpty()) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(5, fromAccount_);
-      }
-      if (msgDestEnum_ != com.ifx.connect.proto.Chat.MessageDestEnum.GROUP.getNumber()) {
+      if (sessionId_ != 0L) {
         size += com.google.protobuf.CodedOutputStream
-          .computeEnumSize(9, msgDestEnum_);
+          .computeInt64Size(5, sessionId_);
+      }
+      if (type_ != com.ifx.connect.proto.Chat.MessageType.TEXT.getNumber()) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeEnumSize(6, type_);
+      }
+      if (toAccountInfo_ != null) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(8, getToAccountInfo());
       }
       if (chat_ != null) {
         size += com.google.protobuf.CodedOutputStream
@@ -1866,11 +1884,23 @@ public final class Chat {
       }
       com.ifx.connect.proto.Chat.ChatMessage other = (com.ifx.connect.proto.Chat.ChatMessage) obj;
 
+      if (getMsgId()
+          != other.getMsgId()) return false;
+      if (getSessionId()
+          != other.getSessionId()) return false;
       if (!getContent()
           .equals(other.getContent())) return false;
-      if (!getFromAccount()
-          .equals(other.getFromAccount())) return false;
-      if (msgDestEnum_ != other.msgDestEnum_) return false;
+      if (hasFromAccountInfo() != other.hasFromAccountInfo()) return false;
+      if (hasFromAccountInfo()) {
+        if (!getFromAccountInfo()
+            .equals(other.getFromAccountInfo())) return false;
+      }
+      if (hasToAccountInfo() != other.hasToAccountInfo()) return false;
+      if (hasToAccountInfo()) {
+        if (!getToAccountInfo()
+            .equals(other.getToAccountInfo())) return false;
+      }
+      if (type_ != other.type_) return false;
       if (hasChat() != other.hasChat()) return false;
       if (hasChat()) {
         if (!getChat()
@@ -1887,12 +1917,24 @@ public final class Chat {
       }
       int hash = 41;
       hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (37 * hash) + MSGID_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+          getMsgId());
+      hash = (37 * hash) + SESSIONID_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+          getSessionId());
       hash = (37 * hash) + CONTENT_FIELD_NUMBER;
       hash = (53 * hash) + getContent().hashCode();
-      hash = (37 * hash) + FROMACCOUNT_FIELD_NUMBER;
-      hash = (53 * hash) + getFromAccount().hashCode();
-      hash = (37 * hash) + MSGDESTENUM_FIELD_NUMBER;
-      hash = (53 * hash) + msgDestEnum_;
+      if (hasFromAccountInfo()) {
+        hash = (37 * hash) + FROMACCOUNTINFO_FIELD_NUMBER;
+        hash = (53 * hash) + getFromAccountInfo().hashCode();
+      }
+      if (hasToAccountInfo()) {
+        hash = (37 * hash) + TOACCOUNTINFO_FIELD_NUMBER;
+        hash = (53 * hash) + getToAccountInfo().hashCode();
+      }
+      hash = (37 * hash) + TYPE_FIELD_NUMBER;
+      hash = (53 * hash) + type_;
       if (hasChat()) {
         hash = (37 * hash) + CHAT_FIELD_NUMBER;
         hash = (53 * hash) + getChat().hashCode();
@@ -2030,11 +2072,25 @@ public final class Chat {
       @java.lang.Override
       public Builder clear() {
         super.clear();
+        msgId_ = 0L;
+
+        sessionId_ = 0L;
+
         content_ = "";
 
-        fromAccount_ = "";
-
-        msgDestEnum_ = 0;
+        if (fromAccountInfoBuilder_ == null) {
+          fromAccountInfo_ = null;
+        } else {
+          fromAccountInfo_ = null;
+          fromAccountInfoBuilder_ = null;
+        }
+        if (toAccountInfoBuilder_ == null) {
+          toAccountInfo_ = null;
+        } else {
+          toAccountInfo_ = null;
+          toAccountInfoBuilder_ = null;
+        }
+        type_ = 0;
 
         if (chatBuilder_ == null) {
           chat_ = null;
@@ -2068,9 +2124,20 @@ public final class Chat {
       @java.lang.Override
       public com.ifx.connect.proto.Chat.ChatMessage buildPartial() {
         com.ifx.connect.proto.Chat.ChatMessage result = new com.ifx.connect.proto.Chat.ChatMessage(this);
+        result.msgId_ = msgId_;
+        result.sessionId_ = sessionId_;
         result.content_ = content_;
-        result.fromAccount_ = fromAccount_;
-        result.msgDestEnum_ = msgDestEnum_;
+        if (fromAccountInfoBuilder_ == null) {
+          result.fromAccountInfo_ = fromAccountInfo_;
+        } else {
+          result.fromAccountInfo_ = fromAccountInfoBuilder_.build();
+        }
+        if (toAccountInfoBuilder_ == null) {
+          result.toAccountInfo_ = toAccountInfo_;
+        } else {
+          result.toAccountInfo_ = toAccountInfoBuilder_.build();
+        }
+        result.type_ = type_;
         if (chatBuilder_ == null) {
           result.chat_ = chat_;
         } else {
@@ -2124,16 +2191,24 @@ public final class Chat {
 
       public Builder mergeFrom(com.ifx.connect.proto.Chat.ChatMessage other) {
         if (other == com.ifx.connect.proto.Chat.ChatMessage.getDefaultInstance()) return this;
+        if (other.getMsgId() != 0L) {
+          setMsgId(other.getMsgId());
+        }
+        if (other.getSessionId() != 0L) {
+          setSessionId(other.getSessionId());
+        }
         if (!other.getContent().isEmpty()) {
           content_ = other.content_;
           onChanged();
         }
-        if (!other.getFromAccount().isEmpty()) {
-          fromAccount_ = other.fromAccount_;
-          onChanged();
+        if (other.hasFromAccountInfo()) {
+          mergeFromAccountInfo(other.getFromAccountInfo());
         }
-        if (other.msgDestEnum_ != 0) {
-          setMsgDestEnumValue(other.getMsgDestEnumValue());
+        if (other.hasToAccountInfo()) {
+          mergeToAccountInfo(other.getToAccountInfo());
+        }
+        if (other.type_ != 0) {
+          setTypeValue(other.getTypeValue());
         }
         if (other.hasChat()) {
           mergeChat(other.getChat());
@@ -2164,6 +2239,68 @@ public final class Chat {
             mergeFrom(parsedMessage);
           }
         }
+        return this;
+      }
+
+      private long msgId_ ;
+      /**
+       * <code>int64 msgId = 1;</code>
+       * @return The msgId.
+       */
+      @java.lang.Override
+      public long getMsgId() {
+        return msgId_;
+      }
+      /**
+       * <code>int64 msgId = 1;</code>
+       * @param value The msgId to set.
+       * @return This builder for chaining.
+       */
+      public Builder setMsgId(long value) {
+        
+        msgId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>int64 msgId = 1;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearMsgId() {
+        
+        msgId_ = 0L;
+        onChanged();
+        return this;
+      }
+
+      private long sessionId_ ;
+      /**
+       * <code>int64 sessionId = 5;</code>
+       * @return The sessionId.
+       */
+      @java.lang.Override
+      public long getSessionId() {
+        return sessionId_;
+      }
+      /**
+       * <code>int64 sessionId = 5;</code>
+       * @param value The sessionId to set.
+       * @return This builder for chaining.
+       */
+      public Builder setSessionId(long value) {
+        
+        sessionId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>int64 sessionId = 5;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearSessionId() {
+        
+        sessionId_ = 0L;
+        onChanged();
         return this;
       }
 
@@ -2243,132 +2380,294 @@ public final class Chat {
         return this;
       }
 
-      private java.lang.Object fromAccount_ = "";
+      private com.ifx.connect.proto.Account.AccountInfo fromAccountInfo_;
+      private com.google.protobuf.SingleFieldBuilderV3<
+          com.ifx.connect.proto.Account.AccountInfo, com.ifx.connect.proto.Account.AccountInfo.Builder, com.ifx.connect.proto.Account.AccountInfoOrBuilder> fromAccountInfoBuilder_;
       /**
-       * <code>string fromAccount = 5;</code>
-       * @return The fromAccount.
+       * <code>.com.ifx.connect.proto.AccountInfo fromAccountInfo = 2;</code>
+       * @return Whether the fromAccountInfo field is set.
        */
-      public java.lang.String getFromAccount() {
-        java.lang.Object ref = fromAccount_;
-        if (!(ref instanceof java.lang.String)) {
-          com.google.protobuf.ByteString bs =
-              (com.google.protobuf.ByteString) ref;
-          java.lang.String s = bs.toStringUtf8();
-          fromAccount_ = s;
-          return s;
+      public boolean hasFromAccountInfo() {
+        return fromAccountInfoBuilder_ != null || fromAccountInfo_ != null;
+      }
+      /**
+       * <code>.com.ifx.connect.proto.AccountInfo fromAccountInfo = 2;</code>
+       * @return The fromAccountInfo.
+       */
+      public com.ifx.connect.proto.Account.AccountInfo getFromAccountInfo() {
+        if (fromAccountInfoBuilder_ == null) {
+          return fromAccountInfo_ == null ? com.ifx.connect.proto.Account.AccountInfo.getDefaultInstance() : fromAccountInfo_;
         } else {
-          return (java.lang.String) ref;
+          return fromAccountInfoBuilder_.getMessage();
         }
       }
       /**
-       * <code>string fromAccount = 5;</code>
-       * @return The bytes for fromAccount.
+       * <code>.com.ifx.connect.proto.AccountInfo fromAccountInfo = 2;</code>
        */
-      public com.google.protobuf.ByteString
-          getFromAccountBytes() {
-        java.lang.Object ref = fromAccount_;
-        if (ref instanceof String) {
-          com.google.protobuf.ByteString b = 
-              com.google.protobuf.ByteString.copyFromUtf8(
-                  (java.lang.String) ref);
-          fromAccount_ = b;
-          return b;
+      public Builder setFromAccountInfo(com.ifx.connect.proto.Account.AccountInfo value) {
+        if (fromAccountInfoBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          fromAccountInfo_ = value;
+          onChanged();
         } else {
-          return (com.google.protobuf.ByteString) ref;
+          fromAccountInfoBuilder_.setMessage(value);
+        }
+
+        return this;
+      }
+      /**
+       * <code>.com.ifx.connect.proto.AccountInfo fromAccountInfo = 2;</code>
+       */
+      public Builder setFromAccountInfo(
+          com.ifx.connect.proto.Account.AccountInfo.Builder builderForValue) {
+        if (fromAccountInfoBuilder_ == null) {
+          fromAccountInfo_ = builderForValue.build();
+          onChanged();
+        } else {
+          fromAccountInfoBuilder_.setMessage(builderForValue.build());
+        }
+
+        return this;
+      }
+      /**
+       * <code>.com.ifx.connect.proto.AccountInfo fromAccountInfo = 2;</code>
+       */
+      public Builder mergeFromAccountInfo(com.ifx.connect.proto.Account.AccountInfo value) {
+        if (fromAccountInfoBuilder_ == null) {
+          if (fromAccountInfo_ != null) {
+            fromAccountInfo_ =
+              com.ifx.connect.proto.Account.AccountInfo.newBuilder(fromAccountInfo_).mergeFrom(value).buildPartial();
+          } else {
+            fromAccountInfo_ = value;
+          }
+          onChanged();
+        } else {
+          fromAccountInfoBuilder_.mergeFrom(value);
+        }
+
+        return this;
+      }
+      /**
+       * <code>.com.ifx.connect.proto.AccountInfo fromAccountInfo = 2;</code>
+       */
+      public Builder clearFromAccountInfo() {
+        if (fromAccountInfoBuilder_ == null) {
+          fromAccountInfo_ = null;
+          onChanged();
+        } else {
+          fromAccountInfo_ = null;
+          fromAccountInfoBuilder_ = null;
+        }
+
+        return this;
+      }
+      /**
+       * <code>.com.ifx.connect.proto.AccountInfo fromAccountInfo = 2;</code>
+       */
+      public com.ifx.connect.proto.Account.AccountInfo.Builder getFromAccountInfoBuilder() {
+        
+        onChanged();
+        return getFromAccountInfoFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.com.ifx.connect.proto.AccountInfo fromAccountInfo = 2;</code>
+       */
+      public com.ifx.connect.proto.Account.AccountInfoOrBuilder getFromAccountInfoOrBuilder() {
+        if (fromAccountInfoBuilder_ != null) {
+          return fromAccountInfoBuilder_.getMessageOrBuilder();
+        } else {
+          return fromAccountInfo_ == null ?
+              com.ifx.connect.proto.Account.AccountInfo.getDefaultInstance() : fromAccountInfo_;
         }
       }
       /**
-       * <code>string fromAccount = 5;</code>
-       * @param value The fromAccount to set.
-       * @return This builder for chaining.
+       * <code>.com.ifx.connect.proto.AccountInfo fromAccountInfo = 2;</code>
        */
-      public Builder setFromAccount(
-          java.lang.String value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  
-        fromAccount_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>string fromAccount = 5;</code>
-       * @return This builder for chaining.
-       */
-      public Builder clearFromAccount() {
-        
-        fromAccount_ = getDefaultInstance().getFromAccount();
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>string fromAccount = 5;</code>
-       * @param value The bytes for fromAccount to set.
-       * @return This builder for chaining.
-       */
-      public Builder setFromAccountBytes(
-          com.google.protobuf.ByteString value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  checkByteStringIsUtf8(value);
-        
-        fromAccount_ = value;
-        onChanged();
-        return this;
+      private com.google.protobuf.SingleFieldBuilderV3<
+          com.ifx.connect.proto.Account.AccountInfo, com.ifx.connect.proto.Account.AccountInfo.Builder, com.ifx.connect.proto.Account.AccountInfoOrBuilder> 
+          getFromAccountInfoFieldBuilder() {
+        if (fromAccountInfoBuilder_ == null) {
+          fromAccountInfoBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              com.ifx.connect.proto.Account.AccountInfo, com.ifx.connect.proto.Account.AccountInfo.Builder, com.ifx.connect.proto.Account.AccountInfoOrBuilder>(
+                  getFromAccountInfo(),
+                  getParentForChildren(),
+                  isClean());
+          fromAccountInfo_ = null;
+        }
+        return fromAccountInfoBuilder_;
       }
 
-      private int msgDestEnum_ = 0;
+      private com.ifx.connect.proto.Account.AccountInfo toAccountInfo_;
+      private com.google.protobuf.SingleFieldBuilderV3<
+          com.ifx.connect.proto.Account.AccountInfo, com.ifx.connect.proto.Account.AccountInfo.Builder, com.ifx.connect.proto.Account.AccountInfoOrBuilder> toAccountInfoBuilder_;
       /**
-       * <code>.com.ifx.connect.proto.MessageDestEnum msgDestEnum = 9;</code>
-       * @return The enum numeric value on the wire for msgDestEnum.
+       * <code>.com.ifx.connect.proto.AccountInfo toAccountInfo = 8;</code>
+       * @return Whether the toAccountInfo field is set.
        */
-      @java.lang.Override public int getMsgDestEnumValue() {
-        return msgDestEnum_;
+      public boolean hasToAccountInfo() {
+        return toAccountInfoBuilder_ != null || toAccountInfo_ != null;
       }
       /**
-       * <code>.com.ifx.connect.proto.MessageDestEnum msgDestEnum = 9;</code>
-       * @param value The enum numeric value on the wire for msgDestEnum to set.
+       * <code>.com.ifx.connect.proto.AccountInfo toAccountInfo = 8;</code>
+       * @return The toAccountInfo.
+       */
+      public com.ifx.connect.proto.Account.AccountInfo getToAccountInfo() {
+        if (toAccountInfoBuilder_ == null) {
+          return toAccountInfo_ == null ? com.ifx.connect.proto.Account.AccountInfo.getDefaultInstance() : toAccountInfo_;
+        } else {
+          return toAccountInfoBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>.com.ifx.connect.proto.AccountInfo toAccountInfo = 8;</code>
+       */
+      public Builder setToAccountInfo(com.ifx.connect.proto.Account.AccountInfo value) {
+        if (toAccountInfoBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          toAccountInfo_ = value;
+          onChanged();
+        } else {
+          toAccountInfoBuilder_.setMessage(value);
+        }
+
+        return this;
+      }
+      /**
+       * <code>.com.ifx.connect.proto.AccountInfo toAccountInfo = 8;</code>
+       */
+      public Builder setToAccountInfo(
+          com.ifx.connect.proto.Account.AccountInfo.Builder builderForValue) {
+        if (toAccountInfoBuilder_ == null) {
+          toAccountInfo_ = builderForValue.build();
+          onChanged();
+        } else {
+          toAccountInfoBuilder_.setMessage(builderForValue.build());
+        }
+
+        return this;
+      }
+      /**
+       * <code>.com.ifx.connect.proto.AccountInfo toAccountInfo = 8;</code>
+       */
+      public Builder mergeToAccountInfo(com.ifx.connect.proto.Account.AccountInfo value) {
+        if (toAccountInfoBuilder_ == null) {
+          if (toAccountInfo_ != null) {
+            toAccountInfo_ =
+              com.ifx.connect.proto.Account.AccountInfo.newBuilder(toAccountInfo_).mergeFrom(value).buildPartial();
+          } else {
+            toAccountInfo_ = value;
+          }
+          onChanged();
+        } else {
+          toAccountInfoBuilder_.mergeFrom(value);
+        }
+
+        return this;
+      }
+      /**
+       * <code>.com.ifx.connect.proto.AccountInfo toAccountInfo = 8;</code>
+       */
+      public Builder clearToAccountInfo() {
+        if (toAccountInfoBuilder_ == null) {
+          toAccountInfo_ = null;
+          onChanged();
+        } else {
+          toAccountInfo_ = null;
+          toAccountInfoBuilder_ = null;
+        }
+
+        return this;
+      }
+      /**
+       * <code>.com.ifx.connect.proto.AccountInfo toAccountInfo = 8;</code>
+       */
+      public com.ifx.connect.proto.Account.AccountInfo.Builder getToAccountInfoBuilder() {
+        
+        onChanged();
+        return getToAccountInfoFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>.com.ifx.connect.proto.AccountInfo toAccountInfo = 8;</code>
+       */
+      public com.ifx.connect.proto.Account.AccountInfoOrBuilder getToAccountInfoOrBuilder() {
+        if (toAccountInfoBuilder_ != null) {
+          return toAccountInfoBuilder_.getMessageOrBuilder();
+        } else {
+          return toAccountInfo_ == null ?
+              com.ifx.connect.proto.Account.AccountInfo.getDefaultInstance() : toAccountInfo_;
+        }
+      }
+      /**
+       * <code>.com.ifx.connect.proto.AccountInfo toAccountInfo = 8;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilderV3<
+          com.ifx.connect.proto.Account.AccountInfo, com.ifx.connect.proto.Account.AccountInfo.Builder, com.ifx.connect.proto.Account.AccountInfoOrBuilder> 
+          getToAccountInfoFieldBuilder() {
+        if (toAccountInfoBuilder_ == null) {
+          toAccountInfoBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              com.ifx.connect.proto.Account.AccountInfo, com.ifx.connect.proto.Account.AccountInfo.Builder, com.ifx.connect.proto.Account.AccountInfoOrBuilder>(
+                  getToAccountInfo(),
+                  getParentForChildren(),
+                  isClean());
+          toAccountInfo_ = null;
+        }
+        return toAccountInfoBuilder_;
+      }
+
+      private int type_ = 0;
+      /**
+       * <code>.com.ifx.connect.proto.MessageType type = 6;</code>
+       * @return The enum numeric value on the wire for type.
+       */
+      @java.lang.Override public int getTypeValue() {
+        return type_;
+      }
+      /**
+       * <code>.com.ifx.connect.proto.MessageType type = 6;</code>
+       * @param value The enum numeric value on the wire for type to set.
        * @return This builder for chaining.
        */
-      public Builder setMsgDestEnumValue(int value) {
+      public Builder setTypeValue(int value) {
         
-        msgDestEnum_ = value;
+        type_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>.com.ifx.connect.proto.MessageDestEnum msgDestEnum = 9;</code>
-       * @return The msgDestEnum.
+       * <code>.com.ifx.connect.proto.MessageType type = 6;</code>
+       * @return The type.
        */
       @java.lang.Override
-      public com.ifx.connect.proto.Chat.MessageDestEnum getMsgDestEnum() {
+      public com.ifx.connect.proto.Chat.MessageType getType() {
         @SuppressWarnings("deprecation")
-        com.ifx.connect.proto.Chat.MessageDestEnum result = com.ifx.connect.proto.Chat.MessageDestEnum.valueOf(msgDestEnum_);
-        return result == null ? com.ifx.connect.proto.Chat.MessageDestEnum.UNRECOGNIZED : result;
+        com.ifx.connect.proto.Chat.MessageType result = com.ifx.connect.proto.Chat.MessageType.valueOf(type_);
+        return result == null ? com.ifx.connect.proto.Chat.MessageType.UNRECOGNIZED : result;
       }
       /**
-       * <code>.com.ifx.connect.proto.MessageDestEnum msgDestEnum = 9;</code>
-       * @param value The msgDestEnum to set.
+       * <code>.com.ifx.connect.proto.MessageType type = 6;</code>
+       * @param value The type to set.
        * @return This builder for chaining.
        */
-      public Builder setMsgDestEnum(com.ifx.connect.proto.Chat.MessageDestEnum value) {
+      public Builder setType(com.ifx.connect.proto.Chat.MessageType value) {
         if (value == null) {
           throw new NullPointerException();
         }
         
-        msgDestEnum_ = value.getNumber();
+        type_ = value.getNumber();
         onChanged();
         return this;
       }
       /**
-       * <code>.com.ifx.connect.proto.MessageDestEnum msgDestEnum = 9;</code>
+       * <code>.com.ifx.connect.proto.MessageType type = 6;</code>
        * @return This builder for chaining.
        */
-      public Builder clearMsgDestEnum() {
+      public Builder clearType() {
         
-        msgDestEnum_ = 0;
+        type_ = 0;
         onChanged();
         return this;
       }
@@ -2569,28 +2868,32 @@ public final class Chat {
   static {
     java.lang.String[] descriptorData = {
       "\n\rMessage.proto\022\025com.ifx.connect.proto\032\031" +
-      "google/protobuf/any.proto\"\341\001\n\013ChatMessag" +
-      "e\022\017\n\007content\030\003 \001(\t\022\023\n\013fromAccount\030\005 \001(\t\022" +
-      ";\n\013msgDestEnum\030\t \001(\0162&.com.ifx.connect.p" +
-      "roto.MessageDestEnum\022\"\n\004chat\030\n \001(\0132\024.goo" +
-      "gle.protobuf.Any\032.\n\005Group\022\021\n\tsessionId\030\001" +
-      " \001(\002\022\022\n\ntoAccounts\030\010 \003(\t\032\033\n\006Single\022\021\n\tto" +
-      "Account\030\001 \001(\002*(\n\017MessageDestEnum\022\t\n\005GROU" +
-      "P\020\000\022\n\n\006SINGLE\020\001*8\n\013MessageType\022\010\n\004TEXT\020\000" +
-      "\022\010\n\004FILE\020\001\022\n\n\006STREAM\020\002\022\t\n\005VIDEO\020\003B\035\n\025com" +
-      ".ifx.connect.protoB\004Chatb\006proto3"
+      "google/protobuf/any.proto\032\nAuth.proto\"\333\002" +
+      "\n\013ChatMessage\022\r\n\005msgId\030\001 \001(\003\022\021\n\tsessionI" +
+      "d\030\005 \001(\003\022\017\n\007content\030\003 \001(\t\022;\n\017fromAccountI" +
+      "nfo\030\002 \001(\0132\".com.ifx.connect.proto.Accoun" +
+      "tInfo\0229\n\rtoAccountInfo\030\010 \001(\0132\".com.ifx.c" +
+      "onnect.proto.AccountInfo\0220\n\004type\030\006 \001(\0162\"" +
+      ".com.ifx.connect.proto.MessageType\022\"\n\004ch" +
+      "at\030\n \001(\0132\024.google.protobuf.Any\032.\n\005Group\022" +
+      "\021\n\tsessionId\030\001 \001(\002\022\022\n\ntoAccounts\030\010 \003(\t\032\033" +
+      "\n\006Single\022\021\n\ttoAccount\030\001 \001(\002*F\n\013MessageTy" +
+      "pe\022\010\n\004TEXT\020\000\022\014\n\010MARKDOWN\020\005\022\010\n\004FILE\020\001\022\n\n\006" +
+      "STREAM\020\002\022\t\n\005VIDEO\020\003B\035\n\025com.ifx.connect.p" +
+      "rotoB\004Chatb\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
         new com.google.protobuf.Descriptors.FileDescriptor[] {
           com.google.protobuf.AnyProto.getDescriptor(),
+          com.ifx.connect.proto.Account.getDescriptor(),
         });
     internal_static_com_ifx_connect_proto_ChatMessage_descriptor =
       getDescriptor().getMessageTypes().get(0);
     internal_static_com_ifx_connect_proto_ChatMessage_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_com_ifx_connect_proto_ChatMessage_descriptor,
-        new java.lang.String[] { "Content", "FromAccount", "MsgDestEnum", "Chat", });
+        new java.lang.String[] { "MsgId", "SessionId", "Content", "FromAccountInfo", "ToAccountInfo", "Type", "Chat", });
     internal_static_com_ifx_connect_proto_ChatMessage_Group_descriptor =
       internal_static_com_ifx_connect_proto_ChatMessage_descriptor.getNestedTypes().get(0);
     internal_static_com_ifx_connect_proto_ChatMessage_Group_fieldAccessorTable = new
@@ -2604,6 +2907,7 @@ public final class Chat {
         internal_static_com_ifx_connect_proto_ChatMessage_Single_descriptor,
         new java.lang.String[] { "ToAccount", });
     com.google.protobuf.AnyProto.getDescriptor();
+    com.ifx.connect.proto.Account.getDescriptor();
   }
 
   // @@protoc_insertion_point(outer_class_scope)

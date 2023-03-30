@@ -2,6 +2,7 @@ package com.ifx.account.service;
 
 
 import com.ifx.account.vo.ChatMsgVo;
+import reactor.core.publisher.Mono;
 
 import java.util.List;
 
@@ -14,7 +15,7 @@ public interface IChatAction {
      * <p>推送消息</p>
      * @param chatMsgVo  消息实体
      */
-    public void pushMsg(ChatMsgVo chatMsgVo);  //写扩散
+    public Mono<Void> pushMsg(ChatMsgVo chatMsgVo);
 
 
 

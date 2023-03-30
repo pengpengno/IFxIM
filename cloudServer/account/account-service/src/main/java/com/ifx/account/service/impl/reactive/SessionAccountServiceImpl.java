@@ -17,8 +17,10 @@ import com.ifx.common.utils.ValidatorUtil;
 import com.ifx.connect.mapstruct.ProtoBufMapper;
 import com.ifx.connect.proto.Account;
 import com.ifx.connect.proto.OnLineUser;
+import com.ifx.exec.BaseException;
 import com.ifx.exec.ex.valid.ValidationException;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.amqp.AmqpException;
 import org.springframework.amqp.core.Message;
 import org.springframework.amqp.rabbit.connection.CorrelationData;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
@@ -161,15 +163,23 @@ public class SessionAccountServiceImpl implements ISessionAccountService {
 
 
 
+
+
     /***
-     * 检查线上用户状态
-     * @param accountInfos
-     * @return
+     * 检查用户上线状态
+     * @param accountInfos 用户信息
+     * @return 用户信息
      */
     public List<AccountInfo> checkoutUserOnlineStatus(Iterable<AccountInfo> accountInfos){
         OnLineUser.UserSearch userSearch = SessionMapper.INSTANCE.buildSearch(accountInfos);
         Message message = new Message(userSearch.toByteArray());
-        Message returnMessage = rabbitTemplate.sendAndReceive(onlineUserRouteKey,message, new CorrelationData());
+        Message returnMessage ;
+        try{
+             returnMessage = rabbitTemplate.sendAndReceive(onlineUserRouteKey,message, new CorrelationData());
+        }catch (AmqpException amqpException){
+            throw new BaseException("Check online user error!");
+        }
+        Assert.notNull(returnMessage,"Check online user error!");
         byte[] body = returnMessage.getBody();
         try {
             OnLineUser.UserSearch returnSearch = OnLineUser.UserSearch.parseFrom(body);

@@ -11,6 +11,7 @@ public enum ContentType {
     TEXT, // 文本
     FILE , // 文件
 
+    MARKDOWN // markdown
 
 
     ;

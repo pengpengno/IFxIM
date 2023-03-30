@@ -18,6 +18,11 @@ public interface ISessionLifeStyle {
     Flux<Long> addAccount (SessionAccountVo sessionAccountVo);
 
 
+    /**
+     * 查询 session 下的 用户信息
+     * @param sessionId 会话id
+     * @return 会话下的用户信息
+     */
     Mono<SessionAccountVo>  sessionAccountInfo(Long sessionId);
 
 
