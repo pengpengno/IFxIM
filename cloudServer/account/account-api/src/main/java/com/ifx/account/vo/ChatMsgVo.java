@@ -8,6 +8,9 @@ import java.io.Serializable;
 @Data
 public class ChatMsgVo implements Serializable {
 
+    @NotNull(message = "消息存储失败！",groups = {ChatRecord.class})
+    private Long msgId ;
+
     private String content;  // 消息文本
 
     /***
@@ -25,6 +28,10 @@ public class ChatMsgVo implements Serializable {
     private String msgSendTime;  // 创建时间 客户端创建时间 不考虑时区
 
 
+    //  yyyy-MM-dd HH:mm:ss
+    private String msgCreateTime;  // 创建时间 客户端创建时间 不考虑时区
+
+
 
     /**
      * 消息推送
@@ -34,4 +41,9 @@ public class ChatMsgVo implements Serializable {
      */
     public interface ChatPush {
     }
+
+    public interface ChatRecord{
+
+    }
+
 }

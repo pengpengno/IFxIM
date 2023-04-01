@@ -22,14 +22,14 @@ public class BaseEntity implements Serializable {
      */
     @Column("create_time")
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private LocalDateTime create_time;
+    private LocalDateTime createTime;
 
     /**
      * 更新时间
      */
     @Column("update_time")
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private LocalDateTime update_time;
+    private LocalDateTime updateTime;
 
     @Column("create_user_id")
     private Long createUserId;

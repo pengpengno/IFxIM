@@ -1,17 +1,25 @@
 package com.ifx.account.service.impl;
 
+import cn.hutool.core.collection.CollectionUtil;
+import com.ifx.account.entity.ChatMsgRecord;
+import com.ifx.account.mapstruct.ChatMsgRecordMapper;
+import com.ifx.account.repository.ChatMsgRecordRepository;
 import com.ifx.account.service.ChatMsgService;
 import com.ifx.account.service.IChatAction;
 import com.ifx.account.service.ISessionLifeStyle;
 import com.ifx.account.vo.ChatMsgVo;
+import com.ifx.common.base.AccountInfo;
 import com.ifx.common.utils.ValidatorUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 /***
  * 消息
@@ -24,6 +32,8 @@ public class ChatAction implements IChatAction {
     private ISessionLifeStyle sessionLifeStyle;
 
 
+    @Autowired
+    private ChatMsgRecordRepository chatMsgRecordRepository;
     @Autowired
     ChatMsgService chatMsgService;
 
@@ -44,16 +54,23 @@ public class ChatAction implements IChatAction {
         Mono<ChatMsgVo> chatMsgVoMono = Mono.justOrEmpty(Optional.ofNullable(tmp));
         chatMsgVoMono
             .doOnNext(e-> ValidatorUtil.validateThrows(chatMsgVo,ChatMsgVo.ChatPush.class)) //  验证实体合法性
-            .flatMap(e->chatMsgService.saveMsgReadPattern(e)) // 存储消息
-            .then(chatMsgVoMono) // 消息投递
-            .map(e->tmp.getSessionId())
-
-            .contextWrite(context -> context.put(ONLINE_USER_CONTEXT_KEY,sessionLifeStyle.checkOnlineUserBySessionId(tmp.getSessionId())))
-            .map()                                                            // 开始信息投递
-
-
+            .flatMap(e-> chatMsgService.saveMsgReadPattern(e)) // 存储消息
+            .flatMapMany(vo -> chatMsgService.prepareRecordVo(vo))
+            .collect(Collectors.toList())
+            .doOnNext( vo -> {
+                List<ChatMsgRecord> list = vo.stream().map(ChatMsgRecordMapper.INSTANCE::chatVo2Record).collect(Collectors.toList());
+                chatMsgRecordRepository.saveAll(list);
+            })
+            .flatMap( record -> {
+                return Mono.deferContextual(contextView -> {
+                    List<AccountInfo>  flux = (List<AccountInfo>)contextView.get(ONLINE_USER_CONTEXT_KEY);
+                    Set<String> accountSet = flux.stream().map(e -> e.getAccount()).collect(Collectors.toSet());
+                    return record.stream().filter(e-> CollectionUtil.contains(accountSet,e.getToAccount().getAccount())).collect(Collectors.toList());
+                });
+            })
+            .contextWrite(context -> context.put(ONLINE_USER_CONTEXT_KEY,sessionLifeStyle.checkOnlineUserListBySessionId(tmp.getSessionId())))    // 开始信息投递
         ;
-
+        return null;
     }
 
     @Override

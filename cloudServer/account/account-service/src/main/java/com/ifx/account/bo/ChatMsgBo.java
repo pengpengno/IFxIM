@@ -1,9 +1,11 @@
 package com.ifx.account.bo;
 
-import com.ifx.account.enums.ContentType;
 import com.ifx.account.service.chat.ReadAbleMsg;
 import com.ifx.common.base.AccountInfo;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 import java.nio.charset.Charset;
@@ -14,19 +16,25 @@ import java.nio.charset.Charset;
  * @date 2023/3/29
  */
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class ChatMsgBo implements Serializable , ReadAbleMsg {
 
     private Long msgId ;
 
     private Long sessionId;
 
-    private AccountInfo fromAccountInfo ;
+    private AccountInfo fromAccount ;
 
-    private AccountInfo toAccountInfo ;
+    private AccountInfo toAccount ;
 
     private String content ;
 
-    private ContentType contentType;
+    /***
+     * @see com.ifx.account.enums.ContentType
+     */
+    private String contentType;
 
     @Override
     public String read() {

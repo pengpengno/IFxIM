@@ -26,6 +26,12 @@ public interface ISessionAccountService {
     public Mono<SessionAccountContextVo> sessionAccContextVo(Long sessionId);
 
 
+
+    /***
+     * 查询用户在线状态
+     * @param sessionId
+     * @return
+     */
     public Mono<List<AccountInfo>> checkoutUserOnlineBySession(Long  sessionId);
 
 

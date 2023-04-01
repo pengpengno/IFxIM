@@ -33,6 +33,7 @@ import reactor.core.publisher.Mono;
 import reactor.rabbitmq.RpcClient;
 import reactor.rabbitmq.Sender;
 
+import java.time.Duration;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -137,7 +138,7 @@ public class SessionAccountServiceImpl implements ISessionAccountService {
                     }
                     return Mono.empty();
                 })
-                .map(e-> checkoutUserOnlineStatus(e));
+                .map(e-> checkoutUserOnlineStatus(e)).timeout(Duration.ofMillis(3000));
 
     }
 
@@ -157,7 +158,7 @@ public class SessionAccountServiceImpl implements ISessionAccountService {
                     Set<Long> userIds = context.keySet();
                     return accountService.findByUserIds(userIds)
                             .doOnNext(info -> context.put(info.getUserId(), info))
-                            .then().flatMap(l -> Mono.just(e));
+                            .then(Mono.just(e));
                 });
     }
 

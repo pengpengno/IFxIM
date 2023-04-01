@@ -2,8 +2,8 @@ package com.ifx.account.mapstruct;
 
 import com.ifx.account.bo.ChatMsgBo;
 import com.ifx.account.entity.ChatMsg;
-import com.ifx.account.enums.ChatMsgStatus;
 import com.ifx.account.vo.ChatMsgVo;
+import com.ifx.account.vo.chat.ChatMsgRecordVo;
 import com.ifx.common.base.AccountInfo;
 import com.ifx.connect.mapstruct.ProtoBufMapper;
 import com.ifx.connect.proto.Chat;
@@ -23,9 +23,13 @@ public interface ChatMsgMapper {
 
     @Mappings({
             @Mapping(source = "fromAccount.account",target = "fromAccount"),
-            @Mapping(source = "sessionId",target = "toSessionId")
+            @Mapping(source = "sessionId",target = "sessionId")
     })
     ChatMsg tran2Msg(ChatMsgVo vo);
+
+    @Mapping(target  = "fromAccount.account",source = "fromAccount")
+    @Mapping( source =  "createTime",dateFormat = "yyyy-MM-dd HH:mm:ss",target = "msgCreateTime")
+    ChatMsgVo tran2MsgVo(ChatMsg chatMsg);
 
 
     default Chat.ChatMessage tran2ProtoMsg(ChatMsgVo chatMsgVo){
@@ -44,19 +48,21 @@ public interface ChatMsgMapper {
             return null;
         }
         return Chat.ChatMessage.newBuilder()
-                .setFromAccountInfo(ProtoBufMapper.INSTANCE.protocolAccMap(chatMsgBo.getFromAccountInfo()))
-                .setToAccountInfo(ProtoBufMapper.INSTANCE.protocolAccMap(chatMsgBo.getToAccountInfo()))
+                .setFromAccountInfo(ProtoBufMapper.INSTANCE.protocolAccMap(chatMsgBo.getFromAccount()))
+                .setToAccountInfo(ProtoBufMapper.INSTANCE.protocolAccMap(chatMsgBo.getToAccount()))
                 .setContent(chatMsgBo.read())
                 .setMsgId(chatMsgBo.getMsgId())
                 .setSessionId(chatMsgBo.getSessionId())
                 .build();
     }
 
-    default ChatMsg unSentMsg(ChatMsgVo vo){
-        ChatMsg chatMsg = tran2Msg(vo);
-        chatMsg.setStatus(ChatMsgStatus.UNSENT.name());
-        return chatMsg;
-    }
+
+    ChatMsgRecordVo chatVo2RecordVo(ChatMsgVo vo);
+
+
+    ChatMsgBo chatVo2Bo(ChatMsgVo chatMsgVo);
+
+
 
 
 

@@ -6,12 +6,7 @@ import com.ifx.connect.connection.server.ServerToolkit;
 import com.ifx.connect.connection.server.context.IConnectContextAction;
 import com.ifx.connect.connection.server.context.IConnection;
 import com.ifx.connect.enums.ConnectionStatus;
-import com.ifx.connect.enums.MessageMapEnum;
-import com.ifx.connect.proto.Chat;
-import com.ifx.connect.proto.ProtocolType;
 import com.ifx.exec.ex.connect.ConnectException;
-import io.netty.buffer.ByteBuf;
-import io.netty.buffer.ByteBufAllocator;
 import reactor.core.publisher.Mono;
 import reactor.netty.Connection;
 import reactor.netty.NettyOutbound;
@@ -48,32 +43,34 @@ public class ReactorTcpAction implements ReactiveServerAction {
     }
 
     public Mono<Message> sendProtoMessage(String account, Message message){
-        IConnection iConnection = contextAction.applyConnection(account);
-
-        Chat.ChatMessage build = Chat.ChatMessage.newBuilder()
-                .setFromAccount(account)
-                .build();
-        ByteBuf buffer = ByteBufAllocator.DEFAULT.buffer();
-        ByteBuf byteBuf = buffer.writeBytes(build.toByteArray());
-        NettyOutbound send = iConnection.connection().outbound().send(Mono.just(buffer));
-        return Mono.just(Chat.ChatMessage.newBuilder().build());
+//        IConnection iConnection = contextAction.applyConnection(account);
+//
+//        Chat.ChatMessage build = Chat.ChatMessage.newBuilder()
+//                .setFromAccountInfo(account)
+//                .build();
+//        ByteBuf buffer = ByteBufAllocator.DEFAULT.buffer();
+//        ByteBuf byteBuf = buffer.writeBytes(build.toByteArray());
+//        NettyOutbound send = iConnection.connection().outbound().send(Mono.just(buffer));
+//        return Mono.just(Chat.ChatMessage.newBuilder().build());
+        return null;
     }
 
 
     public NettyOutbound sendProtoMsg(String account,Message message){
-        IConnection iConnection = contextAction.applyConnection(account);
-        MessageMapEnum messageMapEnum = MessageMapEnum.getByMessageClass(message.getClass());
-        ProtocolType.ProtocolMessageEnum typeEnum = messageMapEnum.getTypeEnum();
-        Chat.ChatMessage build = Chat
-                .ChatMessage
-                .newBuilder()
-                .setFromAccount(account)
-                .build();
-        ByteBuf buffer = ByteBufAllocator.DEFAULT.buffer();
+//        IConnection iConnection = contextAction.applyConnection(account);
+//        MessageMapEnum messageMapEnum = MessageMapEnum.getByMessageClass(message.getClass());
+//        ProtocolType.ProtocolMessageEnum typeEnum = messageMapEnum.getTypeEnum();
+//        Chat.ChatMessage build = Chat
+//                .ChatMessage
+//                .newBuilder()
+//                .setFromAccount(account)
+//                .build();
+//        ByteBuf buffer = ByteBufAllocator.DEFAULT.buffer();
+//
+//        ByteBuf byteBuf = buffer.writeBytes(build.toByteArray());
+//        return iConnection.connection().outbound().send(Mono.just(buffer));
 
-        ByteBuf byteBuf = buffer.writeBytes(build.toByteArray());
-        return iConnection.connection().outbound().send(Mono.just(buffer));
-
+        return null;
     }
 
 

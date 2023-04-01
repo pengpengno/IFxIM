@@ -7,6 +7,8 @@ import com.ifx.common.base.AccountInfo;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import java.util.List;
+
 /***
  * 会话生命周期
  */
@@ -27,6 +29,7 @@ public interface ISessionLifeStyle {
 
 
     public Flux<AccountInfo> checkOnlineUserBySessionId(Long sessionId);
+    public List<AccountInfo> checkOnlineUserListBySessionId(Long sessionId);
 
 
 

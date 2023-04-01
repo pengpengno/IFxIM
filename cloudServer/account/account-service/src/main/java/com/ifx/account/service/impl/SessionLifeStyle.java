@@ -20,6 +20,7 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @Slf4j
@@ -86,9 +87,12 @@ public class SessionLifeStyle implements ISessionLifeStyle {
      */
     public Flux<AccountInfo> checkOnlineUserBySessionId(Long sessionId){
         return sessionAccountService.checkoutUserOnlineBySession(sessionId).flatMapMany(e-> Flux.fromIterable(e));
-
     }
 
+    @Override
+    public List<AccountInfo> checkOnlineUserListBySessionId(Long sessionId) {
+        return sessionAccountService.checkoutUserOnlineBySession(sessionId).onErrorReturn(CollectionUtil.newArrayList()).block();
+    }
 
     @Override
     public Mono<SessionAccountVo> sessionAccountInfo(Long sessionId) {
