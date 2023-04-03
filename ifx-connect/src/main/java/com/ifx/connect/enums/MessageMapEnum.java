@@ -1,6 +1,7 @@
 package com.ifx.connect.enums;
 
 import cn.hutool.core.util.ObjectUtil;
+import com.google.protobuf.Message;
 import com.ifx.connect.proto.Account;
 import com.ifx.connect.proto.Chat;
 import com.ifx.connect.proto.ProtocolType;
@@ -32,11 +33,13 @@ public enum MessageMapEnum {
 
 
 
+    public static MessageMapEnum  getByClass(Class<? extends Message> messageClass){
+        return Arrays.stream(MessageMapEnum.values()).filter(e-> ObjectUtil.equals(e.messageClass,messageClass)).findFirst().orElseThrow(()-> new IllegalArgumentException("The provided  message is not supported !"));
+    }
+
     public static MessageMapEnum  getByEnum(ProtocolType.ProtocolMessageEnum typeEnum){
         return Arrays.stream(MessageMapEnum.values()).filter(e-> ObjectUtil.equals(e.typeEnum,typeEnum)).findFirst().orElseThrow(()-> new IllegalArgumentException("The provided  enum is illegal!"));
     }
 
-    public static MessageMapEnum  getByMessageClass(Class<?> messageClass){
-        return Arrays.stream(MessageMapEnum.values()).filter(e-> ObjectUtil.equals(e.messageClass,messageClass)).findFirst().orElseThrow(()-> new IllegalArgumentException("the provided enum is illegal!"));
-    }
+
 }

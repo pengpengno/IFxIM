@@ -69,6 +69,12 @@
     <jaxb.version>4.0.0</jaxb.version>
     <jjwt.version>0.11.2</jjwt.version>
     <mapstruct-binding.version>0.2.0</mapstruct-binding.version>
+
+
+<!--    linux-->
+<!--    <protoc.local.path>/home/pengpeng/tools/protoc/bin/protoc</protoc.local.path>-->
+<!--     win-->
+    <protoc.local.path>C:\protoc-21.7-win64\bin\protoc</protoc.local.path>
   </properties>
   <dependencies>
     <!-- https://mvnrepository.com/artifact/com.alibaba.fastjson2/fastjson2 -->
@@ -507,7 +513,7 @@
           <version>0.6.1</version>
           <configuration>
             <protocArtifact>com.google.protobuf:protoc:${protobuf.version}:exe:${os.detected.classifier}</protocArtifact>
-            <protocExecutable>/home/pengpeng/tools/protoc/bin/protoc</protocExecutable>
+            <protocExecutable>${protoc.local.path}</protocExecutable>
             <protoSourceRoot>${project.basedir}/src/main/proto</protoSourceRoot>
             <outputDirectory>${project.basedir}/src/main/java</outputDirectory>
             <clearOutputDirectory>false</clearOutputDirectory>

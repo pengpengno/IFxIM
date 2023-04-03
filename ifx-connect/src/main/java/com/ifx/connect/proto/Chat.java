@@ -232,6 +232,17 @@ public final class Chat {
      * <code>.google.protobuf.Any chat = 10;</code>
      */
     com.google.protobuf.AnyOrBuilder getChatOrBuilder();
+
+    /**
+     * <code>.com.ifx.connect.proto.ChatMessage.MessagesStatus messagesStatus = 11;</code>
+     * @return The enum numeric value on the wire for messagesStatus.
+     */
+    int getMessagesStatusValue();
+    /**
+     * <code>.com.ifx.connect.proto.ChatMessage.MessagesStatus messagesStatus = 11;</code>
+     * @return The messagesStatus.
+     */
+    com.ifx.connect.proto.Chat.ChatMessage.MessagesStatus getMessagesStatus();
   }
   /**
    * Protobuf type {@code com.ifx.connect.proto.ChatMessage}
@@ -248,6 +259,7 @@ public final class Chat {
     private ChatMessage() {
       content_ = "";
       type_ = 0;
+      messagesStatus_ = 0;
     }
 
     @java.lang.Override
@@ -262,104 +274,6 @@ public final class Chat {
     getUnknownFields() {
       return this.unknownFields;
     }
-    private ChatMessage(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      this();
-      if (extensionRegistry == null) {
-        throw new java.lang.NullPointerException();
-      }
-      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
-          com.google.protobuf.UnknownFieldSet.newBuilder();
-      try {
-        boolean done = false;
-        while (!done) {
-          int tag = input.readTag();
-          switch (tag) {
-            case 0:
-              done = true;
-              break;
-            case 8: {
-
-              msgId_ = input.readInt64();
-              break;
-            }
-            case 18: {
-              com.ifx.connect.proto.Account.AccountInfo.Builder subBuilder = null;
-              if (fromAccountInfo_ != null) {
-                subBuilder = fromAccountInfo_.toBuilder();
-              }
-              fromAccountInfo_ = input.readMessage(com.ifx.connect.proto.Account.AccountInfo.parser(), extensionRegistry);
-              if (subBuilder != null) {
-                subBuilder.mergeFrom(fromAccountInfo_);
-                fromAccountInfo_ = subBuilder.buildPartial();
-              }
-
-              break;
-            }
-            case 26: {
-              java.lang.String s = input.readStringRequireUtf8();
-
-              content_ = s;
-              break;
-            }
-            case 40: {
-
-              sessionId_ = input.readInt64();
-              break;
-            }
-            case 48: {
-              int rawValue = input.readEnum();
-
-              type_ = rawValue;
-              break;
-            }
-            case 66: {
-              com.ifx.connect.proto.Account.AccountInfo.Builder subBuilder = null;
-              if (toAccountInfo_ != null) {
-                subBuilder = toAccountInfo_.toBuilder();
-              }
-              toAccountInfo_ = input.readMessage(com.ifx.connect.proto.Account.AccountInfo.parser(), extensionRegistry);
-              if (subBuilder != null) {
-                subBuilder.mergeFrom(toAccountInfo_);
-                toAccountInfo_ = subBuilder.buildPartial();
-              }
-
-              break;
-            }
-            case 82: {
-              com.google.protobuf.Any.Builder subBuilder = null;
-              if (chat_ != null) {
-                subBuilder = chat_.toBuilder();
-              }
-              chat_ = input.readMessage(com.google.protobuf.Any.parser(), extensionRegistry);
-              if (subBuilder != null) {
-                subBuilder.mergeFrom(chat_);
-                chat_ = subBuilder.buildPartial();
-              }
-
-              break;
-            }
-            default: {
-              if (!parseUnknownField(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
-          }
-        }
-      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-        throw e.setUnfinishedMessage(this);
-      } catch (java.io.IOException e) {
-        throw new com.google.protobuf.InvalidProtocolBufferException(
-            e).setUnfinishedMessage(this);
-      } finally {
-        this.unknownFields = unknownFields.build();
-        makeExtensionsImmutable();
-      }
-    }
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
       return com.ifx.connect.proto.Chat.internal_static_com_ifx_connect_proto_ChatMessage_descriptor;
@@ -371,6 +285,168 @@ public final class Chat {
       return com.ifx.connect.proto.Chat.internal_static_com_ifx_connect_proto_ChatMessage_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
               com.ifx.connect.proto.Chat.ChatMessage.class, com.ifx.connect.proto.Chat.ChatMessage.Builder.class);
+    }
+
+    /**
+     * Protobuf enum {@code com.ifx.connect.proto.ChatMessage.MessagesStatus}
+     */
+    public enum MessagesStatus
+        implements com.google.protobuf.ProtocolMessageEnum {
+      /**
+       * <code>REJECT = 0;</code>
+       */
+      REJECT(0),
+      /**
+       * <code>OFFLINE = 1;</code>
+       */
+      OFFLINE(1),
+      /**
+       * <code>SENTFAIL = 7;</code>
+       */
+      SENTFAIL(7),
+      /**
+       * <code>HISTORY = 10;</code>
+       */
+      HISTORY(10),
+      /**
+       * <code>READ = 3;</code>
+       */
+      READ(3),
+      /**
+       * <code>UNREAD = 2;</code>
+       */
+      UNREAD(2),
+      /**
+       * <code>SENT = 5;</code>
+       */
+      SENT(5),
+      /**
+       * <code>UNSENT = 11;</code>
+       */
+      UNSENT(11),
+      UNRECOGNIZED(-1),
+      ;
+
+      /**
+       * <code>REJECT = 0;</code>
+       */
+      public static final int REJECT_VALUE = 0;
+      /**
+       * <code>OFFLINE = 1;</code>
+       */
+      public static final int OFFLINE_VALUE = 1;
+      /**
+       * <code>SENTFAIL = 7;</code>
+       */
+      public static final int SENTFAIL_VALUE = 7;
+      /**
+       * <code>HISTORY = 10;</code>
+       */
+      public static final int HISTORY_VALUE = 10;
+      /**
+       * <code>READ = 3;</code>
+       */
+      public static final int READ_VALUE = 3;
+      /**
+       * <code>UNREAD = 2;</code>
+       */
+      public static final int UNREAD_VALUE = 2;
+      /**
+       * <code>SENT = 5;</code>
+       */
+      public static final int SENT_VALUE = 5;
+      /**
+       * <code>UNSENT = 11;</code>
+       */
+      public static final int UNSENT_VALUE = 11;
+
+
+      public final int getNumber() {
+        if (this == UNRECOGNIZED) {
+          throw new java.lang.IllegalArgumentException(
+              "Can't get the number of an unknown enum value.");
+        }
+        return value;
+      }
+
+      /**
+       * @param value The numeric wire value of the corresponding enum entry.
+       * @return The enum associated with the given numeric wire value.
+       * @deprecated Use {@link #forNumber(int)} instead.
+       */
+      @java.lang.Deprecated
+      public static MessagesStatus valueOf(int value) {
+        return forNumber(value);
+      }
+
+      /**
+       * @param value The numeric wire value of the corresponding enum entry.
+       * @return The enum associated with the given numeric wire value.
+       */
+      public static MessagesStatus forNumber(int value) {
+        switch (value) {
+          case 0: return REJECT;
+          case 1: return OFFLINE;
+          case 7: return SENTFAIL;
+          case 10: return HISTORY;
+          case 3: return READ;
+          case 2: return UNREAD;
+          case 5: return SENT;
+          case 11: return UNSENT;
+          default: return null;
+        }
+      }
+
+      public static com.google.protobuf.Internal.EnumLiteMap<MessagesStatus>
+          internalGetValueMap() {
+        return internalValueMap;
+      }
+      private static final com.google.protobuf.Internal.EnumLiteMap<
+          MessagesStatus> internalValueMap =
+            new com.google.protobuf.Internal.EnumLiteMap<MessagesStatus>() {
+              public MessagesStatus findValueByNumber(int number) {
+                return MessagesStatus.forNumber(number);
+              }
+            };
+
+      public final com.google.protobuf.Descriptors.EnumValueDescriptor
+          getValueDescriptor() {
+        if (this == UNRECOGNIZED) {
+          throw new java.lang.IllegalStateException(
+              "Can't get the descriptor of an unrecognized enum value.");
+        }
+        return getDescriptor().getValues().get(ordinal());
+      }
+      public final com.google.protobuf.Descriptors.EnumDescriptor
+          getDescriptorForType() {
+        return getDescriptor();
+      }
+      public static final com.google.protobuf.Descriptors.EnumDescriptor
+          getDescriptor() {
+        return com.ifx.connect.proto.Chat.ChatMessage.getDescriptor().getEnumTypes().get(0);
+      }
+
+      private static final MessagesStatus[] VALUES = values();
+
+      public static MessagesStatus valueOf(
+          com.google.protobuf.Descriptors.EnumValueDescriptor desc) {
+        if (desc.getType() != getDescriptor()) {
+          throw new java.lang.IllegalArgumentException(
+            "EnumValueDescriptor is not for this type.");
+        }
+        if (desc.getIndex() == -1) {
+          return UNRECOGNIZED;
+        }
+        return VALUES[desc.getIndex()];
+      }
+
+      private final int value;
+
+      private MessagesStatus(int value) {
+        this.value = value;
+      }
+
+      // @@protoc_insertion_point(enum_scope:com.ifx.connect.proto.ChatMessage.MessagesStatus)
     }
 
     public interface GroupOrBuilder extends
@@ -451,61 +527,6 @@ public final class Chat {
       public final com.google.protobuf.UnknownFieldSet
       getUnknownFields() {
         return this.unknownFields;
-      }
-      private Group(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws com.google.protobuf.InvalidProtocolBufferException {
-        this();
-        if (extensionRegistry == null) {
-          throw new java.lang.NullPointerException();
-        }
-        int mutable_bitField0_ = 0;
-        com.google.protobuf.UnknownFieldSet.Builder unknownFields =
-            com.google.protobuf.UnknownFieldSet.newBuilder();
-        try {
-          boolean done = false;
-          while (!done) {
-            int tag = input.readTag();
-            switch (tag) {
-              case 0:
-                done = true;
-                break;
-              case 13: {
-
-                sessionId_ = input.readFloat();
-                break;
-              }
-              case 66: {
-                java.lang.String s = input.readStringRequireUtf8();
-                if (!((mutable_bitField0_ & 0x00000001) != 0)) {
-                  toAccounts_ = new com.google.protobuf.LazyStringArrayList();
-                  mutable_bitField0_ |= 0x00000001;
-                }
-                toAccounts_.add(s);
-                break;
-              }
-              default: {
-                if (!parseUnknownField(
-                    input, unknownFields, extensionRegistry, tag)) {
-                  done = true;
-                }
-                break;
-              }
-            }
-          }
-        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          throw e.setUnfinishedMessage(this);
-        } catch (java.io.IOException e) {
-          throw new com.google.protobuf.InvalidProtocolBufferException(
-              e).setUnfinishedMessage(this);
-        } finally {
-          if (((mutable_bitField0_ & 0x00000001) != 0)) {
-            toAccounts_ = toAccounts_.getUnmodifiableView();
-          }
-          this.unknownFields = unknownFields.build();
-          makeExtensionsImmutable();
-        }
       }
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
@@ -596,13 +617,13 @@ public final class Chat {
       @java.lang.Override
       public void writeTo(com.google.protobuf.CodedOutputStream output)
                           throws java.io.IOException {
-        if (sessionId_ != 0F) {
+        if (java.lang.Float.floatToRawIntBits(sessionId_) != 0) {
           output.writeFloat(1, sessionId_);
         }
         for (int i = 0; i < toAccounts_.size(); i++) {
           com.google.protobuf.GeneratedMessageV3.writeString(output, 8, toAccounts_.getRaw(i));
         }
-        unknownFields.writeTo(output);
+        getUnknownFields().writeTo(output);
       }
 
       @java.lang.Override
@@ -611,7 +632,7 @@ public final class Chat {
         if (size != -1) return size;
 
         size = 0;
-        if (sessionId_ != 0F) {
+        if (java.lang.Float.floatToRawIntBits(sessionId_) != 0) {
           size += com.google.protobuf.CodedOutputStream
             .computeFloatSize(1, sessionId_);
         }
@@ -623,7 +644,7 @@ public final class Chat {
           size += dataSize;
           size += 1 * getToAccountsList().size();
         }
-        size += unknownFields.getSerializedSize();
+        size += getUnknownFields().getSerializedSize();
         memoizedSize = size;
         return size;
       }
@@ -643,7 +664,7 @@ public final class Chat {
                 other.getSessionId())) return false;
         if (!getToAccountsList()
             .equals(other.getToAccountsList())) return false;
-        if (!unknownFields.equals(other.unknownFields)) return false;
+        if (!getUnknownFields().equals(other.getUnknownFields())) return false;
         return true;
       }
 
@@ -661,7 +682,7 @@ public final class Chat {
           hash = (37 * hash) + TOACCOUNTS_FIELD_NUMBER;
           hash = (53 * hash) + getToAccountsList().hashCode();
         }
-        hash = (29 * hash) + unknownFields.hashCode();
+        hash = (29 * hash) + getUnknownFields().hashCode();
         memoizedHashCode = hash;
         return hash;
       }
@@ -778,18 +799,13 @@ public final class Chat {
 
         // Construct using com.ifx.connect.proto.Chat.ChatMessage.Group.newBuilder()
         private Builder() {
-          maybeForceBuilderInitialization();
+
         }
 
         private Builder(
             com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
           super(parent);
-          maybeForceBuilderInitialization();
-        }
-        private void maybeForceBuilderInitialization() {
-          if (com.google.protobuf.GeneratedMessageV3
-                  .alwaysUseFieldBuilders) {
-          }
+
         }
         @java.lang.Override
         public Builder clear() {
@@ -892,7 +908,7 @@ public final class Chat {
             }
             onChanged();
           }
-          this.mergeUnknownFields(other.unknownFields);
+          this.mergeUnknownFields(other.getUnknownFields());
           onChanged();
           return this;
         }
@@ -907,17 +923,41 @@ public final class Chat {
             com.google.protobuf.CodedInputStream input,
             com.google.protobuf.ExtensionRegistryLite extensionRegistry)
             throws java.io.IOException {
-          com.ifx.connect.proto.Chat.ChatMessage.Group parsedMessage = null;
+          if (extensionRegistry == null) {
+            throw new java.lang.NullPointerException();
+          }
           try {
-            parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+            boolean done = false;
+            while (!done) {
+              int tag = input.readTag();
+              switch (tag) {
+                case 0:
+                  done = true;
+                  break;
+                case 13: {
+                  sessionId_ = input.readFloat();
+
+                  break;
+                } // case 13
+                case 66: {
+                  java.lang.String s = input.readStringRequireUtf8();
+                  ensureToAccountsIsMutable();
+                  toAccounts_.add(s);
+                  break;
+                } // case 66
+                default: {
+                  if (!super.parseUnknownField(input, extensionRegistry, tag)) {
+                    done = true; // was an endgroup tag
+                  }
+                  break;
+                } // default:
+              } // switch (tag)
+            } // while (!done)
           } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-            parsedMessage = (com.ifx.connect.proto.Chat.ChatMessage.Group) e.getUnfinishedMessage();
             throw e.unwrapIOException();
           } finally {
-            if (parsedMessage != null) {
-              mergeFrom(parsedMessage);
-            }
-          }
+            onChanged();
+          } // finally
           return this;
         }
         private int bitField0_;
@@ -1131,7 +1171,18 @@ public final class Chat {
             com.google.protobuf.CodedInputStream input,
             com.google.protobuf.ExtensionRegistryLite extensionRegistry)
             throws com.google.protobuf.InvalidProtocolBufferException {
-          return new Group(input, extensionRegistry);
+          Builder builder = newBuilder();
+          try {
+            builder.mergeFrom(input, extensionRegistry);
+          } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+            throw e.setUnfinishedMessage(builder.buildPartial());
+          } catch (com.google.protobuf.UninitializedMessageException e) {
+            throw e.asInvalidProtocolBufferException().setUnfinishedMessage(builder.buildPartial());
+          } catch (java.io.IOException e) {
+            throw new com.google.protobuf.InvalidProtocolBufferException(e)
+                .setUnfinishedMessage(builder.buildPartial());
+          }
+          return builder.buildPartial();
         }
       };
 
@@ -1188,48 +1239,6 @@ public final class Chat {
       getUnknownFields() {
         return this.unknownFields;
       }
-      private Single(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws com.google.protobuf.InvalidProtocolBufferException {
-        this();
-        if (extensionRegistry == null) {
-          throw new java.lang.NullPointerException();
-        }
-        com.google.protobuf.UnknownFieldSet.Builder unknownFields =
-            com.google.protobuf.UnknownFieldSet.newBuilder();
-        try {
-          boolean done = false;
-          while (!done) {
-            int tag = input.readTag();
-            switch (tag) {
-              case 0:
-                done = true;
-                break;
-              case 13: {
-
-                toAccount_ = input.readFloat();
-                break;
-              }
-              default: {
-                if (!parseUnknownField(
-                    input, unknownFields, extensionRegistry, tag)) {
-                  done = true;
-                }
-                break;
-              }
-            }
-          }
-        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          throw e.setUnfinishedMessage(this);
-        } catch (java.io.IOException e) {
-          throw new com.google.protobuf.InvalidProtocolBufferException(
-              e).setUnfinishedMessage(this);
-        } finally {
-          this.unknownFields = unknownFields.build();
-          makeExtensionsImmutable();
-        }
-      }
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
         return com.ifx.connect.proto.Chat.internal_static_com_ifx_connect_proto_ChatMessage_Single_descriptor;
@@ -1268,10 +1277,10 @@ public final class Chat {
       @java.lang.Override
       public void writeTo(com.google.protobuf.CodedOutputStream output)
                           throws java.io.IOException {
-        if (toAccount_ != 0F) {
+        if (java.lang.Float.floatToRawIntBits(toAccount_) != 0) {
           output.writeFloat(1, toAccount_);
         }
-        unknownFields.writeTo(output);
+        getUnknownFields().writeTo(output);
       }
 
       @java.lang.Override
@@ -1280,11 +1289,11 @@ public final class Chat {
         if (size != -1) return size;
 
         size = 0;
-        if (toAccount_ != 0F) {
+        if (java.lang.Float.floatToRawIntBits(toAccount_) != 0) {
           size += com.google.protobuf.CodedOutputStream
             .computeFloatSize(1, toAccount_);
         }
-        size += unknownFields.getSerializedSize();
+        size += getUnknownFields().getSerializedSize();
         memoizedSize = size;
         return size;
       }
@@ -1302,7 +1311,7 @@ public final class Chat {
         if (java.lang.Float.floatToIntBits(getToAccount())
             != java.lang.Float.floatToIntBits(
                 other.getToAccount())) return false;
-        if (!unknownFields.equals(other.unknownFields)) return false;
+        if (!getUnknownFields().equals(other.getUnknownFields())) return false;
         return true;
       }
 
@@ -1316,7 +1325,7 @@ public final class Chat {
         hash = (37 * hash) + TOACCOUNT_FIELD_NUMBER;
         hash = (53 * hash) + java.lang.Float.floatToIntBits(
             getToAccount());
-        hash = (29 * hash) + unknownFields.hashCode();
+        hash = (29 * hash) + getUnknownFields().hashCode();
         memoizedHashCode = hash;
         return hash;
       }
@@ -1433,18 +1442,13 @@ public final class Chat {
 
         // Construct using com.ifx.connect.proto.Chat.ChatMessage.Single.newBuilder()
         private Builder() {
-          maybeForceBuilderInitialization();
+
         }
 
         private Builder(
             com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
           super(parent);
-          maybeForceBuilderInitialization();
-        }
-        private void maybeForceBuilderInitialization() {
-          if (com.google.protobuf.GeneratedMessageV3
-                  .alwaysUseFieldBuilders) {
-          }
+
         }
         @java.lang.Override
         public Builder clear() {
@@ -1529,7 +1533,7 @@ public final class Chat {
           if (other.getToAccount() != 0F) {
             setToAccount(other.getToAccount());
           }
-          this.mergeUnknownFields(other.unknownFields);
+          this.mergeUnknownFields(other.getUnknownFields());
           onChanged();
           return this;
         }
@@ -1544,17 +1548,35 @@ public final class Chat {
             com.google.protobuf.CodedInputStream input,
             com.google.protobuf.ExtensionRegistryLite extensionRegistry)
             throws java.io.IOException {
-          com.ifx.connect.proto.Chat.ChatMessage.Single parsedMessage = null;
+          if (extensionRegistry == null) {
+            throw new java.lang.NullPointerException();
+          }
           try {
-            parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+            boolean done = false;
+            while (!done) {
+              int tag = input.readTag();
+              switch (tag) {
+                case 0:
+                  done = true;
+                  break;
+                case 13: {
+                  toAccount_ = input.readFloat();
+
+                  break;
+                } // case 13
+                default: {
+                  if (!super.parseUnknownField(input, extensionRegistry, tag)) {
+                    done = true; // was an endgroup tag
+                  }
+                  break;
+                } // default:
+              } // switch (tag)
+            } // while (!done)
           } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-            parsedMessage = (com.ifx.connect.proto.Chat.ChatMessage.Single) e.getUnfinishedMessage();
             throw e.unwrapIOException();
           } finally {
-            if (parsedMessage != null) {
-              mergeFrom(parsedMessage);
-            }
-          }
+            onChanged();
+          } // finally
           return this;
         }
 
@@ -1621,7 +1643,18 @@ public final class Chat {
             com.google.protobuf.CodedInputStream input,
             com.google.protobuf.ExtensionRegistryLite extensionRegistry)
             throws com.google.protobuf.InvalidProtocolBufferException {
-          return new Single(input, extensionRegistry);
+          Builder builder = newBuilder();
+          try {
+            builder.mergeFrom(input, extensionRegistry);
+          } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+            throw e.setUnfinishedMessage(builder.buildPartial());
+          } catch (com.google.protobuf.UninitializedMessageException e) {
+            throw e.asInvalidProtocolBufferException().setUnfinishedMessage(builder.buildPartial());
+          } catch (java.io.IOException e) {
+            throw new com.google.protobuf.InvalidProtocolBufferException(e)
+                .setUnfinishedMessage(builder.buildPartial());
+          }
+          return builder.buildPartial();
         }
       };
 
@@ -1798,6 +1831,25 @@ public final class Chat {
       return getChat();
     }
 
+    public static final int MESSAGESSTATUS_FIELD_NUMBER = 11;
+    private int messagesStatus_;
+    /**
+     * <code>.com.ifx.connect.proto.ChatMessage.MessagesStatus messagesStatus = 11;</code>
+     * @return The enum numeric value on the wire for messagesStatus.
+     */
+    @java.lang.Override public int getMessagesStatusValue() {
+      return messagesStatus_;
+    }
+    /**
+     * <code>.com.ifx.connect.proto.ChatMessage.MessagesStatus messagesStatus = 11;</code>
+     * @return The messagesStatus.
+     */
+    @java.lang.Override public com.ifx.connect.proto.Chat.ChatMessage.MessagesStatus getMessagesStatus() {
+      @SuppressWarnings("deprecation")
+      com.ifx.connect.proto.Chat.ChatMessage.MessagesStatus result = com.ifx.connect.proto.Chat.ChatMessage.MessagesStatus.valueOf(messagesStatus_);
+      return result == null ? com.ifx.connect.proto.Chat.ChatMessage.MessagesStatus.UNRECOGNIZED : result;
+    }
+
     private byte memoizedIsInitialized = -1;
     @java.lang.Override
     public final boolean isInitialized() {
@@ -1818,7 +1870,7 @@ public final class Chat {
       if (fromAccountInfo_ != null) {
         output.writeMessage(2, getFromAccountInfo());
       }
-      if (!getContentBytes().isEmpty()) {
+      if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(content_)) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 3, content_);
       }
       if (sessionId_ != 0L) {
@@ -1833,7 +1885,10 @@ public final class Chat {
       if (chat_ != null) {
         output.writeMessage(10, getChat());
       }
-      unknownFields.writeTo(output);
+      if (messagesStatus_ != com.ifx.connect.proto.Chat.ChatMessage.MessagesStatus.REJECT.getNumber()) {
+        output.writeEnum(11, messagesStatus_);
+      }
+      getUnknownFields().writeTo(output);
     }
 
     @java.lang.Override
@@ -1850,7 +1905,7 @@ public final class Chat {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(2, getFromAccountInfo());
       }
-      if (!getContentBytes().isEmpty()) {
+      if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(content_)) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(3, content_);
       }
       if (sessionId_ != 0L) {
@@ -1869,7 +1924,11 @@ public final class Chat {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(10, getChat());
       }
-      size += unknownFields.getSerializedSize();
+      if (messagesStatus_ != com.ifx.connect.proto.Chat.ChatMessage.MessagesStatus.REJECT.getNumber()) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeEnumSize(11, messagesStatus_);
+      }
+      size += getUnknownFields().getSerializedSize();
       memoizedSize = size;
       return size;
     }
@@ -1906,7 +1965,8 @@ public final class Chat {
         if (!getChat()
             .equals(other.getChat())) return false;
       }
-      if (!unknownFields.equals(other.unknownFields)) return false;
+      if (messagesStatus_ != other.messagesStatus_) return false;
+      if (!getUnknownFields().equals(other.getUnknownFields())) return false;
       return true;
     }
 
@@ -1939,7 +1999,9 @@ public final class Chat {
         hash = (37 * hash) + CHAT_FIELD_NUMBER;
         hash = (53 * hash) + getChat().hashCode();
       }
-      hash = (29 * hash) + unknownFields.hashCode();
+      hash = (37 * hash) + MESSAGESSTATUS_FIELD_NUMBER;
+      hash = (53 * hash) + messagesStatus_;
+      hash = (29 * hash) + getUnknownFields().hashCode();
       memoizedHashCode = hash;
       return hash;
     }
@@ -2056,18 +2118,13 @@ public final class Chat {
 
       // Construct using com.ifx.connect.proto.Chat.ChatMessage.newBuilder()
       private Builder() {
-        maybeForceBuilderInitialization();
+
       }
 
       private Builder(
           com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
         super(parent);
-        maybeForceBuilderInitialization();
-      }
-      private void maybeForceBuilderInitialization() {
-        if (com.google.protobuf.GeneratedMessageV3
-                .alwaysUseFieldBuilders) {
-        }
+
       }
       @java.lang.Override
       public Builder clear() {
@@ -2098,6 +2155,8 @@ public final class Chat {
           chat_ = null;
           chatBuilder_ = null;
         }
+        messagesStatus_ = 0;
+
         return this;
       }
 
@@ -2143,6 +2202,7 @@ public final class Chat {
         } else {
           result.chat_ = chatBuilder_.build();
         }
+        result.messagesStatus_ = messagesStatus_;
         onBuilt();
         return result;
       }
@@ -2213,7 +2273,10 @@ public final class Chat {
         if (other.hasChat()) {
           mergeChat(other.getChat());
         }
-        this.mergeUnknownFields(other.unknownFields);
+        if (other.messagesStatus_ != 0) {
+          setMessagesStatusValue(other.getMessagesStatusValue());
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
         onChanged();
         return this;
       }
@@ -2228,17 +2291,76 @@ public final class Chat {
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws java.io.IOException {
-        com.ifx.connect.proto.Chat.ChatMessage parsedMessage = null;
+        if (extensionRegistry == null) {
+          throw new java.lang.NullPointerException();
+        }
         try {
-          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+          boolean done = false;
+          while (!done) {
+            int tag = input.readTag();
+            switch (tag) {
+              case 0:
+                done = true;
+                break;
+              case 8: {
+                msgId_ = input.readInt64();
+
+                break;
+              } // case 8
+              case 18: {
+                input.readMessage(
+                    getFromAccountInfoFieldBuilder().getBuilder(),
+                    extensionRegistry);
+
+                break;
+              } // case 18
+              case 26: {
+                content_ = input.readStringRequireUtf8();
+
+                break;
+              } // case 26
+              case 40: {
+                sessionId_ = input.readInt64();
+
+                break;
+              } // case 40
+              case 48: {
+                type_ = input.readEnum();
+
+                break;
+              } // case 48
+              case 66: {
+                input.readMessage(
+                    getToAccountInfoFieldBuilder().getBuilder(),
+                    extensionRegistry);
+
+                break;
+              } // case 66
+              case 82: {
+                input.readMessage(
+                    getChatFieldBuilder().getBuilder(),
+                    extensionRegistry);
+
+                break;
+              } // case 82
+              case 88: {
+                messagesStatus_ = input.readEnum();
+
+                break;
+              } // case 88
+              default: {
+                if (!super.parseUnknownField(input, extensionRegistry, tag)) {
+                  done = true; // was an endgroup tag
+                }
+                break;
+              } // default:
+            } // switch (tag)
+          } // while (!done)
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (com.ifx.connect.proto.Chat.ChatMessage) e.getUnfinishedMessage();
           throw e.unwrapIOException();
         } finally {
-          if (parsedMessage != null) {
-            mergeFrom(parsedMessage);
-          }
-        }
+          onChanged();
+        } // finally
         return this;
       }
 
@@ -2790,6 +2912,60 @@ public final class Chat {
         }
         return chatBuilder_;
       }
+
+      private int messagesStatus_ = 0;
+      /**
+       * <code>.com.ifx.connect.proto.ChatMessage.MessagesStatus messagesStatus = 11;</code>
+       * @return The enum numeric value on the wire for messagesStatus.
+       */
+      @java.lang.Override public int getMessagesStatusValue() {
+        return messagesStatus_;
+      }
+      /**
+       * <code>.com.ifx.connect.proto.ChatMessage.MessagesStatus messagesStatus = 11;</code>
+       * @param value The enum numeric value on the wire for messagesStatus to set.
+       * @return This builder for chaining.
+       */
+      public Builder setMessagesStatusValue(int value) {
+        
+        messagesStatus_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>.com.ifx.connect.proto.ChatMessage.MessagesStatus messagesStatus = 11;</code>
+       * @return The messagesStatus.
+       */
+      @java.lang.Override
+      public com.ifx.connect.proto.Chat.ChatMessage.MessagesStatus getMessagesStatus() {
+        @SuppressWarnings("deprecation")
+        com.ifx.connect.proto.Chat.ChatMessage.MessagesStatus result = com.ifx.connect.proto.Chat.ChatMessage.MessagesStatus.valueOf(messagesStatus_);
+        return result == null ? com.ifx.connect.proto.Chat.ChatMessage.MessagesStatus.UNRECOGNIZED : result;
+      }
+      /**
+       * <code>.com.ifx.connect.proto.ChatMessage.MessagesStatus messagesStatus = 11;</code>
+       * @param value The messagesStatus to set.
+       * @return This builder for chaining.
+       */
+      public Builder setMessagesStatus(com.ifx.connect.proto.Chat.ChatMessage.MessagesStatus value) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        
+        messagesStatus_ = value.getNumber();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>.com.ifx.connect.proto.ChatMessage.MessagesStatus messagesStatus = 11;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearMessagesStatus() {
+        
+        messagesStatus_ = 0;
+        onChanged();
+        return this;
+      }
       @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
@@ -2823,7 +2999,18 @@ public final class Chat {
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-        return new ChatMessage(input, extensionRegistry);
+        Builder builder = newBuilder();
+        try {
+          builder.mergeFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw e.setUnfinishedMessage(builder.buildPartial());
+        } catch (com.google.protobuf.UninitializedMessageException e) {
+          throw e.asInvalidProtocolBufferException().setUnfinishedMessage(builder.buildPartial());
+        } catch (java.io.IOException e) {
+          throw new com.google.protobuf.InvalidProtocolBufferException(e)
+              .setUnfinishedMessage(builder.buildPartial());
+        }
+        return builder.buildPartial();
       }
     };
 
@@ -2868,19 +3055,24 @@ public final class Chat {
   static {
     java.lang.String[] descriptorData = {
       "\n\rMessage.proto\022\025com.ifx.connect.proto\032\031" +
-      "google/protobuf/any.proto\032\nAuth.proto\"\333\002" +
+      "google/protobuf/any.proto\032\nAuth.proto\"\230\004" +
       "\n\013ChatMessage\022\r\n\005msgId\030\001 \001(\003\022\021\n\tsessionI" +
       "d\030\005 \001(\003\022\017\n\007content\030\003 \001(\t\022;\n\017fromAccountI" +
       "nfo\030\002 \001(\0132\".com.ifx.connect.proto.Accoun" +
       "tInfo\0229\n\rtoAccountInfo\030\010 \001(\0132\".com.ifx.c" +
       "onnect.proto.AccountInfo\0220\n\004type\030\006 \001(\0162\"" +
       ".com.ifx.connect.proto.MessageType\022\"\n\004ch" +
-      "at\030\n \001(\0132\024.google.protobuf.Any\032.\n\005Group\022" +
-      "\021\n\tsessionId\030\001 \001(\002\022\022\n\ntoAccounts\030\010 \003(\t\032\033" +
-      "\n\006Single\022\021\n\ttoAccount\030\001 \001(\002*F\n\013MessageTy" +
-      "pe\022\010\n\004TEXT\020\000\022\014\n\010MARKDOWN\020\005\022\010\n\004FILE\020\001\022\n\n\006" +
-      "STREAM\020\002\022\t\n\005VIDEO\020\003B\035\n\025com.ifx.connect.p" +
-      "rotoB\004Chatb\006proto3"
+      "at\030\n \001(\0132\024.google.protobuf.Any\022I\n\016messag" +
+      "esStatus\030\013 \001(\01621.com.ifx.connect.proto.C" +
+      "hatMessage.MessagesStatus\032.\n\005Group\022\021\n\tse" +
+      "ssionId\030\001 \001(\002\022\022\n\ntoAccounts\030\010 \003(\t\032\033\n\006Sin" +
+      "gle\022\021\n\ttoAccount\030\001 \001(\002\"p\n\016MessagesStatus" +
+      "\022\n\n\006REJECT\020\000\022\013\n\007OFFLINE\020\001\022\014\n\010SENTFAIL\020\007\022" +
+      "\013\n\007HISTORY\020\n\022\010\n\004READ\020\003\022\n\n\006UNREAD\020\002\022\010\n\004SE" +
+      "NT\020\005\022\n\n\006UNSENT\020\013*F\n\013MessageType\022\010\n\004TEXT\020" +
+      "\000\022\014\n\010MARKDOWN\020\005\022\010\n\004FILE\020\001\022\n\n\006STREAM\020\002\022\t\n" +
+      "\005VIDEO\020\003B\035\n\025com.ifx.connect.protoB\004Chatb" +
+      "\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -2893,7 +3085,7 @@ public final class Chat {
     internal_static_com_ifx_connect_proto_ChatMessage_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_com_ifx_connect_proto_ChatMessage_descriptor,
-        new java.lang.String[] { "MsgId", "SessionId", "Content", "FromAccountInfo", "ToAccountInfo", "Type", "Chat", });
+        new java.lang.String[] { "MsgId", "SessionId", "Content", "FromAccountInfo", "ToAccountInfo", "Type", "Chat", "MessagesStatus", });
     internal_static_com_ifx_connect_proto_ChatMessage_Group_descriptor =
       internal_static_com_ifx_connect_proto_ChatMessage_descriptor.getNestedTypes().get(0);
     internal_static_com_ifx_connect_proto_ChatMessage_Group_fieldAccessorTable = new

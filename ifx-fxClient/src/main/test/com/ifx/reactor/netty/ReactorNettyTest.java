@@ -79,7 +79,6 @@ public class ReactorNettyTest {
             }
 
         }
-//        log.info("{}", connect.isDisposed());
 
 
     }

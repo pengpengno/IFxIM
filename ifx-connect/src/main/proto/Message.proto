@@ -23,6 +23,9 @@ message ChatMessage  {
 
   google.protobuf.Any chat = 10;
 
+
+  MessagesStatus messagesStatus = 11; ;
+
   message Group{
 
     float sessionId = 1 ;
@@ -34,6 +37,30 @@ message ChatMessage  {
   message Single{
     float toAccount = 1;
   }
+
+
+  enum MessagesStatus{
+
+      REJECT = 0 ;
+
+      OFFLINE = 1 ;
+
+      SENTFAIL = 7 ;
+
+      HISTORY = 10 ;
+
+      READ = 3 ;
+
+      UNREAD = 2 ;
+
+      SENT = 5 ;
+
+      UNSENT = 11 ;
+
+
+  }
+
+
 }
 
 

@@ -1,5 +1,6 @@
 package com.ifx.account.vo.chat;
 
+import com.ifx.account.enums.ChatMsgStatus;
 import com.ifx.account.enums.ContentType;
 import com.ifx.account.service.chat.ReadAbleMsg;
 import com.ifx.common.base.AccountInfo;
@@ -23,7 +24,7 @@ public class ChatMsgRecordVo implements ReadAbleMsg {
     /***
      * @see com.ifx.account.enums.ChatMsgStatus
      */
-    private String status;
+    private ChatMsgStatus status;
 
 
     private AccountInfo fromAccount;

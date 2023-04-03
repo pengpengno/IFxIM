@@ -51,11 +51,6 @@ public class AccountController {
 
 
 
-//    @PostMapping("/upload/file")
-//    public Mono<ResponseEntity<Object>>convertFile( @RequestPart("file") FilePart filePart, @RequestPart(required = false,value = "meta") ConvertFileRequest request) {
-//        return Mono.just(ResponseEntity.ok().build());
-//    }
-
 
     @PostMapping("/jwt")
     public Mono<AccountInfo> jwtParse(@RequestParam String jwt){

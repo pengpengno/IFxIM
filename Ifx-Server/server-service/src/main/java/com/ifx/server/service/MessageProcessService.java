@@ -27,9 +27,7 @@ public class MessageProcessService {
 
     public static Map<Class<? extends Message> , MessageProcessService.ConnectMessageProcess> processMap = new HashMap<>(MessageMapEnum.values().length);
 
-
     static {
-
 
         processMap.put(Account.AccountInfo.class,accountProcess());
 
@@ -78,6 +76,7 @@ public class MessageProcessService {
                     .build();
 
             ServerToolkit.contextAction().putConnection(connection);
+
 
             log.info(" {}  had bind  the channel !",accountInfo.getAccount());
         };

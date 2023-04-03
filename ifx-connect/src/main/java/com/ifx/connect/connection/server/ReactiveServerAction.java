@@ -16,7 +16,10 @@ public interface ReactiveServerAction {
 
     Mono<Void>  sendString(String account,String  message);
 
+
     Mono<Void>  sendMessage(String account , Message message);
+
+
 
 
 

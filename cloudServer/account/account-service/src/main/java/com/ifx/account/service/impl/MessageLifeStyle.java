@@ -19,7 +19,6 @@ public class MessageLifeStyle implements IMessageLifeStyle {
     @Override
     public Mono<Long> init() {
 
-//        chatMsgRepository
         return null;
     }
 
