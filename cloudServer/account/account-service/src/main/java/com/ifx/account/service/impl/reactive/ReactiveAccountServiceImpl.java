@@ -60,14 +60,15 @@ public class ReactiveAccountServiceImpl implements ReactiveAccountService {
     @Override
     public Mono<AccountInfo> login(AccountVo accountVo) {
         return  accountRepository.findByAccount(accountVo.account())
+                .defaultIfEmpty(new Account())
                 .flatMap(acc -> {
-                    if (ObjectUtil.isNull(acc)){
+                    if (ObjectUtil.isNull(acc.getAccount())){
                         return Mono.error(new IllegalAccessException("用户名不存在！"));
                     }else {
-                        if (verifyAccount().apply(acc)){
+                        if (verifyAccount(accountVo.getPassword(),acc.getSalt(),acc.getPwdhash())){
                             return Mono.just(AccountHelper.INSTANCE.buildAccountInfo(acc));
                         }else {
-                            return Mono.error( new AccountException("密码错误！"));
+                            return Mono.error( new IllegalArgumentException("密码错误！"));
                         }
                     }
                 });
@@ -76,8 +77,6 @@ public class ReactiveAccountServiceImpl implements ReactiveAccountService {
 
     @Override
     public Mono<AccountAuthenticateVo> auth(AccountVo accountVo) {
-//        Mono.just(accountVo)
-//                .map()
         return findByAccount(accountVo.getAccount())
                 .map(ac -> AccountAuthenticateVo.builder().jwt(generateJwt(ac)).build())
                 ;
@@ -129,6 +128,11 @@ public class ReactiveAccountServiceImpl implements ReactiveAccountService {
 
     private Function<Account,Boolean>  verifyAccount(){
         return (account ) -> PasswordUtils.verityPassword(account.getPassword(), account.getSalt(), account.getPwdhash());
+    }
+
+
+    private  Boolean verifyAccount(String password , String salt ,String pwdHash){
+        return  PasswordUtils.verityPassword(password, salt, pwdHash);
     }
 
     private Function<AccountVo,Account> registerAccount(){

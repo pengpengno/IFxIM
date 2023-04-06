@@ -16,10 +16,10 @@ import reactor.core.publisher.Mono;
 @Repository
 public interface AccountRepository  extends ReactiveCrudRepository<Account,Long> {
 
-    @Query("SELECT  * FROM ACCOUNT WHERE ACCOUNT = :account")
+    @Query("SELECT  * FROM account WHERE account = :account")
     Mono<Account> findByAccount(@Param("account") String account);
 
-    @Query("SELECT  * FROM ACCOUNT WHERE ID IN :userId")
+    @Query("SELECT  * FROM account WHERE id IN :userId")
     Flux<Account> findByAccountIdIn(@Param("userId") Iterable<Long> userIds);
 
 

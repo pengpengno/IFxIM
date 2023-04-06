@@ -2,10 +2,8 @@ package com.ifx.connect.config;
 
 import com.ifx.connect.connection.client.ClientLifeStyle;
 import com.ifx.connect.connection.client.ClientToolkit;
-import com.ifx.connect.connection.client.ReactiveClientAction;
 import com.ifx.connect.properties.ClientNettyConfigProperties;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -22,11 +20,11 @@ import java.net.InetSocketAddress;
 public class ClientConnectBootstrap {
 
 
-    @ConditionalOnMissingBean(value = {ReactiveClientAction.class})
-    @Bean
-    public ReactiveClientAction applyClientAction(){
-        return ClientToolkit.reactiveClientAction();
-    }
+//    @ConditionalOnMissingBean(value = {ReactiveClientAction.class})
+//    @Bean
+//    public ReactiveClientAction applyClientAction(){
+//        return ClientToolkit.reactiveClientAction();
+//    }
 
 
     @Bean

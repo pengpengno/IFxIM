@@ -1,10 +1,8 @@
 package com.ifx.connect.connection.server.tcp;
 
 import com.google.inject.Singleton;
-import com.ifx.connect.spi.ReactiveHandlerSPI;
 import com.ifx.connect.connection.server.ReactiveServer;
-import com.ifx.connect.connection.server.ServerToolkit;
-import com.ifx.connect.connection.server.context.IConnectContextAction;
+import com.ifx.connect.spi.ReactiveHandlerSPI;
 import io.netty.handler.logging.LogLevel;
 import lombok.extern.slf4j.Slf4j;
 import reactor.netty.DisposableServer;
@@ -39,12 +37,10 @@ public class ReactorTcpServer implements ReactiveServer {
     }
 
 
-    private IConnectContextAction contextAction ;
     private TcpServer server;
     private DisposableServer disposableServer;
 
     private ReactorTcpServer(){
-        contextAction = ServerToolkit.contextAction();
     }
 
     @Override
@@ -52,7 +48,6 @@ public class ReactorTcpServer implements ReactiveServer {
         disposableServer.disposeNow();
     }
 
-//    public void
 
     public  void init(InetSocketAddress address){
         this.address = address;

@@ -21,10 +21,15 @@ public class FxReactiveClientHandler extends ConnectionConsumer {
         super((nettyInbound, nettyOutbound) -> {
 
             nettyInbound.withConnection(connection -> {
+
                 ByteBufAllocator alloc = connection.channel().alloc();
+
                 ByteBuf buffer = alloc.buffer();
+
             });
+
             nettyInbound.receive().asString().doOnNext(log::info).then().subscribe();
+
             return Mono.never();
         });
         log.debug("The ReactorConnectionConsumer SPI FxReactiveClientHandler service provider is load ! ");

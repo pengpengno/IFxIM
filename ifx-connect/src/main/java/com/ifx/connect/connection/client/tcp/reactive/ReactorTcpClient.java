@@ -114,7 +114,7 @@ public class ReactorTcpClient implements ClientLifeStyle , ReactiveClientAction 
             ByteBuf byteBuf = ProtoParseUtil.parseMessage2ByteBuf(message, alloc.buffer());
             return connection.outbound().send(Mono.just(byteBuf)).then();
         }
-        throw new NetException("specify server is busy!");
+        throw new NetException("connection is invalid !");
     }
 
 

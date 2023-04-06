@@ -97,7 +97,7 @@ public class ChatMsgServiceImpl  implements ChatMsgService {
             }
             ChatMsgRecordVo vo = ChatMsgMapper.INSTANCE.chatVo2RecordVo(chatMsgVo);
             vo.setToAccount(toAccountInfo);
-            vo.setStatus(ChatMsgStatus.UNSENT.name());
+            vo.setStatus(ChatMsgStatus.UNSENT);
             return vo;
         };
     }

@@ -4,6 +4,7 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.ifx.connect.connection.server.context.IConnectContext;
 import com.ifx.connect.connection.server.context.IConnectContextAction;
+import com.ifx.connect.connection.server.tcp.ReactorTcpAction;
 import com.ifx.connect.connection.server.tcp.ReactorTcpServer;
 import com.ifx.connect.module.ConnectionModule;
 
@@ -22,6 +23,10 @@ public class ServerToolkit {
     public static IConnectContextAction contextAction(){
 //        return inject.getInstance(IConnectContextAction.class);
         return IConnectContext.getInstance();
+    }
+
+    public static ReactiveServerAction reactorTcpServerAction(){
+        return ReactorTcpAction.getInstance();
     }
 
 

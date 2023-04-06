@@ -27,7 +27,29 @@ import java.util.Optional;
 @Slf4j
 public class ReactorTcpAction implements ReactiveServerAction {
 
-    private final IConnectContextAction contextAction = ServerToolkit.contextAction();
+    private final IConnectContextAction contextAction ;
+
+
+    private ReactorTcpAction(){
+        contextAction = ServerToolkit.contextAction();
+    }
+
+    private enum SingleInstance{
+        INSTANCE;
+        private final ReactorTcpAction instance;
+        SingleInstance(){
+            instance = new ReactorTcpAction();
+        }
+        private ReactorTcpAction getInstance(){
+            return instance;
+        }
+    }
+
+
+    public static ReactorTcpAction getInstance(){
+        return ReactorTcpAction.SingleInstance.INSTANCE.getInstance();
+    }
+
 
     @Override
     public Mono<Void> sendString(IConnection connection,String message) throws ConnectException {
@@ -55,19 +77,23 @@ public class ReactorTcpAction implements ReactiveServerAction {
 
         IConnection iConnection = contextAction.applyConnection(account);
 
-        Boolean online = iConnection.online();
-        if (message == null ){
-            log.warn("Message is Non-accessible Object ,return  empty !");
-            return Mono.empty();
+        if (iConnection !=null ){
+
+            Boolean online = iConnection.online();
+            if (message == null ){
+                log.warn("Message is Non-accessible Object ,return  empty !");
+                return Mono.empty();
+            }
+            if (online){
+
+                ByteBuf byteBuf = iConnection.channel().alloc().ioBuffer();
+
+                ProtocolBufUtils.protoTrans2ByteBuf(byteBuf,message);
+
+                return iConnection.connection().outbound().send(Mono.justOrEmpty(Optional.of(byteBuf))).then();
+            }
         }
-        if (online){
 
-            ByteBuf byteBuf = iConnection.channel().alloc().ioBuffer();
-
-            ProtocolBufUtils.protoTrans2ByteBuf(byteBuf,message);
-
-            iConnection.connection().outbound().send(Mono.justOrEmpty(Optional.of(byteBuf))).then();
-        }
 
         throw new NetException("The specified account ["+account+"] connection is invalid ; ");
 

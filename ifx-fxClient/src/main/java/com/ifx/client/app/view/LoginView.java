@@ -50,6 +50,5 @@ public class LoginView implements FrameView{
         return ()-> {
             return this;
         };
-//        return null;
     }
 }

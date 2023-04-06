@@ -1,7 +1,7 @@
 package com.ifx.connect.utils;
 
 import com.google.protobuf.Message;
-import com.ifx.connect.enums.MessageMapEnum;
+import com.ifx.connect.enums.ProtocolMessageMapEnum;
 import io.netty.buffer.ByteBuf;
 
 /***
@@ -25,7 +25,7 @@ public class ProtocolBufUtils {
                 throw new IllegalArgumentException("The provided byteBuf has no enough space to fill data!");
             }
 
-            MessageMapEnum mapEnum = MessageMapEnum.getByClass(message.getClass());
+            ProtocolMessageMapEnum mapEnum = ProtocolMessageMapEnum.getByClass(message.getClass());
 
             int headerType = mapEnum.getTypeEnum().getNumber();
 

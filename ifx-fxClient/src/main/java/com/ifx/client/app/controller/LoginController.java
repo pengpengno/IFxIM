@@ -4,6 +4,7 @@ package com.ifx.client.app.controller;
 import com.ifx.account.vo.AccountVo;
 import com.ifx.client.api.AccountApi;
 import com.ifx.client.util.FxmlLoader;
+import com.ifx.connect.connection.client.ReactiveClientAction;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -68,6 +69,10 @@ public class LoginController  implements Initializable {
     @Autowired
     private AccountApi accountApi;
 
+
+    @Autowired
+    ReactiveClientAction reactiveClientAction;
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         passwordField.setText("wangpeng");
@@ -83,16 +88,17 @@ public class LoginController  implements Initializable {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("登录状态");
         accountApi.login(accountVo)
-            .subscribe(acc -> {
-                Platform.runLater(()->  {
-                    hide();
-                    MainController.show();
-
-//                    log.info(" jwt is  {}", jwt);
-//                    Auth.Authenticate.newBuilder().setJwt(jwt).build();
-
-                });
-            });
+//            .map(acc -> {
+//                Account.AccountInfo accountInfo = ProtoBufMapper.INSTANCE.protocolAccMap(acc);
+//                Account.Authenticate auth = Account.Authenticate.newBuilder()
+//                        .setAccountInfo(accountInfo)
+//                        .build();
+//                return auth;
+//            }).doOnNext(auth -> reactiveClientAction.sendMessage(auth))
+            .subscribe(acc -> Platform.runLater(()->  {
+                hide();
+                MainController.show();
+            }));
 
         alert.contentTextProperty().addListener((a1,a2,a3)-> {
             alert.show();

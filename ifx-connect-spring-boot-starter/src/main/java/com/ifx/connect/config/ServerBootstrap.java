@@ -1,6 +1,7 @@
 package com.ifx.connect.config;
 
 import com.ifx.connect.connection.server.ReactiveServer;
+import com.ifx.connect.connection.server.ReactiveServerAction;
 import com.ifx.connect.connection.server.ServerToolkit;
 import com.ifx.connect.connection.server.context.ConnectionContextUtil;
 import com.ifx.connect.connection.server.context.IConnectContextAction;
@@ -56,5 +57,11 @@ public class ServerBootstrap {
         InetSocketAddress address = new InetSocketAddress(host,port);
          reactiveServer.init(address);
          return reactiveServer;
+    }
+
+    @Bean
+    @ConditionalOnBean(value = {ReactiveServer.class})
+    public ReactiveServerAction reactiveServerAction(){
+        return ServerToolkit.reactorTcpServerAction();
     }
 }

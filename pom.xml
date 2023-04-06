@@ -19,7 +19,6 @@
     <module>fx-boot-starter</module>
     <module>ifx-exc</module>
     <module>ifx-connect-spring-boot-starter</module>
-    <module>ifx-reactorRabbitmq</module>
   </modules>
   <packaging>pom</packaging>
   <properties>

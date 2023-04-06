@@ -17,7 +17,7 @@ import java.util.Arrays;
  */
 @Getter
 @AllArgsConstructor
-public enum MessageMapEnum {
+public enum ProtocolMessageMapEnum {
 
     CHAT (ProtocolType.ProtocolMessageEnum.CHAT, Chat.ChatMessage.class),
     AUTH (ProtocolType.ProtocolMessageEnum.AUTH, Account.Authenticate.class),
@@ -29,16 +29,16 @@ public enum MessageMapEnum {
 
     private final ProtocolType.ProtocolMessageEnum typeEnum;  // 类型枚举
 
-    private final Class<?> messageClass;  //  对应的实体类
+    private final Class<? extends  Message> messageClass;  //  对应的实体类
 
 
 
-    public static MessageMapEnum  getByClass(Class<? extends Message> messageClass){
-        return Arrays.stream(MessageMapEnum.values()).filter(e-> ObjectUtil.equals(e.messageClass,messageClass)).findFirst().orElseThrow(()-> new IllegalArgumentException("The provided  message is not supported !"));
+    public static ProtocolMessageMapEnum getByClass(Class<? extends Message> messageClass){
+        return Arrays.stream(ProtocolMessageMapEnum.values()).filter(e-> ObjectUtil.equals(e.messageClass,messageClass)).findFirst().orElseThrow(()-> new IllegalArgumentException("The provided  message is not supported !"));
     }
 
-    public static MessageMapEnum  getByEnum(ProtocolType.ProtocolMessageEnum typeEnum){
-        return Arrays.stream(MessageMapEnum.values()).filter(e-> ObjectUtil.equals(e.typeEnum,typeEnum)).findFirst().orElseThrow(()-> new IllegalArgumentException("The provided  enum is illegal!"));
+    public static ProtocolMessageMapEnum getByEnum(ProtocolType.ProtocolMessageEnum typeEnum){
+        return Arrays.stream(ProtocolMessageMapEnum.values()).filter(e-> ObjectUtil.equals(e.typeEnum,typeEnum)).findFirst().orElseThrow(()-> new IllegalArgumentException("The provided  enum is illegal!"));
     }
 
 
