@@ -11,7 +11,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.util.CollectionUtils;
 import org.springframework.validation.BindException;
 import org.springframework.validation.ObjectError;
-import org.springframework.web.ErrorResponse;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -34,6 +33,8 @@ public class AccountExceptionHandler {
     @ExceptionHandler(WebExchangeBindException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public Mono<ResponseEntity<ProblemDetail>> handleBindException(WebExchangeBindException bindException) {
+        log.error("出现异常 {}",ExceptionUtil.stacktraceToString(bindException));
+
         StringBuilder errorMsgBuilder = new StringBuilder();
         ProblemDetail problemDetail = ProblemDetail.forStatus(HttpStatus.BAD_REQUEST);
         List<ObjectError> allErrors = bindException.getAllErrors();
@@ -63,6 +64,8 @@ public class AccountExceptionHandler {
     @ExceptionHandler({ConstraintViolationException.class})
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public  Mono<ResponseEntity<ProblemDetail>> constraintViolationException(ConstraintViolationException exception){
+        log.error("出现异常 {}",ExceptionUtil.stacktraceToString(exception));
+
         Set<ConstraintViolation<?>> constraintViolations = exception.getConstraintViolations();
         ProblemDetail problemDetail = ProblemDetail.forStatus(HttpStatus.BAD_REQUEST);
         if(!CollectionUtils.isEmpty(constraintViolations)){
@@ -92,10 +95,11 @@ public class AccountExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.BAD_GATEWAY)
-    public Mono<ErrorResponse> exception(Exception exception){
+    public Mono<ResponseEntity<ProblemDetail>> exception(Exception exception){
         log.error("出现异常 {}",ExceptionUtil.stacktraceToString(exception));
-
-        return Mono.just(ErrorResponse.builder(exception,HttpStatus.INTERNAL_SERVER_ERROR,ExceptionUtil.stacktraceToString(exception)).build());
+        ProblemDetail problemDetail = ProblemDetail.forStatus(HttpStatus.BAD_GATEWAY);
+        problemDetail.setDetail("失败！");
+        return Mono.just(ResponseEntity.of(problemDetail).build());
     }
 
 
@@ -103,9 +107,10 @@ public class AccountExceptionHandler {
 
     @ExceptionHandler(Throwable.class)
     @ResponseStatus(HttpStatus.BAD_GATEWAY)
-    public Mono<ErrorResponse> throwable(Throwable exception){
+    public Mono<ResponseEntity<ProblemDetail>> throwable(Throwable exception){
         log.error("出现异常 {}",ExceptionUtil.stacktraceToString(exception));
-
-        return Mono.just(ErrorResponse.builder(exception,HttpStatus.INTERNAL_SERVER_ERROR,ExceptionUtil.stacktraceToString(exception)).build());
+        ProblemDetail problemDetail = ProblemDetail.forStatus(HttpStatus.BAD_GATEWAY);
+        problemDetail.setDetail("失败！");
+        return Mono.just(ResponseEntity.of(problemDetail).build());
     }
 }

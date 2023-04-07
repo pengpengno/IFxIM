@@ -5,6 +5,8 @@ import com.ifx.account.vo.AccountVo;
 import com.ifx.client.api.AccountApi;
 import com.ifx.client.util.FxmlLoader;
 import com.ifx.connect.connection.client.ReactiveClientAction;
+import com.ifx.connect.mapstruct.ProtoBufMapper;
+import com.ifx.connect.proto.Account;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -88,13 +90,13 @@ public class LoginController  implements Initializable {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("登录状态");
         accountApi.login(accountVo)
-//            .map(acc -> {
-//                Account.AccountInfo accountInfo = ProtoBufMapper.INSTANCE.protocolAccMap(acc);
-//                Account.Authenticate auth = Account.Authenticate.newBuilder()
-//                        .setAccountInfo(accountInfo)
-//                        .build();
-//                return auth;
-//            }).doOnNext(auth -> reactiveClientAction.sendMessage(auth))
+            .map(acc -> {
+                Account.AccountInfo accountInfo = ProtoBufMapper.INSTANCE.protocolAccMap(acc);
+                Account.Authenticate auth = Account.Authenticate.newBuilder()
+                        .setAccountInfo(accountInfo)
+                        .build();
+                return auth;
+            }).flatMap(auth -> reactiveClientAction.sendMessage(auth))
             .subscribe(acc -> Platform.runLater(()->  {
                 hide();
                 MainController.show();

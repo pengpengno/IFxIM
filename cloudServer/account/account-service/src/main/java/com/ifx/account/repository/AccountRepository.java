@@ -8,6 +8,8 @@ import org.springframework.stereotype.Repository;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import java.util.Set;
+
 /**
  * @author pengpeng
  * @description
@@ -19,8 +21,8 @@ public interface AccountRepository  extends ReactiveCrudRepository<Account,Long>
     @Query("SELECT  * FROM account WHERE account = :account")
     Mono<Account> findByAccount(@Param("account") String account);
 
-    @Query("SELECT  * FROM account WHERE id IN :userId")
-    Flux<Account> findByAccountIdIn(@Param("userId") Iterable<Long> userIds);
+    @Query("SELECT  * FROM account WHERE id in (:userId)")
+    Flux<Account> findByAccountIdIn(@Param("userId") Set<Long> userId);
 
 
 

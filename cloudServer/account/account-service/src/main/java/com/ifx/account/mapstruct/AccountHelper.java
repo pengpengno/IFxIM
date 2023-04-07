@@ -5,6 +5,7 @@ import com.ifx.account.vo.AccountVo;
 import com.ifx.common.base.AccountInfo;
 import org.mapstruct.Builder;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 import org.mapstruct.factory.Mappers;
 
@@ -61,7 +62,7 @@ public interface AccountHelper {
 
 
 
-
+    @Mapping(source = "id",target = "userId")
     AccountInfo buildAccountInfo(Account acc);
 
     List<AccountInfo> buildAccountInfoList(List<Account> accounts);

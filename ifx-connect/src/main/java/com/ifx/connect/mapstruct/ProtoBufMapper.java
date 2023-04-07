@@ -1,5 +1,6 @@
 package com.ifx.connect.mapstruct;
 
+import cn.hutool.core.util.StrUtil;
 import com.ifx.common.base.AccountInfo;
 import com.ifx.connect.proto.Account;
 import org.mapstruct.Mapper;
@@ -23,12 +24,26 @@ public interface ProtoBufMapper {
         if (accountInfo == null){
             return null;
         }
-        return Account.AccountInfo.newBuilder()
-                .setEMail(accountInfo.getEmail())
-                .setAccountName(accountInfo.accountName())
-                .setAccount(accountInfo.getAccount())
-                .setUserId(accountInfo.getUserId())
-                .build();
+
+        Account.AccountInfo.Builder builder = Account.AccountInfo.newBuilder();
+        String account = accountInfo.account();
+        String email = accountInfo.getEmail();
+        Long userId = accountInfo.userId();
+        String userName = accountInfo.accountName();
+        if (StrUtil.isNotBlank(email)){
+            builder.setEMail(email);
+        }
+        if(StrUtil.isNotBlank(account)){
+            builder.setAccount(account);
+        }
+        if (userId != null){
+            builder.setUserId(userId);
+        }
+        if (userName != null){
+            builder.setAccountName(userName);
+        }
+        return builder.build();
+
     }
 
       List<AccountInfo> proto2AccIterable(List<Account.AccountInfo> accountInfo);

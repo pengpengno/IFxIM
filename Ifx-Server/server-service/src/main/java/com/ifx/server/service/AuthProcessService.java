@@ -11,6 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Component;
+import reactor.core.publisher.Mono;
 import reactor.netty.Connection;
 @Component
 @Slf4j
@@ -47,8 +48,12 @@ public class AuthProcessService implements ProtoBufProcess{
                 contextAction.putConnection(connection);
 
                 log.info(" {}  had bind  the channel !",accountInfo.getAccount());
+
+                con.outbound().sendString(Mono.justOrEmpty("bind channel  has been established")).then().subscribe();
+
             }
 
+            return;
         }
 
         throw  new IllegalArgumentException("The connection and message is invalid!");

@@ -27,7 +27,7 @@ public class ChatController {
     IChatAction chatAction;
 
 
-    @PostMapping(ChatRoute.CHAT)
+    @PostMapping
     public Mono<Void>  sendMsg(@RequestBody ChatMsgVo chatMsgVo){
         return chatAction.pushMsg(chatMsgVo);
     }

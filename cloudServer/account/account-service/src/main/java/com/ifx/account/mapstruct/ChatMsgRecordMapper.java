@@ -34,14 +34,29 @@ public interface ChatMsgRecordMapper {
         }
         ContentType contentType = vo.getContentType();
         ChatMsgStatus status = vo.getStatus();
-        return Chat.ChatMessage.newBuilder()
-                .setMsgId(vo.getMsgId())
-                .setContent(vo.getContent())
+        Chat.ChatMessage.Builder builder = Chat.ChatMessage.newBuilder();
+        Long msgId = vo.getMsgId();
+        String content = vo.getContent();
+        Long sessionId = vo.getSessionId();
+        if (msgId !=null){
+            builder.setMsgId(msgId);
+        }
+        if (content !=null){
+            builder.setContent(content);
+        }
+        if (sessionId!=null){
+            builder.setSessionId(sessionId);
+        }
+        if(contentType != null){
+            builder.setType( contentType.getCharMessageType());
+        }
+
+        if (status != null){
+            builder.setMessagesStatus(status.getStatus());
+        }
+        return builder
                 .setFromAccountInfo(ProtoBufMapper.INSTANCE.protocolAccMap(vo.getFromAccount()))
                 .setToAccountInfo(ProtoBufMapper.INSTANCE.protocolAccMap(vo.getToAccount()))
-                .setSessionId(vo.getSessionId())
-                .setType(contentType == null ? null :contentType.getCharMessageType())
-                .setMessagesStatus(status == null ? null :status.getStatus() )
                 .build();
     }
 

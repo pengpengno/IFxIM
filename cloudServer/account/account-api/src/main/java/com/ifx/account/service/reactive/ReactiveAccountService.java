@@ -6,6 +6,8 @@ import com.ifx.common.base.AccountInfo;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import java.util.Set;
+
 /**
  * @author pengpeng
  * @description
@@ -18,7 +20,7 @@ public interface ReactiveAccountService {
 
     Mono<AccountInfo> findByUserId(Long userId);
 
-    Flux<AccountInfo> findByUserIds(Iterable<Long> userId);
+    Flux<AccountInfo> findByUserIds(Set<Long> userId);
 
 
     Mono<AccountInfo> login(AccountVo accountVo);

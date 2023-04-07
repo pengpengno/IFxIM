@@ -7,7 +7,7 @@ package com.ifx.account.chat;
  */
 public interface ChatRoute {
 
-    static String CHAT_ROUTE = "/api/session";
+    static String CHAT_ROUTE = "/api/chat";
 
 
 

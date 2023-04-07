@@ -11,7 +11,6 @@ import com.ifx.account.service.IChatAction;
 import com.ifx.account.service.ISessionLifeStyle;
 import com.ifx.account.vo.ChatMsgVo;
 import com.ifx.account.vo.chat.ChatMsgRecordVo;
-import com.ifx.common.base.AccountInfo;
 import com.ifx.common.utils.ValidatorUtil;
 import com.ifx.exec.ex.bus.acc.AccountException;
 import lombok.extern.slf4j.Slf4j;
@@ -28,7 +27,6 @@ import reactor.util.retry.Retry;
 import java.time.Duration;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 /***
@@ -76,24 +74,31 @@ public class ChatAction implements IChatAction {
     public Mono<Void> pushMsg(ChatMsgVo chatMsgVo) {
         final ChatMsgVo tmp = chatMsgVo;
         Mono<ChatMsgVo> chatMsgVoMono = Mono.justOrEmpty(Optional.ofNullable(tmp));
-        return chatMsgVoMono
-            .doOnNext(e-> ValidatorUtil.validateThrows(chatMsgVo,ChatMsgVo.ChatPush.class)) //  验证实体合法性
-            .flatMap(e-> chatMsgService.saveMsgReadPattern(e)) // 存储消息
-            .flatMapMany(vo -> chatMsgService.prepareRecordVo(vo))  // 格式转化为消息记录
-            .collect(Collectors.toList())
-            .doOnNext( vo -> {
+        Mono<List<ChatMsgRecordVo>> collect = chatMsgVoMono
+                .doOnNext(e -> ValidatorUtil.validateThrows(chatMsgVo, ChatMsgVo.ChatPush.class)) //  验证实体合法性
+                .flatMap(e -> chatMsgService.saveMsgReadPattern(e)) // 存储消息
+                .flatMapMany(vo -> chatMsgService.prepareRecordVo(vo))  // 格式转化为消息记录
+                .collect(Collectors.toList());
+            collect
+            .map( vo -> {
                 List<ChatMsgRecord> list = vo.stream().map(ChatMsgRecordMapper.INSTANCE::chatVo2Record).collect(Collectors.toList());// 存储消息至记录表
+                return chatMsgRecordRepository.saveAll(list);
+            }).then();
+            return collect.flatMap( record -> {
+                List<ChatMsgRecord> list = record.stream().map(ChatMsgRecordMapper.INSTANCE::chatVo2Record).collect(Collectors.toList());// 存储消息至记录表
                 chatMsgRecordRepository.saveAll(list);
+                return sessionLifeStyle.checkOnlineUserBySessionId(tmp.getSessionId()).map(e -> e.getAccount())
+                        .collect(Collectors.toSet())
+                        .flatMap(acc -> Mono.just(record.stream()
+                                .filter(e -> CollectionUtil.contains(acc, e.getToAccount().getAccount()))
+                                .collect(Collectors.toList()))) ;//  去除不在线的用户数据
             })
-            .flatMap( record -> Mono.deferContextual(contextView -> {
-                List<AccountInfo> flux = (List<AccountInfo>)contextView.get(ONLINE_USER_CONTEXT_KEY);
-                Set<String> accountSet = flux.stream().map(e -> e.getAccount()).collect(Collectors.toSet());
-                List<ChatMsgRecordVo> collect = record.stream().filter(e -> CollectionUtil.contains(accountSet, e.getToAccount().getAccount())).collect(Collectors.toList());
-                return Mono.just(collect);
-            })) //  去除不在线的用户数据
-            .contextWrite(context -> context.put(ONLINE_USER_CONTEXT_KEY,sessionLifeStyle.checkOnlineUserListBySessionId(tmp.getSessionId())))    // 开始信息投递
-            .doOnNext(e-> pushMsgToMq(e)) // 格式化为protobuf 数据
-            .then();
+            .doOnNext(e-> pushMsgToMq(e))
+            .then(collect
+                    .map( vo -> {
+                        List<ChatMsgRecord> list = vo.stream().map(ChatMsgRecordMapper.INSTANCE::chatVo2Record).collect(Collectors.toList());// 存储消息至记录表
+                        return chatMsgRecordRepository.saveAll(list);
+                    }).then());
     }
 
     @Override
@@ -115,18 +120,19 @@ public class ChatAction implements IChatAction {
 
 
 
-    public void  pushMsgToMq(Iterable<ChatMsgRecordVo> vo){
+    public void pushMsgToMq(Iterable<ChatMsgRecordVo> vo){
+        log.info("sent message to rabbit mq");
         Flux.fromIterable(vo)
             .map(ChatMsgRecordMapper.INSTANCE::recordVo2ChatMessage)
             .doOnNext(message-> {
                 if (ObjectUtil.isNotNull(message)) {
                     Message mqMessage = new Message(message.toByteArray());
                     Mono.justOrEmpty(Optional.ofNullable(mqMessage))
-                            .doOnNext(l-> rabbitTemplate.send(exchange,routingKey,mqMessage))
-                            .retryWhen(Retry.backoff(3, Duration.ofSeconds(1)).jitter(0.3d) // 重试机制
-                            .filter(throwable -> throwable instanceof AmqpException)
-                            .onRetryExhaustedThrow((spec, rs) -> new AccountException("remote server is invalid !")))
-                            .subscribe();
+                        .doOnNext(l-> rabbitTemplate.send(exchange,routingKey,mqMessage))
+                        .retryWhen(Retry.backoff(3, Duration.ofSeconds(1)).jitter(0.3d) // 重试机制
+                        .filter(throwable -> throwable instanceof AmqpException)
+                        .onRetryExhaustedThrow((spec, rs) -> new AccountException("remote server is invalid !")))
+                        .subscribe();
                 }
             }).doOnError(error -> log.info("Rabbit Message send error {} ", ExceptionUtil.stacktraceToString(error)))
             .subscribe()

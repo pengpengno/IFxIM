@@ -20,14 +20,14 @@ public class SessionController {
     @Autowired
     private ISessionLifeStyle sessionLifeStyle;
 
-    @GetMapping(SessionRoute.SESSION)
+    @GetMapping("")
     public Mono<SessionInfoVo> init(@RequestBody SessionInfoVo sessionInfoVo){
         return sessionLifeStyle.init(sessionInfoVo.getSessionName());
     }
 
 
 
-    @PostMapping(SessionRoute.SESSION)
+    @PostMapping("")
     public Flux<Long> addAccount(@RequestBody SessionAccountVo sessionAccountVo){
         return sessionLifeStyle.addAccount(sessionAccountVo);
     }

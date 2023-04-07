@@ -11,6 +11,7 @@ import com.ifx.connect.spi.ReactiveHandlerSPI;
 import com.ifx.exec.ex.net.NetException;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.ByteBufAllocator;
+import io.netty.handler.logging.LogLevel;
 import lombok.extern.slf4j.Slf4j;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -38,6 +39,7 @@ public class ReactorTcpClient implements ClientLifeStyle , ReactiveClientAction 
         this.address = address;
         client = TcpClient
                     .create()
+                    .wiretap("tcp-client", LogLevel.INFO)
                     .host(this.address.getHostString())
                     .port(this.address.getPort())
                     .doOnConnected(ReactiveHandlerSPI.wiredSpiHandler())
@@ -103,7 +105,7 @@ public class ReactorTcpClient implements ClientLifeStyle , ReactiveClientAction 
 
     @Override
     public Boolean isAlive() {
-        return connection != null && connection.isDisposed();
+        return connection != null && !connection.isDisposed() && connection.channel().isActive();
     }
 
 
@@ -114,6 +116,7 @@ public class ReactorTcpClient implements ClientLifeStyle , ReactiveClientAction 
             ByteBuf byteBuf = ProtoParseUtil.parseMessage2ByteBuf(message, alloc.buffer());
             return connection.outbound().send(Mono.just(byteBuf)).then();
         }
+        reTryConnect();
         throw new NetException("connection is invalid !");
     }
 

@@ -1,5 +1,6 @@
 package com.ifx.server.spi.reactive;
 
+import cn.hutool.core.exceptions.ExceptionUtil;
 import com.ifx.connect.connection.ConnectionConsumer;
 import com.ifx.server.service.ByteBufProcessService;
 import lombok.extern.slf4j.Slf4j;
@@ -29,7 +30,7 @@ public class ReactiveServerHandler extends ConnectionConsumer {
                         ByteBufProcessService.getInstance().process(connection,byteBuf);
 
                     }catch (Exception exception){
-
+                        log.error("occur error {} ", ExceptionUtil.stacktraceToString(exception));
                         sink.next("success".getBytes());
 
                     }

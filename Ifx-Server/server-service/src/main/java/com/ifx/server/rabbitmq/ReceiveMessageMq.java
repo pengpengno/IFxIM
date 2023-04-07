@@ -11,13 +11,11 @@ import com.rabbitmq.client.Channel;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.core.ExchangeTypes;
 import org.springframework.amqp.core.Message;
-import org.springframework.amqp.rabbit.annotation.Exchange;
-import org.springframework.amqp.rabbit.annotation.Queue;
-import org.springframework.amqp.rabbit.annotation.QueueBinding;
-import org.springframework.amqp.rabbit.annotation.RabbitListener;
+import org.springframework.amqp.rabbit.annotation.*;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 import reactor.rabbitmq.Receiver;
 import reactor.rabbitmq.Sender;
 
@@ -29,6 +27,7 @@ import java.io.IOException;
  * @date 2023/3/22
  */
 @Slf4j
+@Component
 public class ReceiveMessageMq {
 
     @Autowired
@@ -59,6 +58,7 @@ public class ReceiveMessageMq {
             value = @Queue(value = "${message.chat.send.queue:message.chat.send.queue}"),
             key = "${message.action.send:message.action.send}",
             exchange = @Exchange(name = "${message.chat.exchange:message.chat.exchange}",type = ExchangeTypes.DIRECT))})
+    @RabbitHandler
     public void  handlerMessageSend(Message message, Channel channel) throws IOException {
 
         byte[] chatMessageByte = message.getBody();

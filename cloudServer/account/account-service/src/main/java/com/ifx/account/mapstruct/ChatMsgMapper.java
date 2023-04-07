@@ -29,6 +29,7 @@ public interface ChatMsgMapper {
 
     @Mapping(target  = "fromAccount.account",source = "fromAccount")
     @Mapping( source =  "createTime",dateFormat = "yyyy-MM-dd HH:mm:ss",target = "msgCreateTime")
+    @Mapping( source =  "id" , target = "msgId")
     ChatMsgVo tran2MsgVo(ChatMsg chatMsg);
 
 

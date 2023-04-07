@@ -26,7 +26,7 @@ public class ChatMsg extends BaseEntity implements Serializable {
     /**
      * 接受的会话Id
      */
-    @Column("sessionId")
+    @Column("session_id")
     private Long sessionId;
 
     /**

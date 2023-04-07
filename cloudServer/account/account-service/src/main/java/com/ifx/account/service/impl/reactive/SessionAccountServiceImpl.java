@@ -33,8 +33,10 @@ import reactor.core.publisher.Mono;
 import reactor.rabbitmq.RpcClient;
 import reactor.rabbitmq.Sender;
 
-import java.time.Duration;
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -133,12 +135,14 @@ public class SessionAccountServiceImpl implements ISessionAccountService {
        return sessionAccContextVo(sessionId)
                 .flatMap(vo -> {
                     Map<Long, AccountInfo> context = vo.getSessionAccountContext();
-                    if (CollectionUtil.isEmpty(context)){
+                    if (CollectionUtil.isNotEmpty(context)){
                         return Mono.just(context.values());
                     }
                     return Mono.empty();
                 })
-                .map(e-> checkoutUserOnlineStatus(e)).timeout(Duration.ofMillis(3000));
+                .map(e-> checkoutUserOnlineStatus(e))
+//               .timeout(Duration.ofMillis(3000))
+               ;
 
     }
 
@@ -151,12 +155,13 @@ public class SessionAccountServiceImpl implements ISessionAccountService {
                     return sessionAccountVo;
                 }, (vo, sessionAcc) -> {
                     Map<Long, AccountInfo> context = vo.getSessionAccountContext();
-                    context.keySet().add(sessionAcc.getUserId());
+                    context.put(sessionAcc.getUserId(),null);
                     return vo;
                 }).flatMap(e -> {
                     Map<Long, AccountInfo> context = e.getSessionAccountContext();
                     Set<Long> userIds = context.keySet();
-                    return accountService.findByUserIds(userIds)
+                    Flux<AccountInfo> byUserIds = accountService.findByUserIds(userIds);
+                    return byUserIds
                             .doOnNext(info -> context.put(info.getUserId(), info))
                             .then(Mono.just(e));
                 });

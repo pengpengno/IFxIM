@@ -21,6 +21,7 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import javax.security.auth.login.AccountException;
+import java.util.Set;
 import java.util.function.Function;
 
 /**
@@ -53,7 +54,7 @@ public class ReactiveAccountServiceImpl implements ReactiveAccountService {
     }
 
     @Override
-    public Flux<AccountInfo> findByUserIds(Iterable<Long> userIds) {
+    public Flux<AccountInfo> findByUserIds(Set<Long> userIds) {
         return accountRepository.findByAccountIdIn(userIds).map(AccountHelper.INSTANCE::buildAccountInfo);
     }
 
