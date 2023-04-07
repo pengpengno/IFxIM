@@ -1,12 +1,9 @@
 package com.ifx.account.repository;
 
-import com.ifx.account.entity.ChatMsgRecord;
+import com.ifx.account.entity.ChatMsgRe;
 import org.springframework.data.repository.reactive.ReactiveCrudRepository;
+import org.springframework.stereotype.Repository;
 
-/**
- * @author pengpeng
- * @description
- * @date 2023/3/31
- */
-public interface ChatMsgRecordRepository extends ReactiveCrudRepository<ChatMsgRecord,Long> {
+@Repository
+public interface ChatMsgRecordRepository extends ReactiveCrudRepository<ChatMsgRe,Long> {
 }

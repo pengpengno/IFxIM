@@ -1,6 +1,6 @@
 package com.ifx.account.mapstruct;
 
-import com.ifx.account.entity.ChatMsgRecord;
+import com.ifx.account.entity.ChatMsgRe;
 import com.ifx.account.enums.ChatMsgStatus;
 import com.ifx.account.enums.ContentType;
 import com.ifx.account.vo.chat.ChatMsgRecordVo;
@@ -21,10 +21,10 @@ public interface ChatMsgRecordMapper {
     ChatMsgRecordMapper INSTANCE = Mappers.getMapper(ChatMsgRecordMapper.class);
 
     @Mapping(source = "toAccount.userId" ,target = "toUserId")
-    ChatMsgRecord chatVo2Record(ChatMsgRecordVo vo);
+    ChatMsgRe chatVo2Record(ChatMsgRecordVo vo);
 
 
-    ChatMsgRecordVo record2Vo(ChatMsgRecord record);
+    ChatMsgRecordVo record2Vo(ChatMsgRe record);
 
 
 

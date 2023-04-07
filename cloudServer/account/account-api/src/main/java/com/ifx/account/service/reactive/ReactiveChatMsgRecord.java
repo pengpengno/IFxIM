@@ -1,5 +1,11 @@
 package com.ifx.account.service.reactive;
 
+import com.ifx.account.vo.ChatMsgVo;
+import com.ifx.account.vo.chat.ChatMsgRecordVo;
+import reactor.core.publisher.Mono;
+
+import java.util.List;
+
 /**
  * @author pengpeng
  * @description
@@ -7,7 +13,13 @@ package com.ifx.account.service.reactive;
  */
 public interface ReactiveChatMsgRecord {
 
-
+    /**
+     * 保存记录
+     *
+     * @param vo
+     * @return
+     */
+    public Mono<List<ChatMsgRecordVo>> saveByChatMsgVo(ChatMsgVo vo);
 
 
 

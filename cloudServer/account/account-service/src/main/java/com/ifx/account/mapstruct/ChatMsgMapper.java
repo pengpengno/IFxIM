@@ -23,6 +23,7 @@ public interface ChatMsgMapper {
 
     @Mappings({
             @Mapping(source = "fromAccount.account",target = "fromAccount"),
+            @Mapping(source = "fromAccount.userId",target = "createUserId"),
             @Mapping(source = "sessionId",target = "sessionId")
     })
     ChatMsg tran2Msg(ChatMsgVo vo);

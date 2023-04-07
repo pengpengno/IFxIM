@@ -3,12 +3,12 @@ package com.ifx.account.service.impl;
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.exceptions.ExceptionUtil;
 import cn.hutool.core.util.ObjectUtil;
-import com.ifx.account.entity.ChatMsgRecord;
 import com.ifx.account.mapstruct.ChatMsgRecordMapper;
 import com.ifx.account.repository.ChatMsgRecordRepository;
 import com.ifx.account.service.ChatMsgService;
 import com.ifx.account.service.IChatAction;
 import com.ifx.account.service.ISessionLifeStyle;
+import com.ifx.account.service.reactive.ReactiveChatMsgRecord;
 import com.ifx.account.vo.ChatMsgVo;
 import com.ifx.account.vo.chat.ChatMsgRecordVo;
 import com.ifx.common.utils.ValidatorUtil;
@@ -56,6 +56,9 @@ public class ChatAction implements IChatAction {
 
     @Autowired
     private ChatMsgRecordRepository chatMsgRecordRepository;
+
+    @Autowired
+    private ReactiveChatMsgRecord reactiveChatMsgRecord;
     @Autowired
     ChatMsgService chatMsgService;
 
@@ -73,32 +76,19 @@ public class ChatAction implements IChatAction {
     @Override
     public Mono<Void> pushMsg(ChatMsgVo chatMsgVo) {
         final ChatMsgVo tmp = chatMsgVo;
-        Mono<ChatMsgVo> chatMsgVoMono = Mono.justOrEmpty(Optional.ofNullable(tmp));
-        Mono<List<ChatMsgRecordVo>> collect = chatMsgVoMono
+        return Mono.justOrEmpty(Optional.ofNullable(tmp))
                 .doOnNext(e -> ValidatorUtil.validateThrows(chatMsgVo, ChatMsgVo.ChatPush.class)) //  验证实体合法性
-                .flatMap(e -> chatMsgService.saveMsgReadPattern(e)) // 存储消息
-                .flatMapMany(vo -> chatMsgService.prepareRecordVo(vo))  // 格式转化为消息记录
-                .collect(Collectors.toList());
-            collect
-            .map( vo -> {
-                List<ChatMsgRecord> list = vo.stream().map(ChatMsgRecordMapper.INSTANCE::chatVo2Record).collect(Collectors.toList());// 存储消息至记录表
-                return chatMsgRecordRepository.saveAll(list);
-            }).then();
-            return collect.flatMap( record -> {
-                List<ChatMsgRecord> list = record.stream().map(ChatMsgRecordMapper.INSTANCE::chatVo2Record).collect(Collectors.toList());// 存储消息至记录表
-                chatMsgRecordRepository.saveAll(list);
+                .flatMap(e -> chatMsgService.saveMsgReadPattern(e))       // 存储消息
+                .flatMap(vo -> reactiveChatMsgRecord.saveByChatMsgVo(vo))  // 格式转化为消息记录
+                .flatMap( record -> {
                 return sessionLifeStyle.checkOnlineUserBySessionId(tmp.getSessionId()).map(e -> e.getAccount())
                         .collect(Collectors.toSet())
                         .flatMap(acc -> Mono.just(record.stream()
-                                .filter(e -> CollectionUtil.contains(acc, e.getToAccount().getAccount()))
-                                .collect(Collectors.toList()))) ;//  去除不在线的用户数据
+                        .filter(e -> CollectionUtil.contains(acc, e.getToAccount().getAccount()))
+                        .collect(Collectors.toList()))) ;//  去除不在线的用户数据
             })
             .doOnNext(e-> pushMsgToMq(e))
-            .then(collect
-                    .map( vo -> {
-                        List<ChatMsgRecord> list = vo.stream().map(ChatMsgRecordMapper.INSTANCE::chatVo2Record).collect(Collectors.toList());// 存储消息至记录表
-                        return chatMsgRecordRepository.saveAll(list);
-                    }).then());
+            .then();
     }
 
     @Override

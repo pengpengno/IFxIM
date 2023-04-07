@@ -1,19 +1,20 @@
 package com.ifx.account.entity;
 
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import org.springframework.data.relational.core.mapping.Column;
 import org.springframework.data.relational.core.mapping.Table;
+
+import java.io.Serializable;
 
 /**
  * @author pengpeng
  * @description
  * @date 2023/3/31
  */
-@EqualsAndHashCode(callSuper = true)
-@Table("chat_msg_record")
+
 @Data
-public class ChatMsgRecord extends BaseEntity{
+@Table(value = "chat_msg_record")
+public class ChatMsgRe extends BaseEntity implements Serializable {
 
     @Column("session_id")
     private Long sessionId;
@@ -29,4 +30,6 @@ public class ChatMsgRecord extends BaseEntity{
      */
     @Column("status")
     private String status ;
+
+
 }
