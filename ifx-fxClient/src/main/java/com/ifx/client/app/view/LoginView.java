@@ -20,7 +20,6 @@ public class LoginView implements FrameView{
     public Stage init() throws IOException {
         Stage stage = new Stage();
         URL resource = FileUtil.file("com\\ifx\\client\\app\\fxml\\login.fxml").toURI().toURL();
-//        Object load = springFxmlLoader.load(resource);
         FXMLLoader fxmlLoader = new FXMLLoader();
         fxmlLoader.setLocation(resource);
         fxmlLoader.setControllerFactory(bean -> SpringUtil.getBean(bean));

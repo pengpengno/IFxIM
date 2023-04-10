@@ -5,6 +5,7 @@ import cn.hutool.core.util.ObjectUtil;
 import com.ifx.account.vo.search.AccountSearchVo;
 import com.ifx.client.util.FxmlLoader;
 import com.ifx.common.base.AccountInfo;
+import com.ifx.connect.connection.client.ReactiveClientAction;
 import javafx.application.ConditionalFeature;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -18,6 +19,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.FlowPane;
 import javafx.stage.Stage;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.net.URL;
@@ -49,6 +51,9 @@ public class MainController implements Initializable {
 
     private volatile Scene scene;
 
+    @Autowired
+    ReactiveClientAction reactiveClientAction;
+
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -61,6 +66,7 @@ public class MainController implements Initializable {
             KeyCode code = keyPress.getCode();
             if (ObjectUtil.equal(code ,KeyCode.ENTER)){
 //                TODO 发送消息
+
                 msgTextArea.clear();
 //                清除后光标移位到左上角
                 msgTextArea.setPrefColumnCount(0);

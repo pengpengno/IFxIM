@@ -1,5 +1,6 @@
 package com.ifx.client.app.pane;
 
+import com.ifx.connect.proto.Chat;
 import javafx.fxml.Initializable;
 import javafx.scene.layout.Pane;
 import lombok.extern.slf4j.Slf4j;
@@ -21,5 +22,9 @@ public class MessagePane extends Pane implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         log.info("init message ");
+    }
+
+    public MessagePane(Chat.ChatMessage chatMessage){
+
     }
 }

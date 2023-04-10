@@ -42,13 +42,14 @@
 <?import javafx.scene.layout.VBox?>
 
 <?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXCheckBox?>
 <VBox fx:id="loginFrame" prefHeight="400.0" prefWidth="590.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ifx.client.app.controller.LoginController">
   <children>
     <AnchorPane fx:id="loginPane" maxHeight="-1.0" maxWidth="-1.0" prefHeight="375.0" prefWidth="577.0" VBox.vgrow="ALWAYS">
       <children>
-            <Button fx:id="loginBut" layoutX="201.0" layoutY="290.0" mnemonicParsing="false" onMouseClicked="#login" text="登录" />
-            <Button fx:id="cancel" layoutX="331.0" layoutY="290.0" mnemonicParsing="false" onMouseClicked="#cancelLogin" text="取消" />
-            <CheckBox fx:id="remberPsdCheckBox" layoutX="186.0" layoutY="242.0" mnemonicParsing="false" text="记住密码" />
+            <JFXButton fx:id="loginBut" layoutX="201.0" layoutY="290.0" mnemonicParsing="false" onMouseClicked="#login" text="登录" />
+            <JFXButton fx:id="cancel" layoutX="331.0" layoutY="290.0" mnemonicParsing="false" onMouseClicked="#cancelLogin" text="取消" />
+            <JFXCheckBox fx:id="rememberPsdCheckBox" layoutX="186.0" layoutY="242.0" mnemonicParsing="false" text="记住密码" />
             <PasswordField fx:id="passwordField" layoutX="244.0" layoutY="192.0" />
             <Label fx:id="password" layoutX="186.0" layoutY="196.0" text="密码" />
             <TextField fx:id="accountField" layoutX="244.0" layoutY="131.0" />
