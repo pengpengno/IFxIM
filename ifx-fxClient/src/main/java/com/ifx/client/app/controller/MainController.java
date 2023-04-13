@@ -8,6 +8,7 @@ import com.ifx.client.util.FxmlLoader;
 import com.ifx.common.base.AccountInfo;
 import com.ifx.connect.proto.Chat;
 import com.jfoenix.controls.JFXButton;
+import com.ifx.connect.connection.client.ReactiveClientAction;
 import javafx.application.ConditionalFeature;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -21,6 +22,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.FlowPane;
 import javafx.stage.Stage;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.net.URL;
@@ -55,6 +57,9 @@ public class MainController implements Initializable {
     private AccountInfo chatAcc; // 正在发起会话的用户
 
     private volatile Scene scene;
+
+    @Autowired
+    ReactiveClientAction reactiveClientAction;
 
 
     @Override

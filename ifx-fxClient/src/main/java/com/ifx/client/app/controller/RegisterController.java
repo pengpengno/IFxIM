@@ -44,7 +44,6 @@ public class RegisterController  {
         accountVo.setAccount(accountField.getText());
         accountVo.setPassword(psdField.getText());
         accountVo.setEmail(mailField.getText());
-
     }
 
     @FXML

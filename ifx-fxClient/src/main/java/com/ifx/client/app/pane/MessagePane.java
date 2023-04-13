@@ -1,7 +1,10 @@
 package com.ifx.client.app.pane;
 
 import com.ifx.connect.proto.Chat;
+<<<<<<< HEAD
 import com.jfoenix.controls.JFXTextField;
+=======
+>>>>>>> 152785b35fc71276fa5e0ebbb840d6c45f8a256e
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
@@ -31,10 +34,10 @@ public class MessagePane extends Pane implements Initializable {
         this.message  = message ;
         fromAccount.setText(message.getContent());
     }
+
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         log.info("init message ");
     }
-
-
 }
