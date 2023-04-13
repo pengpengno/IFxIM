@@ -1,10 +1,10 @@
 package com.ifx.client.spi.reactive;
 
+import cn.hutool.core.exceptions.ExceptionUtil;
 import com.ifx.connect.connection.ConnectionConsumer;
-import io.netty.buffer.ByteBuf;
-import io.netty.buffer.ByteBufAllocator;
+import com.ifx.connect.process.ByteBufProcessService;
 import lombok.extern.slf4j.Slf4j;
-import reactor.core.publisher.Mono;
+import reactor.core.publisher.Flux;
 import reactor.netty.Connection;
 
 import java.util.function.Consumer;
@@ -20,17 +20,30 @@ public class FxReactiveClientHandler extends ConnectionConsumer {
     public FxReactiveClientHandler(){
         super((nettyInbound, nettyOutbound) -> {
 
-            nettyInbound.withConnection(connection -> {
+            Flux<byte[]> handle = nettyInbound.receive().handle((byteBuf, sink) -> nettyInbound.withConnection(connection -> {
 
-                ByteBufAllocator alloc = connection.channel().alloc();
+                int i = byteBuf.readableBytes();
 
-                ByteBuf buffer = alloc.buffer();
+                if (i > 0) {
+                    try{
 
-            });
+                        ByteBufProcessService.getInstance().process(connection,byteBuf);
+
+                    }catch (Exception exception){
+
+                        log.error("occur error {} ", ExceptionUtil.stacktraceToString(exception));
+                        sink.next("success".getBytes());
+
+                    }
+
+                }
+            }));
 
             nettyInbound.receive().asString().doOnNext(log::info).then().subscribe();
 
-            return Mono.never();
+//            return Mono.never();
+            return nettyOutbound.sendByteArray(Flux.concat(handle)).neverComplete();
+
         });
         log.debug("The ReactorConnectionConsumer SPI FxReactiveClientHandler service provider is load ! ");
     }

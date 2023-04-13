@@ -5,12 +5,16 @@ import com.google.protobuf.Message;
 import com.ifx.connect.connection.server.ServerToolkit;
 import com.ifx.connect.connection.server.context.IConnectContextAction;
 import com.ifx.connect.enums.ProtocolMessageMapEnum;
+import com.ifx.connect.process.ProtoBufProcess;
 import com.ifx.connect.proto.Chat;
 import org.springframework.stereotype.Component;
 import reactor.netty.Connection;
 
+/**
+ * chat message process
+ */
 @Component
-public class ChatProcessService implements ProtoBufProcess{
+public class ChatProcessService implements ProtoBufProcess {
 
     @Override
     public ProtocolMessageMapEnum type() {

@@ -3,8 +3,11 @@ package com.ifx.client.app.controller;
 
 import cn.hutool.core.util.ObjectUtil;
 import com.ifx.account.vo.search.AccountSearchVo;
+import com.ifx.client.app.event.ChatEvent;
 import com.ifx.client.util.FxmlLoader;
 import com.ifx.common.base.AccountInfo;
+import com.ifx.connect.proto.Chat;
+import com.jfoenix.controls.JFXButton;
 import javafx.application.ConditionalFeature;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -36,8 +39,12 @@ public class MainController implements Initializable {
     @FXML
     private FlowPane searchPane;
 
-    @FXML
-    private Button createSession;
+//    @FXML
+    private JFXButton createSession;
+
+
+
+    private Label receiveMessage;
 
     @FXML
     private TextField searchField;
@@ -60,9 +67,7 @@ public class MainController implements Initializable {
         msgTextArea.addEventHandler(KeyEvent.KEY_PRESSED ,(keyPress)-> {
             KeyCode code = keyPress.getCode();
             if (ObjectUtil.equal(code ,KeyCode.ENTER)){
-//                TODO 发送消息
                 msgTextArea.clear();
-//                清除后光标移位到左上角
                 msgTextArea.setPrefColumnCount(0);
                 msgTextArea.setPrefRowCount(0);
                 msgTextArea.setScrollTop(0);
@@ -70,9 +75,17 @@ public class MainController implements Initializable {
                 log.debug("正在发送消息，");
             }
             String name = code.getName();
-            log.debug("按下了 {} ",name);
+
+        });
+
+        receiveMessage.addEventHandler(ChatEvent.RECEIVE_CHAT , (chat)-> {
+            log.info("receive message");
+            Chat.ChatMessage chatMessage = chat.getChatMessage();
+            receiveMessage.setText(chatMessage.getContent());
         });
     }
+
+
 
     @FXML
     void sendMsg(MouseEvent event) {
@@ -100,15 +113,9 @@ public class MainController implements Initializable {
             String text = searchField.getText();
             AccountSearchVo build =
                     AccountSearchVo.builder()
-                            .likeAccount(searchField.getText())
-                            .build();
-////             获取回调输出
-//            ClientToolkit.getDefaultClientAction().sendJsonMsg(AccountHelper.applySearchAccount(accountSearchVo),(protoCol -> {
-//                List<AccountInfo> accountInfos = ProtocolResultParser.getDataAsList(protoCol,AccountInfo.class);
-//                log.info(JSON.toJSONString(protoCol));
-////                添加数据
-//                accountInfos.forEach(e-> searchPane.getChildren().add(new SearchPane.AccountMiniPane(e)));
-//            }));
+                    .likeAccount(searchField.getText())
+                    .build();
+
         }));
     }
 
@@ -120,15 +127,6 @@ public class MainController implements Initializable {
                 AccountSearchVo.builder()
                 .likeAccount(searchField.getText())
                 .build();
-//        ClientToolkit.getDefaultClientAction().sendJsonMsg(AccountHelper.applySearchAccount(accountSearchVo),(protoCol -> {
-//            Result result = protoCol.getResult();
-//            List<AccountInfo> accountInfos = ProtocolResultParser.getDataAsList(protoCol,AccountInfo.class);
-//            if (listView!= null){
-//                accountInfos.stream().forEach(e-> {
-//                    listView.getItems().add(e.getAccount());
-//                });
-//            }
-//        }));
     }
 
     public static void show(){

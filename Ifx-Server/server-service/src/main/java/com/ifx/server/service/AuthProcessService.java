@@ -6,6 +6,7 @@ import com.ifx.connect.connection.ConnectionConstants;
 import com.ifx.connect.connection.server.context.IConnectContextAction;
 import com.ifx.connect.connection.server.context.ReactorConnection;
 import com.ifx.connect.enums.ProtocolMessageMapEnum;
+import com.ifx.connect.process.ProtoBufProcess;
 import com.ifx.connect.proto.Account;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +16,7 @@ import reactor.core.publisher.Mono;
 import reactor.netty.Connection;
 @Component
 @Slf4j
-public class AuthProcessService implements ProtoBufProcess{
+public class AuthProcessService implements ProtoBufProcess {
 
 
     @Autowired

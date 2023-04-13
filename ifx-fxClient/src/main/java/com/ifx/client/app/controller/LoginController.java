@@ -71,7 +71,6 @@ public class LoginController  implements Initializable {
     @Autowired
     private AccountApi accountApi;
 
-
     @Autowired
     ReactiveClientAction reactiveClientAction;
 
@@ -93,8 +92,8 @@ public class LoginController  implements Initializable {
             .map(acc -> {
                 Account.AccountInfo accountInfo = ProtoBufMapper.INSTANCE.protocolAccMap(acc);
                 Account.Authenticate auth = Account.Authenticate.newBuilder()
-                        .setAccountInfo(accountInfo)
-                        .build();
+                                            .setAccountInfo(accountInfo)
+                                            .build();
                 return auth;
             }).flatMap(auth -> reactiveClientAction.sendMessage(auth))
             .subscribe(acc -> Platform.runLater(()->  {

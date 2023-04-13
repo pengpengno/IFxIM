@@ -1,4 +1,4 @@
-package com.ifx.server.service;
+package com.ifx.connect.process;
 
 import com.google.protobuf.Message;
 import com.ifx.connect.enums.ProtocolMessageMapEnum;
