@@ -8,6 +8,7 @@ import com.ifx.connect.connection.server.context.ReactorConnection;
 import com.ifx.connect.enums.ProtocolMessageMapEnum;
 import com.ifx.connect.process.ProtoBufProcess;
 import com.ifx.connect.proto.Account;
+import com.ifx.connect.spi.netty.ProtoBufProcess;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.Nullable;
@@ -48,9 +49,9 @@ public class AuthProcessService implements ProtoBufProcess {
 
                 contextAction.putConnection(connection);
 
-                log.info(" {}  had bind  the channel !",accountInfo.getAccount());
+                log.info("account :  {} is binding  !",accountInfo.getAccount());
 
-                con.outbound().sendString(Mono.justOrEmpty("bind channel  has been established")).then().subscribe();
+                con.outbound().sendString(Mono.justOrEmpty("Reactor Netty Channel  has been established , network transport now is available！")).then().subscribe();
 
             }
 

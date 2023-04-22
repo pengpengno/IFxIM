@@ -1,4 +1,4 @@
-package com.ifx.connect;
+package com.ifx.connect.ann;
 
 /**
  * @author pengpeng

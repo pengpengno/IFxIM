@@ -1,1 +1,2 @@
-com.ifx.client.spi.reactive.FxReactiveClientHandler
+#com.ifx.client.spi.reactive.FxReactiveClientHandler
+com.ifx.connect.spi.netty.ReactiveConnectionConsumer

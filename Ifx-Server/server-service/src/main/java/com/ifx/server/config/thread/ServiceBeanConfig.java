@@ -1,7 +1,8 @@
 package com.ifx.server.config.thread;
 
-import com.ifx.connect.process.ByteBufProcess;
-import com.ifx.connect.process.ByteBufProcessService;
+
+import com.ifx.connect.spi.netty.ByteBufProcess;
+import com.ifx.connect.spi.netty.ByteBufProcessService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 

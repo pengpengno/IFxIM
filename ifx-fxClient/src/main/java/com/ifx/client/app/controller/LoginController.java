@@ -103,9 +103,7 @@ public class LoginController  implements Initializable {
                 MainController.show();
             }));
 
-        alert.contentTextProperty().addListener((a1,a2,a3)-> {
-            alert.show();
-        });
+        alert.contentTextProperty().addListener((a1,a2,a3)-> alert.show());
     }
 
 
@@ -131,7 +129,7 @@ public class LoginController  implements Initializable {
 
     public static  void hide(){
         Stage stage = FxmlLoader.applySinStage("com\\ifx\\client\\app\\fxml\\login.fxml");
-        log.debug("隐藏数据");
+        log.debug("Hide LoginFrame ");
         stage.hide();
     }
 }

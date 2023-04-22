@@ -85,9 +85,9 @@ public class ReactorTcpClient implements ClientLifeStyle , ReactiveClientAction 
         }
         Flux<Object> flux =
                 Flux.create((sink) -> {
-                            Boolean connect = connect();;
-                            sink.next(connect);
-                            sink.complete();
+                        Boolean connect = connect();;
+                        sink.next(connect);
+                        sink.complete();
                         })
                     .retryWhen(
                         Retry

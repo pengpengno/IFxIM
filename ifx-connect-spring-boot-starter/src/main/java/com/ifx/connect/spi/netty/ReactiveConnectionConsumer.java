@@ -1,8 +1,7 @@
-package com.ifx.server.spi.reactive;
+package com.ifx.connect.spi.netty;
 
 import cn.hutool.core.exceptions.ExceptionUtil;
 import com.ifx.connect.connection.ConnectionConsumer;
-import com.ifx.connect.process.ByteBufProcessService;
 import lombok.extern.slf4j.Slf4j;
 import reactor.core.publisher.Flux;
 import reactor.netty.Connection;
@@ -14,10 +13,10 @@ import reactor.netty.Connection;
  * @date 2023/3/14
  */
 @Slf4j
-public class ReactiveServerHandler extends ConnectionConsumer {
+public class ReactiveConnectionConsumer extends ConnectionConsumer {
 
 
-    public ReactiveServerHandler(){
+    public ReactiveConnectionConsumer(){
         super((nettyInbound, nettyOutbound) -> {
 
             Flux<byte[]> handle = nettyInbound.receive().handle((byteBuf, sink) -> nettyInbound.withConnection(connection -> {
@@ -31,7 +30,9 @@ public class ReactiveServerHandler extends ConnectionConsumer {
 
                     }catch (Exception exception){
 
-                        log.error("occur error {} ", ExceptionUtil.stacktraceToString(exception));
+
+                        log.error("reactor netty occur error {} ", ExceptionUtil.stacktraceToString(exception));
+
                         sink.next("success".getBytes());
 
                     }

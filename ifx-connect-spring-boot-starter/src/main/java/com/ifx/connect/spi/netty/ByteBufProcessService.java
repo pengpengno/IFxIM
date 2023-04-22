@@ -1,4 +1,4 @@
-package com.ifx.connect.process;
+package com.ifx.connect.spi.netty;
 
 import cn.hutool.core.collection.CollectionUtil;
 import com.google.protobuf.Message;
@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
  * @date 2023/3/16
  */
 @Slf4j
-public class ByteBufProcessService implements ApplicationContextAware , ByteBufProcess {
+public class ByteBufProcessService implements ApplicationContextAware ,ByteBufProcess {
 
     public Map<Class<? extends Message> , ProtoBufProcess> processMap;
 
@@ -39,9 +39,6 @@ public class ByteBufProcessService implements ApplicationContextAware , ByteBufP
     }
 
 
-
-
-
     @Override
     public void process(Connection con, ByteBuf byteBuf) throws IllegalAccessException {
 
@@ -50,8 +47,8 @@ public class ByteBufProcessService implements ApplicationContextAware , ByteBufP
         if (message != null){
 
             processMap.get(message.getClass()).process(con,message); // process service via message
-            log.debug(" Program Handle the  message ");
 
+            log.debug(" Program Handle the  message ");
         }
     }
 
@@ -67,7 +64,7 @@ public class ByteBufProcessService implements ApplicationContextAware , ByteBufP
         }
     }
     public static ByteBufProcessService getInstance(){
-        return SingleInstance.INSTANCE.getInstance();
+        return ByteBufProcessService.SingleInstance.INSTANCE.getInstance();
     }
     private ByteBufProcessService(){}
 

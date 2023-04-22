@@ -1,4 +1,5 @@
-package com.ifx.connect.process;
+
+package com.ifx.connect.spi.netty;
 
 import com.google.protobuf.Message;
 import com.ifx.connect.enums.ProtocolMessageMapEnum;
@@ -21,7 +22,7 @@ public interface ProtoBufProcess{
 
     /***
      * process client network IO
-     * @param con connection within clinet
+     * @param con connection within client
      * @param message  IO byte data
      * @throws IllegalArgumentException  when the connection  is invalid  , program will throw exception
      */

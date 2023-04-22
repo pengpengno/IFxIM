@@ -1,10 +1,7 @@
 package com.ifx.client.app.pane;
 
 import com.ifx.connect.proto.Chat;
-<<<<<<< HEAD
 import com.jfoenix.controls.JFXTextField;
-=======
->>>>>>> 152785b35fc71276fa5e0ebbb840d6c45f8a256e
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
@@ -17,16 +14,15 @@ import java.util.ResourceBundle;
 @Component
 public class MessagePane extends Pane implements Initializable {
 
-//    private String message;
-//
-//    private String fromAccount;
-//
-//    private String maxRowString;
+conflict
 
     private Chat.ChatMessage message;
 
     private Label fromAccount ;
 
+    private MessagePane(){
+
+    }
 
     private JFXTextField textField;
 
