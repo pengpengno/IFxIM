@@ -18,6 +18,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import reactor.rabbitmq.Receiver;
 
+import java.io.IOException;
+
 /**
  * 在线用户mq
  * @author pengpeng
@@ -63,10 +65,14 @@ public class OnlineUserMq {
         try {
             byte[] body = message.getBody();
             OnLineUser.UserSearch userSearch = OnLineUser.UserSearch.parseFrom(body);
-            log.debug("正在搜索在线用户");
-            return new Message(contextUtil.filterOnlineByUserSearch(userSearch).toByteArray());
+            log.info("正在搜索在线用户");
+            Message res = new Message(contextUtil.filterOnlineByUserSearch(userSearch).toByteArray());
+//            channel.basicAck(message.getMessageProperties().getDeliveryTag(),false);
+            return res;
         } catch (InvalidProtocolBufferException e) {
             throw new IllegalArgumentException("传入数据格式非法！");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
 }

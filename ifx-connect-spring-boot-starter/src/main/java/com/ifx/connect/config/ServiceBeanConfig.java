@@ -1,4 +1,4 @@
-package com.ifx.server.config.thread;
+package com.ifx.connect.config;
 
 
 import com.ifx.connect.spi.netty.ByteBufProcess;

@@ -113,7 +113,9 @@ public class ReactorTcpClient implements ClientLifeStyle , ReactiveClientAction 
     public Mono<Void> sendMessage(Message message) {
         if (isAlive()){
             ByteBufAllocator alloc = connection.channel().alloc();
+
             ByteBuf byteBuf = ProtoParseUtil.parseMessage2ByteBuf(message, alloc.buffer());
+
             return connection.outbound().send(Mono.just(byteBuf)).then();
         }
         reTryConnect();

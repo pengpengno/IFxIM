@@ -1,25 +1,32 @@
 package com.ifx.client.app.controller;
 
 
+import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.ObjectUtil;
+import com.ifx.account.enums.ContentType;
+import com.ifx.account.vo.ChatMsgVo;
 import com.ifx.account.vo.search.AccountSearchVo;
+import com.ifx.client.api.ChatApi;
 import com.ifx.client.app.event.ChatEvent;
+import com.ifx.client.app.pane.MessagePane;
 import com.ifx.client.util.FxmlLoader;
-import com.ifx.common.base.AccountInfo;
+import com.ifx.common.context.AccountContext;
+import com.ifx.connect.connection.client.ReactiveClientAction;
 import com.ifx.connect.proto.Chat;
 import com.jfoenix.controls.JFXButton;
-import com.ifx.connect.connection.client.ReactiveClientAction;
+import com.sun.javafx.event.EventUtil;
 import javafx.application.ConditionalFeature;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.InputMethodEvent;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.FlowPane;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +35,7 @@ import org.springframework.stereotype.Component;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-@Component
+@Component()
 @Slf4j
 public class MainController implements Initializable {
 
@@ -41,32 +48,45 @@ public class MainController implements Initializable {
     @FXML
     private FlowPane searchPane;
 
-//    @FXML
     private JFXButton createSession;
 
 
-
+    @FXML
     private Label receiveMessage;
 
     @FXML
     private TextField searchField;
 
     @FXML
-    private ListView<String> listView;
+    private GridPane messagePane;
 
-    private AccountInfo chatAcc; // 正在发起会话的用户
 
-    private volatile Scene scene;
+    @FXML
+    private ScrollPane msgScrollPane;
+
+    @FXML
+    private Pane chatPane;
+
+    @FXML
+    private JFXButton sendButton;
+
+    @FXML
+    private TextArea messageArea;
 
     @Autowired
     ReactiveClientAction reactiveClientAction;
 
+    private Long sessionId ;
+
+    @Autowired
+    ChatApi chatApi;
+
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        log.info("{} is loading ...",getClass().getName());
+        log.info(" {} is loading ...", getClass().getName());
         initSearch();
-        scene = msgTextArea.getScene();
+
         searchPane.setVgap(8);
         searchPane.setHgap(4);
         msgTextArea.addEventHandler(KeyEvent.KEY_PRESSED ,(keyPress)-> {
@@ -79,16 +99,35 @@ public class MainController implements Initializable {
                 msgTextArea.setScrollLeft(0);
                 log.debug("正在发送消息，");
             }
+
             String name = code.getName();
 
         });
 
+        log.debug("The receive handler had built");
+
         receiveMessage.addEventHandler(ChatEvent.RECEIVE_CHAT , (chat)-> {
-            log.info("receive message");
+            log.info("client receive message");
             Chat.ChatMessage chatMessage = chat.getChatMessage();
+            MessagePane msgPane = new MessagePane(chatMessage);
+            msgScrollPane.a
+            messagePane.getChildren().add(msgPane);
             receiveMessage.setText(chatMessage.getContent());
         });
+
     }
+
+    public void  receiveEvent (ChatEvent chatEvent){
+        log.info(" fire event ");
+        Runnable fireEvent = () -> EventUtil.fireEvent( receiveMessage,chatEvent );
+        if (!Platform.isFxApplicationThread()){
+            Platform.runLater(fireEvent);
+        }
+        else {
+            fireEvent.run();
+        }
+    }
+
 
 
 
@@ -96,9 +135,21 @@ public class MainController implements Initializable {
     void sendMsg(MouseEvent event) {
         log.info("send button");
         boolean supported = Platform.isSupported(ConditionalFeature.INPUT_METHOD);
-//        1. 发送信息
-        String text = msgTextArea.getText();
-        boolean empty = text.isEmpty();
+
+        boolean fxApplicationThread = Platform.isFxApplicationThread();
+
+        String content = msgTextArea.getText();
+
+        boolean empty = content.isEmpty();
+
+        ChatMsgVo chatMsgVo = new ChatMsgVo();
+        chatMsgVo.setMsgSendTime(DateUtil.now());
+        chatMsgVo.setContent(ContentType.TEXT.name());
+        chatMsgVo.setContent(content);
+        chatMsgVo.setFromAccount(AccountContext.getCurAccount());
+        chatMsgVo.setSessionId(sessionId);
+        chatApi.sendMsg(chatMsgVo).subscribe();
+        log.debug("send message success");
 
     }
     @FXML
@@ -117,10 +168,9 @@ public class MainController implements Initializable {
             searchPane.getChildren().clear();
             String text = searchField.getText();
             AccountSearchVo build =
-                    AccountSearchVo.builder()
-                    .likeAccount(searchField.getText())
-                    .build();
-
+                AccountSearchVo.builder()
+                .likeAccount(searchField.getText())
+                .build();
         }));
     }
 

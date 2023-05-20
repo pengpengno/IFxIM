@@ -6,7 +6,6 @@ import com.ifx.connect.connection.ConnectionConstants;
 import com.ifx.connect.connection.server.context.IConnectContextAction;
 import com.ifx.connect.connection.server.context.ReactorConnection;
 import com.ifx.connect.enums.ProtocolMessageMapEnum;
-import com.ifx.connect.process.ProtoBufProcess;
 import com.ifx.connect.proto.Account;
 import com.ifx.connect.spi.netty.ProtoBufProcess;
 import lombok.extern.slf4j.Slf4j;

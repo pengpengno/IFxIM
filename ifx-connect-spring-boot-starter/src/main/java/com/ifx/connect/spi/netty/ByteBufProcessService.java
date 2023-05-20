@@ -28,6 +28,7 @@ public class ByteBufProcessService implements ApplicationContextAware ,ByteBufPr
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
 
         Map<String, ProtoBufProcess> protoBufProcessMap = applicationContext.getBeansOfType(ProtoBufProcess.class);
+
         if (CollectionUtil.isNotEmpty(protoBufProcessMap)){
             processMap =  protoBufProcessMap
                         .values()

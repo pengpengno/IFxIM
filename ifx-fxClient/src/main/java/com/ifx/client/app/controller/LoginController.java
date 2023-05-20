@@ -4,6 +4,7 @@ package com.ifx.client.app.controller;
 import com.ifx.account.vo.AccountVo;
 import com.ifx.client.api.AccountApi;
 import com.ifx.client.util.FxmlLoader;
+import com.ifx.common.context.AccountContext;
 import com.ifx.connect.connection.client.ReactiveClientAction;
 import com.ifx.connect.mapstruct.ProtoBufMapper;
 import com.ifx.connect.proto.Account;
@@ -92,18 +93,25 @@ public class LoginController  implements Initializable {
         alert.setTitle("登录状态");
         accountApi.login(accountVo)
             .map(acc -> {
+                AccountContext.setCurAccount(acc);
                 Account.AccountInfo accountInfo = ProtoBufMapper.INSTANCE.protocolAccMap(acc);
-                Account.Authenticate auth = Account.Authenticate.newBuilder()
-                                            .setAccountInfo(accountInfo)
-                                            .build();
-                return auth;
-            }).flatMap(auth -> reactiveClientAction.sendMessage(auth))
-            .subscribe(acc -> Platform.runLater(()->  {
-                hide();
-                MainController.show();
-            }));
+                return Account.Authenticate
+                        .newBuilder()
+                        .setAccountInfo(accountInfo)
+                        .build();
+            })
+                .subscribe(auth-> {
+                    reactiveClientAction.sendMessage(auth).subscribe();
+
+                    Platform.runLater(()->  {
+                        log.debug("start main frame");
+                        hide();
+                        MainController.show();
+                    });
+                });
 
         alert.contentTextProperty().addListener((a1,a2,a3)-> alert.show());
+
     }
 
 

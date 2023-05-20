@@ -1,24 +1,29 @@
 package com.ifx.client.app.pane;
 
+import com.ifx.connect.proto.Account;
 import com.ifx.connect.proto.Chat;
 import com.jfoenix.controls.JFXTextField;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
-import javafx.scene.layout.Pane;
+import javafx.scene.layout.GridPane;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Component;
 
 import java.net.URL;
 import java.util.ResourceBundle;
 @Slf4j
-@Component
-public class MessagePane extends Pane implements Initializable {
+//@Component
+public class MessagePane extends GridPane implements Initializable {
 
-conflict
 
-    private Chat.ChatMessage message;
+    private Chat.ChatMessage chatMessage;
 
-    private Label fromAccount ;
+    private Label fromAccountLabel ;
+
+    private Label messageLabel;
+
+    private Account.AccountInfo fromAccountInfo;
+
+
 
     private MessagePane(){
 
@@ -26,9 +31,25 @@ conflict
 
     private JFXTextField textField;
 
-    MessagePane(Chat.ChatMessage message){
-        this.message  = message ;
-        fromAccount.setText(message.getContent());
+    public MessagePane(Chat.ChatMessage message){
+        chatMessage  = message ;
+        fromAccountLabel = new Label();
+        messageLabel = new Label();
+        fromAccountInfo = message.getFromAccountInfo();
+
+        fromAccountLabel.setText(fromAccountInfo.getAccount());
+
+        fromAccountLabel.setLayoutY(100);
+        fromAccountLabel.setLayoutX(20);
+        messageLabel.setLayoutY(300);
+        messageLabel.setLayoutX(20);
+
+        messageLabel.setText(chatMessage.getContent());
+        this.setCache(false);
+        this.setMaxSize(300,300);
+        
+        this.getChildren().add(fromAccountLabel);
+        this.getChildren().add(messageLabel);
     }
 
 

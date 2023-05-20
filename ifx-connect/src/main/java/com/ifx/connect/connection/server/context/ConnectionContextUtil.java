@@ -5,6 +5,7 @@ import cn.hutool.core.util.StrUtil;
 import com.ifx.connect.connection.server.ServerToolkit;
 import com.ifx.connect.proto.Account;
 import com.ifx.connect.proto.OnLineUser;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
 import java.util.Set;
@@ -15,6 +16,7 @@ import java.util.stream.Collectors;
  * @description
  * @date 2023/3/22
  */
+@Slf4j
 public class ConnectionContextUtil {
 
 //
@@ -55,13 +57,19 @@ public class ConnectionContextUtil {
                 List<Account.AccountInfo> accountInfos = accountsList.stream()
                         .filter(l -> null != l && StrUtil.isNotBlank(l.getAccount()))
                         .filter(e -> {
-                            IConnection connection = contextAction.applyConnection(e.getAccount());
+                            String account = e.getAccount();
+                            IConnection connection = contextAction.applyConnection(account);
+                            if (connection == null ){
+                                log.info(" account :{} is offline !",account);
+                            }
                             return connectionValid(connection);
                         })
                         .collect(Collectors.toList());
                 return OnLineUser.UserSearch.newBuilder().addAllAccounts(accountInfos).build();
             }
+
         }
+
         return OnLineUser.UserSearch.newBuilder().build();
     }
 
