@@ -2,7 +2,6 @@ package com.ifx.client.app.controller;
 
 
 import cn.hutool.core.date.DateUtil;
-import cn.hutool.core.util.ObjectUtil;
 import com.ifx.account.enums.ContentType;
 import com.ifx.account.vo.ChatMsgVo;
 import com.ifx.account.vo.search.AccountSearchVo;
@@ -21,12 +20,9 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.input.InputMethodEvent;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.FlowPane;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,14 +35,6 @@ import java.util.ResourceBundle;
 @Slf4j
 public class MainController implements Initializable {
 
-    @FXML
-    private ScrollBar mainMsgFxml;
-
-    @FXML
-    private TextArea msgTextArea;
-
-    @FXML
-    private FlowPane searchPane;
 
     private JFXButton createSession;
 
@@ -57,9 +45,6 @@ public class MainController implements Initializable {
     @FXML
     private TextField searchField;
 
-    @FXML
-    private GridPane messagePane;
-
 
     @FXML
     private ScrollPane msgScrollPane;
@@ -68,10 +53,12 @@ public class MainController implements Initializable {
     private Pane chatPane;
 
     @FXML
-    private JFXButton sendButton;
+    private Button sendButton;
 
     @FXML
     private TextArea messageArea;
+
+    private VBox vBox;
 
     @Autowired
     ReactiveClientAction reactiveClientAction;
@@ -86,32 +73,31 @@ public class MainController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         log.info(" {} is loading ...", getClass().getName());
         initSearch();
-
-        searchPane.setVgap(8);
-        searchPane.setHgap(4);
-        msgTextArea.addEventHandler(KeyEvent.KEY_PRESSED ,(keyPress)-> {
-            KeyCode code = keyPress.getCode();
-            if (ObjectUtil.equal(code ,KeyCode.ENTER)){
-                msgTextArea.clear();
-                msgTextArea.setPrefColumnCount(0);
-                msgTextArea.setPrefRowCount(0);
-                msgTextArea.setScrollTop(0);
-                msgTextArea.setScrollLeft(0);
-                log.debug("正在发送消息，");
-            }
-
-            String name = code.getName();
-
-        });
-
+//
+//        searchPane.setVgap(8);
+//        searchPane.setHgap(4);
+//        msgTextArea.addEventHandler(KeyEvent.KEY_PRESSED ,(keyPress)-> {
+//            KeyCode code = keyPress.getCode();
+//            if (ObjectUtil.equal(code ,KeyCode.ENTER)){
+//                msgTextArea.clear();
+//                msgTextArea.setPrefColumnCount(0);
+//                msgTextArea.setPrefRowCount(0);
+//                msgTextArea.setScrollTop(0);
+//                msgTextArea.setScrollLeft(0);
+////                log.debug("正在发送消息，");
+//            }
+//
+//        });
+        vBox = new VBox(8);
         log.debug("The receive handler had built");
+        msgScrollPane.setContent(vBox);
 
         receiveMessage.addEventHandler(ChatEvent.RECEIVE_CHAT , (chat)-> {
             log.info("client receive message");
             Chat.ChatMessage chatMessage = chat.getChatMessage();
             MessagePane msgPane = new MessagePane(chatMessage);
-            msgScrollPane.a
-            messagePane.getChildren().add(msgPane);
+            vBox.getChildren().add(msgPane);
+//            messagePane.getChildren().add(msgPane);
             receiveMessage.setText(chatMessage.getContent());
         });
 
@@ -138,9 +124,8 @@ public class MainController implements Initializable {
 
         boolean fxApplicationThread = Platform.isFxApplicationThread();
 
-        String content = msgTextArea.getText();
+        String content = messageArea.getText();
 
-        boolean empty = content.isEmpty();
 
         ChatMsgVo chatMsgVo = new ChatMsgVo();
         chatMsgVo.setMsgSendTime(DateUtil.now());
@@ -156,16 +141,12 @@ public class MainController implements Initializable {
     void createSession(MouseEvent event) {
         log.info("create session ");
         boolean supported = Platform.isSupported(ConditionalFeature.INPUT_METHOD);
-//        1. 发送信息
-        String text = msgTextArea.getText();
-        boolean empty = text.isEmpty();
 
     }
 
 
     protected void initSearch(){
         searchField.textProperty().addListener((obs-> {
-            searchPane.getChildren().clear();
             String text = searchField.getText();
             AccountSearchVo build =
                 AccountSearchVo.builder()

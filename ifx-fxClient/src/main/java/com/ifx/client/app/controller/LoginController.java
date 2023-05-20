@@ -8,8 +8,6 @@ import com.ifx.common.context.AccountContext;
 import com.ifx.connect.connection.client.ReactiveClientAction;
 import com.ifx.connect.mapstruct.ProtoBufMapper;
 import com.ifx.connect.proto.Account;
-import com.jfoenix.controls.JFXButton;
-import com.jfoenix.controls.JFXCheckBox;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -42,13 +40,13 @@ public class LoginController  implements Initializable {
     private CheckBox autoLoginCheckBox;
 
     @FXML
-    private JFXButton cancel;
+    private Button cancel;
 
     @FXML
     private ImageView iconView;
 
     @FXML
-    private JFXButton loginBut;
+    private Button loginBut;
 
     @FXML
     private VBox loginFrame;
@@ -66,7 +64,7 @@ public class LoginController  implements Initializable {
     private Label registerAccount;
 
     @FXML
-    private JFXCheckBox rememberPsdCheckBox;
+    private CheckBox rememberPsdCheckBox;
 
     @Autowired
     private WebClient webClient;
