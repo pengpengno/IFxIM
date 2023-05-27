@@ -19,9 +19,9 @@ import java.util.List;
  * @Description:
  */
 @Mapper(builder = @Builder())
-public interface AccountHelper {
+public interface AccountMapper {
 
-    AccountHelper INSTANCE = Mappers.getMapper( AccountHelper.class);
+    AccountMapper INSTANCE = Mappers.getMapper( AccountMapper.class);
 
     /**
      * vo转po

@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 import reactor.netty.Connection;
 @Slf4j
 @Service
-//@RequiredArgsConstructor
 public class ReceiveChatMessageProcess implements ProtoBufProcess {
 
 
@@ -36,7 +35,7 @@ public class ReceiveChatMessageProcess implements ProtoBufProcess {
                 log.info("receive message  from server ! fire event ");
 
                 ChatEvent chatEvent = new ChatEvent(ChatEvent.RECEIVE_CHAT, chatMessage);
-
+//                TODO 统一接受通知方法
                 mainController.receiveEvent(chatEvent);
 
 //                EventUtil.fireEvent( chatEvent );

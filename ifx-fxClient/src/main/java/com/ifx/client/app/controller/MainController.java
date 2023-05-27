@@ -7,7 +7,8 @@ import com.ifx.account.vo.ChatMsgVo;
 import com.ifx.account.vo.search.AccountSearchVo;
 import com.ifx.client.api.ChatApi;
 import com.ifx.client.app.event.ChatEvent;
-import com.ifx.client.app.pane.MessagePane;
+import com.ifx.client.app.event.handler.ReceiveChatMessageEventHandler;
+import com.ifx.client.app.pane.message.MessagePane;
 import com.ifx.client.util.FxmlLoader;
 import com.ifx.common.context.AccountContext;
 import com.ifx.connect.connection.client.ReactiveClientAction;
@@ -33,7 +34,7 @@ import java.util.ResourceBundle;
 
 @Component()
 @Slf4j
-public class MainController implements Initializable {
+public class MainController implements Initializable , ReceiveChatMessageEventHandler {
 
 
     private JFXButton createSession;
@@ -63,7 +64,6 @@ public class MainController implements Initializable {
     @Autowired
     ReactiveClientAction reactiveClientAction;
 
-    private Long sessionId ;
 
     @Autowired
     ChatApi chatApi;
@@ -71,39 +71,30 @@ public class MainController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        log.info(" {} is loading ...", getClass().getName());
+        log.debug(" {} is loading ...", getClass().getName());
         initSearch();
-//
-//        searchPane.setVgap(8);
-//        searchPane.setHgap(4);
-//        msgTextArea.addEventHandler(KeyEvent.KEY_PRESSED ,(keyPress)-> {
-//            KeyCode code = keyPress.getCode();
-//            if (ObjectUtil.equal(code ,KeyCode.ENTER)){
-//                msgTextArea.clear();
-//                msgTextArea.setPrefColumnCount(0);
-//                msgTextArea.setPrefRowCount(0);
-//                msgTextArea.setScrollTop(0);
-//                msgTextArea.setScrollLeft(0);
-////                log.debug("正在发送消息，");
-//            }
-//
-//        });
         vBox = new VBox(8);
         log.debug("The receive handler had built");
         msgScrollPane.setContent(vBox);
+        initChatHandler();
+    }
 
+    private void initChatHandler (){
         receiveMessage.addEventHandler(ChatEvent.RECEIVE_CHAT , (chat)-> {
             log.info("client receive message");
             Chat.ChatMessage chatMessage = chat.getChatMessage();
             MessagePane msgPane = new MessagePane(chatMessage);
             vBox.getChildren().add(msgPane);
-//            messagePane.getChildren().add(msgPane);
             receiveMessage.setText(chatMessage.getContent());
         });
-
     }
 
-    public void  receiveEvent (ChatEvent chatEvent){
+
+    /**
+     * @Inherit
+     * @param chatEvent
+     */
+    public void  receiveChat (ChatEvent chatEvent){
         log.info(" fire event ");
         Runnable fireEvent = () -> EventUtil.fireEvent( receiveMessage,chatEvent );
         if (!Platform.isFxApplicationThread()){
@@ -115,8 +106,6 @@ public class MainController implements Initializable {
     }
 
 
-
-
     @FXML
     void sendMsg(MouseEvent event) {
         log.info("send button");
@@ -126,14 +115,15 @@ public class MainController implements Initializable {
 
         String content = messageArea.getText();
 
-
-        ChatMsgVo chatMsgVo = new ChatMsgVo();
-        chatMsgVo.setMsgSendTime(DateUtil.now());
-        chatMsgVo.setContent(ContentType.TEXT.name());
-        chatMsgVo.setContent(content);
-        chatMsgVo.setFromAccount(AccountContext.getCurAccount());
-        chatMsgVo.setSessionId(sessionId);
-        chatApi.sendMsg(chatMsgVo).subscribe();
+//        TODO Pane package messageVo
+//        ChatMsgVo chatMsgVo = new ChatMsgVo();
+//        chatMsgVo.setMsgSendTime(DateUtil.now());
+//        chatMsgVo.setContent(ContentType.TEXT.name());
+//        chatMsgVo.setContent(content);
+//        chatMsgVo.setFromAccount(AccountContext.getCurAccount());
+//        chatMsgVo.setSessionId(sessionId);
+        log.debug("try to send message");
+//        chatApi.sendMsg(chatMsgVo).subscribe();
         log.debug("send message success");
 
     }

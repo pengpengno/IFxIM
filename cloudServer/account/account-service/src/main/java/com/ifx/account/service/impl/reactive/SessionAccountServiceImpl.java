@@ -12,6 +12,7 @@ import com.ifx.account.service.reactive.ReactiveAccountService;
 import com.ifx.account.service.reactive.SessionService;
 import com.ifx.account.vo.session.SessionAccountContextVo;
 import com.ifx.account.vo.session.SessionAccountVo;
+import com.ifx.account.vo.session.SessionInfoVo;
 import com.ifx.common.base.AccountInfo;
 import com.ifx.common.utils.ValidatorUtil;
 import com.ifx.connect.mapstruct.ProtoBufMapper;
@@ -73,6 +74,14 @@ public class SessionAccountServiceImpl implements ISessionAccountService {
 
     @Autowired
     private SessionRepository sessionRepository;
+
+    @Override
+    public Flux<SessionInfoVo> findSessionByUserId(Long userId) {
+        return sessionAccountRepository.queryByUserId(userId)
+                .flatMap(e-> {
+                   return sessionService.selectSessionWithinCreator(e.getSessionId());
+                });
+    }
 
     @Override
     public Mono<SessionAccountVo> sessionAccount(Long sessionId) {

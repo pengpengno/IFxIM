@@ -15,7 +15,7 @@ public class ChatEvent extends Event {
     public static final EventType<ChatEvent> RECEIVE_CHAT = new EventType<>(CHAT_ANY, "CHAT_RECEIVE");
 
 
-    private Chat.ChatMessage chatMessage ;
+    private final Chat.ChatMessage chatMessage ;
 
 
     public ChatEvent(  EventType<? extends Event> eventType, Chat.ChatMessage chatMessage ) {

@@ -46,7 +46,10 @@ public interface ProtoBufMapper {
 
     }
 
-      List<AccountInfo> proto2AccIterable(List<Account.AccountInfo> accountInfo);
+
+    List<AccountInfo> proto2AccIterable(List<Account.AccountInfo> accountInfo);
+
+
     default  AccountInfo proto2Acc(Account.AccountInfo accountInfo){
         if (accountInfo == null){
             return null;
@@ -58,6 +61,7 @@ public interface ProtoBufMapper {
         res.setUserName(accountInfo.getAccountName());
         return res;
     }
+
 
 
 

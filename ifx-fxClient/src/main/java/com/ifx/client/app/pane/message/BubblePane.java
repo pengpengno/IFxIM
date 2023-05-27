@@ -1,4 +1,4 @@
-package com.ifx.client.app.pane;
+package com.ifx.client.app.pane.message;
 
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
@@ -23,6 +23,8 @@ public class BubblePane extends Pane implements Initializable {
     private String account;
 
     private Label accountName;
+
+    private Label messageLabel;
 
 
     @Override

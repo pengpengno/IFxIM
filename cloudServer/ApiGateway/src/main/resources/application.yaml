@@ -16,7 +16,9 @@ spring:
           uri: ${account-service-url:http://localhost:8001}
 #          uri: ${account-service-url:lb://account-service}
           predicates:
-            - Path=/api/account/**
+#            - Path=/api/account/**
+#            - Path=/api/chat/**
+            - Path=/api/**
           filters:
             - StripPrefix=0
         - id: session-service

@@ -10,7 +10,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.ifx.server</groupId>
-    <artifactId>Ifx-Server</artifactId>
+    <artifactId>Ifx-server</artifactId>
     <packaging>pom</packaging>
     <modules>
         <module>server-api</module>

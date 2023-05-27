@@ -1,4 +1,4 @@
-package com.ifx.account.chat;
+package com.ifx.account.route.chat;
 
 /**
  * @author pengpeng

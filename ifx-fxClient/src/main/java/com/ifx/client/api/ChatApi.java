@@ -1,6 +1,7 @@
 package com.ifx.client.api;
 
-import com.ifx.account.chat.ChatRoute;
+import cn.hutool.core.exceptions.ExceptionUtil;
+import com.ifx.account.route.chat.ChatRoute;
 import com.ifx.account.vo.ChatMsgVo;
 import com.ifx.connect.connection.client.ReactiveClientAction;
 import lombok.RequiredArgsConstructor;
@@ -33,15 +34,15 @@ public class ChatApi {
                 .bodyValue(chatMsgVo)
                 .retrieve()
                 .onStatus(HttpStatusCode::isError,
-                        (clientResponse ) ->
-                                clientResponse
-                                        .bodyToMono(ProblemDetail.class)
-                                        .flatMap(problemDetail ->
-                                            Mono.error(()->
-                                                new RuntimeException(problemDetail.getDetail()))))
+                    (clientResponse ) ->
+                        clientResponse
+                            .bodyToMono(ProblemDetail.class)
+                            .flatMap(problemDetail ->
+                            Mono.error(()->
+                            new RuntimeException(problemDetail.getDetail()))))
                 .bodyToMono(Void.class)
                 .doOnError((throwable)-> {
-                    log.error( throwable.getMessage());
+                    log.error(ExceptionUtil.stacktraceToString(throwable) );
                 });
     }
 

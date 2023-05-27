@@ -1,6 +1,6 @@
 package com.ifx.account.controller;
 
-import com.ifx.account.chat.ChatRoute;
+import com.ifx.account.route.chat.ChatRoute;
 import com.ifx.account.service.IChatAction;
 import com.ifx.account.vo.ChatMsgVo;
 import lombok.extern.slf4j.Slf4j;

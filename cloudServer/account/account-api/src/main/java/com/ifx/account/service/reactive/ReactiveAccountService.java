@@ -2,6 +2,7 @@ package com.ifx.account.service.reactive;
 
 import com.ifx.account.vo.AccountAuthenticateVo;
 import com.ifx.account.vo.AccountVo;
+import com.ifx.account.vo.search.AccountSearchVo;
 import com.ifx.common.base.AccountInfo;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -19,6 +20,13 @@ public interface ReactiveAccountService {
     Mono<AccountInfo> findByAccount(String account);
 
     Mono<AccountInfo> findByUserId(Long userId);
+
+    /***
+     * 根据账户搜索 Vo
+     * @param accountSearchVo 账户信息
+     * @return 账户信息
+     */
+    Flux<AccountInfo> findBySearch(AccountSearchVo accountSearchVo);
 
     Flux<AccountInfo> findByUserIds(Set<Long> userId);
 

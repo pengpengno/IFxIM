@@ -45,6 +45,8 @@ public interface ChatMsgMapper {
                 .build();
     }
 
+
+
     default Chat.ChatMessage chatBo2ProtoChat(ChatMsgBo chatMsgBo){
         if (chatMsgBo == null){
             return null;

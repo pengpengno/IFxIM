@@ -5,8 +5,8 @@ spring:
     port: 5672
     host: localhost
     username: admin
-    password: wangpeng
-    virtual-host: reactormq
+    password: admin
+    virtual-host: /
   application:
     name: account
   r2dbc:

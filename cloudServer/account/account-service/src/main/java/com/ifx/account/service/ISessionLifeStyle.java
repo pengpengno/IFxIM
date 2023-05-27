@@ -28,7 +28,12 @@ public interface ISessionLifeStyle {
     Mono<SessionAccountVo>  sessionAccountInfo(Long sessionId);
 
 
+
+    Flux<SessionInfoVo> findSessionInfoByUserId(Long userId);
+
     public Flux<AccountInfo> checkOnlineUserBySessionId(Long sessionId);
+
+
     public List<AccountInfo> checkOnlineUserListBySessionId(Long sessionId);
 
 

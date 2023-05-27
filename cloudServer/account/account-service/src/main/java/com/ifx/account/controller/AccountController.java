@@ -6,6 +6,7 @@ import com.ifx.account.service.reactive.ReactiveAccountService;
 import com.ifx.account.validator.ACCOUNTLOGIN;
 import com.ifx.account.vo.AccountAuthenticateVo;
 import com.ifx.account.vo.AccountVo;
+import com.ifx.account.vo.search.AccountSearchVo;
 import com.ifx.common.base.AccountInfo;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
@@ -13,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 
@@ -37,10 +39,20 @@ public class AccountController {
         return accountService.findByAccount(account);
     }
 
+
+
+
     @GetMapping(path = "/accountInfo")
     @ResponseStatus(code = HttpStatus.OK)
     public Mono<AccountInfo> getAccountInfo(@RequestParam("userId") Long userId){
         return accountService.findByUserId(userId);
+    }
+
+
+    @GetMapping(path = "/accountInfo")
+    @ResponseStatus(code = HttpStatus.OK)
+    public Flux<AccountInfo> searchAccount(@RequestBody AccountSearchVo accountSearchVo){
+        return accountService.findBySearch(accountSearchVo);
     }
 
 

@@ -100,7 +100,8 @@ public class SessionLifeStyle implements ISessionLifeStyle {
     }
 
 
-
-
-
+    @Override
+    public Flux<SessionInfoVo> findSessionInfoByUserId(Long userId) {
+        return sessionAccountService.findSessionByUserId(userId);
+    }
 }

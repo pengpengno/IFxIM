@@ -3,12 +3,13 @@ package com.ifx.account.service.impl.reactive;
 import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.ObjectUtil;
 import com.ifx.account.entity.Account;
-import com.ifx.account.mapstruct.AccountHelper;
+import com.ifx.account.mapstruct.AccountMapper;
 import com.ifx.account.repository.AccountRepository;
 import com.ifx.account.service.reactive.ReactiveAccountService;
 import com.ifx.account.utils.PasswordUtils;
 import com.ifx.account.vo.AccountAuthenticateVo;
 import com.ifx.account.vo.AccountVo;
+import com.ifx.account.vo.search.AccountSearchVo;
 import com.ifx.common.base.AccountInfo;
 import com.ifx.common.utils.AccountJwtUtil;
 import io.jsonwebtoken.security.SignatureException;
@@ -44,18 +45,27 @@ public class ReactiveAccountServiceImpl implements ReactiveAccountService {
     @Override
     public Mono<AccountInfo> findByAccount(String account) {
         return accountRepository.findByAccount(account)
-                .map(AccountHelper.INSTANCE::buildAccountInfo)
+                .map(AccountMapper.INSTANCE::buildAccountInfo)
                 ;
     }
 
     @Override
     public Mono<AccountInfo> findByUserId(Long userId) {
-        return accountRepository.findById(userId).map(AccountHelper.INSTANCE::buildAccountInfo);
+        return accountRepository
+                .findById(userId)
+                .map(AccountMapper.INSTANCE::buildAccountInfo);
+    }
+
+    @Override
+    public Flux<AccountInfo> findBySearch(AccountSearchVo accountSearchVo) {
+//        TODO QueryDsl
+//        accountRepository.findBy(accountSearchVo.getAccount().equalsIgnoreCase())
+        return null;
     }
 
     @Override
     public Flux<AccountInfo> findByUserIds(Set<Long> userIds) {
-        return accountRepository.findByAccountIdIn(userIds).map(AccountHelper.INSTANCE::buildAccountInfo);
+        return accountRepository.findByAccountIdIn(userIds).map(AccountMapper.INSTANCE::buildAccountInfo);
     }
 
     @Override
@@ -67,7 +77,7 @@ public class ReactiveAccountServiceImpl implements ReactiveAccountService {
                         return Mono.error(new IllegalAccessException("用户名不存在！"));
                     }else {
                         if (verifyAccount(accountVo.getPassword(),acc.getSalt(),acc.getPwdhash())){
-                            return Mono.just(AccountHelper.INSTANCE.buildAccountInfo(acc));
+                            return Mono.just(AccountMapper.INSTANCE.buildAccountInfo(acc));
                         }else {
                             return Mono.error( new IllegalArgumentException("密码错误！"));
                         }
@@ -122,7 +132,7 @@ public class ReactiveAccountServiceImpl implements ReactiveAccountService {
                         return Mono.error(new AccountException("用户已注册！"));
                     }else {
                         return r2dbcEntityTemplate.insert( registerAccount().apply(accountVo))
-                                .map(AccountHelper.INSTANCE::buildAccountInfo);
+                                .map(AccountMapper.INSTANCE::buildAccountInfo);
                     }
                 }));
     }
@@ -138,7 +148,7 @@ public class ReactiveAccountServiceImpl implements ReactiveAccountService {
 
     private Function<AccountVo,Account> registerAccount(){
         return (accountVo)-> {
-            Account account = AccountHelper.INSTANCE.bulidAccount(accountVo);
+            Account account = AccountMapper.INSTANCE.bulidAccount(accountVo);
             account.setId(IdUtil.getSnowflakeNextId());
             String salt = PasswordUtils.generateSalt();
             account.setSalt(salt);
