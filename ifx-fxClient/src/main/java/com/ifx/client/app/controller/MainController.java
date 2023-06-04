@@ -39,7 +39,6 @@ public class MainController implements Initializable , ReceiveChatMessageEventHa
 
     private JFXButton createSession;
 
-
     @FXML
     private Label receiveMessage;
 
