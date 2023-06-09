@@ -44,16 +44,16 @@ public class AccountController {
 
     @GetMapping(path = "/accountInfo")
     @ResponseStatus(code = HttpStatus.OK)
-    public Mono<AccountInfo> getAccountInfo(@RequestParam("userId") Long userId){
+    public Mono<AccountInfo> accountInfoMono(@RequestParam("userId") Long userId){
         return accountService.findByUserId(userId);
     }
 
 
-    @GetMapping(path = "/accountInfo")
-    @ResponseStatus(code = HttpStatus.OK)
-    public Flux<AccountInfo> searchAccount(@RequestBody AccountSearchVo accountSearchVo){
-        return accountService.findBySearch(accountSearchVo);
-    }
+//    @GetMapping(path = "/accountInfo")
+//    @ResponseStatus(code = HttpStatus.OK)
+//    public Flux<AccountInfo> searchAccount(@RequestBody AccountSearchVo accountSearchVo){
+//        return accountService.findBySearch(accountSearchVo);
+//    }
 
 
     @PostMapping("/auth")

@@ -14,9 +14,9 @@ spring:
     username: ifx
     password: ifx2022
     pool:
-      initial-size: 100
-      max-size: 200
-      max-idle-time: 30m
+      initial-size: 10
+      max-size: 20
+      max-idle-time: 10m
       validation-query: SELECT 1
   data:
     mongodb:

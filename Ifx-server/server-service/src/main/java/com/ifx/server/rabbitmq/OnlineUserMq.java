@@ -60,14 +60,13 @@ public class OnlineUserMq {
                 value = @Queue(value = "${online.user.search.queue:online.user.search}"),
                 key = "${online.user.routeKey:online.user.search}",
                 exchange = @Exchange(name = "${online.user.exchange:online.user.exchange}",type = ExchangeTypes.DIRECT))})
-    public Message sendOnlineMessage(Message message, Channel channel){
+    public Message sendOnlineMessage(Message message, Channel channel) throws IOException {
         log.debug(" receive mq 的数据");
         try {
             byte[] body = message.getBody();
             OnLineUser.UserSearch userSearch = OnLineUser.UserSearch.parseFrom(body);
             log.info("checkout it  out user online status ");
             Message res = new Message(contextUtil.filterOnlineByUserSearch(userSearch).toByteArray());
-//            channel.basicAck(message.getMessageProperties().getDeliveryTag(),false);
             return res;
         } catch (InvalidProtocolBufferException e) {
             throw new IllegalArgumentException("传入数据格式非法！");
@@ -75,6 +74,9 @@ public class OnlineUserMq {
         catch (Exception exception){
 //            TODO  消息推送失败回调
             throw new IllegalArgumentException();
+        }
+        finally {
+            channel.basicAck(message.getMessageProperties().getDeliveryTag(),false);
         }
     }
 }

@@ -1,6 +1,7 @@
 package com.ifx.account.service;
 
 
+import com.ifx.account.vo.session.SessionAccountContextVo;
 import com.ifx.account.vo.session.SessionAccountVo;
 import com.ifx.account.vo.session.SessionInfoVo;
 import com.ifx.common.base.AccountInfo;
@@ -29,7 +30,10 @@ public interface ISessionLifeStyle {
 
 
 
+    Flux<SessionAccountContextVo> findSessionContextByUserId(Long userId);
+
     Flux<SessionInfoVo> findSessionInfoByUserId(Long userId);
+
 
     public Flux<AccountInfo> checkOnlineUserBySessionId(Long sessionId);
 

@@ -67,7 +67,6 @@ public class ConnectionContextUtil {
                         .collect(Collectors.toList());
                 return OnLineUser.UserSearch.newBuilder().addAllAccounts(accountInfos).build();
             }
-
         }
 
         return OnLineUser.UserSearch.newBuilder().build();

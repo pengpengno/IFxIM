@@ -1,5 +1,6 @@
 package com.ifx.client.config;
 
+import com.ifx.client.app.pane.message.ChatMainPane;
 import com.ifx.connect.properties.ServerRouteConfigProperties;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,4 +47,9 @@ public class ClientApiBootstrap {
                 .build();
     }
 
+
+    @Bean
+    public ChatMainPane chatMainPane(){
+        return ChatMainPane.getInstance();
+    }
 }

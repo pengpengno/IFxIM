@@ -90,23 +90,27 @@ public class LoginController  implements Initializable {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("登录状态");
         accountApi.login(accountVo)
+                .doOnNext(acc -> {
+                    Platform.runLater(()->  {
+                        log.debug("save accountInfo ");
+                        AccountContext.setCurAccount(acc);
+                    });
+                } )
             .map(acc -> {
-                AccountContext.setCurAccount(acc);
                 Account.AccountInfo accountInfo = ProtoBufMapper.INSTANCE.protocolAccMap(acc);
                 return Account.Authenticate
                         .newBuilder()
                         .setAccountInfo(accountInfo)
                         .build();
             })
-                .subscribe(auth-> {
-                    reactiveClientAction.sendMessage(auth).subscribe();
-
-                    Platform.runLater(()->  {
-                        log.debug("start main frame");
-                        hide();
-                        MainController.show();
-                    });
+            .subscribe(auth-> {
+                reactiveClientAction.sendMessage(auth).subscribe();
+                Platform.runLater(()->  {
+                    log.debug("start main frame");
+                    hide();
+                    MainController.show();
                 });
+            });
 
         alert.contentTextProperty().addListener((a1,a2,a3)-> alert.show());
 

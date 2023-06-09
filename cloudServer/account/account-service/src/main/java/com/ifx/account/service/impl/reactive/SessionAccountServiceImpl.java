@@ -1,6 +1,7 @@
 package com.ifx.account.service.impl.reactive;
 
 import cn.hutool.core.collection.CollectionUtil;
+import com.alibaba.fastjson2.JSON;
 import com.google.protobuf.InvalidProtocolBufferException;
 import com.ifx.account.entity.BaseEntity;
 import com.ifx.account.entity.SessionAccount;
@@ -13,6 +14,7 @@ import com.ifx.account.service.reactive.SessionService;
 import com.ifx.account.vo.session.SessionAccountContextVo;
 import com.ifx.account.vo.session.SessionAccountVo;
 import com.ifx.account.vo.session.SessionInfoVo;
+import com.ifx.account.vo.session.SessionSearchVo;
 import com.ifx.common.base.AccountInfo;
 import com.ifx.common.utils.ValidatorUtil;
 import com.ifx.connect.mapstruct.ProtoBufMapper;
@@ -34,6 +36,7 @@ import reactor.core.publisher.Mono;
 import reactor.rabbitmq.RpcClient;
 import reactor.rabbitmq.Sender;
 
+import java.time.Duration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -78,9 +81,7 @@ public class SessionAccountServiceImpl implements ISessionAccountService {
     @Override
     public Flux<SessionInfoVo> findSessionByUserId(Long userId) {
         return sessionAccountRepository.queryByUserId(userId)
-                .flatMap(e-> {
-                   return sessionService.selectSessionWithinCreator(e.getSessionId());
-                });
+                .flatMap(e-> sessionService.selectSessionWithinCreator(e.getSessionId()));
     }
 
     @Override
@@ -150,10 +151,12 @@ public class SessionAccountServiceImpl implements ISessionAccountService {
                     return Mono.empty();
                 })
                 .map(e-> checkoutUserOnlineStatus(e))
-//               .timeout(Duration.ofMillis(3000))
+               .timeout(Duration.ofMillis(3000))
                ;
 
     }
+
+
 
     public Mono<SessionAccountContextVo> sessionAccContextVo(Long sessionId) {
         Assert.notNull(sessionId,"The specify session could not be null!");

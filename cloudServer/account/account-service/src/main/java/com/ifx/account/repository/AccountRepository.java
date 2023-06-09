@@ -17,7 +17,8 @@ import java.util.Set;
  * @date 2023/2/14
  */
 @Repository
-public interface AccountRepository  extends ReactiveCrudRepository<Account,Long> , QuerydslPredicateExecutor<Account> {
+//public interface AccountRepository  extends ReactiveCrudRepository<Account,Long> , QuerydslPredicateExecutor<Account> {
+public interface AccountRepository  extends ReactiveCrudRepository<Account,Long>  {
 
     @Query("SELECT  * FROM account WHERE account = :account")
     Mono<Account> findByAccount(@Param("account") String account);

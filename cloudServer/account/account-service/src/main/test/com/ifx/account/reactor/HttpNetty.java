@@ -19,8 +19,6 @@ import reactor.netty.http.server.HttpServerRoutes;
 //@RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest(classes = AccountApplication.class)
 public class HttpNetty {
-//    @Resource
-//    private AccountController accountController;
     private ReactiveAccountService accountService;
 
     @Test

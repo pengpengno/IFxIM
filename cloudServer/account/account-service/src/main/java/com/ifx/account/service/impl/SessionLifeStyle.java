@@ -8,6 +8,7 @@ import com.ifx.account.repository.SessionRepository;
 import com.ifx.account.service.ISessionAccountService;
 import com.ifx.account.service.ISessionLifeStyle;
 import com.ifx.account.service.reactive.ReactiveAccountService;
+import com.ifx.account.vo.session.SessionAccountContextVo;
 import com.ifx.account.vo.session.SessionAccountVo;
 import com.ifx.account.vo.session.SessionInfoVo;
 import com.ifx.common.base.AccountInfo;
@@ -100,6 +101,11 @@ public class SessionLifeStyle implements ISessionLifeStyle {
     }
 
 
+    @Override
+    public Flux<SessionAccountContextVo> findSessionContextByUserId(Long userId) {
+//        return sessionAccountService.findSessionByUserId(userId);
+        return Flux.empty();
+    }
     @Override
     public Flux<SessionInfoVo> findSessionInfoByUserId(Long userId) {
         return sessionAccountService.findSessionByUserId(userId);
