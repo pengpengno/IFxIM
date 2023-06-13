@@ -5,14 +5,12 @@
     <parent>
         <artifactId>IFx</artifactId>
         <groupId>com.ifx.ifx</groupId>
-        <version>1.0-SNAPSHOT</version>
+        <version>1.0</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.ifx.connect</groupId>
     <artifactId>ifx-connect</artifactId>
-    <properties>
-
-    </properties>
+    <packaging>jar</packaging>
     <dependencies>
         <dependency>
             <groupId>io.projectreactor.netty</groupId>
@@ -26,7 +24,7 @@
         <dependency>
             <groupId>com.ifx.exec</groupId>
             <artifactId>ifx-exc</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <version>1.0</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
@@ -55,7 +53,7 @@
         <dependency>
             <groupId>com.ifx.common</groupId>
             <artifactId>ifx-common</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <version>1.0</version>
         </dependency>
         <dependency>
             <groupId>com.google.inject</groupId>
@@ -81,10 +79,41 @@
 
 
     <build>
+        <extensions>
+            <extension>
+                <groupId>kr.motd.maven</groupId>
+                <artifactId>os-maven-plugin</artifactId>
+                <version>1.6.2</version>
+            </extension>
+        </extensions>
+        <finalName>${project.artifactId}-${project.version}</finalName>
         <plugins>
             <plugin>
                 <groupId>org.xolstice.maven.plugins</groupId>
                 <artifactId>protobuf-maven-plugin</artifactId>
+                <version>0.6.1</version>
+                <configuration>
+<!--                    <protocArtifact>com.google.protobuf:protoc:3.11.0:exe:${os.detected.classifier}</protocArtifact>-->
+<!--                    <pluginId>grpc-java</pluginId>-->
+<!--                    <pluginArtifact>io.grpc:protoc-gen-grpc-java:1.29.0:exe:${os.detected.classifier}</pluginArtifact>-->
+                    <protocArtifact>com.google.protobuf:protoc:${protobuf.version}:exe:${os.detected.classifier}</protocArtifact>
+<!--                    <protocArtifact>com.google.protobuf:protoc:3.11.0:exe:${os.detected.classifier}</protocArtifact>-->
+                    <pluginId>grpc-java</pluginId>
+<!--                    <pluginArtifact>io.grpc:protoc-gen-grpc-java:1.29.0:exe:${os.detected.classifier}</pluginArtifact>-->
+<!--                    <protocExecutable>${protoc.local.path}</protocExecutable>-->
+                    <protoSourceRoot>${project.basedir}/src/main/proto</protoSourceRoot>
+                    <outputDirectory>${project.basedir}/src/main/java</outputDirectory>
+                    <clearOutputDirectory>false</clearOutputDirectory>
+
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>compile</goal>
+                            <goal>compile-custom</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
@@ -98,6 +127,7 @@
                 <configuration>
                     <source>${maven.compiler.source}</source>
                     <target>${maven.compiler.target}</target>
+                    <encoding>UTF-8</encoding>
                 </configuration>
             </plugin>
         </plugins>

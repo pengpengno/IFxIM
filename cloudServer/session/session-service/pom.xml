@@ -5,12 +5,12 @@
     <parent>
         <artifactId>session</artifactId>
         <groupId>com.ifx.session</groupId>
-        <version>1.0-SNAPSHOT</version>
+        <version>1.0</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>session-service</artifactId>
-
+    <packaging>jar</packaging>
     <properties>
         <ifx.exec.version>1.0-SNAPSHOT</ifx.exec.version>
     </properties>
@@ -19,7 +19,7 @@
         <dependency>
             <groupId>com.ifx.connect</groupId>
             <artifactId>ifx-connect</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <version>1.0</version>
             <exclusions>
                 <exclusion>
                     <artifactId>jackson-databind</artifactId>
@@ -55,7 +55,7 @@
         <dependency>
             <groupId>com.ifx.account</groupId>
             <artifactId>account-api</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <version>1.0</version>
             <exclusions>
                 <exclusion>
                     <artifactId>spring-boot-autoconfigure</artifactId>
@@ -74,22 +74,22 @@
         <dependency>
             <groupId>com.ifx.starter</groupId>
             <artifactId>ifx-starter</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <version>1.0</version>
         </dependency>
         <dependency>
             <groupId>com.ifx.exec</groupId>
             <artifactId>ifx-exc</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <version>1.0</version>
         </dependency>
         <dependency>
             <groupId>com.ifx.server</groupId>
             <artifactId>server-api</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <version>1.0</version>
         </dependency>
         <dependency>
             <groupId>com.ifx.common</groupId>
             <artifactId>ifx-common</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <version>1.0</version>
         </dependency>
 
 <!--        <dependency>-->
@@ -138,12 +138,17 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <version>${spring.starter.version}</version>
+                <configuration>
+                    <mainClass>com.ifx.session.SessionApplication</mainClass>
+                    <layout>JAR</layout>
+                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>${maven.plugin.version}</version>
                 <configuration>
+
                     <encoding>UTF-8</encoding>
                     <source>${maven.compiler.source}</source>
                     <target>${maven.compiler.target}</target>

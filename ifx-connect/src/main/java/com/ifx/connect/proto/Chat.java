@@ -542,7 +542,7 @@ public final class Chat {
       }
 
       public static final int SESSIONID_FIELD_NUMBER = 1;
-      private float sessionId_;
+      private float sessionId_ = 0F;
       /**
        * <code>float sessionId = 1;</code>
        * @return The sessionId.
@@ -553,6 +553,7 @@ public final class Chat {
       }
 
       public static final int TOACCOUNTS_FIELD_NUMBER = 8;
+      @SuppressWarnings("serial")
       private com.google.protobuf.LazyStringList toAccounts_;
       /**
        * <pre>
@@ -810,10 +811,10 @@ public final class Chat {
         @java.lang.Override
         public Builder clear() {
           super.clear();
+          bitField0_ = 0;
           sessionId_ = 0F;
-
           toAccounts_ = com.google.protobuf.LazyStringArrayList.EMPTY;
-          bitField0_ = (bitField0_ & ~0x00000001);
+          bitField0_ = (bitField0_ & ~0x00000002);
           return this;
         }
 
@@ -840,15 +841,25 @@ public final class Chat {
         @java.lang.Override
         public com.ifx.connect.proto.Chat.ChatMessage.Group buildPartial() {
           com.ifx.connect.proto.Chat.ChatMessage.Group result = new com.ifx.connect.proto.Chat.ChatMessage.Group(this);
-          int from_bitField0_ = bitField0_;
-          result.sessionId_ = sessionId_;
-          if (((bitField0_ & 0x00000001) != 0)) {
-            toAccounts_ = toAccounts_.getUnmodifiableView();
-            bitField0_ = (bitField0_ & ~0x00000001);
-          }
-          result.toAccounts_ = toAccounts_;
+          buildPartialRepeatedFields(result);
+          if (bitField0_ != 0) { buildPartial0(result); }
           onBuilt();
           return result;
+        }
+
+        private void buildPartialRepeatedFields(com.ifx.connect.proto.Chat.ChatMessage.Group result) {
+          if (((bitField0_ & 0x00000002) != 0)) {
+            toAccounts_ = toAccounts_.getUnmodifiableView();
+            bitField0_ = (bitField0_ & ~0x00000002);
+          }
+          result.toAccounts_ = toAccounts_;
+        }
+
+        private void buildPartial0(com.ifx.connect.proto.Chat.ChatMessage.Group result) {
+          int from_bitField0_ = bitField0_;
+          if (((from_bitField0_ & 0x00000001) != 0)) {
+            result.sessionId_ = sessionId_;
+          }
         }
 
         @java.lang.Override
@@ -901,7 +912,7 @@ public final class Chat {
           if (!other.toAccounts_.isEmpty()) {
             if (toAccounts_.isEmpty()) {
               toAccounts_ = other.toAccounts_;
-              bitField0_ = (bitField0_ & ~0x00000001);
+              bitField0_ = (bitField0_ & ~0x00000002);
             } else {
               ensureToAccountsIsMutable();
               toAccounts_.addAll(other.toAccounts_);
@@ -936,7 +947,7 @@ public final class Chat {
                   break;
                 case 13: {
                   sessionId_ = input.readFloat();
-
+                  bitField0_ |= 0x00000001;
                   break;
                 } // case 13
                 case 66: {
@@ -979,6 +990,7 @@ public final class Chat {
         public Builder setSessionId(float value) {
           
           sessionId_ = value;
+          bitField0_ |= 0x00000001;
           onChanged();
           return this;
         }
@@ -987,7 +999,7 @@ public final class Chat {
          * @return This builder for chaining.
          */
         public Builder clearSessionId() {
-          
+          bitField0_ = (bitField0_ & ~0x00000001);
           sessionId_ = 0F;
           onChanged();
           return this;
@@ -995,9 +1007,9 @@ public final class Chat {
 
         private com.google.protobuf.LazyStringList toAccounts_ = com.google.protobuf.LazyStringArrayList.EMPTY;
         private void ensureToAccountsIsMutable() {
-          if (!((bitField0_ & 0x00000001) != 0)) {
+          if (!((bitField0_ & 0x00000002) != 0)) {
             toAccounts_ = new com.google.protobuf.LazyStringArrayList(toAccounts_);
-            bitField0_ |= 0x00000001;
+            bitField0_ |= 0x00000002;
            }
         }
         /**
@@ -1060,10 +1072,8 @@ public final class Chat {
          */
         public Builder setToAccounts(
             int index, java.lang.String value) {
-          if (value == null) {
-    throw new NullPointerException();
-  }
-  ensureToAccountsIsMutable();
+          if (value == null) { throw new NullPointerException(); }
+          ensureToAccountsIsMutable();
           toAccounts_.set(index, value);
           onChanged();
           return this;
@@ -1079,10 +1089,8 @@ public final class Chat {
          */
         public Builder addToAccounts(
             java.lang.String value) {
-          if (value == null) {
-    throw new NullPointerException();
-  }
-  ensureToAccountsIsMutable();
+          if (value == null) { throw new NullPointerException(); }
+          ensureToAccountsIsMutable();
           toAccounts_.add(value);
           onChanged();
           return this;
@@ -1114,7 +1122,7 @@ public final class Chat {
          */
         public Builder clearToAccounts() {
           toAccounts_ = com.google.protobuf.LazyStringArrayList.EMPTY;
-          bitField0_ = (bitField0_ & ~0x00000001);
+          bitField0_ = (bitField0_ & ~0x00000002);
           onChanged();
           return this;
         }
@@ -1129,10 +1137,8 @@ public final class Chat {
          */
         public Builder addToAccountsBytes(
             com.google.protobuf.ByteString value) {
-          if (value == null) {
-    throw new NullPointerException();
-  }
-  checkByteStringIsUtf8(value);
+          if (value == null) { throw new NullPointerException(); }
+          checkByteStringIsUtf8(value);
           ensureToAccountsIsMutable();
           toAccounts_.add(value);
           onChanged();
@@ -1253,7 +1259,7 @@ public final class Chat {
       }
 
       public static final int TOACCOUNT_FIELD_NUMBER = 1;
-      private float toAccount_;
+      private float toAccount_ = 0F;
       /**
        * <code>float toAccount = 1;</code>
        * @return The toAccount.
@@ -1453,8 +1459,8 @@ public final class Chat {
         @java.lang.Override
         public Builder clear() {
           super.clear();
+          bitField0_ = 0;
           toAccount_ = 0F;
-
           return this;
         }
 
@@ -1481,9 +1487,16 @@ public final class Chat {
         @java.lang.Override
         public com.ifx.connect.proto.Chat.ChatMessage.Single buildPartial() {
           com.ifx.connect.proto.Chat.ChatMessage.Single result = new com.ifx.connect.proto.Chat.ChatMessage.Single(this);
-          result.toAccount_ = toAccount_;
+          if (bitField0_ != 0) { buildPartial0(result); }
           onBuilt();
           return result;
+        }
+
+        private void buildPartial0(com.ifx.connect.proto.Chat.ChatMessage.Single result) {
+          int from_bitField0_ = bitField0_;
+          if (((from_bitField0_ & 0x00000001) != 0)) {
+            result.toAccount_ = toAccount_;
+          }
         }
 
         @java.lang.Override
@@ -1561,7 +1574,7 @@ public final class Chat {
                   break;
                 case 13: {
                   toAccount_ = input.readFloat();
-
+                  bitField0_ |= 0x00000001;
                   break;
                 } // case 13
                 default: {
@@ -1579,6 +1592,7 @@ public final class Chat {
           } // finally
           return this;
         }
+        private int bitField0_;
 
         private float toAccount_ ;
         /**
@@ -1597,6 +1611,7 @@ public final class Chat {
         public Builder setToAccount(float value) {
           
           toAccount_ = value;
+          bitField0_ |= 0x00000001;
           onChanged();
           return this;
         }
@@ -1605,7 +1620,7 @@ public final class Chat {
          * @return This builder for chaining.
          */
         public Builder clearToAccount() {
-          
+          bitField0_ = (bitField0_ & ~0x00000001);
           toAccount_ = 0F;
           onChanged();
           return this;
@@ -1675,7 +1690,7 @@ public final class Chat {
     }
 
     public static final int MSGID_FIELD_NUMBER = 1;
-    private long msgId_;
+    private long msgId_ = 0L;
     /**
      * <code>int64 msgId = 1;</code>
      * @return The msgId.
@@ -1686,7 +1701,7 @@ public final class Chat {
     }
 
     public static final int SESSIONID_FIELD_NUMBER = 5;
-    private long sessionId_;
+    private long sessionId_ = 0L;
     /**
      * <code>int64 sessionId = 5;</code>
      * @return The sessionId.
@@ -1697,7 +1712,8 @@ public final class Chat {
     }
 
     public static final int CONTENT_FIELD_NUMBER = 3;
-    private volatile java.lang.Object content_;
+    @SuppressWarnings("serial")
+    private volatile java.lang.Object content_ = "";
     /**
      * <code>string content = 3;</code>
      * @return The content.
@@ -1757,7 +1773,7 @@ public final class Chat {
      */
     @java.lang.Override
     public com.ifx.connect.proto.Account.AccountInfoOrBuilder getFromAccountInfoOrBuilder() {
-      return getFromAccountInfo();
+      return fromAccountInfo_ == null ? com.ifx.connect.proto.Account.AccountInfo.getDefaultInstance() : fromAccountInfo_;
     }
 
     public static final int TOACCOUNTINFO_FIELD_NUMBER = 8;
@@ -1783,11 +1799,11 @@ public final class Chat {
      */
     @java.lang.Override
     public com.ifx.connect.proto.Account.AccountInfoOrBuilder getToAccountInfoOrBuilder() {
-      return getToAccountInfo();
+      return toAccountInfo_ == null ? com.ifx.connect.proto.Account.AccountInfo.getDefaultInstance() : toAccountInfo_;
     }
 
     public static final int TYPE_FIELD_NUMBER = 6;
-    private int type_;
+    private int type_ = 0;
     /**
      * <code>.com.ifx.connect.proto.MessageType type = 6;</code>
      * @return The enum numeric value on the wire for type.
@@ -1800,8 +1816,7 @@ public final class Chat {
      * @return The type.
      */
     @java.lang.Override public com.ifx.connect.proto.Chat.MessageType getType() {
-      @SuppressWarnings("deprecation")
-      com.ifx.connect.proto.Chat.MessageType result = com.ifx.connect.proto.Chat.MessageType.valueOf(type_);
+      com.ifx.connect.proto.Chat.MessageType result = com.ifx.connect.proto.Chat.MessageType.forNumber(type_);
       return result == null ? com.ifx.connect.proto.Chat.MessageType.UNRECOGNIZED : result;
     }
 
@@ -1828,11 +1843,11 @@ public final class Chat {
      */
     @java.lang.Override
     public com.google.protobuf.AnyOrBuilder getChatOrBuilder() {
-      return getChat();
+      return chat_ == null ? com.google.protobuf.Any.getDefaultInstance() : chat_;
     }
 
     public static final int MESSAGESSTATUS_FIELD_NUMBER = 11;
-    private int messagesStatus_;
+    private int messagesStatus_ = 0;
     /**
      * <code>.com.ifx.connect.proto.ChatMessage.MessagesStatus messagesStatus = 11;</code>
      * @return The enum numeric value on the wire for messagesStatus.
@@ -1845,8 +1860,7 @@ public final class Chat {
      * @return The messagesStatus.
      */
     @java.lang.Override public com.ifx.connect.proto.Chat.ChatMessage.MessagesStatus getMessagesStatus() {
-      @SuppressWarnings("deprecation")
-      com.ifx.connect.proto.Chat.ChatMessage.MessagesStatus result = com.ifx.connect.proto.Chat.ChatMessage.MessagesStatus.valueOf(messagesStatus_);
+      com.ifx.connect.proto.Chat.ChatMessage.MessagesStatus result = com.ifx.connect.proto.Chat.ChatMessage.MessagesStatus.forNumber(messagesStatus_);
       return result == null ? com.ifx.connect.proto.Chat.ChatMessage.MessagesStatus.UNRECOGNIZED : result;
     }
 
@@ -2129,34 +2143,27 @@ public final class Chat {
       @java.lang.Override
       public Builder clear() {
         super.clear();
+        bitField0_ = 0;
         msgId_ = 0L;
-
         sessionId_ = 0L;
-
         content_ = "";
-
-        if (fromAccountInfoBuilder_ == null) {
-          fromAccountInfo_ = null;
-        } else {
-          fromAccountInfo_ = null;
+        fromAccountInfo_ = null;
+        if (fromAccountInfoBuilder_ != null) {
+          fromAccountInfoBuilder_.dispose();
           fromAccountInfoBuilder_ = null;
         }
-        if (toAccountInfoBuilder_ == null) {
-          toAccountInfo_ = null;
-        } else {
-          toAccountInfo_ = null;
+        toAccountInfo_ = null;
+        if (toAccountInfoBuilder_ != null) {
+          toAccountInfoBuilder_.dispose();
           toAccountInfoBuilder_ = null;
         }
         type_ = 0;
-
-        if (chatBuilder_ == null) {
-          chat_ = null;
-        } else {
-          chat_ = null;
+        chat_ = null;
+        if (chatBuilder_ != null) {
+          chatBuilder_.dispose();
           chatBuilder_ = null;
         }
         messagesStatus_ = 0;
-
         return this;
       }
 
@@ -2183,28 +2190,43 @@ public final class Chat {
       @java.lang.Override
       public com.ifx.connect.proto.Chat.ChatMessage buildPartial() {
         com.ifx.connect.proto.Chat.ChatMessage result = new com.ifx.connect.proto.Chat.ChatMessage(this);
-        result.msgId_ = msgId_;
-        result.sessionId_ = sessionId_;
-        result.content_ = content_;
-        if (fromAccountInfoBuilder_ == null) {
-          result.fromAccountInfo_ = fromAccountInfo_;
-        } else {
-          result.fromAccountInfo_ = fromAccountInfoBuilder_.build();
-        }
-        if (toAccountInfoBuilder_ == null) {
-          result.toAccountInfo_ = toAccountInfo_;
-        } else {
-          result.toAccountInfo_ = toAccountInfoBuilder_.build();
-        }
-        result.type_ = type_;
-        if (chatBuilder_ == null) {
-          result.chat_ = chat_;
-        } else {
-          result.chat_ = chatBuilder_.build();
-        }
-        result.messagesStatus_ = messagesStatus_;
+        if (bitField0_ != 0) { buildPartial0(result); }
         onBuilt();
         return result;
+      }
+
+      private void buildPartial0(com.ifx.connect.proto.Chat.ChatMessage result) {
+        int from_bitField0_ = bitField0_;
+        if (((from_bitField0_ & 0x00000001) != 0)) {
+          result.msgId_ = msgId_;
+        }
+        if (((from_bitField0_ & 0x00000002) != 0)) {
+          result.sessionId_ = sessionId_;
+        }
+        if (((from_bitField0_ & 0x00000004) != 0)) {
+          result.content_ = content_;
+        }
+        if (((from_bitField0_ & 0x00000008) != 0)) {
+          result.fromAccountInfo_ = fromAccountInfoBuilder_ == null
+              ? fromAccountInfo_
+              : fromAccountInfoBuilder_.build();
+        }
+        if (((from_bitField0_ & 0x00000010) != 0)) {
+          result.toAccountInfo_ = toAccountInfoBuilder_ == null
+              ? toAccountInfo_
+              : toAccountInfoBuilder_.build();
+        }
+        if (((from_bitField0_ & 0x00000020) != 0)) {
+          result.type_ = type_;
+        }
+        if (((from_bitField0_ & 0x00000040) != 0)) {
+          result.chat_ = chatBuilder_ == null
+              ? chat_
+              : chatBuilder_.build();
+        }
+        if (((from_bitField0_ & 0x00000080) != 0)) {
+          result.messagesStatus_ = messagesStatus_;
+        }
       }
 
       @java.lang.Override
@@ -2259,6 +2281,7 @@ public final class Chat {
         }
         if (!other.getContent().isEmpty()) {
           content_ = other.content_;
+          bitField0_ |= 0x00000004;
           onChanged();
         }
         if (other.hasFromAccountInfo()) {
@@ -2304,48 +2327,48 @@ public final class Chat {
                 break;
               case 8: {
                 msgId_ = input.readInt64();
-
+                bitField0_ |= 0x00000001;
                 break;
               } // case 8
               case 18: {
                 input.readMessage(
                     getFromAccountInfoFieldBuilder().getBuilder(),
                     extensionRegistry);
-
+                bitField0_ |= 0x00000008;
                 break;
               } // case 18
               case 26: {
                 content_ = input.readStringRequireUtf8();
-
+                bitField0_ |= 0x00000004;
                 break;
               } // case 26
               case 40: {
                 sessionId_ = input.readInt64();
-
+                bitField0_ |= 0x00000002;
                 break;
               } // case 40
               case 48: {
                 type_ = input.readEnum();
-
+                bitField0_ |= 0x00000020;
                 break;
               } // case 48
               case 66: {
                 input.readMessage(
                     getToAccountInfoFieldBuilder().getBuilder(),
                     extensionRegistry);
-
+                bitField0_ |= 0x00000010;
                 break;
               } // case 66
               case 82: {
                 input.readMessage(
                     getChatFieldBuilder().getBuilder(),
                     extensionRegistry);
-
+                bitField0_ |= 0x00000040;
                 break;
               } // case 82
               case 88: {
                 messagesStatus_ = input.readEnum();
-
+                bitField0_ |= 0x00000080;
                 break;
               } // case 88
               default: {
@@ -2363,6 +2386,7 @@ public final class Chat {
         } // finally
         return this;
       }
+      private int bitField0_;
 
       private long msgId_ ;
       /**
@@ -2381,6 +2405,7 @@ public final class Chat {
       public Builder setMsgId(long value) {
         
         msgId_ = value;
+        bitField0_ |= 0x00000001;
         onChanged();
         return this;
       }
@@ -2389,7 +2414,7 @@ public final class Chat {
        * @return This builder for chaining.
        */
       public Builder clearMsgId() {
-        
+        bitField0_ = (bitField0_ & ~0x00000001);
         msgId_ = 0L;
         onChanged();
         return this;
@@ -2412,6 +2437,7 @@ public final class Chat {
       public Builder setSessionId(long value) {
         
         sessionId_ = value;
+        bitField0_ |= 0x00000002;
         onChanged();
         return this;
       }
@@ -2420,7 +2446,7 @@ public final class Chat {
        * @return This builder for chaining.
        */
       public Builder clearSessionId() {
-        
+        bitField0_ = (bitField0_ & ~0x00000002);
         sessionId_ = 0L;
         onChanged();
         return this;
@@ -2467,11 +2493,9 @@ public final class Chat {
        */
       public Builder setContent(
           java.lang.String value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  
+        if (value == null) { throw new NullPointerException(); }
         content_ = value;
+        bitField0_ |= 0x00000004;
         onChanged();
         return this;
       }
@@ -2480,8 +2504,8 @@ public final class Chat {
        * @return This builder for chaining.
        */
       public Builder clearContent() {
-        
         content_ = getDefaultInstance().getContent();
+        bitField0_ = (bitField0_ & ~0x00000004);
         onChanged();
         return this;
       }
@@ -2492,12 +2516,10 @@ public final class Chat {
        */
       public Builder setContentBytes(
           com.google.protobuf.ByteString value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  checkByteStringIsUtf8(value);
-        
+        if (value == null) { throw new NullPointerException(); }
+        checkByteStringIsUtf8(value);
         content_ = value;
+        bitField0_ |= 0x00000004;
         onChanged();
         return this;
       }
@@ -2510,7 +2532,7 @@ public final class Chat {
        * @return Whether the fromAccountInfo field is set.
        */
       public boolean hasFromAccountInfo() {
-        return fromAccountInfoBuilder_ != null || fromAccountInfo_ != null;
+        return ((bitField0_ & 0x00000008) != 0);
       }
       /**
        * <code>.com.ifx.connect.proto.AccountInfo fromAccountInfo = 2;</code>
@@ -2532,11 +2554,11 @@ public final class Chat {
             throw new NullPointerException();
           }
           fromAccountInfo_ = value;
-          onChanged();
         } else {
           fromAccountInfoBuilder_.setMessage(value);
         }
-
+        bitField0_ |= 0x00000008;
+        onChanged();
         return this;
       }
       /**
@@ -2546,11 +2568,11 @@ public final class Chat {
           com.ifx.connect.proto.Account.AccountInfo.Builder builderForValue) {
         if (fromAccountInfoBuilder_ == null) {
           fromAccountInfo_ = builderForValue.build();
-          onChanged();
         } else {
           fromAccountInfoBuilder_.setMessage(builderForValue.build());
         }
-
+        bitField0_ |= 0x00000008;
+        onChanged();
         return this;
       }
       /**
@@ -2558,38 +2580,38 @@ public final class Chat {
        */
       public Builder mergeFromAccountInfo(com.ifx.connect.proto.Account.AccountInfo value) {
         if (fromAccountInfoBuilder_ == null) {
-          if (fromAccountInfo_ != null) {
-            fromAccountInfo_ =
-              com.ifx.connect.proto.Account.AccountInfo.newBuilder(fromAccountInfo_).mergeFrom(value).buildPartial();
+          if (((bitField0_ & 0x00000008) != 0) &&
+            fromAccountInfo_ != null &&
+            fromAccountInfo_ != com.ifx.connect.proto.Account.AccountInfo.getDefaultInstance()) {
+            getFromAccountInfoBuilder().mergeFrom(value);
           } else {
             fromAccountInfo_ = value;
           }
-          onChanged();
         } else {
           fromAccountInfoBuilder_.mergeFrom(value);
         }
-
+        bitField0_ |= 0x00000008;
+        onChanged();
         return this;
       }
       /**
        * <code>.com.ifx.connect.proto.AccountInfo fromAccountInfo = 2;</code>
        */
       public Builder clearFromAccountInfo() {
-        if (fromAccountInfoBuilder_ == null) {
-          fromAccountInfo_ = null;
-          onChanged();
-        } else {
-          fromAccountInfo_ = null;
+        bitField0_ = (bitField0_ & ~0x00000008);
+        fromAccountInfo_ = null;
+        if (fromAccountInfoBuilder_ != null) {
+          fromAccountInfoBuilder_.dispose();
           fromAccountInfoBuilder_ = null;
         }
-
+        onChanged();
         return this;
       }
       /**
        * <code>.com.ifx.connect.proto.AccountInfo fromAccountInfo = 2;</code>
        */
       public com.ifx.connect.proto.Account.AccountInfo.Builder getFromAccountInfoBuilder() {
-        
+        bitField0_ |= 0x00000008;
         onChanged();
         return getFromAccountInfoFieldBuilder().getBuilder();
       }
@@ -2629,7 +2651,7 @@ public final class Chat {
        * @return Whether the toAccountInfo field is set.
        */
       public boolean hasToAccountInfo() {
-        return toAccountInfoBuilder_ != null || toAccountInfo_ != null;
+        return ((bitField0_ & 0x00000010) != 0);
       }
       /**
        * <code>.com.ifx.connect.proto.AccountInfo toAccountInfo = 8;</code>
@@ -2651,11 +2673,11 @@ public final class Chat {
             throw new NullPointerException();
           }
           toAccountInfo_ = value;
-          onChanged();
         } else {
           toAccountInfoBuilder_.setMessage(value);
         }
-
+        bitField0_ |= 0x00000010;
+        onChanged();
         return this;
       }
       /**
@@ -2665,11 +2687,11 @@ public final class Chat {
           com.ifx.connect.proto.Account.AccountInfo.Builder builderForValue) {
         if (toAccountInfoBuilder_ == null) {
           toAccountInfo_ = builderForValue.build();
-          onChanged();
         } else {
           toAccountInfoBuilder_.setMessage(builderForValue.build());
         }
-
+        bitField0_ |= 0x00000010;
+        onChanged();
         return this;
       }
       /**
@@ -2677,38 +2699,38 @@ public final class Chat {
        */
       public Builder mergeToAccountInfo(com.ifx.connect.proto.Account.AccountInfo value) {
         if (toAccountInfoBuilder_ == null) {
-          if (toAccountInfo_ != null) {
-            toAccountInfo_ =
-              com.ifx.connect.proto.Account.AccountInfo.newBuilder(toAccountInfo_).mergeFrom(value).buildPartial();
+          if (((bitField0_ & 0x00000010) != 0) &&
+            toAccountInfo_ != null &&
+            toAccountInfo_ != com.ifx.connect.proto.Account.AccountInfo.getDefaultInstance()) {
+            getToAccountInfoBuilder().mergeFrom(value);
           } else {
             toAccountInfo_ = value;
           }
-          onChanged();
         } else {
           toAccountInfoBuilder_.mergeFrom(value);
         }
-
+        bitField0_ |= 0x00000010;
+        onChanged();
         return this;
       }
       /**
        * <code>.com.ifx.connect.proto.AccountInfo toAccountInfo = 8;</code>
        */
       public Builder clearToAccountInfo() {
-        if (toAccountInfoBuilder_ == null) {
-          toAccountInfo_ = null;
-          onChanged();
-        } else {
-          toAccountInfo_ = null;
+        bitField0_ = (bitField0_ & ~0x00000010);
+        toAccountInfo_ = null;
+        if (toAccountInfoBuilder_ != null) {
+          toAccountInfoBuilder_.dispose();
           toAccountInfoBuilder_ = null;
         }
-
+        onChanged();
         return this;
       }
       /**
        * <code>.com.ifx.connect.proto.AccountInfo toAccountInfo = 8;</code>
        */
       public com.ifx.connect.proto.Account.AccountInfo.Builder getToAccountInfoBuilder() {
-        
+        bitField0_ |= 0x00000010;
         onChanged();
         return getToAccountInfoFieldBuilder().getBuilder();
       }
@@ -2754,8 +2776,8 @@ public final class Chat {
        * @return This builder for chaining.
        */
       public Builder setTypeValue(int value) {
-        
         type_ = value;
+        bitField0_ |= 0x00000020;
         onChanged();
         return this;
       }
@@ -2765,8 +2787,7 @@ public final class Chat {
        */
       @java.lang.Override
       public com.ifx.connect.proto.Chat.MessageType getType() {
-        @SuppressWarnings("deprecation")
-        com.ifx.connect.proto.Chat.MessageType result = com.ifx.connect.proto.Chat.MessageType.valueOf(type_);
+        com.ifx.connect.proto.Chat.MessageType result = com.ifx.connect.proto.Chat.MessageType.forNumber(type_);
         return result == null ? com.ifx.connect.proto.Chat.MessageType.UNRECOGNIZED : result;
       }
       /**
@@ -2778,7 +2799,7 @@ public final class Chat {
         if (value == null) {
           throw new NullPointerException();
         }
-        
+        bitField0_ |= 0x00000020;
         type_ = value.getNumber();
         onChanged();
         return this;
@@ -2788,7 +2809,7 @@ public final class Chat {
        * @return This builder for chaining.
        */
       public Builder clearType() {
-        
+        bitField0_ = (bitField0_ & ~0x00000020);
         type_ = 0;
         onChanged();
         return this;
@@ -2802,7 +2823,7 @@ public final class Chat {
        * @return Whether the chat field is set.
        */
       public boolean hasChat() {
-        return chatBuilder_ != null || chat_ != null;
+        return ((bitField0_ & 0x00000040) != 0);
       }
       /**
        * <code>.google.protobuf.Any chat = 10;</code>
@@ -2824,11 +2845,11 @@ public final class Chat {
             throw new NullPointerException();
           }
           chat_ = value;
-          onChanged();
         } else {
           chatBuilder_.setMessage(value);
         }
-
+        bitField0_ |= 0x00000040;
+        onChanged();
         return this;
       }
       /**
@@ -2838,11 +2859,11 @@ public final class Chat {
           com.google.protobuf.Any.Builder builderForValue) {
         if (chatBuilder_ == null) {
           chat_ = builderForValue.build();
-          onChanged();
         } else {
           chatBuilder_.setMessage(builderForValue.build());
         }
-
+        bitField0_ |= 0x00000040;
+        onChanged();
         return this;
       }
       /**
@@ -2850,38 +2871,38 @@ public final class Chat {
        */
       public Builder mergeChat(com.google.protobuf.Any value) {
         if (chatBuilder_ == null) {
-          if (chat_ != null) {
-            chat_ =
-              com.google.protobuf.Any.newBuilder(chat_).mergeFrom(value).buildPartial();
+          if (((bitField0_ & 0x00000040) != 0) &&
+            chat_ != null &&
+            chat_ != com.google.protobuf.Any.getDefaultInstance()) {
+            getChatBuilder().mergeFrom(value);
           } else {
             chat_ = value;
           }
-          onChanged();
         } else {
           chatBuilder_.mergeFrom(value);
         }
-
+        bitField0_ |= 0x00000040;
+        onChanged();
         return this;
       }
       /**
        * <code>.google.protobuf.Any chat = 10;</code>
        */
       public Builder clearChat() {
-        if (chatBuilder_ == null) {
-          chat_ = null;
-          onChanged();
-        } else {
-          chat_ = null;
+        bitField0_ = (bitField0_ & ~0x00000040);
+        chat_ = null;
+        if (chatBuilder_ != null) {
+          chatBuilder_.dispose();
           chatBuilder_ = null;
         }
-
+        onChanged();
         return this;
       }
       /**
        * <code>.google.protobuf.Any chat = 10;</code>
        */
       public com.google.protobuf.Any.Builder getChatBuilder() {
-        
+        bitField0_ |= 0x00000040;
         onChanged();
         return getChatFieldBuilder().getBuilder();
       }
@@ -2927,8 +2948,8 @@ public final class Chat {
        * @return This builder for chaining.
        */
       public Builder setMessagesStatusValue(int value) {
-        
         messagesStatus_ = value;
+        bitField0_ |= 0x00000080;
         onChanged();
         return this;
       }
@@ -2938,8 +2959,7 @@ public final class Chat {
        */
       @java.lang.Override
       public com.ifx.connect.proto.Chat.ChatMessage.MessagesStatus getMessagesStatus() {
-        @SuppressWarnings("deprecation")
-        com.ifx.connect.proto.Chat.ChatMessage.MessagesStatus result = com.ifx.connect.proto.Chat.ChatMessage.MessagesStatus.valueOf(messagesStatus_);
+        com.ifx.connect.proto.Chat.ChatMessage.MessagesStatus result = com.ifx.connect.proto.Chat.ChatMessage.MessagesStatus.forNumber(messagesStatus_);
         return result == null ? com.ifx.connect.proto.Chat.ChatMessage.MessagesStatus.UNRECOGNIZED : result;
       }
       /**
@@ -2951,7 +2971,7 @@ public final class Chat {
         if (value == null) {
           throw new NullPointerException();
         }
-        
+        bitField0_ |= 0x00000080;
         messagesStatus_ = value.getNumber();
         onChanged();
         return this;
@@ -2961,7 +2981,7 @@ public final class Chat {
        * @return This builder for chaining.
        */
       public Builder clearMessagesStatus() {
-        
+        bitField0_ = (bitField0_ & ~0x00000080);
         messagesStatus_ = 0;
         onChanged();
         return this;

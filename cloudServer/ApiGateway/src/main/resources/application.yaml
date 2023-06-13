@@ -13,7 +13,7 @@ spring:
       routes:
         - id: account-service
 #          uri: lb://account-service
-          uri: ${account-service-url:http://localhost:8001}
+          uri: ${ACCOUNT_SERVICE_HOST:http://localhost:8001}
 #          uri: ${account-service-url:lb://account-service}
           predicates:
 #            - Path=/api/account/**
@@ -39,5 +39,5 @@ eureka:
     service-url:
       defaultZone: ${EUREKA_URL:http://localhost:8761/eureka/}
 server:
-  port: ${IFX_API_PORT:8761}
+  port: ${API_PORT:8761}
 

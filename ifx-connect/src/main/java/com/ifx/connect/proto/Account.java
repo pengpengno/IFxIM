@@ -87,7 +87,8 @@ public final class Account {
     }
 
     public static final int JWT_FIELD_NUMBER = 1;
-    private volatile java.lang.Object jwt_;
+    @SuppressWarnings("serial")
+    private volatile java.lang.Object jwt_ = "";
     /**
      * <code>string jwt = 1;</code>
      * @return The jwt.
@@ -147,7 +148,7 @@ public final class Account {
      */
     @java.lang.Override
     public com.ifx.connect.proto.Account.AccountInfoOrBuilder getAccountInfoOrBuilder() {
-      return getAccountInfo();
+      return accountInfo_ == null ? com.ifx.connect.proto.Account.AccountInfo.getDefaultInstance() : accountInfo_;
     }
 
     private byte memoizedIsInitialized = -1;
@@ -353,12 +354,11 @@ public final class Account {
       @java.lang.Override
       public Builder clear() {
         super.clear();
+        bitField0_ = 0;
         jwt_ = "";
-
-        if (accountInfoBuilder_ == null) {
-          accountInfo_ = null;
-        } else {
-          accountInfo_ = null;
+        accountInfo_ = null;
+        if (accountInfoBuilder_ != null) {
+          accountInfoBuilder_.dispose();
           accountInfoBuilder_ = null;
         }
         return this;
@@ -387,14 +387,21 @@ public final class Account {
       @java.lang.Override
       public com.ifx.connect.proto.Account.Authenticate buildPartial() {
         com.ifx.connect.proto.Account.Authenticate result = new com.ifx.connect.proto.Account.Authenticate(this);
-        result.jwt_ = jwt_;
-        if (accountInfoBuilder_ == null) {
-          result.accountInfo_ = accountInfo_;
-        } else {
-          result.accountInfo_ = accountInfoBuilder_.build();
-        }
+        if (bitField0_ != 0) { buildPartial0(result); }
         onBuilt();
         return result;
+      }
+
+      private void buildPartial0(com.ifx.connect.proto.Account.Authenticate result) {
+        int from_bitField0_ = bitField0_;
+        if (((from_bitField0_ & 0x00000001) != 0)) {
+          result.jwt_ = jwt_;
+        }
+        if (((from_bitField0_ & 0x00000002) != 0)) {
+          result.accountInfo_ = accountInfoBuilder_ == null
+              ? accountInfo_
+              : accountInfoBuilder_.build();
+        }
       }
 
       @java.lang.Override
@@ -443,6 +450,7 @@ public final class Account {
         if (other == com.ifx.connect.proto.Account.Authenticate.getDefaultInstance()) return this;
         if (!other.getJwt().isEmpty()) {
           jwt_ = other.jwt_;
+          bitField0_ |= 0x00000001;
           onChanged();
         }
         if (other.hasAccountInfo()) {
@@ -476,14 +484,14 @@ public final class Account {
                 break;
               case 10: {
                 jwt_ = input.readStringRequireUtf8();
-
+                bitField0_ |= 0x00000001;
                 break;
               } // case 10
               case 18: {
                 input.readMessage(
                     getAccountInfoFieldBuilder().getBuilder(),
                     extensionRegistry);
-
+                bitField0_ |= 0x00000002;
                 break;
               } // case 18
               default: {
@@ -501,6 +509,7 @@ public final class Account {
         } // finally
         return this;
       }
+      private int bitField0_;
 
       private java.lang.Object jwt_ = "";
       /**
@@ -543,11 +552,9 @@ public final class Account {
        */
       public Builder setJwt(
           java.lang.String value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  
+        if (value == null) { throw new NullPointerException(); }
         jwt_ = value;
+        bitField0_ |= 0x00000001;
         onChanged();
         return this;
       }
@@ -556,8 +563,8 @@ public final class Account {
        * @return This builder for chaining.
        */
       public Builder clearJwt() {
-        
         jwt_ = getDefaultInstance().getJwt();
+        bitField0_ = (bitField0_ & ~0x00000001);
         onChanged();
         return this;
       }
@@ -568,12 +575,10 @@ public final class Account {
        */
       public Builder setJwtBytes(
           com.google.protobuf.ByteString value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  checkByteStringIsUtf8(value);
-        
+        if (value == null) { throw new NullPointerException(); }
+        checkByteStringIsUtf8(value);
         jwt_ = value;
+        bitField0_ |= 0x00000001;
         onChanged();
         return this;
       }
@@ -586,7 +591,7 @@ public final class Account {
        * @return Whether the accountInfo field is set.
        */
       public boolean hasAccountInfo() {
-        return accountInfoBuilder_ != null || accountInfo_ != null;
+        return ((bitField0_ & 0x00000002) != 0);
       }
       /**
        * <code>.com.ifx.connect.proto.AccountInfo accountInfo = 2;</code>
@@ -608,11 +613,11 @@ public final class Account {
             throw new NullPointerException();
           }
           accountInfo_ = value;
-          onChanged();
         } else {
           accountInfoBuilder_.setMessage(value);
         }
-
+        bitField0_ |= 0x00000002;
+        onChanged();
         return this;
       }
       /**
@@ -622,11 +627,11 @@ public final class Account {
           com.ifx.connect.proto.Account.AccountInfo.Builder builderForValue) {
         if (accountInfoBuilder_ == null) {
           accountInfo_ = builderForValue.build();
-          onChanged();
         } else {
           accountInfoBuilder_.setMessage(builderForValue.build());
         }
-
+        bitField0_ |= 0x00000002;
+        onChanged();
         return this;
       }
       /**
@@ -634,38 +639,38 @@ public final class Account {
        */
       public Builder mergeAccountInfo(com.ifx.connect.proto.Account.AccountInfo value) {
         if (accountInfoBuilder_ == null) {
-          if (accountInfo_ != null) {
-            accountInfo_ =
-              com.ifx.connect.proto.Account.AccountInfo.newBuilder(accountInfo_).mergeFrom(value).buildPartial();
+          if (((bitField0_ & 0x00000002) != 0) &&
+            accountInfo_ != null &&
+            accountInfo_ != com.ifx.connect.proto.Account.AccountInfo.getDefaultInstance()) {
+            getAccountInfoBuilder().mergeFrom(value);
           } else {
             accountInfo_ = value;
           }
-          onChanged();
         } else {
           accountInfoBuilder_.mergeFrom(value);
         }
-
+        bitField0_ |= 0x00000002;
+        onChanged();
         return this;
       }
       /**
        * <code>.com.ifx.connect.proto.AccountInfo accountInfo = 2;</code>
        */
       public Builder clearAccountInfo() {
-        if (accountInfoBuilder_ == null) {
-          accountInfo_ = null;
-          onChanged();
-        } else {
-          accountInfo_ = null;
+        bitField0_ = (bitField0_ & ~0x00000002);
+        accountInfo_ = null;
+        if (accountInfoBuilder_ != null) {
+          accountInfoBuilder_.dispose();
           accountInfoBuilder_ = null;
         }
-
+        onChanged();
         return this;
       }
       /**
        * <code>.com.ifx.connect.proto.AccountInfo accountInfo = 2;</code>
        */
       public com.ifx.connect.proto.Account.AccountInfo.Builder getAccountInfoBuilder() {
-        
+        bitField0_ |= 0x00000002;
         onChanged();
         return getAccountInfoFieldBuilder().getBuilder();
       }
@@ -850,7 +855,8 @@ public final class Account {
     }
 
     public static final int ACCOUNT_FIELD_NUMBER = 1;
-    private volatile java.lang.Object account_;
+    @SuppressWarnings("serial")
+    private volatile java.lang.Object account_ = "";
     /**
      * <code>string account = 1;</code>
      * @return The account.
@@ -888,7 +894,8 @@ public final class Account {
     }
 
     public static final int ACCOUNTNAME_FIELD_NUMBER = 2;
-    private volatile java.lang.Object accountName_;
+    @SuppressWarnings("serial")
+    private volatile java.lang.Object accountName_ = "";
     /**
      * <code>string accountName = 2;</code>
      * @return The accountName.
@@ -926,7 +933,7 @@ public final class Account {
     }
 
     public static final int USERID_FIELD_NUMBER = 3;
-    private long userId_;
+    private long userId_ = 0L;
     /**
      * <code>int64 userId = 3;</code>
      * @return The userId.
@@ -937,7 +944,8 @@ public final class Account {
     }
 
     public static final int EMAIL_FIELD_NUMBER = 4;
-    private volatile java.lang.Object eMail_;
+    @SuppressWarnings("serial")
+    private volatile java.lang.Object eMail_ = "";
     /**
      * <code>string eMail = 4;</code>
      * @return The eMail.
@@ -1193,14 +1201,11 @@ public final class Account {
       @java.lang.Override
       public Builder clear() {
         super.clear();
+        bitField0_ = 0;
         account_ = "";
-
         accountName_ = "";
-
         userId_ = 0L;
-
         eMail_ = "";
-
         return this;
       }
 
@@ -1227,12 +1232,25 @@ public final class Account {
       @java.lang.Override
       public com.ifx.connect.proto.Account.AccountInfo buildPartial() {
         com.ifx.connect.proto.Account.AccountInfo result = new com.ifx.connect.proto.Account.AccountInfo(this);
-        result.account_ = account_;
-        result.accountName_ = accountName_;
-        result.userId_ = userId_;
-        result.eMail_ = eMail_;
+        if (bitField0_ != 0) { buildPartial0(result); }
         onBuilt();
         return result;
+      }
+
+      private void buildPartial0(com.ifx.connect.proto.Account.AccountInfo result) {
+        int from_bitField0_ = bitField0_;
+        if (((from_bitField0_ & 0x00000001) != 0)) {
+          result.account_ = account_;
+        }
+        if (((from_bitField0_ & 0x00000002) != 0)) {
+          result.accountName_ = accountName_;
+        }
+        if (((from_bitField0_ & 0x00000004) != 0)) {
+          result.userId_ = userId_;
+        }
+        if (((from_bitField0_ & 0x00000008) != 0)) {
+          result.eMail_ = eMail_;
+        }
       }
 
       @java.lang.Override
@@ -1281,10 +1299,12 @@ public final class Account {
         if (other == com.ifx.connect.proto.Account.AccountInfo.getDefaultInstance()) return this;
         if (!other.getAccount().isEmpty()) {
           account_ = other.account_;
+          bitField0_ |= 0x00000001;
           onChanged();
         }
         if (!other.getAccountName().isEmpty()) {
           accountName_ = other.accountName_;
+          bitField0_ |= 0x00000002;
           onChanged();
         }
         if (other.getUserId() != 0L) {
@@ -1292,6 +1312,7 @@ public final class Account {
         }
         if (!other.getEMail().isEmpty()) {
           eMail_ = other.eMail_;
+          bitField0_ |= 0x00000008;
           onChanged();
         }
         this.mergeUnknownFields(other.getUnknownFields());
@@ -1322,22 +1343,22 @@ public final class Account {
                 break;
               case 10: {
                 account_ = input.readStringRequireUtf8();
-
+                bitField0_ |= 0x00000001;
                 break;
               } // case 10
               case 18: {
                 accountName_ = input.readStringRequireUtf8();
-
+                bitField0_ |= 0x00000002;
                 break;
               } // case 18
               case 24: {
                 userId_ = input.readInt64();
-
+                bitField0_ |= 0x00000004;
                 break;
               } // case 24
               case 34: {
                 eMail_ = input.readStringRequireUtf8();
-
+                bitField0_ |= 0x00000008;
                 break;
               } // case 34
               default: {
@@ -1355,6 +1376,7 @@ public final class Account {
         } // finally
         return this;
       }
+      private int bitField0_;
 
       private java.lang.Object account_ = "";
       /**
@@ -1397,11 +1419,9 @@ public final class Account {
        */
       public Builder setAccount(
           java.lang.String value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  
+        if (value == null) { throw new NullPointerException(); }
         account_ = value;
+        bitField0_ |= 0x00000001;
         onChanged();
         return this;
       }
@@ -1410,8 +1430,8 @@ public final class Account {
        * @return This builder for chaining.
        */
       public Builder clearAccount() {
-        
         account_ = getDefaultInstance().getAccount();
+        bitField0_ = (bitField0_ & ~0x00000001);
         onChanged();
         return this;
       }
@@ -1422,12 +1442,10 @@ public final class Account {
        */
       public Builder setAccountBytes(
           com.google.protobuf.ByteString value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  checkByteStringIsUtf8(value);
-        
+        if (value == null) { throw new NullPointerException(); }
+        checkByteStringIsUtf8(value);
         account_ = value;
+        bitField0_ |= 0x00000001;
         onChanged();
         return this;
       }
@@ -1473,11 +1491,9 @@ public final class Account {
        */
       public Builder setAccountName(
           java.lang.String value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  
+        if (value == null) { throw new NullPointerException(); }
         accountName_ = value;
+        bitField0_ |= 0x00000002;
         onChanged();
         return this;
       }
@@ -1486,8 +1502,8 @@ public final class Account {
        * @return This builder for chaining.
        */
       public Builder clearAccountName() {
-        
         accountName_ = getDefaultInstance().getAccountName();
+        bitField0_ = (bitField0_ & ~0x00000002);
         onChanged();
         return this;
       }
@@ -1498,12 +1514,10 @@ public final class Account {
        */
       public Builder setAccountNameBytes(
           com.google.protobuf.ByteString value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  checkByteStringIsUtf8(value);
-        
+        if (value == null) { throw new NullPointerException(); }
+        checkByteStringIsUtf8(value);
         accountName_ = value;
+        bitField0_ |= 0x00000002;
         onChanged();
         return this;
       }
@@ -1525,6 +1539,7 @@ public final class Account {
       public Builder setUserId(long value) {
         
         userId_ = value;
+        bitField0_ |= 0x00000004;
         onChanged();
         return this;
       }
@@ -1533,7 +1548,7 @@ public final class Account {
        * @return This builder for chaining.
        */
       public Builder clearUserId() {
-        
+        bitField0_ = (bitField0_ & ~0x00000004);
         userId_ = 0L;
         onChanged();
         return this;
@@ -1580,11 +1595,9 @@ public final class Account {
        */
       public Builder setEMail(
           java.lang.String value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  
+        if (value == null) { throw new NullPointerException(); }
         eMail_ = value;
+        bitField0_ |= 0x00000008;
         onChanged();
         return this;
       }
@@ -1593,8 +1606,8 @@ public final class Account {
        * @return This builder for chaining.
        */
       public Builder clearEMail() {
-        
         eMail_ = getDefaultInstance().getEMail();
+        bitField0_ = (bitField0_ & ~0x00000008);
         onChanged();
         return this;
       }
@@ -1605,12 +1618,10 @@ public final class Account {
        */
       public Builder setEMailBytes(
           com.google.protobuf.ByteString value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  checkByteStringIsUtf8(value);
-        
+        if (value == null) { throw new NullPointerException(); }
+        checkByteStringIsUtf8(value);
         eMail_ = value;
+        bitField0_ |= 0x00000008;
         onChanged();
         return this;
       }

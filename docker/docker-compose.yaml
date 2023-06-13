@@ -1,1 +1,52 @@
-FROM java8
+version: '3'
+
+services:
+  account-service:
+    image: pengpeng163/account-service:1.0
+    container_name: account-service
+    depends_on:
+      - mysql
+    environment:
+      MYSQL_HOST: mysql
+      MYSQL_PORT: 3306
+      RD2BC_URL:
+    volumes:
+      - /app/service:/opt/service
+
+  api-gateway:
+    image: pengpeng163/imGateway:1.0
+    depends_on:
+      - account-service
+    volumes:
+      - /app/service:/opt/service
+
+  reactor-server:
+    image: pengpeng163/reactor-server:1.0
+    depends_on:
+      - rabbitmq
+
+  mysql:
+    image: mysql:8.0
+    container_name: fxIm-mysql
+    environment:
+      TZ: Asia/Shanghai
+      MYSQL_DATABASE: ifx
+      MYSQL_ROOT_PASSWORD: admin
+      MYSQL_ROOT_HOST: '%'
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./sql:/docker-entrypoint-initdb.d
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: fxIm-rabbitmq
+    ports:
+      - "15672:15672"
+      - "5672:5672"
+    environment:
+      RABBITMQ_DEFAULT_USER: admin
+      RABBITMQ_DEFAULT_PASS: admin
+      RABBITMQ_DEFAULT_VHOST: /
+    volumes:
+      - ./data/rabbitmq:/var/lib/rabbitmq/mnesia/rabbit@app-rabbitmq:cached

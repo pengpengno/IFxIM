@@ -84,6 +84,7 @@ public final class OnLineUser {
     }
 
     public static final int ACCOUNTS_FIELD_NUMBER = 1;
+    @SuppressWarnings("serial")
     private java.util.List<com.ifx.connect.proto.Account.AccountInfo> accounts_;
     /**
      * <code>repeated .com.ifx.connect.proto.AccountInfo accounts = 1;</code>
@@ -313,6 +314,7 @@ public final class OnLineUser {
       @java.lang.Override
       public Builder clear() {
         super.clear();
+        bitField0_ = 0;
         if (accountsBuilder_ == null) {
           accounts_ = java.util.Collections.emptyList();
         } else {
@@ -346,7 +348,13 @@ public final class OnLineUser {
       @java.lang.Override
       public com.ifx.connect.proto.OnLineUser.UserSearch buildPartial() {
         com.ifx.connect.proto.OnLineUser.UserSearch result = new com.ifx.connect.proto.OnLineUser.UserSearch(this);
-        int from_bitField0_ = bitField0_;
+        buildPartialRepeatedFields(result);
+        if (bitField0_ != 0) { buildPartial0(result); }
+        onBuilt();
+        return result;
+      }
+
+      private void buildPartialRepeatedFields(com.ifx.connect.proto.OnLineUser.UserSearch result) {
         if (accountsBuilder_ == null) {
           if (((bitField0_ & 0x00000001) != 0)) {
             accounts_ = java.util.Collections.unmodifiableList(accounts_);
@@ -356,8 +364,10 @@ public final class OnLineUser {
         } else {
           result.accounts_ = accountsBuilder_.build();
         }
-        onBuilt();
-        return result;
+      }
+
+      private void buildPartial0(com.ifx.connect.proto.OnLineUser.UserSearch result) {
+        int from_bitField0_ = bitField0_;
       }
 
       @java.lang.Override
