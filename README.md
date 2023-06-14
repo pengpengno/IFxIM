@@ -34,3 +34,13 @@ docker build ${SERVICE_NAME}:${VERSION} .
 ```shell
 docker push  ${DOCKERHUB}/${IMAGE}
 ```
+4. Start docker (Server side)
+```shell
+cd docker
+docker-compose up -d
+```
+
+
+5. Start client
+
+ifx-fxclient 中启动  ```APP``` 界面给定账号密码即可，详情可在./docker下的sql 查看
