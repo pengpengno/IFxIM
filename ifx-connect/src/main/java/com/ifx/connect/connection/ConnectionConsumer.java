@@ -39,7 +39,7 @@ public abstract class ConnectionConsumer implements Consumer<Connection> {
     public static final class DefaultConnectionConsumer extends ConnectionConsumer {
 
         static final BiFunction<? super NettyInbound, ? super NettyOutbound, ? extends Publisher<Void>> handler = (nettyInbound, nettyOutbound) -> {
-            log.debug(" The Default Handler is Active !");
+            log.info(" The Default Handler is Active ! There is no logic to do ");
             return Mono.never();
         };
 

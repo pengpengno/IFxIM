@@ -1,11 +1,13 @@
 FROM openjdk:17.0.2-jdk
 LABEL authors="王鹏"
 MAINTAINER pengpeng_on@163.com
-
+ENV IMAGE_NAME=fx-server
 ENV SERVICE_NAME=server-service
 ENV SERVICE_VERSION=1.0
 ENV JAR_NAME=${SERVICE_NAME}-${SERVICE_VERSION}.jar
+
 ENV SERVER_PORT=8094
+
 EXPOSE ${SERVER_PORT}
 
 WORKDIR /app/service/${SERVICE_NAME}
@@ -17,6 +19,5 @@ WORKDIR /app/service/${SERVICE_NAME}
 #    && ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime \
 #    && echo "Asia/Shanghai" > /etc/timezone \
 #
-COPY target/${JAR_NAME} ./app.jar
-#RUN ["mvn","clean","install","-DskipTests=true"]
-ENTRYPOINT ["java", "-jar","app.jar"]
+COPY target/${JAR_NAME} ./server-service.jar
+ENTRYPOINT ["java", "-jar","server-service.jar"]

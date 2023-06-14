@@ -20,11 +20,6 @@ import java.net.InetSocketAddress;
 public class ClientConnectBootstrap {
 
 
-//    @ConditionalOnMissingBean(value = {ReactiveClientAction.class})
-//    @Bean
-//    public ReactiveClientAction applyClientAction(){
-//        return ClientToolkit.reactiveClientAction();
-//    }
 
 
     @Bean

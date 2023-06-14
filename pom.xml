@@ -54,7 +54,7 @@
     <javax.el.version>3.0.0</javax.el.version>
     <mapstruct.version>1.5.3.Final</mapstruct.version>
     <guice.version>5.1.0</guice.version>
-    <lombok.version>RELEASE</lombok.version>
+    <lombok.version>1.18.26</lombok.version>
     <r2dbc.version>0.8.1.RELEASE</r2dbc.version>
     <jasync.mysql.version>2.1.16</jasync.mysql.version>
     <guava.version>31.1-jre</guava.version>
@@ -72,7 +72,7 @@
 <!--    linux-->
 <!--    <protoc.local.path>/home/pengpeng/tools/protoc/bin/protoc</protoc.local.path>-->
 <!--     win-->
-    <protoc.local.path>C:\protoc-21.7-win64\bin\protoc</protoc.local.path>
+<!--    <protoc.local.path>C:\protoc-21.7-win64\bin\protoc</protoc.local.path>-->
   </properties>
   <dependencies>
     <!-- https://mvnrepository.com/artifact/com.alibaba.fastjson2/fastjson2 -->

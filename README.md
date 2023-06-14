@@ -1,7 +1,7 @@
 
-## IFXIM
+## FXIM
 
-基于 ```netty ``` 通信的IM系统
+基于响应式 ```netty ``` 通信的IM系统
 
 ### 主要技术栈
 
@@ -14,3 +14,23 @@
 
 ### Quick Start
 
+First , make sure that  environment is meet the need 
+
+docker
+maven 
+jdk
+
+1. install jar locally
+```
+mvn clean install -DskipTests=true
+```
+2. Build docker Image
+```shell
+
+docker build ${SERVICE_NAME}:${VERSION} .
+```
+3. Push image to dockerhub
+
+```shell
+docker push  ${DOCKERHUB}/${IMAGE}
+```

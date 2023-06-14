@@ -104,6 +104,7 @@ public class LoginController  implements Initializable {
                         .build();
             })
             .subscribe(auth-> {
+                log.info("res {}", auth.toString());
                 reactiveClientAction.sendMessage(auth).subscribe();
                 Platform.runLater(()->  {
                     log.debug("start main frame");

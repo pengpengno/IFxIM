@@ -13,7 +13,8 @@ spring:
       routes:
         - id: account-service
 #          uri: lb://account-service
-          uri: ${ACCOUNT_SERVICE_HOST:http://localhost:8001}
+#          uri: ${ACCOUNT_SERVICE_HOST:http://localhost:8001}
+          uri: http://${ACCOUNT_SERVICE_HOST:localhost}:${ACCOUNT_SERVICE_PORT:8001}
 #          uri: ${account-service-url:lb://account-service}
           predicates:
 #            - Path=/api/account/**

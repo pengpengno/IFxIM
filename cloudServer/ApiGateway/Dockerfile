@@ -6,14 +6,8 @@ ENV SERVICE_NAME=ApiGateway
 ENV SERVICE_VERSION=1.0
 ENV JAR_NAME=${SERVICE_NAME}-${SERVICE_VERSION}.jar
 ENV API_PORT=8761
+ENV ACCOUNT_SERVICE_HOST=account-service
 EXPOSE ${API_PORT}
-#ENV MYSQL_HOST=124.221.168.200:3306
-#ENV MYSQL_USER_NAME=124.221.168.200:3306
-#ENV MYSQL_USER_PASSWORD=124.221.168.200:3306
-#ENV RABBITMQ_HOST=124.221.168.200:3306
-#ENV RABBITMQ_PORT=5672
-#ENV RABBITMQ_USER_NAME=admin
-#ENV RABBITMQ_PASSWORD=admin
 
 WORKDIR /app/service/${SERVICE_NAME}
 
@@ -24,6 +18,6 @@ WORKDIR /app/service/${SERVICE_NAME}
 #    && ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime \
 #    && echo "Asia/Shanghai" > /etc/timezone \
 #
-COPY target/${JAR_NAME} ./${JAR_NAME}
+COPY target/${JAR_NAME} ./api-gateway.jar
 #RUN ["mvn","clean","install","-DskipTests=true"]
-ENTRYPOINT ["java", "-jar","${JAR_NAME}"]
+ENTRYPOINT ["java", "-jar","api-gateway.jar"]

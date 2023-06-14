@@ -1,40 +1,38 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <configuration>
 
-    <!--在没有定义${LOG_HOME}系统变量的时候，可以设置此本地变量。提交测试、上线时，要将其注释掉，使用系统变量。-->
     <!-- 本地环境  -->
     <!-- 内测环境
     <property name="LOG_HOME" value="/opt/logs" /> -->
-    <!-- SIT环境
-    <property name="LOG_HOME" value="/home/application/webapps/logs" />
-    -->
+<!--    <property name="LOG_HOME" value="/home/application/webapps/logs" />-->
 
-    <property name="LOG_HOME" value="/home/pengpeng/ifx/logs" />
+<!--    <property name="LOG_HOME" value="${user.home}/fx/logs" />-->
+    <property name="LOG_HOME" value="${user.home}/fx/logs" />
+<!--    <property name="LOG_HOME" value="${user.home}/fx/logs" />-->
     <!-- 应用名称 -->
-    <property name="APP_NAME" value="ifx-client"/>
+    <property name="APP_NAME" value="account-service"/>
     <!--日志文件保留天数-->
     <property name="LOG_MAX_HISTORY" value="180"/>
     <!--应用日志文件保存路径-->
     <property name="LOG_APP_HOME" value="${LOG_HOME}/${APP_NAME}/app"/>
     <!--系统日志文件保存路径-->
     <property name="LOG_SYS_HOME" value="${LOG_HOME}/${APP_NAME}/sys"/>
+    <property name="LOG_FILE_NAME" value="${LOG_APP_HOME}/${APP_NAME}.log"/>
+
 
     <!-- 控制台输出日志 -->
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
-<!--            <layout class="ch.qos.logback.classic.PatternLayout">-->
         <encoder>
-<!--                <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} %highlight(%-5level) [%thread] %-5level %logger{36} -%msg%n</pattern>-->
                 <pattern>%highlight(%date{yyyy-MM-dd HH:mm:ss.SSS}) %cyan([%thread]) %yellow(%-5level) %green(%logger{36}).%green(%M)-%boldMagenta(%line) - %blue(%msg%n)</pattern>
         </encoder>
-<!--            </layout>-->
     </appender>
 
     <!-- applcation的文件输出日志 (按照每天生成日志文件 )，对applcation文件日志的文件名需要根据具体的applcation来配置-->
     <appender name="APP"  class="ch.qos.logback.core.rolling.RollingFileAppender">
-    	<file>${LOG_APP_HOME}/project.log</file>
+    	<file>${LOG_FILE_NAME}</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <!--日志文件输出的文件名-->
-            <FileNamePattern>${LOG_APP_HOME}/project.log.%d{yyyy-MM-dd}</FileNamePattern>
+            <FileNamePattern>${LOG_FILE_NAME}.%d{yyyy-MM-dd}</FileNamePattern>
             <!--日志文件保留天数-->
             <MaxHistory>${LOG_MAX_HISTORY}</MaxHistory>
         </rollingPolicy>
@@ -43,13 +41,7 @@
             <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level [%X{TRACE_ID}] %L %logger{50} - %msg%n</pattern>
         </encoder>
     </appender>
-<!--    <appender name="grpc-log" class="org.apache.skywalking.apm.toolkit.log.logback.v1.x.log.GRPCLogClientAppender">-->
-<!--        <encoder class="ch.qos.logback.core.encoder.LayoutWrappingEncoder">-->
-<!--            <layout class="org.apache.skywalking.apm.toolkit.log.logback.v1.x.mdc.TraceIdMDCPatternLogbackLayout">-->
-<!--                <Pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%X{TRACE_ID}] [%thread] %-5level %logger{36} %L -%msg%n</Pattern>-->
-<!--            </layout>-->
-<!--        </encoder>-->
-<!--    </appender>-->
+
 
     <!--============================ 按照每天生成日志文件：VENUS系统日志：默认配置 ==========================-->
 
