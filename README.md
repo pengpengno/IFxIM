@@ -1,7 +1,7 @@
 
-## FXIM
+## IFXIM
 
-基于响应式 ```netty ``` 通信的IM系统
+基于 ```netty ``` 通信的IM系统
 
 ### 主要技术栈
 
@@ -11,6 +11,7 @@
 - 后台程序主体使用编程框架[Spring-Boot 3.x](https://docs.spring.io/spring-boot/docs/current/reference/html/)
 - API接口 [WebFlux](https://docs.spring.io/spring-boot/docs/current/reference/html/web.html#web)
 - 网络消息序列化[ProtocolBuf](https://protobuf.dev/getting-started/javatutorial/)
+
 
 ### Quick Start
 
@@ -44,3 +45,4 @@ docker-compose up -d
 5. Start client
 
 ifx-fxclient 中启动  ```APP``` 界面给定账号密码即可，详情可在./docker下的sql 查看
+
