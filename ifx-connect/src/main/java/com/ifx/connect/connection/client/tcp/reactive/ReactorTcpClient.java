@@ -1,5 +1,6 @@
 package com.ifx.connect.connection.client.tcp.reactive;
 
+import cn.hutool.core.exceptions.ExceptionUtil;
 import com.google.protobuf.Message;
 import com.ifx.connect.connection.ConnectionConstants;
 import com.ifx.connect.connection.client.ClientLifeStyle;
@@ -21,6 +22,7 @@ import reactor.util.retry.Retry;
 
 import java.net.InetSocketAddress;
 import java.time.Duration;
+import java.util.concurrent.Callable;
 
 /**
  * reactor 实现客户端
@@ -48,6 +50,7 @@ public class ReactorTcpClient implements ClientLifeStyle , ReactiveClientAction 
                         if (accountInfo == null){
                             return;
                         }
+                        log.warn("the netty connection  is disconnect");
                         ServerToolkit.contextAction().closeAndRmConnection(accountInfo.getAccount());
                     })
                 ;
@@ -59,6 +62,7 @@ public class ReactorTcpClient implements ClientLifeStyle , ReactiveClientAction 
         try{
             connection = client.connectNow();
         }catch (Exception exception){
+            log.error("connect server encounter error , stack is {}", ExceptionUtil.stacktraceToString(exception));
             throw new NetException("remote server is invalid!");
         }
         return Boolean.TRUE;
@@ -80,22 +84,21 @@ public class ReactorTcpClient implements ClientLifeStyle , ReactiveClientAction 
 
     @Override
     public Boolean reTryConnect() throws NetException {
-        if (isAlive()){
-            return Boolean.TRUE;
-        }
-        Flux<Object> flux =
-                Flux.create((sink) -> {
-                        Boolean connect = connect();;
-                        sink.next(connect);
-                        sink.complete();
-                        })
+        Callable<Boolean> callable = () -> {
+            if (isAlive()){
+                return Boolean.TRUE;
+            }
+            return connect();
+        };
+        return Flux.from(
+                    Mono.fromCallable(callable))
                     .retryWhen(
                         Retry
                         .backoff(3, Duration.ofSeconds(1)).jitter(0.3d)
                         .filter(throwable -> throwable instanceof NetException)
-                        .onRetryExhaustedThrow((spec, rs) -> new NetException("remote server is invalid !pls retry later!")));
-        flux.log().subscribe();
-        return Boolean.TRUE;
+                        .onRetryExhaustedThrow((spec, rs) -> new NetException("remote server is invalid !pls retry later!")))
+                .onErrorResume(throwable -> Mono.just(Boolean.FALSE))
+                .blockFirst();
     }
 
     @Override
@@ -118,7 +121,11 @@ public class ReactorTcpClient implements ClientLifeStyle , ReactiveClientAction 
 
             return connection.outbound().send(Mono.just(byteBuf)).then();
         }
-        reTryConnect();
+
+        if (reTryConnect()){
+            return sendMessage(message);
+        }
+
         throw new NetException("connection is invalid !");
     }
 

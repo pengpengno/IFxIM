@@ -1,5 +1,6 @@
 server:
   port: ${SERVICE_PORT:8001}
+
 spring:
   rabbitmq:
     port: ${RABBITMQ_PORT:5672}
@@ -10,13 +11,13 @@ spring:
   application:
     name: ${APP-NAME:account-service}
   r2dbc:
-    url: r2dbc:mysql://localhost:3306/ifx?useUnicode=true&characterEncoding=utf-8&txcAppName=account-service&useSSL=true
+#    url: r2dbc:mysql://localhost:3306/ifx?useUnicode=true&characterEncoding=utf-8&txcAppName=account-service&useSSL=true
+    url: r2dbc:mysql://${MYSQL_HOST:localhost}:3306/ifx?useUnicode=true&characterEncoding=utf-8&txcAppName=${spring.application.name:account-service}&useSSL=true
 #    url: r2dbc:mysql://fx-mysql:3306/ifx?useUnicode=true&characterEncoding=utf-8&txcAppName=account-service&useSSL=true
-    #    url: ${RD2BC_URL:r2dbc:mysql://localhost:3306/ifx?useUnicode=true&characterEncoding=utf-8&txcAppName=account-service&useSSL=true}
-    username: ifx
-    #    username: ${MYSQL_USERNAME:ifx}
-    #    password: ${MYSQL_PASSWORD:ifx2022}
-    password: ifx2022
+#    username: ifx
+    username: ${MYSQL_USERNAME:ifx}
+    password: ${MYSQL_PASSWORD:ifx2022}
+#    password: ifx2022
     pool:
       enabled: true
       initial-size: 10

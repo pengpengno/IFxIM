@@ -34,8 +34,8 @@ services:
       SPRING_CLOUD_GATEWAY_ROUTES[0]_ID: account-service
       SPRING_CLOUD_GATEWAY_ROUTES[0]_PREDICATES[0]: Path=/api/**
       SPRING_CLOUD_GATEWAY_ROUTES[0]_FILTERS[0]: StripPrefix=0
-      ACCOUNT_SERVICE_HOST: account-service
-      ACCOUNT_SERVICE_PORT: 8001
+#      ACCOUNT_SERVICE_HOST: account-service
+#      ACCOUNT_SERVICE_PORT: 8001
       API_PORT: 8761
     volumes:
       - /home/pengpeng/logs:/home/pengpeng
@@ -46,6 +46,7 @@ services:
     environment:
       SERVER_PORT: 8094
       RABBITMQ_HOST: rabbitmq
+#      RABBITMQ_HOST: localhost
       RABBITMQ_PORT: 5672
       RABBITMQ_USERNAME: admin
       RABBITMQ_PASSWORD: admin
@@ -53,7 +54,6 @@ services:
 #    network_mode: host
     ports:
       - "8094:8094"
-#      - "8094:8094"
     volumes:
       - /home/pengpeng/logs:/home/pengpeng
     depends_on:
@@ -72,8 +72,8 @@ services:
       MYSQL_ROOT_HOST: '%'
       default-authentication-plugin: mysql_native_password
 #      MYSQL_SSL: "true"
-    ports:
-      - "3306:3306"
+#    ports:
+#      - "3306:3306"
     volumes:
       - ./sql:/docker-entrypoint-initdb.d
 

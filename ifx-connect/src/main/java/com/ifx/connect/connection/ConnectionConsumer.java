@@ -60,7 +60,11 @@ public abstract class ConnectionConsumer implements Consumer<Connection> {
         if (log.isDebugEnabled()) {
             log.debug(format(c.channel(), "Handler is being applied: {}"), handler);
         }
+        log.info("default consumer");
         Mono.fromDirect(handler.apply((NettyInbound) c, (NettyOutbound) c))
-                .subscribe(c.disposeSubscriber());
+                .subscribe(e-> {
+                    log.info("define default dispose");
+                    c.disposeSubscriber()  ;
+                });
     }
 }

@@ -1,30 +1,15 @@
 package com.ifx.extraResource.autoconfigure;
 
 import com.ifx.extraResource.properties.DataBaseProperties;
-import io.r2dbc.pool.ConnectionPool;
-import io.r2dbc.pool.ConnectionPoolConfiguration;
 import io.r2dbc.spi.ConnectionFactories;
 import io.r2dbc.spi.ConnectionFactory;
 import io.r2dbc.spi.ConnectionFactoryOptions;
 import io.r2dbc.spi.Option;
-import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
-import org.springframework.boot.autoconfigure.r2dbc.ConnectionFactoryOptionsBuilderCustomizer;
-import org.springframework.boot.autoconfigure.r2dbc.ConnectionFactoryOptionsInitializer;
-import org.springframework.boot.autoconfigure.r2dbc.MissingR2dbcPoolDependencyException;
-import org.springframework.boot.autoconfigure.r2dbc.R2dbcProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
-import org.springframework.boot.context.properties.PropertyMapper;
-import org.springframework.boot.r2dbc.EmbeddedDatabaseConnection;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.core.io.ResourceLoader;
 import org.springframework.r2dbc.core.DatabaseClient;
-import org.springframework.util.ClassUtils;
-
-import java.util.List;
 
 import static io.r2dbc.spi.ConnectionFactoryOptions.*;
 
@@ -75,51 +60,6 @@ public class R2DBCAutoConfigure {
 
     }
 
-    @Configuration(proxyBeanMethods = false)
-    @ConditionalOnClass(ConnectionPool.class)
-    static class PooledConnectionFactoryConfiguration {
-
-        @Bean(destroyMethod = "dispose")
-        ConnectionPool connectionFactory(R2dbcProperties properties, ResourceLoader resourceLoader,
-                                         ObjectProvider<ConnectionFactoryOptionsBuilderCustomizer> customizers) {
-            ConnectionFactory connectionFactory = createConnectionFactory(properties,
-                    resourceLoader.getClassLoader(), customizers.orderedStream().toList());
-            R2dbcProperties.Pool pool = properties.getPool();
-            PropertyMapper map = PropertyMapper.get().alwaysApplyingWhenNonNull();
-            ConnectionPoolConfiguration.Builder builder = ConnectionPoolConfiguration.builder(connectionFactory);
-            map.from(pool.getMaxIdleTime()).to(builder::maxIdleTime);
-            map.from(pool.getMaxLifeTime()).to(builder::maxLifeTime);
-            map.from(pool.getMaxAcquireTime()).to(builder::maxAcquireTime);
-            map.from(pool.getMaxCreateConnectionTime()).to(builder::maxCreateConnectionTime);
-            map.from(pool.getInitialSize()).to(builder::initialSize);
-            map.from(pool.getMaxSize()).to(builder::maxSize);
-            map.from(pool.getValidationQuery()).whenHasText().to(builder::validationQuery);
-            map.from(pool.getValidationDepth()).to(builder::validationDepth);
-            return new ConnectionPool(builder.build());
-        }
-
-    }
-    protected static ConnectionFactory createConnectionFactory(R2dbcProperties properties, ClassLoader classLoader,
-                                                               List<ConnectionFactoryOptionsBuilderCustomizer> optionsCustomizers) {
-        try {
-            return org.springframework.boot.r2dbc.ConnectionFactoryBuilder
-                    .withOptions(new ConnectionFactoryOptionsInitializer().initialize(properties,
-                            () -> EmbeddedDatabaseConnection.get(classLoader)))
-                    .configure((options) -> {
-                        for (ConnectionFactoryOptionsBuilderCustomizer optionsCustomizer : optionsCustomizers) {
-                            optionsCustomizer.customize(options);
-                        }
-                    }).build();
-        }
-        catch (IllegalStateException ex) {
-            String message = ex.getMessage();
-            if (message != null && message.contains("driver=pool")
-                    && !ClassUtils.isPresent("io.r2dbc.pool.ConnectionPool", classLoader)) {
-                throw new MissingR2dbcPoolDependencyException();
-            }
-            throw ex;
-        }
-    }
     @Bean
     @ConditionalOnMissingBean(DatabaseClient.class)
     @ConditionalOnBean(ConnectionFactory.class)

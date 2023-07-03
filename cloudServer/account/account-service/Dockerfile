@@ -21,7 +21,9 @@ WORKDIR /app/service/${SERVICE_NAME}
 #
 COPY target/${JAR_NAME} ./account-service.jar
 COPY src/main/resources/application-docker.yaml .
+COPY src/main/resources/application.yaml .
 
 
 #RUN ["mvn","clean","install","-DskipTests=true"]
-ENTRYPOINT ["java", "-jar","account-service.jar" ,"--spring.config.location=application-docker.yaml"]
+#ENTRYPOINT ["java", "-jar","account-service.jar" ,"--spring.config.location=application-docker.yaml"]
+ENTRYPOINT ["java", "-jar","account-service.jar"]

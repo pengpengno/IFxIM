@@ -141,13 +141,15 @@ public class ChatMainPane extends FlowPane implements SwitchMainChatPaneHandler 
 
     private void initPane() {
 
+
+
+        currentMessagePane = new MessagePane(null);
+
         jfxScrollPane = new JFXScrollPane();
 
         jfxScrollPane.setContent(currentMessagePane);
 
         this.getChildren().add(jfxScrollPane);
-
-        currentMessagePane = new MessagePane(null);
 
         this.addMessagePane(currentMessagePane);
 
