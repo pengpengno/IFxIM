@@ -1,6 +1,7 @@
 package com.ifx.client;
 
 import cn.hutool.core.io.FileUtil;
+import javafx.application.Application;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
@@ -19,6 +20,13 @@ public class ClientTest {
         Properties properties = new Properties();
         properties.load(FileUtil.getReader(new File("application.yaml"), Charset.defaultCharset()));
 
+
+    }
+
+
+    @Test
+    public void startApp(){
+        Application.launch(BoostrapApp.class);
 
     }
 }

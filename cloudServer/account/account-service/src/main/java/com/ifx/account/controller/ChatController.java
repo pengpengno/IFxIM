@@ -29,7 +29,7 @@ public class ChatController {
 
     @PostMapping
     public Mono<Void>  sendMsg(@RequestBody ChatMsgVo chatMsgVo){
-        return chatAction.pushMsg(chatMsgVo);
+        return chatAction.sendMsg(chatMsgVo);
     }
 
 

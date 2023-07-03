@@ -10,7 +10,6 @@ import com.ifx.account.vo.AccountRelationVo;
 import com.ifx.common.base.AccountInfo;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
-import org.jetbrains.annotations.NotNull;
 import org.jgrapht.Graph;
 import org.jgrapht.graph.DefaultEdge;
 import org.jgrapht.graph.DirectedMultigraph;
@@ -26,6 +25,7 @@ import org.springframework.util.Assert;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import javax.validation.constraints.NotNull;
 import java.time.Duration;
 import java.util.Optional;
 import java.util.Set;

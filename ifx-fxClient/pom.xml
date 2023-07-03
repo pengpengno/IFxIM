@@ -16,7 +16,6 @@
         <javafx-plus.version>1.2.1-RELEASE</javafx-plus.version>
         <javafx.version>19.0.2</javafx.version>
         <spring.core.version>6.0.2</spring.core.version>
-
     </properties>
     <dependencies>
         <!-- https://mvnrepository.com/artifact/org.openjfx/javafx-base -->
@@ -165,7 +164,11 @@
             <artifactId>junit</artifactId>
             <scope>test</scope>
         </dependency>
-
+            <dependency>
+                <groupId>org.kordamp.bootstrapfx</groupId>
+                <artifactId>bootstrapfx-core</artifactId>
+                <version>0.4.0</version>
+            </dependency>
     </dependencies>
 
 

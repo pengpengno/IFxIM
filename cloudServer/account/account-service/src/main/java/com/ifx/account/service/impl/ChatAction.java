@@ -11,6 +11,7 @@ import com.ifx.account.service.ISessionLifeStyle;
 import com.ifx.account.service.reactive.ReactiveChatMsgRecord;
 import com.ifx.account.vo.ChatMsgVo;
 import com.ifx.account.vo.chat.ChatMsgRecordVo;
+import com.ifx.account.vo.chat.PullChatMsgVo;
 import com.ifx.common.utils.ValidatorUtil;
 import com.ifx.exec.ex.bus.acc.AccountException;
 import lombok.extern.slf4j.Slf4j;
@@ -25,6 +26,8 @@ import reactor.core.publisher.Mono;
 import reactor.util.retry.Retry;
 
 import java.time.Duration;
+import java.time.Period;
+import java.time.temporal.TemporalUnit;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -74,7 +77,7 @@ public class ChatAction implements IChatAction {
      * @param chatMsgVo  消息实体
      */
     @Override
-    public Mono<Void> pushMsg(ChatMsgVo chatMsgVo) {
+    public Mono<Void> sendMsg(ChatMsgVo chatMsgVo) {
         final ChatMsgVo tmp = chatMsgVo;
         return Mono.justOrEmpty(Optional.ofNullable(tmp))
                 .doOnNext(e -> ValidatorUtil.validateThrows(chatMsgVo, ChatMsgVo.ChatPush.class)) //  验证实体合法性
@@ -93,9 +96,28 @@ public class ChatAction implements IChatAction {
 
     @Override
     public List<ChatMsgVo> pullMsg(String fromAccount, Long sessionId) {
+
+
+
         return null;
     }
 
+
+    @Override
+    public void pullAngPushMsg(PullChatMsgVo pullChatMsgVo) {
+
+    }
+
+    @Override
+    public List<ChatMsgVo> pullMsg(PullChatMsgVo pullChatMsgVo) {
+        ValidatorUtil.validateThrows(pullChatMsgVo);
+        Long sessionId = pullChatMsgVo.getSessionId();
+        PullChatMsgVo.TimeRange timeRange = pullChatMsgVo.getTimeRange();
+        Period period = timeRange.period();
+        List<TemporalUnit> units = period.getUnits();
+
+        return null;
+    }
 
     @Override
     public List<ChatMsgVo> pullHisMsg(Long sessionId) {

@@ -15,6 +15,7 @@
         <module>account</module>
         <module>session</module>
         <module>eurekaServer</module>
+        <module>extraResource</module>
     </modules>
     <properties>
 

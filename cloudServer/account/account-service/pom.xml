@@ -106,9 +106,16 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-validation</artifactId>
         </dependency>
+<!--        <dependency>-->
+<!--            <groupId>com.github.jasync-sql</groupId>-->
+<!--            <artifactId>jasync-r2dbc-mysql</artifactId>-->
+<!--        </dependency>-->
+
+
         <dependency>
-            <groupId>com.github.jasync-sql</groupId>
-            <artifactId>jasync-r2dbc-mysql</artifactId>
+            <groupId>io.asyncer</groupId>
+            <artifactId>r2dbc-mysql</artifactId>
+            <version>1.0.2</version>
         </dependency>
         <dependency>
             <groupId>com.ifx.connect</groupId>

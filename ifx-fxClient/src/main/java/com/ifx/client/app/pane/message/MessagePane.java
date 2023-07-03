@@ -1,26 +1,18 @@
 package com.ifx.client.app.pane.message;
 
-import cn.hutool.core.util.StrUtil;
-import com.ifx.account.mapstruct.AccProtoBufMapper;
 import com.ifx.account.vo.ChatMsgVo;
 import com.ifx.account.vo.session.SessionInfoVo;
-import com.ifx.client.app.pane.session.SessionListPane;
-import com.ifx.common.base.AccountInfo;
-import com.ifx.connect.mapstruct.ProtoBufMapper;
-import com.ifx.connect.proto.Account;
-import com.ifx.connect.proto.Chat;
-import com.jfoenix.controls.JFXTextField;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
-import javafx.scene.layout.*;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.FlowPane;
 import javafx.scene.paint.Color;
 import lombok.extern.slf4j.Slf4j;
-import org.reactivestreams.Publisher;
 import reactor.core.publisher.Mono;
 
 import java.net.URL;
-import java.security.PublicKey;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.ResourceBundle;
@@ -56,6 +48,7 @@ public class MessagePane extends FlowPane implements Initializable {
 
 
     public MessagePane(SessionInfoVo vo){
+
         chatBubblePaneMap = new HashMap<>();
         initPane(vo);
     }
@@ -89,6 +82,15 @@ public class MessagePane extends FlowPane implements Initializable {
 
         this.getChildren().add(chatBubblePane);
 
+    }
+
+    public void pullHistoryMsg(){
+        if (sessionInfoVo !=null){
+
+            Long sessionId = sessionInfoVo.getSessionId();
+
+
+        }
     }
 
 

@@ -2,6 +2,7 @@ package com.ifx.account.service;
 
 
 import com.ifx.account.vo.ChatMsgVo;
+import com.ifx.account.vo.chat.PullChatMsgVo;
 import reactor.core.publisher.Mono;
 
 import java.util.List;
@@ -15,7 +16,7 @@ public interface IChatAction {
      * <p>推送消息</p>
      * @param chatMsgVo  消息实体
      */
-    public Mono<Void> pushMsg(ChatMsgVo chatMsgVo);
+    public Mono<Void> sendMsg(ChatMsgVo chatMsgVo);
 
 
 
@@ -25,6 +26,13 @@ public interface IChatAction {
      * @param sessionId 会话Id
      */
     public List<ChatMsgVo> pullMsg(String fromAccount, Long sessionId);
+
+
+    public List<ChatMsgVo> pullMsg(PullChatMsgVo pullChatMsgVo);
+
+
+    public void pullAngPushMsg(PullChatMsgVo pullChatMsgVo);
+
 
 
 
