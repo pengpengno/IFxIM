@@ -1,6 +1,8 @@
-package com.ifx.common.properties;
+package com.ifx.extraResource.properties;
 
 import lombok.Data;
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.stereotype.Component;
 
 /**
  * @author pengpeng
@@ -9,9 +11,9 @@ import lombok.Data;
  */
 
 @Component
-@ConfigurationProperties(prefix = "ifx.connect.client")
+@ConfigurationProperties(prefix = "ifx.resource.dataBase")
 @Data
-public class R2DBCProperties {
+public class DataBaseProperties {
 
 
 

@@ -3,7 +3,7 @@ package com.ifx.account.R2DBC;
 import io.r2dbc.spi.*;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
-import reactor.core.publisher.Flux;
+import org.reactivestreams.Publisher;
 import reactor.core.publisher.Mono;
 import reactor.test.StepVerifier;
 
@@ -23,7 +23,7 @@ public class MysqlConnect {
         ConnectionFactoryOptions options = ConnectionFactoryOptions.builder()
                 .option(DRIVER, "mysql")
                 .option(HOST, "127.0.0.1")
-                .option(USER, "ifx")
+                .option(USER, "if")
                 .option(PORT, 3306)  // optional, default 3306
                 .option(PASSWORD, "ifx2022") // optional, default null, null means has no password
                 .option(DATABASE, "ifx") // optional, default null, null means not specifying the database
@@ -52,13 +52,16 @@ public class MysqlConnect {
     @Test
     public void  testConnectMysql(){
 
+
+//        new MySqlConnectionFactoryProvider()
         ConnectionFactory connectFactory = createConnectFactory();
-        Flux<? extends Result> flux = Mono.from(connectFactory.create())
-                .flatMapMany(e -> e.createStatement("select * from account").execute())
-                .doOnNext(e -> log.info( e.toString()));
+        Mono<? extends Publisher<? extends Result>> map = Mono.from(connectFactory.create())
+                .map(e -> e.createStatement("select * from account").fetchSize(10))
+                .doOnNext(e -> log.info(e.toString()))
+                .map(e -> e.execute());
 
 
-        StepVerifier.create(flux
+        StepVerifier.create(map
                 )
                 .expectError();
 

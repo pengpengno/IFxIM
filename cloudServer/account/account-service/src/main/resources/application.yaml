@@ -18,6 +18,7 @@ spring:
     #    password: ${MYSQL_PASSWORD:ifx2022}
     password: ifx2022
     pool:
+      enabled: true
       initial-size: 10
       max-size: 20
       max-idle-time: 10m
