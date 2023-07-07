@@ -3,7 +3,7 @@ package com.ifx.connect.handler;
 import com.google.protobuf.InvalidProtocolBufferException;
 import com.google.protobuf.Message;
 import com.google.protobuf.Parser;
-import com.ifx.connect.enums.MessageMapEnum;
+import com.ifx.connect.enums.ProtocolMessageMapEnum;
 import com.ifx.connect.proto.Account;
 import com.ifx.connect.proto.Chat;
 import com.ifx.connect.proto.ProtocolType;
@@ -22,7 +22,7 @@ import java.util.Map;
 @Slf4j
 public class MessageParser {
 
-    private static final Map<ProtocolType.ProtocolMessageEnum,Parser<? extends Message>> parseMap = new HashMap<>(MessageMapEnum.values().length) ;
+    private static final Map<ProtocolType.ProtocolMessageEnum,Parser<? extends Message>> parseMap = new HashMap<>(ProtocolMessageMapEnum.values().length) ;
 
 
     static {
@@ -44,7 +44,7 @@ public class MessageParser {
      * @return 写入数据后的 byteBuf 容器
      */
     public static ByteBuf message2ByteBuf(Message message,ByteBuf byteBuf){
-        MessageMapEnum mapEnum = MessageMapEnum.getByMessageClass(message.getClass());
+        ProtocolMessageMapEnum mapEnum = ProtocolMessageMapEnum.getByClass(message.getClass());
         byte[] bytes = message.toByteArray();
         int length = bytes.length;
         int type = mapEnum.getTypeEnum().getNumber();

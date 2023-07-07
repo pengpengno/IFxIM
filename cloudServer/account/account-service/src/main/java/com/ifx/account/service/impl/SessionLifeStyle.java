@@ -8,6 +8,7 @@ import com.ifx.account.repository.SessionRepository;
 import com.ifx.account.service.ISessionAccountService;
 import com.ifx.account.service.ISessionLifeStyle;
 import com.ifx.account.service.reactive.ReactiveAccountService;
+import com.ifx.account.vo.session.SessionAccountContextVo;
 import com.ifx.account.vo.session.SessionAccountVo;
 import com.ifx.account.vo.session.SessionInfoVo;
 import com.ifx.common.base.AccountInfo;
@@ -20,6 +21,7 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @Slf4j
@@ -86,9 +88,12 @@ public class SessionLifeStyle implements ISessionLifeStyle {
      */
     public Flux<AccountInfo> checkOnlineUserBySessionId(Long sessionId){
         return sessionAccountService.checkoutUserOnlineBySession(sessionId).flatMapMany(e-> Flux.fromIterable(e));
-
     }
 
+    @Override
+    public List<AccountInfo> checkOnlineUserListBySessionId(Long sessionId) {
+        return sessionAccountService.checkoutUserOnlineBySession(sessionId).onErrorReturn(CollectionUtil.newArrayList()).block();
+    }
 
     @Override
     public Mono<SessionAccountVo> sessionAccountInfo(Long sessionId) {
@@ -96,7 +101,13 @@ public class SessionLifeStyle implements ISessionLifeStyle {
     }
 
 
-
-
-
+    @Override
+    public Flux<SessionAccountContextVo> findSessionContextByUserId(Long userId) {
+//        return sessionAccountService.findSessionByUserId(userId);
+        return Flux.empty();
+    }
+    @Override
+    public Flux<SessionInfoVo> findSessionInfoByUserId(Long userId) {
+        return sessionAccountService.findSessionByUserId(userId);
+    }
 }

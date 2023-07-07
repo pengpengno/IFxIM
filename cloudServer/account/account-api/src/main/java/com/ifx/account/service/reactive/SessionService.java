@@ -1,6 +1,8 @@
 package com.ifx.account.service.reactive;
 
 import com.ifx.account.vo.session.SessionInfoVo;
+import com.ifx.account.vo.session.SessionSearchVo;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 /**
@@ -19,6 +21,11 @@ public interface SessionService  {
      Mono<Long> post2Session(SessionInfoVo sessionInfoVo);
 
      public Mono<SessionInfoVo> selectSession(Long sessionId);
+
+     Flux<SessionInfoVo> findSessionBySearch(SessionSearchVo vo);
+
+
+
 
      Mono<SessionInfoVo> selectSessionWithinCreator(Long sessionId);
 

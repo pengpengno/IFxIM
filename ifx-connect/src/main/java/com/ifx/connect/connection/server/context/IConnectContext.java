@@ -41,11 +41,7 @@ public class IConnectContext implements IConnectContextAction {
     @Override
     public IConnection applyConnection(String account) throws ConnectException {
         return connectionCache.getIfPresent(account);
-//        return Mono.just(Objects.requireNonNull(connectionCache.getIfPresent(account)))
-//                .onErrorResume((throwable -> Mono.empty()))
-//                .onErrorResume((throwable) -> throwable instanceof NullPointerException,
-//                (throwable -> Mono.error(()-> new ConnectException(ConnectErrorMsg.NOT_FOUND_CONNECTION))))
-//                .block();
+
     }
 
 

@@ -4,6 +4,10 @@ package com.ifx.client.app.controller;
 import com.ifx.account.vo.AccountVo;
 import com.ifx.client.api.AccountApi;
 import com.ifx.client.util.FxmlLoader;
+import com.ifx.common.context.AccountContext;
+import com.ifx.connect.connection.client.ReactiveClientAction;
+import com.ifx.connect.mapstruct.ProtoBufMapper;
+import com.ifx.connect.proto.Account;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -60,13 +64,16 @@ public class LoginController  implements Initializable {
     private Label registerAccount;
 
     @FXML
-    private CheckBox remberPsdCheckBox;
+    private CheckBox rememberPsdCheckBox;
 
     @Autowired
     private WebClient webClient;
 
     @Autowired
     private AccountApi accountApi;
+
+    @Autowired
+    ReactiveClientAction reactiveClientAction;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -83,20 +90,31 @@ public class LoginController  implements Initializable {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("登录状态");
         accountApi.login(accountVo)
-            .subscribe(acc -> {
+                .doOnNext(acc -> {
+                    Platform.runLater(()->  {
+                        log.debug("save accountInfo ");
+                        AccountContext.setCurAccount(acc);
+                    });
+                } )
+            .map(acc -> {
+                Account.AccountInfo accountInfo = ProtoBufMapper.INSTANCE.protocolAccMap(acc);
+                return Account.Authenticate
+                        .newBuilder()
+                        .setAccountInfo(accountInfo)
+                        .build();
+            })
+            .subscribe(auth-> {
+                log.info("res {}", auth.toString());
                 Platform.runLater(()->  {
+                    reactiveClientAction.sendMessage(auth).subscribe();
+                    log.debug("start main frame");
                     hide();
                     MainController.show();
-
-//                    log.info(" jwt is  {}", jwt);
-//                    Auth.Authenticate.newBuilder().setJwt(jwt).build();
-
                 });
             });
 
-        alert.contentTextProperty().addListener((a1,a2,a3)-> {
-            alert.show();
-        });
+        alert.contentTextProperty().addListener((a1,a2,a3)-> alert.show());
+
     }
 
 
@@ -122,7 +140,7 @@ public class LoginController  implements Initializable {
 
     public static  void hide(){
         Stage stage = FxmlLoader.applySinStage("com\\ifx\\client\\app\\fxml\\login.fxml");
-        log.debug("隐藏数据");
+        log.debug("Hide LoginFrame ");
         stage.hide();
     }
 }

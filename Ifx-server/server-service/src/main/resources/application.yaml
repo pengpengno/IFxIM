@@ -1,0 +1,14 @@
+spring:
+  rabbitmq:
+    port: ${RABBITMQ_PORT:5672}
+    host: ${RABBITMQ_HOST:localhost}
+    username: ${RABBIT_USERNAME:admin}
+    password: ${RABBIT_PASSWORD:admin}
+    virtual-host: ${RABBITMQ_VIRTUAL_HOST:/}
+ifx:
+  connect:
+    server:
+      host: localhost
+      port: ${SERVER_PORT:8094}
+
+

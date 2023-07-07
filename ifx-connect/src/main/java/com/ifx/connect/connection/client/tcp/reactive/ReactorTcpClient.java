@@ -1,5 +1,6 @@
 package com.ifx.connect.connection.client.tcp.reactive;
 
+import cn.hutool.core.exceptions.ExceptionUtil;
 import com.google.protobuf.Message;
 import com.ifx.connect.connection.ConnectionConstants;
 import com.ifx.connect.connection.client.ClientLifeStyle;
@@ -11,6 +12,7 @@ import com.ifx.connect.spi.ReactiveHandlerSPI;
 import com.ifx.exec.ex.net.NetException;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.ByteBufAllocator;
+import io.netty.handler.logging.LogLevel;
 import lombok.extern.slf4j.Slf4j;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -20,6 +22,7 @@ import reactor.util.retry.Retry;
 
 import java.net.InetSocketAddress;
 import java.time.Duration;
+import java.util.concurrent.Callable;
 
 /**
  * reactor 实现客户端
@@ -38,6 +41,7 @@ public class ReactorTcpClient implements ClientLifeStyle , ReactiveClientAction 
         this.address = address;
         client = TcpClient
                     .create()
+                    .wiretap("tcp-client", LogLevel.INFO)
                     .host(this.address.getHostString())
                     .port(this.address.getPort())
                     .doOnConnected(ReactiveHandlerSPI.wiredSpiHandler())
@@ -46,6 +50,7 @@ public class ReactorTcpClient implements ClientLifeStyle , ReactiveClientAction 
                         if (accountInfo == null){
                             return;
                         }
+                        log.warn("the netty connection  is disconnect");
                         ServerToolkit.contextAction().closeAndRmConnection(accountInfo.getAccount());
                     })
                 ;
@@ -57,6 +62,7 @@ public class ReactorTcpClient implements ClientLifeStyle , ReactiveClientAction 
         try{
             connection = client.connectNow();
         }catch (Exception exception){
+            log.error("connect server encounter error , stack is {}", ExceptionUtil.stacktraceToString(exception));
             throw new NetException("remote server is invalid!");
         }
         return Boolean.TRUE;
@@ -78,22 +84,21 @@ public class ReactorTcpClient implements ClientLifeStyle , ReactiveClientAction 
 
     @Override
     public Boolean reTryConnect() throws NetException {
-        if (isAlive()){
-            return Boolean.TRUE;
-        }
-        Flux<Object> flux =
-                Flux.create((sink) -> {
-                            Boolean connect = connect();;
-                            sink.next(connect);
-                            sink.complete();
-                        })
+        Callable<Boolean> callable = () -> {
+            if (isAlive()){
+                return Boolean.TRUE;
+            }
+            return connect();
+        };
+        return Flux.from(
+                    Mono.fromCallable(callable))
                     .retryWhen(
                         Retry
                         .backoff(3, Duration.ofSeconds(1)).jitter(0.3d)
                         .filter(throwable -> throwable instanceof NetException)
-                        .onRetryExhaustedThrow((spec, rs) -> new NetException("remote server is invalid !pls retry later!")));
-        flux.log().subscribe();
-        return Boolean.TRUE;
+                        .onRetryExhaustedThrow((spec, rs) -> new NetException("remote server is invalid !pls retry later!")))
+                .onErrorResume(throwable -> Mono.just(Boolean.FALSE))
+                .blockFirst();
     }
 
     @Override
@@ -103,7 +108,7 @@ public class ReactorTcpClient implements ClientLifeStyle , ReactiveClientAction 
 
     @Override
     public Boolean isAlive() {
-        return connection != null && connection.isDisposed();
+        return connection != null && !connection.isDisposed() && connection.channel().isActive();
     }
 
 
@@ -111,10 +116,17 @@ public class ReactorTcpClient implements ClientLifeStyle , ReactiveClientAction 
     public Mono<Void> sendMessage(Message message) {
         if (isAlive()){
             ByteBufAllocator alloc = connection.channel().alloc();
+
             ByteBuf byteBuf = ProtoParseUtil.parseMessage2ByteBuf(message, alloc.buffer());
+
             return connection.outbound().send(Mono.just(byteBuf)).then();
         }
-        throw new NetException("specify server is busy!");
+
+        if (reTryConnect()){
+            return sendMessage(message);
+        }
+
+        throw new NetException("connection is invalid !");
     }
 
 

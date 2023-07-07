@@ -9,7 +9,7 @@
     <property name="LOG_HOME" value="/home/application/webapps/logs" />
     -->
 
-    <property name="LOG_HOME" value="/home/pengpeng/ifx/logs" />
+    <property name="LOG_HOME" value="${user.home}/fx/logs" />
     <!-- 应用名称 -->
     <property name="APP_NAME" value="ifx-connect"/>
     <!--日志文件保留天数-->

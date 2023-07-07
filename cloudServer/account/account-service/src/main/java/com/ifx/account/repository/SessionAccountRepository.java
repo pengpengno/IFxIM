@@ -15,6 +15,10 @@ public interface SessionAccountRepository extends ReactiveCrudRepository<Session
     Flux<SessionAccount> queryBySessionId(@Param("sessionId") Long sessionId);
 
 
+    @Query("select * from  session_account where user_id = :userId" )
+    Flux<SessionAccount> queryByUserId(@Param("userId") Long userId);
+
+
 
 
 

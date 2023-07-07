@@ -1,7 +1,7 @@
 package com.ifx.connect.proto;
 
 import com.google.protobuf.Message;
-import com.ifx.connect.enums.MessageMapEnum;
+import com.ifx.connect.enums.ProtocolMessageMapEnum;
 import io.netty.buffer.ByteBuf;
 
 /**
@@ -20,7 +20,7 @@ public class ProtoParseUtil {
      */
     public static ByteBuf parseMessage2ByteBuf(Message message,ByteBuf buffer){
         if (null != message){
-            MessageMapEnum mapEnum = MessageMapEnum.getByMessageClass(message.getClass());
+            ProtocolMessageMapEnum mapEnum = ProtocolMessageMapEnum.getByClass(message.getClass());
             int type = mapEnum.getTypeEnum().getNumber();
             byte[] bytes = message.toByteArray();
             int length = bytes.length;

@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <configuration>
 
-    <property name="LOG_HOME" value="/home/pengpeng/ifx/logs" />
+    <property name="LOG_HOME" value="${user.home}/fx/logs" />
+<!--    <property name="LOG_HOME" value="${user.home}/fx/logs" />-->
     <!-- 应用名称 -->
     <property name="APP_NAME" value="ifx-client"/>
     <!--日志文件保留天数-->

@@ -39,7 +39,7 @@ public abstract class ConnectionConsumer implements Consumer<Connection> {
     public static final class DefaultConnectionConsumer extends ConnectionConsumer {
 
         static final BiFunction<? super NettyInbound, ? super NettyOutbound, ? extends Publisher<Void>> handler = (nettyInbound, nettyOutbound) -> {
-            log.debug(" The Default Handler is Active !");
+            log.info(" The Default Handler is Active ! There is no logic to do ");
             return Mono.never();
         };
 
@@ -60,7 +60,11 @@ public abstract class ConnectionConsumer implements Consumer<Connection> {
         if (log.isDebugEnabled()) {
             log.debug(format(c.channel(), "Handler is being applied: {}"), handler);
         }
+        log.info("default consumer");
         Mono.fromDirect(handler.apply((NettyInbound) c, (NettyOutbound) c))
-                .subscribe(c.disposeSubscriber());
+                .subscribe(e-> {
+                    log.info("define default dispose");
+                    c.disposeSubscriber()  ;
+                });
     }
 }

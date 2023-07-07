@@ -1,10 +1,10 @@
 package com.ifx.connect.handler.server;
 
-import com.ifx.common.base.AccountInfo;
+//import com.ifx.common.base.AccountInfo;
+
 import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
-import io.netty.util.AttributeKey;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -16,7 +16,7 @@ import lombok.extern.slf4j.Slf4j;
 @ChannelHandler.Sharable
 public class ServerInboundHandler extends ChannelInboundHandlerAdapter {
 
-    public static AttributeKey<AccountInfo> AccAttr = AttributeKey.valueOf(AccountInfo.class.getName());
+//    public static AttributeKey<AccountInfo> AccAttr = AttributeKey.valueOf(AccountInfo.class.getName());
 
 
 //    @Override

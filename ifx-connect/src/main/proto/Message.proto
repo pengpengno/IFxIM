@@ -4,19 +4,30 @@ package com.ifx.connect.proto;
 option java_package = "com.ifx.connect.proto";
 option java_outer_classname = "Chat";
 import "google/protobuf/any.proto";
+import "Auth.proto";
 
 
 message ChatMessage  {
 
+  int64 msgId = 1 ;
+
+  int64 sessionId = 5 ;
+
   string content  = 3 ;
 
-  string fromAccount = 5 ;
+  AccountInfo fromAccountInfo = 2 ;
 
-  MessageDestEnum msgDestEnum = 9;
+  AccountInfo toAccountInfo = 8 ;
+
+  MessageType type = 6 ;
 
   google.protobuf.Any chat = 10;
 
+
+  MessagesStatus messagesStatus = 11; ;
+
   message Group{
+
     float sessionId = 1 ;
 
     repeated string toAccounts = 8 ;  // the receive  account
@@ -26,19 +37,39 @@ message ChatMessage  {
   message Single{
     float toAccount = 1;
   }
+
+
+  enum MessagesStatus{
+
+      REJECT = 0 ;
+
+      OFFLINE = 1 ;
+
+      SENTFAIL = 7 ;
+
+      HISTORY = 10 ;
+
+      READ = 3 ;
+
+      UNREAD = 2 ;
+
+      SENT = 5 ;
+
+      UNSENT = 11 ;
+
+
+  }
+
+
 }
 
-enum MessageDestEnum{
-
-  GROUP = 0 ;
-
-  SINGLE = 1;
-}
 
 
 enum MessageType{
 
   TEXT = 0 ;
+
+  MARKDOWN = 5;
 
   FILE = 1 ;
 

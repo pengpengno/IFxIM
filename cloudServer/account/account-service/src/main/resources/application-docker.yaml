@@ -1,0 +1,23 @@
+server:
+  port: ${SERVICE_PORT:8001}
+spring:
+  rabbitmq:
+    port: ${RABBITMQ_PORT:5672}
+    host: ${RABBITMQ_HOST:localhost}
+    username: ${RABBITMQ_USER_NAME:admin}
+    password: ${RABBITMQ_PASSWORD:admin}
+    virtual-host: ${RABBIT_VIRTUAL_HOST:/}
+  application:
+    name: ${APP-NAME:account-service}
+  r2dbc:
+    url: r2dbc:mysql://${mysql}/ifx?useUnicode=true&characterEncoding=utf-8&txcAppName=account-service&useSSL=true
+    #    url: ${RD2BC_URL:r2dbc:mysql://localhost:3306/ifx?useUnicode=true&characterEncoding=utf-8&txcAppName=account-service&useSSL=true}
+    username: ifx
+#    username: ${MYSQL_USERNAME:ifx}
+#    password: ${MYSQL_PASSWORD:ifx2022}
+    password: ifx2022
+    pool:
+      initial-size: 10
+      max-size: 20
+      max-idle-time: 10m
+      validation-query: SELECT 1

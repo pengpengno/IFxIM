@@ -3,8 +3,9 @@ package com.ifx.client.app.pane.session;
 import cn.hutool.core.collection.CollectionUtil;
 import com.ifx.common.base.AccountInfo;
 import com.ifx.session.vo.session.SessionAccountVo;
+import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXTextArea;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.input.MouseEvent;
@@ -30,21 +31,21 @@ public class SessionCreatePane extends Pane implements Initializable {
 
     private TextArea sessionDetail =  new TextArea();
 
-    private Label  label = new Label("新建任务");
+    private Label  label = new Label("Create New Session");
 
-    private Button create ;
+    private JFXButton createButton ;
 
     private final SessionAccountVo sessionAccountVo =  new SessionAccountVo();
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        log.info(" creating session ing ");
-        sessionTitle =  new TextArea();
-        sessionDetail =  new TextArea();
+        log.info(" creating session ! ");
+        sessionTitle =  new JFXTextArea();
+        sessionDetail =  new JFXTextArea();
         accounts = CollectionUtil.newHashSet();
         label = new Label("新建会话");
-        create = new Button(SessionConst.CREATE);
-        create.addEventHandler(MouseEvent.MOUSE_CLICKED, (mouse) -> {
+        createButton = new JFXButton(SessionConst.CREATE);
+        createButton.addEventHandler(MouseEvent.MOUSE_CLICKED, (mouse) -> {
             log.debug("开始新建会话");
             sessionAccountVo.setAddUseIdSet(useIdSet);
         });

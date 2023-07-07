@@ -1,0 +1,1 @@
+详情参考官方示例(docker-compose.yaml)[https://github.com/BarathArivazhagan/spring-cloud-gateway-routing/blob/master/docker-compose.yml]

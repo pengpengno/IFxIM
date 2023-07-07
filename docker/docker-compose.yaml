@@ -1,0 +1,91 @@
+version: '3'
+
+services:
+  account-service:
+    image: pengpeng163/fx-account:1.0
+    container_name: fx-account
+    depends_on:
+      - fx-mysql
+      - rabbitmq
+    environment:
+      SERVICE_PORT: 8001
+      MYSQL_HOST: fx-mysql
+      MYSQL_PORT: 3306
+      MYSQL_USERNAME: ifx
+      MYSQL_PASSWORD: ifx2022
+      RABBITMQ_HOST: rabbitmq
+      RABBITMQ_PORT: 5672
+      RABBITMQ_USERNAME: admin
+      RABBITMQ_PASSWORD: admin
+      RABBITMQ_VIRTUAL_HOST: /
+    volumes:
+      - /home/pengpeng/logs:/home/pengpeng
+
+  api-gateway:
+    container_name: fx-gateway
+    image: pengpeng163/fx-gateway:1.0
+    depends_on:
+      - account-service
+    ports:
+      - "8761:8761"
+    environment:
+      SPRING_PROFILES_ACTIVE: path
+      SPRING_CLOUD_GATEWAY_ROUTES[0]_URI: http://account-service:8001
+      SPRING_CLOUD_GATEWAY_ROUTES[0]_ID: account-service
+      SPRING_CLOUD_GATEWAY_ROUTES[0]_PREDICATES[0]: Path=/api/**
+      SPRING_CLOUD_GATEWAY_ROUTES[0]_FILTERS[0]: StripPrefix=0
+#      ACCOUNT_SERVICE_HOST: account-service
+#      ACCOUNT_SERVICE_PORT: 8001
+      API_PORT: 8761
+    volumes:
+      - /home/pengpeng/logs:/home/pengpeng
+
+  fx-server:
+    image: pengpeng163/fx-server:1.0
+    container_name: fx-server
+    environment:
+      SERVER_PORT: 8094
+      RABBITMQ_HOST: rabbitmq
+#      RABBITMQ_HOST: localhost
+      RABBITMQ_PORT: 5672
+      RABBITMQ_USERNAME: admin
+      RABBITMQ_PASSWORD: admin
+      RABBITMQ_VIRTUAL_HOST: /
+#    network_mode: host
+    ports:
+      - "8094:8094"
+    volumes:
+      - /home/pengpeng/logs:/home/pengpeng
+    depends_on:
+      - rabbitmq
+
+  fx-mysql:
+    image: mysql:8.0
+    container_name: fx-mysql
+#    restart: always
+    environment:
+      TZ: Asia/Shanghai
+      MYSQL_DATABASE: ifx
+      MYSQL_USER: ifx
+      MYSQL_PASSWORD: ifx2022
+      MYSQL_ROOT_PASSWORD: admin
+      MYSQL_ROOT_HOST: '%'
+      default-authentication-plugin: mysql_native_password
+#      MYSQL_SSL: "true"
+#    ports:
+#      - "3306:3306"
+    volumes:
+      - ./sql:/docker-entrypoint-initdb.d
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: fx-rabbitmq
+    ports:
+      - "15672:15672"
+      - "5672:5672"
+    environment:
+      RABBITMQ_DEFAULT_USER: admin
+      RABBITMQ_DEFAULT_PASS: admin
+      RABBITMQ_DEFAULT_VHOST: /
+    volumes:
+      - ./data/rabbitmq:/var/lib/rabbitmq/mnesia/rabbit@app-rabbitmq:cached

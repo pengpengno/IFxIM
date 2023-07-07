@@ -17,9 +17,6 @@ public class DynamicAddressHandler extends DynamicAddressConnectHandler {
     private InetSocketAddress address;
 
 
-//    public DynamicAddressHandler() {
-//        DynamicAddressConnectHandler dynamicAddressConnectHandler = new DynamicAddressConnectHandler();
-//    }
 
 
     @Override

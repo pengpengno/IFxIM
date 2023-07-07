@@ -14,7 +14,7 @@ public enum ChatMsgStatus {
     UNREAD , // 未读
 
 
-
+    REVOKE  , // 撤销
 
     HISTORY ,  // 历史消息
     ;

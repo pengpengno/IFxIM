@@ -1,17 +1,36 @@
 package com.ifx.account.service.impl;
 
+import cn.hutool.core.collection.CollectionUtil;
+import cn.hutool.core.exceptions.ExceptionUtil;
+import cn.hutool.core.util.ObjectUtil;
+import com.ifx.account.mapstruct.ChatMsgRecordMapper;
+import com.ifx.account.repository.ChatMsgRecordRepository;
 import com.ifx.account.service.ChatMsgService;
 import com.ifx.account.service.IChatAction;
 import com.ifx.account.service.ISessionLifeStyle;
+import com.ifx.account.service.reactive.ReactiveChatMsgRecord;
 import com.ifx.account.vo.ChatMsgVo;
+import com.ifx.account.vo.chat.ChatMsgRecordVo;
+import com.ifx.account.vo.chat.PullChatMsgVo;
 import com.ifx.common.utils.ValidatorUtil;
+import com.ifx.exec.ex.bus.acc.AccountException;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.amqp.AmqpException;
+import org.springframework.amqp.core.Message;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+import reactor.util.retry.Retry;
 
+import java.time.Duration;
+import java.time.Period;
+import java.time.temporal.TemporalUnit;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 /***
  * 消息
@@ -25,9 +44,29 @@ public class ChatAction implements IChatAction {
 
 
     @Autowired
+    private RabbitTemplate rabbitTemplate;
+
+
+    @Value("${message.chat.queue:message.chat.queue}")
+    private String messageQueue;
+
+
+    @Value("${message.chat.exchange:message.chat.exchange}")
+    private String exchange;
+
+    @Value("${message.action.send:message.action.send}")
+    private String routingKey;
+
+    @Autowired
+    private ChatMsgRecordRepository chatMsgRecordRepository;
+
+    @Autowired
+    private ReactiveChatMsgRecord reactiveChatMsgRecord;
+    @Autowired
     ChatMsgService chatMsgService;
 
 
+    private static final String ONLINE_USER_CONTEXT_KEY = "ONLINE";  // 用户在线状态存储key
 
     /***
      * <p>存储消息</p>
@@ -38,27 +77,47 @@ public class ChatAction implements IChatAction {
      * @param chatMsgVo  消息实体
      */
     @Override
-    public void pushMsg(ChatMsgVo chatMsgVo) {
-
+    public Mono<Void> sendMsg(ChatMsgVo chatMsgVo) {
         final ChatMsgVo tmp = chatMsgVo;
-        Mono.justOrEmpty(Optional.ofNullable(chatMsgVo))
-                        .doOnNext(e-> ValidatorUtil.validateThrows(chatMsgVo,ChatMsgVo.ChatPush.class)) //  验证实体合法性
-                        .flatMap(e->chatMsgService.saveMsg(e)) // 存储消息
-                .then(Mono.just(tmp)) // 消息投递
-                .map(e->tmp.getSessionId())
-                .map(e-> sessionLifeStyle.checkOnlineUserBySessionId(e))  // 查询在线用户
-                                                                            // 开始信息投递
-
-
-        ;
-
+        return Mono.justOrEmpty(Optional.ofNullable(tmp))
+                .doOnNext(e -> ValidatorUtil.validateThrows(chatMsgVo, ChatMsgVo.ChatPush.class)) //  验证实体合法性
+                .flatMap(e -> chatMsgService.saveMsgReadPattern(e))       // 存储消息
+                .flatMap(vo -> reactiveChatMsgRecord.saveByChatMsgVo(vo))  // 格式转化为消息记录
+                .flatMap( record -> {
+                return sessionLifeStyle.checkOnlineUserBySessionId(tmp.getSessionId()).map(e -> e.getAccount())
+                        .collect(Collectors.toSet())
+                        .flatMap(acc -> Mono.just(record.stream()
+                        .filter(e -> CollectionUtil.contains(acc, e.getToAccount().getAccount()))
+                        .collect(Collectors.toList()))) ;//  去除不在线的用户数据
+            })
+            .doOnNext(e-> pushMsgToMq(e))
+            .then();
     }
 
     @Override
     public List<ChatMsgVo> pullMsg(String fromAccount, Long sessionId) {
+
+
+
         return null;
     }
 
+
+    @Override
+    public void pullAngPushMsg(PullChatMsgVo pullChatMsgVo) {
+
+    }
+
+    @Override
+    public List<ChatMsgVo> pullMsg(PullChatMsgVo pullChatMsgVo) {
+        ValidatorUtil.validateThrows(pullChatMsgVo);
+        Long sessionId = pullChatMsgVo.getSessionId();
+        PullChatMsgVo.TimeRange timeRange = pullChatMsgVo.getTimeRange();
+        Period period = timeRange.period();
+        List<TemporalUnit> units = period.getUnits();
+
+        return null;
+    }
 
     @Override
     public List<ChatMsgVo> pullHisMsg(Long sessionId) {
@@ -69,5 +128,27 @@ public class ChatAction implements IChatAction {
     @Override
     public List<ChatMsgVo> pullHisMsgByQuery(Long sessionId) {
         return null;
+    }
+
+
+
+    public void pushMsgToMq(Iterable<ChatMsgRecordVo> vo){
+        log.info("sent message to rabbit mq");
+        Flux.fromIterable(vo)
+            .map(ChatMsgRecordMapper.INSTANCE::recordVo2ChatMessage)
+            .doOnNext(message-> {
+                if (ObjectUtil.isNotNull(message)) {
+                    Message mqMessage = new Message(message.toByteArray());
+                    Mono.justOrEmpty(Optional.ofNullable(mqMessage))
+                        .doOnNext(l-> rabbitTemplate.send(exchange,routingKey,mqMessage))
+                        .retryWhen(Retry.backoff(3, Duration.ofSeconds(1)).jitter(0.3d) // 重试机制
+                        .filter(throwable -> throwable instanceof AmqpException)
+                        .onRetryExhaustedThrow((spec, rs) -> new AccountException("remote server is invalid !")))
+                        .subscribe();
+                }
+            }).doOnError(error -> log.info("Rabbit Message send error {} ", ExceptionUtil.stacktraceToString(error)))
+            .subscribe()
+            ;
+
     }
 }

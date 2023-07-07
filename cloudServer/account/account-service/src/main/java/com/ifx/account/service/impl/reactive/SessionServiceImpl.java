@@ -1,15 +1,18 @@
 package com.ifx.account.service.impl.reactive;
 
 import cn.hutool.core.util.IdUtil;
+import com.alibaba.fastjson2.JSON;
 import com.ifx.account.mapstruct.SessionMapper;
 import com.ifx.account.repository.SessionRepository;
 import com.ifx.account.service.reactive.ReactiveAccountService;
 import com.ifx.account.service.reactive.SessionService;
 import com.ifx.account.vo.session.SessionInfoVo;
+import com.ifx.account.vo.session.SessionSearchVo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.r2dbc.core.R2dbcEntityTemplate;
 import org.springframework.stereotype.Service;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.util.function.Supplier;
@@ -51,21 +54,32 @@ public class SessionServiceImpl implements SessionService {
     }
 
     public Mono<SessionInfoVo> selectSession(Long sessionId){
-        return sessionRepository.findById(sessionId).map(SessionMapper.INSTANCE::session2Vo);
+        return sessionRepository.findById(sessionId).map(e-> {
+            log.info("temp {} ",JSON.toJSONString(e));
+            return SessionMapper.INSTANCE.session2Vo(e);
+        });
     }
 
+    @Override
+    public Flux<SessionInfoVo> findSessionBySearch(SessionSearchVo vo) {
 
+        return null;
+    }
     /**
      * 查询 session 配置 及其 创建者信息
      * @param sessionId
      * @return
      */
     public Mono<SessionInfoVo> selectSessionWithinCreator(Long sessionId){
-        return selectSession(sessionId).flatMap(l-> {
-            Long userId = l.getCreateInfo().getUserId();
-            return accountService.findByUserId(userId).map(e-> {
-                l.setCreateInfo(e);
-                return l;
+        return sessionRepository.findById(sessionId).flatMap(l-> {
+            log.info("checkout {}",JSON.toJSONString(l));
+            SessionInfoVo sessionInfoVo = SessionMapper.INSTANCE.session2Vo(l);
+            if (l.getCreateUserId() == null){
+                return Mono.just(sessionInfoVo);
+            }
+            return accountService.findByUserId(l.getCreateUserId()).map(e-> {
+                sessionInfoVo.setCreateInfo(e);
+                return sessionInfoVo;
             });
         });
     }

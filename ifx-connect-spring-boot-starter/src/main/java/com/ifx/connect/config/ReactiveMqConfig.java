@@ -1,6 +1,6 @@
 package com.ifx.connect.config;
 
-import com.ifx.connect.EnableReactorMq;
+import com.ifx.connect.ann.EnableReactorMq;
 import com.rabbitmq.client.ConnectionFactory;
 import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
 import org.springframework.beans.factory.annotation.Autowired;

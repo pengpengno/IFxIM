@@ -1,6 +1,7 @@
 package com.ifx.account.service.impl.reactive;
 
 import cn.hutool.core.collection.CollectionUtil;
+import com.alibaba.fastjson2.JSON;
 import com.google.protobuf.InvalidProtocolBufferException;
 import com.ifx.account.entity.BaseEntity;
 import com.ifx.account.entity.SessionAccount;
@@ -12,13 +13,17 @@ import com.ifx.account.service.reactive.ReactiveAccountService;
 import com.ifx.account.service.reactive.SessionService;
 import com.ifx.account.vo.session.SessionAccountContextVo;
 import com.ifx.account.vo.session.SessionAccountVo;
+import com.ifx.account.vo.session.SessionInfoVo;
+import com.ifx.account.vo.session.SessionSearchVo;
 import com.ifx.common.base.AccountInfo;
 import com.ifx.common.utils.ValidatorUtil;
 import com.ifx.connect.mapstruct.ProtoBufMapper;
 import com.ifx.connect.proto.Account;
 import com.ifx.connect.proto.OnLineUser;
+import com.ifx.exec.BaseException;
 import com.ifx.exec.ex.valid.ValidationException;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.amqp.AmqpException;
 import org.springframework.amqp.core.Message;
 import org.springframework.amqp.rabbit.connection.CorrelationData;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
@@ -31,7 +36,11 @@ import reactor.core.publisher.Mono;
 import reactor.rabbitmq.RpcClient;
 import reactor.rabbitmq.Sender;
 
-import java.util.*;
+import java.time.Duration;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -68,6 +77,12 @@ public class SessionAccountServiceImpl implements ISessionAccountService {
 
     @Autowired
     private SessionRepository sessionRepository;
+
+    @Override
+    public Flux<SessionInfoVo> findSessionByUserId(Long userId) {
+        return sessionAccountRepository.queryByUserId(userId)
+                .flatMap(e-> sessionService.selectSessionWithinCreator(e.getSessionId()));
+    }
 
     @Override
     public Mono<SessionAccountVo> sessionAccount(Long sessionId) {
@@ -130,14 +145,18 @@ public class SessionAccountServiceImpl implements ISessionAccountService {
        return sessionAccContextVo(sessionId)
                 .flatMap(vo -> {
                     Map<Long, AccountInfo> context = vo.getSessionAccountContext();
-                    if (CollectionUtil.isEmpty(context)){
+                    if (CollectionUtil.isNotEmpty(context)){
                         return Mono.just(context.values());
                     }
                     return Mono.empty();
                 })
-                .map(e-> checkoutUserOnlineStatus(e));
+                .map(e-> checkoutUserOnlineStatus(e))
+               .timeout(Duration.ofMillis(3000))
+               ;
 
     }
+
+
 
     public Mono<SessionAccountContextVo> sessionAccContextVo(Long sessionId) {
         Assert.notNull(sessionId,"The specify session could not be null!");
@@ -148,28 +167,37 @@ public class SessionAccountServiceImpl implements ISessionAccountService {
                     return sessionAccountVo;
                 }, (vo, sessionAcc) -> {
                     Map<Long, AccountInfo> context = vo.getSessionAccountContext();
-                    context.keySet().add(sessionAcc.getUserId());
+                    context.put(sessionAcc.getUserId(),null);
                     return vo;
                 }).flatMap(e -> {
                     Map<Long, AccountInfo> context = e.getSessionAccountContext();
                     Set<Long> userIds = context.keySet();
-                    return accountService.findByUserIds(userIds)
+                    Flux<AccountInfo> byUserIds = accountService.findByUserIds(userIds);
+                    return byUserIds
                             .doOnNext(info -> context.put(info.getUserId(), info))
-                            .then().flatMap(l -> Mono.just(e));
+                            .then(Mono.just(e));
                 });
     }
 
 
 
+
+
     /***
-     * 检查线上用户状态
-     * @param accountInfos
-     * @return
+     * 检查用户上线状态
+     * @param accountInfos 用户信息
+     * @return 用户信息
      */
     public List<AccountInfo> checkoutUserOnlineStatus(Iterable<AccountInfo> accountInfos){
         OnLineUser.UserSearch userSearch = SessionMapper.INSTANCE.buildSearch(accountInfos);
         Message message = new Message(userSearch.toByteArray());
-        Message returnMessage = rabbitTemplate.sendAndReceive(onlineUserRouteKey,message, new CorrelationData());
+        Message returnMessage ;
+        try{
+             returnMessage = rabbitTemplate.sendAndReceive(onlineUserRouteKey,message, new CorrelationData());
+        }catch (AmqpException amqpException){
+            throw new BaseException("Check online user error!");
+        }
+        Assert.notNull(returnMessage,"Check online user error!");
         byte[] body = returnMessage.getBody();
         try {
             OnLineUser.UserSearch returnSearch = OnLineUser.UserSearch.parseFrom(body);

@@ -1,8 +1,10 @@
 package com.ifx.account.controller;
 
-import com.ifx.account.chat.ChatRoute;
+import com.ifx.account.route.chat.ChatRoute;
+import com.ifx.account.service.IChatAction;
 import com.ifx.account.vo.ChatMsgVo;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -21,11 +23,13 @@ import reactor.core.publisher.Mono;
 @Validated
 public class ChatController {
 
+    @Autowired
+    IChatAction chatAction;
 
 
-    @PostMapping(ChatRoute.CHAT)
-    public Mono<Boolean>  sendMsg(@RequestBody ChatMsgVo chatMsgVo){
-        return null;
+    @PostMapping
+    public Mono<Void>  sendMsg(@RequestBody ChatMsgVo chatMsgVo){
+        return chatAction.sendMsg(chatMsgVo);
     }
 
 

@@ -1,20 +1,30 @@
 package com.ifx.account.enums;
 
+import com.ifx.connect.proto.Chat;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+
 /**
  * 消息状态
  */
+@Getter
+@AllArgsConstructor
 public enum ChatMsgStatus {
 
-    READ ,
-    UNREAD ,
+    READ (Chat.ChatMessage.MessagesStatus.READ) ,
+    UNREAD (Chat.ChatMessage.MessagesStatus.UNREAD)  ,
+    REJECT (Chat.ChatMessage.MessagesStatus.REJECT) ,
+    SENT (Chat.ChatMessage.MessagesStatus.SENT) ,
 
-    SENT ,
+    UNSENT  (Chat.ChatMessage.MessagesStatus.UNSENT) ,
 
-    UNSENT ,
+    SENTFAIL (Chat.ChatMessage.MessagesStatus.SENTFAIL) ,
 
-    SENTFAIL ,
-    HISTORY ,
+    HISTORY(Chat.ChatMessage.MessagesStatus.HISTORY)  ,
     ;
+
+
+    private final Chat.ChatMessage.MessagesStatus status;
 
 
 
