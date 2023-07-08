@@ -1,9 +1,15 @@
 package com.ifx.account.R2DBC;
 
+import com.ifx.account.AccountApplication;
+import com.ifx.account.entity.ChatMsg;
+import com.ifx.account.repository.ChatMsgRepository;
 import io.r2dbc.spi.*;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.reactivestreams.Publisher;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.r2dbc.core.R2dbcEntityTemplate;
 import reactor.core.publisher.Mono;
 import reactor.test.StepVerifier;
 
@@ -15,9 +21,12 @@ import static io.r2dbc.spi.ConnectionFactoryOptions.*;
  * @date 2023/7/2
  */
 @Slf4j
+@SpringBootTest(classes = {AccountApplication.class})
 public class MysqlConnect {
 
 
+    @Autowired
+    private ChatMsgRepository chatMsgRepository;
 
     public ConnectionFactory  createConnectFactory(){
         ConnectionFactoryOptions options = ConnectionFactoryOptions.builder()
@@ -64,6 +73,50 @@ public class MysqlConnect {
         StepVerifier.create(map
                 )
                 .expectError();
+
+    }
+
+    @Test
+    public void testMsgSelect (){
+        ConnectionFactory connectionFactory = createConnectFactory();
+
+        R2dbcEntityTemplate template = new R2dbcEntityTemplate(connectionFactory);
+//
+//        template.getDatabaseClient().sql("CREATE TABLE person" +
+//                        "(id VARCHAR(255) PRIMARY KEY," +
+//                        "name VARCHAR(255)," +
+//                        "age INT)")
+//                .fetch()
+//                .rowsUpdated()
+//                .as(StepVerifier::create)
+//                .expectNextCount(1)
+//                .verifyComplete();
+
+//        template.insert(Person.class)
+//                .using(new Person("joe", "Joe", 34))
+//                .as(StepVerifier::create)
+//                .expectNextCount(1)
+//                .verifyComplete();
+        Long sessionId = 1644223948273614848l;
+        String startTime = "2023-06-12";
+        String endTime = "2023-07-12";
+
+        template.select(ChatMsg.class)
+                        .first()
+                .doOnNext(e->log.info("{}",e.toString()))
+                .doOnNext(System.out::println)
+                .log()
+                .as(StepVerifier::create)
+                .expectNextCount(1)
+                .expectComplete();
+
+       chatMsgRepository.findByIdAndCreateTimeBetween(sessionId, startTime, endTime)
+               .doOnNext(e->log.info("{}",e.toString()))
+               .doOnNext(System.out::println)
+               .log()
+               .as(StepVerifier::create)
+               .expectNextCount(1)
+               .expectComplete();
 
     }
 }

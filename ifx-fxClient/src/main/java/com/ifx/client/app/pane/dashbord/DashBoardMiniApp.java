@@ -2,7 +2,6 @@ package com.ifx.client.app.pane.dashbord;
 
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 
 /**
@@ -23,9 +22,7 @@ public class DashBoardMiniApp extends Pane {
     }
 
 
-    public void setOnMouseClickAction(MouseEvent mouseClickAction){
 
-    }
 
 
 

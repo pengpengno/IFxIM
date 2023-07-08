@@ -7,6 +7,7 @@ import com.ifx.account.repository.ChatMsgRepository;
 import com.ifx.account.service.ChatMsgService;
 import com.ifx.account.service.ISessionAccountService;
 import com.ifx.account.vo.ChatMsgVo;
+import com.ifx.account.vo.chat.PullChatMsgVo;
 import com.ifx.common.base.AccountInfo;
 import com.ifx.common.utils.ValidatorUtil;
 import com.ifx.connect.proto.Chat;
@@ -15,6 +16,7 @@ import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.util.Optional;
@@ -58,6 +60,15 @@ public class ChatMsgServiceImpl  implements ChatMsgService {
 
     }
 
+
+    @Override
+    public Flux<ChatMsgVo> pullMsg(PullChatMsgVo pullChatMsgVo) {
+        ValidatorUtil.validateThrows(pullChatMsgVo);
+        Long sessionId = pullChatMsgVo.getSessionId();
+        PullChatMsgVo.TimeRange timeRange = pullChatMsgVo.getTimeRange();
+        return chatMsgRepository.findByIdAndCreateTimeBetween(sessionId, timeRange.getStartTime(), timeRange.getEndTime())
+                .map(ChatMsgMapper.INSTANCE::tran2MsgVo);
+    }
 
     @Override
     public Mono<ChatMsgVo> saveMsgReadPattern(ChatMsgVo chatMsgVo) {

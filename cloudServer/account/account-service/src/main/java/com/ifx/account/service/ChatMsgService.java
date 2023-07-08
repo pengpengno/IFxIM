@@ -2,6 +2,8 @@ package com.ifx.account.service;
 
 import com.ifx.account.bo.ChatMsgBo;
 import com.ifx.account.vo.ChatMsgVo;
+import com.ifx.account.vo.chat.PullChatMsgVo;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 /**
@@ -19,6 +21,11 @@ public interface ChatMsgService  {
      * @param chatMsgBo  消息实体
      */
     public Mono<Void> pushMsg(ChatMsgBo chatMsgBo);  //写扩散
+
+
+    public Flux<ChatMsgVo> pullMsg(PullChatMsgVo pullChatMsgVo);
+
+
 
     public Mono<ChatMsgVo> saveMsgReadPattern(ChatMsgVo chatMsgVo);  //读扩散存储
 

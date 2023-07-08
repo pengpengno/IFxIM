@@ -2,6 +2,7 @@ server:
   port: ${SERVICE_PORT:8001}
 
 spring:
+
   rabbitmq:
     port: ${RABBITMQ_PORT:5672}
     host: ${RABBITMQ_HOST:localhost}
@@ -24,3 +25,8 @@ spring:
       max-size: 20
       max-idle-time: 10m
       validation-query: SELECT 1
+logging:
+  level:
+    org:
+      springframework:
+        r2dbc: DEBUG

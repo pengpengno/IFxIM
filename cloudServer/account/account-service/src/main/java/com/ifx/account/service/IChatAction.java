@@ -3,6 +3,7 @@ package com.ifx.account.service;
 
 import com.ifx.account.vo.ChatMsgVo;
 import com.ifx.account.vo.chat.PullChatMsgVo;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.util.List;
@@ -28,7 +29,7 @@ public interface IChatAction {
     public List<ChatMsgVo> pullMsg(String fromAccount, Long sessionId);
 
 
-    public List<ChatMsgVo> pullMsg(PullChatMsgVo pullChatMsgVo);
+    public Flux<ChatMsgVo> pullMsg(PullChatMsgVo pullChatMsgVo);
 
 
     public void pullAngPushMsg(PullChatMsgVo pullChatMsgVo);

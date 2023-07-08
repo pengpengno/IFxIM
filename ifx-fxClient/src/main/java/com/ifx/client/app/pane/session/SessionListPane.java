@@ -3,18 +3,16 @@ package com.ifx.client.app.pane.session;
 import com.ifx.account.vo.session.SessionInfoVo;
 import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
-import javafx.scene.control.Label;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.FlowPane;
-import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
 import java.util.Map;
 
-//@Component
+@Component
 public class SessionListPane extends FlowPane {
 
 
@@ -27,6 +25,7 @@ public class SessionListPane extends FlowPane {
 
 
     public void addSession(SessionInfoVo sessionInfoVo){
+
         if (sessionInfoVo == null){
             throw new IllegalArgumentException("Session is illegal ,Could not create SessionMinPane");
         }
@@ -37,15 +36,12 @@ public class SessionListPane extends FlowPane {
         this.setVgap(1);
 
         SessionMessageMinPane sessionMessageMinPane = new SessionMessageMinPane(sessionInfoVo);
-        SessionMessageMinPane sessionMessageMinPane2 = new SessionMessageMinPane(sessionInfoVo);
 
         sessionMessageMinPaneMap.putIfAbsent(sessionId,sessionMessageMinPane);
 
 
         this.setOrientation(Orientation.VERTICAL);
         this.getChildren().add(sessionMessageMinPane);
-        this.getChildren().add(sessionMessageMinPane2);
-
 
         this.setAlignment(Pos.TOP_LEFT);
 

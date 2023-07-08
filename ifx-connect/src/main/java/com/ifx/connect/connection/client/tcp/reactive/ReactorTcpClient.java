@@ -62,7 +62,7 @@ public class ReactorTcpClient implements ClientLifeStyle , ReactiveClientAction 
         try{
             connection = client.connectNow();
         }catch (Exception exception){
-            log.error("connect server encounter error , stack is {}", ExceptionUtil.stacktraceToString(exception));
+            log.error("connect server {}  port {} encounter error , stack is \n {}",address.getHostString(),address.getPort(), ExceptionUtil.stacktraceToString(exception));
             throw new NetException("remote server is invalid!");
         }
         return Boolean.TRUE;
