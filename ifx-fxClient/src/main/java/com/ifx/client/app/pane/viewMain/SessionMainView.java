@@ -11,12 +11,15 @@ import com.ifx.client.util.FxApplicationThreadUtil;
 import com.ifx.connect.proto.Chat;
 import javafx.scene.layout.Pane;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import java.net.URL;
 import java.util.Optional;
+import java.util.ResourceBundle;
 
 /**
  * @author pengpeng
@@ -25,7 +28,7 @@ import java.util.Optional;
  */
 @Component
 @Slf4j
-public class SessionMainView extends Pane implements MainViewAction {
+public class SessionMainView extends Pane implements MainViewAction , InitializingBean {
 
     @Autowired
     private SessionListPane sessionListPane;
@@ -33,20 +36,28 @@ public class SessionMainView extends Pane implements MainViewAction {
     @Autowired
     private ChatMainPane chatMainPane;
 
-    @Override
-    public void show() {
 
+    @Override
+    public void afterPropertiesSet() throws Exception {
+        initialize(null,null);
     }
 
     @Override
-    public void close() {
-
+    public APPEnum viewType() {
+        return APPEnum.SESSION;
     }
 
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        initChatHandler()
+                .doOnNext(e->chatMainPane.initialize(null,null))
+                .subscribe();
+    }
 
     public Mono<Void> initSessionRefresh(Flux<SessionInfoVo> sessionInfoVo){
             return sessionInfoVo
-            .doOnNext(e-> FxApplicationThreadUtil.invoke(()->sessionListPane.addSession(e)))
+            .doOnNext(e-> FxApplicationThreadUtil.invoke(()-> sessionListPane.addSession(e)))
                     .then()
         ;
 
@@ -58,9 +69,7 @@ public class SessionMainView extends Pane implements MainViewAction {
                     obj.addEventHandler(ChatEvent.RECEIVE_CHAT , (chat)-> {
                         log.info("client receive message");
                         Chat.ChatMessage chatMessage = chat.getChatMessage();
-
                         ChatMsgVo chatMsgVo = AccProtoBufMapper.INSTANCE.tran2ProtoChat(chatMessage);
-
                         Mono.justOrEmpty(Optional.ofNullable(chatMainPane.currentSessionInfo()))
                                 .filter(e-> ObjectUtil.equal(chatMsgVo.getSessionId(),e.getSessionId()))
                                 .hasElement()
@@ -74,5 +83,8 @@ public class SessionMainView extends Pane implements MainViewAction {
                     });
                 }).then();
     }
+
+
+
 
 }

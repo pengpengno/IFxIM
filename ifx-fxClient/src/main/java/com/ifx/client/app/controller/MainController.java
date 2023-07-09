@@ -1,20 +1,20 @@
 package com.ifx.client.app.controller;
 
 
+import cn.hutool.core.io.FileUtil;
 import com.ifx.account.vo.search.AccountSearchVo;
-import com.ifx.client.api.ChatApi;
-import com.ifx.client.api.SessionApi;
-import com.ifx.client.app.pane.message.ChatMainPane;
-import com.ifx.client.app.pane.session.SessionListPane;
+import com.ifx.client.app.pane.dashbord.DashBoardPane;
 import com.ifx.client.app.pane.viewMain.MainView;
 import com.ifx.client.util.FxmlLoader;
-import com.ifx.connect.connection.client.ReactiveClientAction;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.scene.input.InputMethodEvent;
+import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -30,38 +30,29 @@ public class MainController implements Initializable {
     private TextField searchField;
 
     @FXML
-    private Pane  dashBoardPane;
+    private FlowPane dashBoardFlowPane;
 
     @FXML
     private Pane  viewMainPane;
 
     @Autowired
-    ReactiveClientAction reactiveClientAction;
-
-    @Autowired
-    ChatApi chatApi;
-
-    @Autowired
-    SessionApi sessionApi;
-
-    @Autowired
     MainView mainView;
 
-    private final SessionListPane sessionListPane = SessionListPane.getInstance();
-
-    private final ChatMainPane chatMainPane = ChatMainPane.getInstance();
-
+    @Autowired
+    DashBoardPane dashBoard;
 
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        log.debug(" {} is loading ...", getClass().getName());
-        log.debug("The receive handler had built");
-        chatMainPane.init();
+        log.info("Main Controller is init");
+        mainView.initialize(null,null);
+        dashBoard.initialize(null,null);
 
+        mainView.prefWidthProperty().bind(viewMainPane.widthProperty());
+        dashBoard.prefHeightProperty().bind(dashBoardFlowPane.heightProperty());
         viewMainPane.getChildren().add(mainView);
+        dashBoardFlowPane.getChildren().add(dashBoard);
 
-        initSearch();
 
     }
 
@@ -90,9 +81,13 @@ public class MainController implements Initializable {
 
     public static void show(){
         Stage stage = FxmlLoader.applySinStage("com\\ifx\\client\\app\\fxml\\main.fxml");
-        log.info("prepare to show  register");
-        stage.show();
+        log.info("prepare to show  main");
+        Image icon = new Image(FileUtil.getInputStream("icon/title/conversation.png"));
+        stage.getIcons().add(icon);
+        stage.initStyle(StageStyle.UNDECORATED);
         stage.setTitle("IFx");
+        stage.show();
+
     }
 
 

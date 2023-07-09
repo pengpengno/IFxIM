@@ -1,6 +1,8 @@
 package com.ifx.client.config;
 
+import com.ifx.client.app.pane.dashbord.DashBoardPane;
 import com.ifx.client.app.pane.message.ChatMainPane;
+import com.ifx.client.app.pane.viewMain.MainView;
 import com.ifx.connect.properties.ServerRouteConfigProperties;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,5 +53,17 @@ public class ClientApiBootstrap {
     @Bean
     public ChatMainPane chatMainPane(){
         return ChatMainPane.getInstance();
+    }
+
+
+    @Bean
+    public MainView mainViewPane(){
+        return MainView.getInstance();
+    }
+
+
+    @Bean
+    public DashBoardPane dashBoardPane(){
+        return DashBoardPane.getInstance();
     }
 }

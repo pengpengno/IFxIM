@@ -1,16 +1,24 @@
 package com.ifx.client.app.pane.viewMain;
 
+import javafx.fxml.Initializable;
+
 /**
  * @author pengpeng
  * @description
  * @date 2023/7/8
  */
-public interface MainViewAction {
+public interface MainViewAction extends Initializable {
+
+    public final Integer MAX_WIGHT = 1000 ;
 
 
-    public void show();
+
+    public APPEnum viewType();
+
+//    @Override
+//    default void afterPropertiesSet() throws Exception{
+//        initialize(null,null);
+//    }
 
 
-
-    public void close();
 }

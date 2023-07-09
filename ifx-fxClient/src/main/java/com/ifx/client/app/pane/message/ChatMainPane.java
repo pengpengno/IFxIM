@@ -16,23 +16,24 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXScrollPane;
 import com.jfoenix.controls.JFXTextArea;
 import com.sun.javafx.event.EventUtil;
+import javafx.fxml.Initializable;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.paint.Color;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import reactor.core.publisher.Mono;
 
+import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
+import java.util.ResourceBundle;
 
 
 @Slf4j
-@Component
-public class ChatMainPane extends FlowPane implements SwitchMainChatPaneHandler, ReceiveChatMessageEventHandler {
+public class ChatMainPane extends FlowPane implements SwitchMainChatPaneHandler, ReceiveChatMessageEventHandler , Initializable {
 
     private MessagePane currentMessagePane ;
 
@@ -155,11 +156,12 @@ public class ChatMainPane extends FlowPane implements SwitchMainChatPaneHandler,
     }
 
 
-
-    public void init(){
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
         initPane();
         initEvent();
     }
+
 
 
     private void initPane() {

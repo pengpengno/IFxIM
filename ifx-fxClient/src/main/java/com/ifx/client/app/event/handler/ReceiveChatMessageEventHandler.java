@@ -11,6 +11,4 @@ public interface ReceiveChatMessageEventHandler extends EventTarget {
 
 
 
-//    public void receiveChat(ChatEvent chatEvent);
-
 }

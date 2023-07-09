@@ -41,6 +41,7 @@ public class SessionListPane extends FlowPane {
 
 
         this.setOrientation(Orientation.VERTICAL);
+
         this.getChildren().add(sessionMessageMinPane);
 
         this.setAlignment(Pos.TOP_LEFT);

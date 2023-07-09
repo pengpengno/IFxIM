@@ -16,12 +16,7 @@
         </items>
       </ToolBar>
       <TextField fx:id="searchField" layoutX="556.0" layoutY="10.0" onInputMethodTextChanged="#searchAcc" prefHeight="40.0" prefWidth="405.0" />
-<!--      <Label fx:id="receiveMessage" layoutX="210.0" layoutY="50.0" />-->
       <Pane fx:id="viewMainPane" layoutX="373.0" layoutY="68.0" prefHeight="705.0" prefWidth="1000.0" />
-      <FlowPane layoutX="-3.0" prefHeight="735.0" prefWidth="226.0">
-         <children>
-            <Pane fx:id="dashBoardPAne" prefHeight="200.0" prefWidth="226.0" />
-         </children>
-      </FlowPane>
+      <FlowPane fx:id="dashBoardFlowPane" layoutX="-3.0" prefHeight="773.0" prefWidth="251.0" />
    </children>
 </Pane>
