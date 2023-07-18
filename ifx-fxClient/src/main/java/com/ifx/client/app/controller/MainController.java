@@ -6,9 +6,13 @@ import com.ifx.account.vo.search.AccountSearchVo;
 import com.ifx.client.app.pane.dashbord.DashBoardPane;
 import com.ifx.client.app.pane.viewMain.MainView;
 import com.ifx.client.util.FxmlLoader;
+import com.ifx.common.context.AccountContext;
+import io.jsonwebtoken.lang.Assert;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.scene.control.ToolBar;
 import javafx.scene.image.Image;
 import javafx.scene.input.InputMethodEvent;
 import javafx.scene.layout.FlowPane;
@@ -33,6 +37,15 @@ public class MainController implements Initializable {
     private FlowPane dashBoardFlowPane;
 
     @FXML
+    private ToolBar toolBar;
+
+    @FXML
+    private Button minButton;
+
+    @FXML
+    private Button maxButton;
+
+    @FXML
     private Pane  viewMainPane;
 
     @Autowired
@@ -45,17 +58,21 @@ public class MainController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         log.info("Main Controller is init");
+        Assert.notNull(AccountContext.getCurAccount(),"Current Account not be null!");
         mainView.initialize(null,null);
         dashBoard.initialize(null,null);
 
+
         mainView.prefWidthProperty().bind(viewMainPane.widthProperty());
+        mainView.prefHeightProperty().bind(viewMainPane.heightProperty());
         dashBoard.prefHeightProperty().bind(dashBoardFlowPane.heightProperty());
+        dashBoard.prefWidthProperty().bind(dashBoardFlowPane.widthProperty());
+
         viewMainPane.getChildren().add(mainView);
         dashBoardFlowPane.getChildren().add(dashBoard);
 
 
     }
-
 
 
 

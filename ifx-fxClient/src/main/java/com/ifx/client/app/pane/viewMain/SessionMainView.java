@@ -9,9 +9,12 @@ import com.ifx.client.app.pane.message.ChatMainPane;
 import com.ifx.client.app.pane.session.SessionListPane;
 import com.ifx.client.util.FxApplicationThreadUtil;
 import com.ifx.connect.proto.Chat;
+import javafx.scene.control.Label;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import reactor.core.publisher.Flux;
@@ -28,7 +31,7 @@ import java.util.ResourceBundle;
  */
 @Component
 @Slf4j
-public class SessionMainView extends Pane implements MainViewAction , InitializingBean {
+public class SessionMainView extends Pane implements MainViewAction  {
 
     @Autowired
     private SessionListPane sessionListPane;
@@ -38,11 +41,6 @@ public class SessionMainView extends Pane implements MainViewAction , Initializi
 
 
     @Override
-    public void afterPropertiesSet() throws Exception {
-        initialize(null,null);
-    }
-
-    @Override
     public APPEnum viewType() {
         return APPEnum.SESSION;
     }
@@ -50,9 +48,13 @@ public class SessionMainView extends Pane implements MainViewAction , Initializi
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        log.info("init SessionMainView");
+        initPane();
         initChatHandler()
-                .doOnNext(e->chatMainPane.initialize(null,null))
-                .subscribe();
+            .doOnNext(e-> chatMainPane.initialize(null,null))
+            .doOnNext(e-> sessionListPane.initialize(null,null))
+            .doOnNext(e-> initPane())
+            .subscribe();
     }
 
     public Mono<Void> initSessionRefresh(Flux<SessionInfoVo> sessionInfoVo){
@@ -60,6 +62,21 @@ public class SessionMainView extends Pane implements MainViewAction , Initializi
             .doOnNext(e-> FxApplicationThreadUtil.invoke(()-> sessionListPane.addSession(e)))
                     .then()
         ;
+    }
+
+
+    public void initPane(){
+        this.setBackground(new Background(new BackgroundFill(Color.rgb(36,10,160),null,null)));
+
+        sessionListPane.prefHeightProperty().bind(this.heightProperty());
+        sessionListPane.prefWidthProperty().set(200);
+        chatMainPane.prefHeightProperty().bind(this.heightProperty());
+        chatMainPane.prefWidthProperty().set(this.getWidth()-200);
+
+        Label label = new Label("sss");
+        this.getChildren().add(sessionListPane);
+        this.getChildren().add(chatMainPane);
+        this.getChildren().add(label);
 
     }
 

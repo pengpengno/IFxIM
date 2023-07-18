@@ -38,6 +38,8 @@ public class ChatMainPane extends FlowPane implements SwitchMainChatPaneHandler,
     private MessagePane currentMessagePane ;
 
     private JFXTextArea messageArea;
+
+
     private JFXButton sendButton;
 
     private JFXScrollPane jfxScrollPane;
@@ -59,8 +61,8 @@ public class ChatMainPane extends FlowPane implements SwitchMainChatPaneHandler,
     private void initEvent(){
 
         switchPaneHandler()
-
-        .doOnNext(e->sendMessageEvent());
+        .doOnNext(e->sendMessageEvent())
+        .subscribe();
 
     }
 

@@ -1,7 +1,6 @@
 package com.ifx.client.app.pane.dashbord;
 
 import cn.hutool.core.lang.Assert;
-import com.ifx.client.api.SessionApi;
 import com.ifx.client.app.pane.viewMain.APPEnum;
 import com.ifx.client.app.pane.viewMain.MainView;
 import com.ifx.client.app.pane.viewMain.SessionMainView;
@@ -24,7 +23,6 @@ import org.springframework.stereotype.Component;
 import reactor.core.publisher.Mono;
 
 import java.net.URL;
-import java.util.Optional;
 import java.util.ResourceBundle;
 
 /**
@@ -35,7 +33,7 @@ import java.util.ResourceBundle;
 
 @Component
 @Slf4j
-public class SessionApp extends Pane implements MiniApplication, Initializable {
+public class DefaultApp extends Pane implements MiniApplication, Initializable {
 
 
     private Label applicationName;
@@ -50,9 +48,6 @@ public class SessionApp extends Pane implements MiniApplication, Initializable {
 
 
     @Autowired
-    SessionApi sessionApi;
-
-    @Autowired
     MainView mainView;
 
 
@@ -63,7 +58,7 @@ public class SessionApp extends Pane implements MiniApplication, Initializable {
 
     @Override
     public APPEnum appName() {
-        return APPEnum.SESSION;
+        return APPEnum.DEFAULT;
     }
 
 
@@ -77,18 +72,14 @@ public class SessionApp extends Pane implements MiniApplication, Initializable {
 
         log.info("init SessionInfo");
         applicationButton.setOnMouseClicked(mouse-> {
-            log.info("click sessionInfoEvent");
+            log.info("click {}" ,appName());
             mainView.switchPane(appName());
         });
 
         AccountInfo curAccount = AccountContext.getCurAccount();
 
         Assert.notNull(curAccount,"AccountInfo  is invalid , pls try login again!");
-
-        return Mono.justOrEmpty(Optional.ofNullable(curAccount.getUserId()))
-                .flatMap(id-> Mono.justOrEmpty(Optional.ofNullable(sessionApi.sessionInfo(id))))
-                .flatMap(e-> sessionMainView.initSessionRefresh(e)).then();
-
+        return Mono.empty();
     }
 
 

@@ -15,10 +15,7 @@ public interface MainViewAction extends Initializable {
 
     public APPEnum viewType();
 
-//    @Override
-//    default void afterPropertiesSet() throws Exception{
-//        initialize(null,null);
-//    }
+
 
 
 }

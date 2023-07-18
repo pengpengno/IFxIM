@@ -31,7 +31,7 @@ public class SessionMessageMinPane extends Pane {
         sessionNameLabel = new Label(sessionInfoVo.getSessionName());
 
 
-        this.setBackground(new Background(new BackgroundFill(Color.rgb(162,160,160),null,null)));
+//        this.setBackground(new Background(new BackgroundFill(Color.rgb(162,160,160),null,null)));
 
         this.getChildren().add(sessionNameLabel);
 
@@ -40,12 +40,15 @@ public class SessionMessageMinPane extends Pane {
             SessionEvent sessionEvent = new SessionEvent(SessionEvent.SESSION_SWITCH, sessionInfoVo);
             ChatMainPane.getInstance().switchSessionEvent(sessionEvent);
         });
+        this.setBackground(new Background(new BackgroundFill(Color.rgb(51,100,100),null,null)));
 
 
         this.setPrefHeight(100);
         this.setPrefWidth(190);
         this.setHeight(600);
         this.setWidth(190);
+
+
     }
 
 

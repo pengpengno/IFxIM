@@ -8,15 +8,15 @@
 
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="773.0" prefWidth="1373.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ifx.client.app.controller.MainController">
    <children>
-      <ToolBar layoutX="1220.0" layoutY="2.0" prefHeight="40.0" prefWidth="153.0">
+      <ToolBar fx:id="toolBar" layoutX="1220.0" layoutY="2.0" prefHeight="40.0" prefWidth="153.0">
         <items>
-            <Button mnemonicParsing="false" text="min" />
+            <Button fx:id="minButton" mnemonicParsing="false" text="min" />
           <Button mnemonicParsing="false" text="max" />
-            <Button mnemonicParsing="false" text="close" />
+            <Button fx:id="maxButton" mnemonicParsing="false" text="close" />
         </items>
       </ToolBar>
       <TextField fx:id="searchField" layoutX="556.0" layoutY="10.0" onInputMethodTextChanged="#searchAcc" prefHeight="40.0" prefWidth="405.0" />
-      <Pane fx:id="viewMainPane" layoutX="373.0" layoutY="68.0" prefHeight="705.0" prefWidth="1000.0" />
-      <FlowPane fx:id="dashBoardFlowPane" layoutX="-3.0" prefHeight="773.0" prefWidth="251.0" />
+      <Pane fx:id="viewMainPane" layoutX="240.0" layoutY="68.0" prefHeight="705.0" prefWidth="1133.0" />
+      <FlowPane fx:id="dashBoardFlowPane" layoutX="-3.0" layoutY="88.0" prefHeight="685.0" prefWidth="251.0" />
    </children>
 </Pane>

@@ -3,7 +3,10 @@ package com.ifx.client.app.pane.viewMain;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.GridPane;
+import javafx.scene.paint.Color;
 import org.springframework.stereotype.Component;
 
 import java.net.URL;
@@ -26,8 +29,10 @@ public class DefaultMainView extends GridPane implements Initializable,MainViewA
 
         defaultLabel.setAlignment(Pos.CENTER);
 
+        this.setBackground(new Background(new BackgroundFill(Color.rgb(136,10,160),null,null)));
 
         this.setPrefSize(200,400);
+
         this.getChildren().add(defaultLabel);
     }
 

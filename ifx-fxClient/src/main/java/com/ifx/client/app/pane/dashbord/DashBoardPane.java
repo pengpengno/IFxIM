@@ -4,7 +4,7 @@ import cn.hutool.core.collection.CollectionUtil;
 import com.ifx.common.base.AccountInfo;
 import com.ifx.common.context.AccountContext;
 import javafx.fxml.Initializable;
-import javafx.geometry.Insets;
+import javafx.geometry.Orientation;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Background;
@@ -57,13 +57,11 @@ public class DashBoardPane extends FlowPane implements Initializable {
 
         setAccountInfo(AccountContext.getCurAccount());
 
-        accountName = new Label(accountInfo.getUserName());
+        accountName = new Label(accountInfo.getAccount());
 
-        accountName.setPrefSize(70,140);
-        this.setPadding(new Insets(10));
+        this.setOrientation(Orientation.VERTICAL);
         this.setHgap(10);
         this.setVgap(dashBoardMiniApps.size());
-//        this.setAlignment(Pos.TOP_CENTER);
         this.getChildren().add( accountName);
         if (CollectionUtil.isNotEmpty(dashBoardMiniApps)){
             log.info("  app size is {}",dashBoardMiniApps.size());
@@ -72,7 +70,6 @@ public class DashBoardPane extends FlowPane implements Initializable {
                 if (e instanceof Initializable initializable){
                     initializable.initialize(null,null);
                 }
-
                 if (e instanceof Node node){
                     this.getChildren().add(node);
 

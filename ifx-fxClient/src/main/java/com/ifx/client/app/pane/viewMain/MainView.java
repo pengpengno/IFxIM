@@ -32,18 +32,21 @@ public class MainView extends Pane implements Initializable {
 
 
 
+
     public void switchPane(APPEnum viewEnum){
         MainViewAction mainViewAction = mainViewActions.stream()
                 .filter(e -> ObjectUtil.equal(viewEnum, e.viewType())).findFirst()
                 .orElse(defaultMainView);
+
         if (mainViewAction instanceof Pane pane){
             switchPane(pane);
+        }else {
+            log.warn(" Illegal main no result");
         }
 
-        log.warn(" Illegal main no result");
     }
 
-    public void switchPane( Pane view ){
+    private void switchPane( Pane view ){
 
         int componentIndex = this.getChildren().indexOf(currentView);
 
@@ -52,18 +55,24 @@ public class MainView extends Pane implements Initializable {
         currentView = view;
 
         this.getChildren().add(componentIndex,currentView);
+
     }
 
 
     public void initPane() {
 
 
-        this.prefHeight(200);
-        this.prefWidth(200);
-
         this.setBackground(new Background(new BackgroundFill(Color.rgb(161,100,100),null,null)));
 
         defaultMainView.initialize(null,null);
+
+        mainViewActions.stream().filter(e-> e!=null).forEach(e-> {
+            e.initialize(null,null);
+            if (e instanceof Pane pane){
+                pane.prefHeightProperty().bind(this.heightProperty());
+                pane.prefHeightProperty().bind(this.heightProperty());
+            }
+        });
 
         currentView = defaultMainView;
 
@@ -75,7 +84,9 @@ public class MainView extends Pane implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+
         log.info("init MainView Pane");
+
         initPane();
     }
 
