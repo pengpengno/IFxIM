@@ -2,7 +2,7 @@ package com.ifx.client.app.pane.dashbord;
 
 import cn.hutool.core.lang.Assert;
 import com.ifx.client.api.SessionApi;
-import com.ifx.client.app.pane.viewMain.APPEnum;
+import com.ifx.client.app.enums.APPEnum;
 import com.ifx.client.app.pane.viewMain.MainView;
 import com.ifx.client.app.pane.viewMain.SessionMainView;
 import com.ifx.common.base.AccountInfo;

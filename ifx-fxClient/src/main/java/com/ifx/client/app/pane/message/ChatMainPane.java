@@ -59,11 +59,9 @@ public class ChatMainPane extends FlowPane implements SwitchMainChatPaneHandler,
     }
 
     private void initEvent(){
-
         switchPaneHandler()
         .doOnNext(e->sendMessageEvent())
         .subscribe();
-
     }
 
 

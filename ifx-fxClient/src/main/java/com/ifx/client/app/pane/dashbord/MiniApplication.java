@@ -1,6 +1,6 @@
 package com.ifx.client.app.pane.dashbord;
 
-import com.ifx.client.app.pane.viewMain.APPEnum;
+import com.ifx.client.app.enums.APPEnum;
 
 /**
  * @author pengpeng

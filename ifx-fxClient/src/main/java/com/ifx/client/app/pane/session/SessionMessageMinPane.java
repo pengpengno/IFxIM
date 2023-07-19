@@ -9,6 +9,9 @@ import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontPosture;
+import javafx.scene.text.FontWeight;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -30,8 +33,12 @@ public class SessionMessageMinPane extends Pane {
 
         sessionNameLabel = new Label(sessionInfoVo.getSessionName());
 
+        Font customFontBoldItalic = Font.font("Arial", FontWeight.BOLD, FontPosture.ITALIC, 20);
 
-//        this.setBackground(new Background(new BackgroundFill(Color.rgb(162,160,160),null,null)));
+        sessionNameLabel.setStyle("-fx-text-fill: white;");
+
+        sessionNameLabel.setFont(customFontBoldItalic);
+
 
         this.getChildren().add(sessionNameLabel);
 

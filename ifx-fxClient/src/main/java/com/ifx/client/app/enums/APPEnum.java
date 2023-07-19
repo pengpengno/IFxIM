@@ -1,4 +1,4 @@
-package com.ifx.client.app.pane.viewMain;
+package com.ifx.client.app.enums;
 
 /**
  * @author pengpeng

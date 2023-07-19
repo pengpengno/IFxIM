@@ -4,12 +4,12 @@ import cn.hutool.core.util.ObjectUtil;
 import com.ifx.account.mapstruct.AccProtoBufMapper;
 import com.ifx.account.vo.ChatMsgVo;
 import com.ifx.account.vo.session.SessionInfoVo;
+import com.ifx.client.app.enums.APPEnum;
 import com.ifx.client.app.event.ChatEvent;
 import com.ifx.client.app.pane.message.ChatMainPane;
 import com.ifx.client.app.pane.session.SessionListPane;
 import com.ifx.client.util.FxApplicationThreadUtil;
 import com.ifx.connect.proto.Chat;
-import javafx.scene.control.Label;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.Pane;
@@ -50,10 +50,16 @@ public class SessionMainView extends Pane implements MainViewAction  {
     public void initialize(URL location, ResourceBundle resources) {
         log.info("init SessionMainView");
         initPane();
+
+        chatMainPane.initialize(null,null);
+        chatMainPane.prefHeightProperty().bind(this.heightProperty());
+        chatMainPane.prefWidthProperty().set(this.getWidth()-200);
+        sessionListPane.prefWidthProperty().set(200);
+        sessionListPane.prefHeightProperty().bind(this.heightProperty());
+
+        sessionListPane.initialize(null,null);
+
         initChatHandler()
-            .doOnNext(e-> chatMainPane.initialize(null,null))
-            .doOnNext(e-> sessionListPane.initialize(null,null))
-            .doOnNext(e-> initPane())
             .subscribe();
     }
 
@@ -66,21 +72,23 @@ public class SessionMainView extends Pane implements MainViewAction  {
 
 
     public void initPane(){
+
         this.setBackground(new Background(new BackgroundFill(Color.rgb(36,10,160),null,null)));
 
         sessionListPane.prefHeightProperty().bind(this.heightProperty());
         sessionListPane.prefWidthProperty().set(200);
+
         chatMainPane.prefHeightProperty().bind(this.heightProperty());
         chatMainPane.prefWidthProperty().set(this.getWidth()-200);
+        chatMainPane.setLayoutX(200);
 
-        Label label = new Label("sss");
         this.getChildren().add(sessionListPane);
         this.getChildren().add(chatMainPane);
-        this.getChildren().add(label);
 
     }
 
     private Mono<Void> initChatHandler (){
+        log.info("init chat handler");
         return Mono.just(this)
                 .doOnNext(obj-> {
                     obj.addEventHandler(ChatEvent.RECEIVE_CHAT , (chat)-> {

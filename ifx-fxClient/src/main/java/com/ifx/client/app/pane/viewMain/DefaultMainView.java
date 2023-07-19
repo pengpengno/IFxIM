@@ -1,5 +1,6 @@
 package com.ifx.client.app.pane.viewMain;
 
+import com.ifx.client.app.enums.APPEnum;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;

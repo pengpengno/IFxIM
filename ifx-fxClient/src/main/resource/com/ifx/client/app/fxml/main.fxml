@@ -17,6 +17,6 @@
       </ToolBar>
       <TextField fx:id="searchField" layoutX="556.0" layoutY="10.0" onInputMethodTextChanged="#searchAcc" prefHeight="40.0" prefWidth="405.0" />
       <Pane fx:id="viewMainPane" layoutX="240.0" layoutY="68.0" prefHeight="705.0" prefWidth="1133.0" />
-      <FlowPane fx:id="dashBoardFlowPane" layoutX="-3.0" layoutY="88.0" prefHeight="685.0" prefWidth="251.0" />
+      <FlowPane fx:id="dashBoardFlowPane" layoutX="-3.0" layoutY="88.0" prefHeight="685.0" prefWidth="238.0" />
    </children>
 </Pane>

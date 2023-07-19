@@ -39,6 +39,7 @@ public class SessionListPane extends FlowPane implements Initializable {
         if (sessionInfoVo == null){
             throw new IllegalArgumentException("Session is illegal ,Could not create SessionMinPane");
         }
+
         Long sessionId = sessionInfoVo.getSessionId();
 
         this.setHgap(FlowPane.USE_PREF_SIZE);
@@ -55,16 +56,6 @@ public class SessionListPane extends FlowPane implements Initializable {
         this.getChildren().add(sessionMessageMinPane);
 
         this.setAlignment(Pos.TOP_LEFT);
-
-        this.setBackground(new Background(new BackgroundFill(Color.rgb(136,10,160),null,null)));
-
-
-//        this.setLayoutY(20);
-//
-//        this.setPrefHeight(590);
-//        this.setWidth(190);
-//        this.setHeight(590);
-
 
 
     }

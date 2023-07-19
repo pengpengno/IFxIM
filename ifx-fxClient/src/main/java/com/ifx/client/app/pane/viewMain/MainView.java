@@ -1,6 +1,7 @@
 package com.ifx.client.app.pane.viewMain;
 
 import cn.hutool.core.util.ObjectUtil;
+import com.ifx.client.app.enums.APPEnum;
 import javafx.fxml.Initializable;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
@@ -32,14 +33,16 @@ public class MainView extends Pane implements Initializable {
 
 
 
-
     public void switchPane(APPEnum viewEnum){
+
         MainViewAction mainViewAction = mainViewActions.stream()
                 .filter(e -> ObjectUtil.equal(viewEnum, e.viewType())).findFirst()
                 .orElse(defaultMainView);
 
         if (mainViewAction instanceof Pane pane){
+
             switchPane(pane);
+
         }else {
             log.warn(" Illegal main no result");
         }
@@ -54,6 +57,11 @@ public class MainView extends Pane implements Initializable {
 
         currentView = view;
 
+        currentView.prefHeightProperty().bind(this.heightProperty());
+        currentView.prefWidthProperty().bind(this.widthProperty());
+
+        this.getChildren().clear();
+
         this.getChildren().add(componentIndex,currentView);
 
     }
@@ -62,7 +70,6 @@ public class MainView extends Pane implements Initializable {
     public void initPane() {
 
 
-        this.setBackground(new Background(new BackgroundFill(Color.rgb(161,100,100),null,null)));
 
         defaultMainView.initialize(null,null);
 
@@ -77,6 +84,8 @@ public class MainView extends Pane implements Initializable {
         currentView = defaultMainView;
 
         this.getChildren().add(currentView);
+
+        this.setBackground(new Background(new BackgroundFill(Color.rgb(161,100,100),null,null)));
 
 
     }
