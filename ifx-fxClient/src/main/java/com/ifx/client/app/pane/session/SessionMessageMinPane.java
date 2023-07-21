@@ -45,8 +45,11 @@ public class SessionMessageMinPane extends Pane {
         this.addEventHandler(MouseEvent.MOUSE_CLICKED,event -> {
             log.info("click sessionMinPane");
             SessionEvent sessionEvent = new SessionEvent(SessionEvent.SESSION_SWITCH, sessionInfoVo);
+
             ChatMainPane.getInstance().switchSessionEvent(sessionEvent);
+
         });
+
         this.setBackground(new Background(new BackgroundFill(Color.rgb(51,100,100),null,null)));
 
 

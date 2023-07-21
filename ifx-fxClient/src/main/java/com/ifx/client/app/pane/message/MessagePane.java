@@ -50,6 +50,7 @@ public class MessagePane extends FlowPane implements Initializable {
     public MessagePane(SessionInfoVo vo){
 
         chatBubblePaneMap = new HashMap<>();
+
         initPane(vo);
     }
 
@@ -58,9 +59,13 @@ public class MessagePane extends FlowPane implements Initializable {
         sessionInfoVo = vo;
 
         if (sessionInfoVo == null){
+
             sessionNameLabel = new Label("empty");
+
         }else {
+
             sessionNameLabel = new Label(sessionInfoVo.getSessionName());
+
         }
         this.setWidth(300);
         this.setHeight(200);

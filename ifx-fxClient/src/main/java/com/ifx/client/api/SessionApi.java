@@ -42,7 +42,6 @@ public class SessionApi {
 
 
     public Mono<SessionInfoVo> sessionInfoBySessionId(Long sessionId){
-//        UriComponentsBuilder.queryParam("userId", userId)
         return webClient
                 .get()
                 .uri(uriBuilder -> uriBuilder

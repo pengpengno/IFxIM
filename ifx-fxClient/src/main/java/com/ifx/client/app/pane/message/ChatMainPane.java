@@ -59,38 +59,37 @@ public class ChatMainPane extends FlowPane implements SwitchMainChatPaneHandler,
     }
 
     private void initEvent(){
-        switchPaneHandler()
-        .doOnNext(e->sendMessageEvent())
-        .subscribe();
+        switchPaneHandler2();
+        sendMessageEvent();
     }
+
 
 
     /***
      * sessionInfoPane switch EventHandler
      */
-    private  Mono<Void> switchPaneHandler (){
-       return Mono.just(this)
-               .doOnNext(obj -> {
-                   obj.addEventHandler(SessionEvent.SESSION_SWITCH, event-> {
-                       event.getSessionInfoVo()
-                               .flatMap(e-> Mono.justOrEmpty(Optional.ofNullable(messagePanes.get(e.getSessionId())))
-                                       .switchIfEmpty(
-                                               Mono.just(new MessagePane(Mono.from(sessionApi.sessionInfoBySessionId(e.getSessionId())).block()))
-                                                       .doOnNext(k-> {
-                                                           log.info("add MessagePane");
-                                                           addMessagePane(k);
-                                                       }))
-                               ).doOnNext(e-> {
-                                   log.info("set e {}  as currentMessagePane ", JSON.toJSONString(e.sessionInfoVo()));
-                                   int componentIndex = this.getChildren().indexOf(currentMessagePane);
-                                   this.getChildren().remove(componentIndex);
-                                   currentMessagePane = e;
-                                   this.getChildren().add(componentIndex,currentMessagePane);
-                               })
-                               .doOnNext(l-> this.requestFocus())
-                       ;
-                   });
-               }).then();
+    private  void switchPaneHandler2 (){
+       this.addEventHandler(SessionEvent.SESSION_SWITCH, event-> {
+           event.getSessionInfoVo()
+                   .flatMap(e -> Mono.justOrEmpty(Optional.ofNullable(messagePanes.get(e.getSessionId())))
+                           .switchIfEmpty(
+                                   Mono.just(new MessagePane(Mono.from(sessionApi.sessionInfoBySessionId(e.getSessionId())).block()))
+                                           .doOnNext(k -> {
+                                               log.info("add MessagePane");
+                                               addMessagePane(k);
+                                           }))
+                   ).doOnNext(e -> {
+                       log.info("set e {}  as currentMessagePane ", JSON.toJSONString(e.sessionInfoVo()));
+                       int componentIndex = this.getChildren().indexOf(currentMessagePane);
+                       this.getChildren().remove(componentIndex);
+                       currentMessagePane = e;
+                       this.getChildren().add(componentIndex, currentMessagePane);
+                   })
+                   .doOnNext(l -> this.requestFocus())
+                   .subscribe()
+           ;
+       });
+
     }
 
 
@@ -141,9 +140,6 @@ public class ChatMainPane extends FlowPane implements SwitchMainChatPaneHandler,
         return Mono.justOrEmpty(currentMessagePane);
     }
 
-    public Mono<SessionInfoVo> getCurrentSessionInfo(){
-        return currentMessagePane.sessionInfoVoMono();
-    }
 
     public SessionInfoVo currentSessionInfo(){
         return currentMessagePane.sessionInfoVo();
@@ -173,6 +169,10 @@ public class ChatMainPane extends FlowPane implements SwitchMainChatPaneHandler,
         jfxScrollPane = new JFXScrollPane();
 
         jfxScrollPane.setContent(currentMessagePane);
+
+        sendButton = new JFXButton();
+
+        sendButton.setButtonType(JFXButton.ButtonType.FLAT);
 
         this.getChildren().add(jfxScrollPane);
 
