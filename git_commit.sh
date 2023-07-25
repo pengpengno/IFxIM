@@ -1,3 +1,4 @@
+#!/bin/bash
 
 while true; do
     # Read command from user
@@ -12,6 +13,13 @@ while true; do
 
     # Execute the command
     eval "git add -A && git commit -a -m '$comment' && git push"
+    exit_status=$?
+    if [ $exit_status -eq 0 ]; then
+            echo "Command executed successfully."
+        else
+            echo "Command encountered an error. Exit status: $exit_status"
+      fi
+
 done
 
 
