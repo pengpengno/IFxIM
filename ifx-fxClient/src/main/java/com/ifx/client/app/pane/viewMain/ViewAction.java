@@ -8,13 +8,18 @@ import javafx.fxml.Initializable;
  * @description
  * @date 2023/7/8
  */
-public interface MainViewAction extends Initializable {
+public interface ViewAction extends Initializable {
 
     public final Integer MAX_WIGHT = 1000 ;
 
 
 
     public APPEnum viewType();
+
+
+    default void size(Long width,Long height){
+
+    }
 
 
 

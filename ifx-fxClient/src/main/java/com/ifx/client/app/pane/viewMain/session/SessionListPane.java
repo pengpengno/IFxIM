@@ -1,4 +1,4 @@
-package com.ifx.client.app.pane.session;
+package com.ifx.client.app.pane.viewMain.session;
 
 import com.ifx.account.vo.session.SessionInfoVo;
 import javafx.fxml.Initializable;
@@ -25,9 +25,15 @@ public class SessionListPane extends FlowPane implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
+        initPane();
+    }
+
+    public void initPane(){
         this.setBackground(new Background(new BackgroundFill(Color.rgb(136,10,160),null,null)));
 
     }
+
+
 
     private SessionListPane(){
         sessionMessageMinPaneMap = new HashMap<>();
@@ -46,19 +52,27 @@ public class SessionListPane extends FlowPane implements Initializable {
 
         this.setVgap(1);
 
+
         SessionMessageMinPane sessionMessageMinPane = new SessionMessageMinPane(sessionInfoVo);
 
-        sessionMessageMinPaneMap.putIfAbsent(sessionId,sessionMessageMinPane);
+        sessionMessageMinPane.prefWidthProperty().bind(this.widthProperty());
+        sessionMessageMinPane.prefHeightProperty().set(SessionMessageMinPane.HEIGHT);
 
+
+        sessionMessageMinPaneMap.putIfAbsent(sessionId,sessionMessageMinPane);
 
         this.setOrientation(Orientation.VERTICAL);
 
         this.getChildren().add(sessionMessageMinPane);
 
+
         this.setAlignment(Pos.TOP_LEFT);
 
-
     }
+
+
+
+
 
     private enum SingleInstance{
         INSTANCE;

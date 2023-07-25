@@ -8,6 +8,9 @@ import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontPosture;
+import javafx.scene.text.FontWeight;
 import org.springframework.stereotype.Component;
 
 import java.net.URL;
@@ -19,7 +22,7 @@ import java.util.ResourceBundle;
  * @date 2023/7/8
  */
 @Component
-public class DefaultMainView extends GridPane implements Initializable,MainViewAction {
+public class DefaultView extends GridPane implements Initializable, ViewAction {
 
     private Label defaultLabel;
 
@@ -30,11 +33,22 @@ public class DefaultMainView extends GridPane implements Initializable,MainViewA
 
         defaultLabel.setAlignment(Pos.CENTER);
 
+        Font customFontBoldItalic = Font.font("Arial", FontWeight.BOLD, FontPosture.ITALIC, 20);
+
+        defaultLabel.setStyle("-fx-text-fill: white;");
+
+        defaultLabel.setFont(customFontBoldItalic);
+
         this.setBackground(new Background(new BackgroundFill(Color.rgb(136,10,160),null,null)));
 
-        this.setPrefSize(200,400);
 
         this.getChildren().add(defaultLabel);
+    }
+
+    @Override
+    public void size(Long width, Long height) {
+        ViewAction.super.size(width, height);
+        this.setPrefSize(width,height);
     }
 
     @Override

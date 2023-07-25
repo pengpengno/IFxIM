@@ -3,7 +3,8 @@ package com.ifx.client.app.pane.dashbord;
 import cn.hutool.core.lang.Assert;
 import com.ifx.client.app.enums.APPEnum;
 import com.ifx.client.app.pane.viewMain.MainView;
-import com.ifx.client.app.pane.viewMain.SessionMainView;
+import com.ifx.client.app.pane.viewMain.SessionView;
+import com.ifx.client.util.FontUtil;
 import com.ifx.common.base.AccountInfo;
 import com.ifx.common.context.AccountContext;
 import com.jfoenix.controls.JFXButton;
@@ -20,7 +21,6 @@ import javafx.scene.text.FontWeight;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import reactor.core.publisher.Mono;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -43,7 +43,7 @@ public class DefaultApp extends Pane implements MiniApplication, Initializable {
     private Image applicationIcon ;
 
     @Autowired
-    private SessionMainView sessionMainView;
+    private SessionView sessionMainView;
 
 
 
@@ -54,6 +54,7 @@ public class DefaultApp extends Pane implements MiniApplication, Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         initPane();
+        initEvent();
     }
 
     @Override
@@ -63,12 +64,12 @@ public class DefaultApp extends Pane implements MiniApplication, Initializable {
 
 
 
-    public Mono<Void> initEvent(){
-       return initSessionInfoEvent();
+    public void initEvent(){
+        initSessionInfoEvent();
     }
 
 
-    public Mono<Void> initSessionInfoEvent(){
+    public void initSessionInfoEvent(){
 
         log.info("init SessionInfo");
         applicationButton.setOnMouseClicked(mouse-> {
@@ -79,14 +80,13 @@ public class DefaultApp extends Pane implements MiniApplication, Initializable {
         AccountInfo curAccount = AccountContext.getCurAccount();
 
         Assert.notNull(curAccount,"AccountInfo  is invalid , pls try login again!");
-        return Mono.empty();
     }
 
 
 
     public void initPane(){
 
-        applicationName = new Label(appName().name());
+        applicationName = FontUtil.defaultLabel(30,appName().name());
 
         applicationButton = new JFXButton(appName().name());
 
@@ -100,7 +100,8 @@ public class DefaultApp extends Pane implements MiniApplication, Initializable {
 
         this.getChildren().add(applicationButton);
 
-        initEvent().subscribe();
+//        this.getChildren().add(applicationName);
+
 
 
     }

@@ -1,14 +1,14 @@
-package com.ifx.client.app.pane.message;
+package com.ifx.client.app.pane.viewMain.message;
 
 import com.ifx.account.vo.ChatMsgVo;
 import com.ifx.account.vo.session.SessionInfoVo;
+import com.ifx.client.util.FontUtil;
+import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXTextArea;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.FlowPane;
-import javafx.scene.paint.Color;
 import lombok.extern.slf4j.Slf4j;
 import reactor.core.publisher.Mono;
 
@@ -25,6 +25,12 @@ public class MessagePane extends FlowPane implements Initializable {
 
     private SessionInfoVo sessionInfoVo ;
 
+
+
+    private JFXTextArea messageArea;
+
+    private JFXButton sendButton;
+
     private Label sessionNameLabel  ;
 
     public Mono<SessionInfoVo> sessionInfoVoMono(){
@@ -36,22 +42,20 @@ public class MessagePane extends FlowPane implements Initializable {
     }
 
 
-    private MessagePane(){
 
-        chatBubblePaneMap = new HashMap<>();
 
-        this.setBackground(new Background(new BackgroundFill(Color.rgb(16,160,160),null,null)));
 
-        this.setWidth(30);
-        this.setHeight(70);
+
+    public MessagePane(){
+
     }
 
-
-    public MessagePane(SessionInfoVo vo){
+    public MessagePane wiredSessionInfo(SessionInfoVo vo){
 
         chatBubblePaneMap = new HashMap<>();
 
         initPane(vo);
+        return this;
     }
 
 
@@ -60,11 +64,14 @@ public class MessagePane extends FlowPane implements Initializable {
 
         if (sessionInfoVo == null){
 
+            sessionNameLabel = FontUtil.defaultLabel(15,"empty");
+
             sessionNameLabel = new Label("empty");
+
 
         }else {
 
-            sessionNameLabel = new Label(sessionInfoVo.getSessionName());
+            sessionNameLabel = FontUtil.defaultLabel(15,sessionInfoVo.getSessionName());
 
         }
         this.setWidth(300);
@@ -93,7 +100,6 @@ public class MessagePane extends FlowPane implements Initializable {
         if (sessionInfoVo !=null){
 
             Long sessionId = sessionInfoVo.getSessionId();
-
 
         }
     }

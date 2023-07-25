@@ -1,4 +1,4 @@
-package com.ifx.client.app.pane.session;
+package com.ifx.client.app.pane.viewMain.session;
 
 import cn.hutool.core.collection.CollectionUtil;
 import com.ifx.common.base.AccountInfo;

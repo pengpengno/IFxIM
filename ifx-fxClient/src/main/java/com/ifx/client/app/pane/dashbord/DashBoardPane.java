@@ -10,6 +10,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.FlowPane;
+import javafx.scene.layout.Region;
 import javafx.scene.paint.Color;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -70,9 +71,14 @@ public class DashBoardPane extends FlowPane implements Initializable {
                 if (e instanceof Initializable initializable){
                     initializable.initialize(null,null);
                 }
+
+
+                if (e instanceof Region region){
+                    region.prefWidthProperty().bind(this.prefWidthProperty());
+                }
+
                 if (e instanceof Node node){
                     this.getChildren().add(node);
-
                 }
 
             });

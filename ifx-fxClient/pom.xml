@@ -72,15 +72,16 @@
             <artifactId>protobuf-java</artifactId>
         </dependency>
 
-        <dependency>
-            <groupId>org.fxmisc.richtext</groupId>
-            <artifactId>richtextfx</artifactId>
-            <version>0.11.0</version>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>org.fxmisc.richtext</groupId>-->
+<!--            <artifactId>richtextfx</artifactId>-->
+<!--            <version>0.11.0</version>-->
+<!--        </dependency>-->
         <dependency>
             <groupId>com.google.protobuf</groupId>
             <artifactId>protobuf-java-util</artifactId>
         </dependency>
+
 <!--        <dependency>-->
 <!--            <groupId>cglib</groupId>-->
 <!--            <artifactId>cglib</artifactId>-->
@@ -206,21 +207,21 @@
             </plugin>
 
 
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-                <version>${spring.starter.version}</version>
-                <configuration>
-                    <mainClass>com.ifx.client.APP</mainClass>
-                </configuration>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>repackage</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
+<!--            <plugin>-->
+<!--                <groupId>org.springframework.boot</groupId>-->
+<!--                <artifactId>spring-boot-maven-plugin</artifactId>-->
+<!--                <version>${spring.starter.version}</version>-->
+<!--                <configuration>-->
+<!--                    <mainClass>com.ifx.client.APP</mainClass>-->
+<!--                </configuration>-->
+<!--                <executions>-->
+<!--                    <execution>-->
+<!--                        <goals>-->
+<!--                            <goal>repackage</goal>-->
+<!--                        </goals>-->
+<!--                    </execution>-->
+<!--                </executions>-->
+<!--            </plugin>-->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>

@@ -1,4 +1,4 @@
-package com.ifx.client.app.pane.message;
+package com.ifx.client.app.pane.viewMain.message;
 
 import com.ifx.account.vo.ChatMsgVo;
 import com.ifx.common.base.AccountInfo;

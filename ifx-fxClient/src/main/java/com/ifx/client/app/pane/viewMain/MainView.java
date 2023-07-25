@@ -3,10 +3,7 @@ package com.ifx.client.app.pane.viewMain;
 import cn.hutool.core.util.ObjectUtil;
 import com.ifx.client.app.enums.APPEnum;
 import javafx.fxml.Initializable;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -23,23 +20,22 @@ import java.util.ResourceBundle;
 public class MainView extends Pane implements Initializable {
 
     @Autowired
-    private List<MainViewAction> mainViewActions;
+    private List<ViewAction> viewActions;
 
     private Pane currentView;
 
     @Autowired
-    private DefaultMainView defaultMainView;
-
+    private DefaultView defaultMainView;
 
 
 
     public void switchPane(APPEnum viewEnum){
 
-        MainViewAction mainViewAction = mainViewActions.stream()
+        ViewAction viewAction = viewActions.stream()
                 .filter(e -> ObjectUtil.equal(viewEnum, e.viewType())).findFirst()
                 .orElse(defaultMainView);
 
-        if (mainViewAction instanceof Pane pane){
+        if (viewAction instanceof Pane pane){
 
             switchPane(pane);
 
@@ -58,6 +54,7 @@ public class MainView extends Pane implements Initializable {
         currentView = view;
 
         currentView.prefHeightProperty().bind(this.heightProperty());
+
         currentView.prefWidthProperty().bind(this.widthProperty());
 
         this.getChildren().clear();
@@ -73,19 +70,23 @@ public class MainView extends Pane implements Initializable {
 
         defaultMainView.initialize(null,null);
 
-        mainViewActions.stream().filter(e-> e!=null).forEach(e-> {
+        viewActions.stream().filter(e-> e!=null).forEach(e-> {
             e.initialize(null,null);
             if (e instanceof Pane pane){
+
                 pane.prefHeightProperty().bind(this.heightProperty());
-                pane.prefHeightProperty().bind(this.heightProperty());
+                pane.prefWidthProperty().bind(this.widthProperty());
+
             }
         });
 
         currentView = defaultMainView;
 
+        currentView.prefHeightProperty().bind(this.heightProperty());
+        currentView.prefWidthProperty().bind(this.widthProperty());
+
         this.getChildren().add(currentView);
 
-        this.setBackground(new Background(new BackgroundFill(Color.rgb(161,100,100),null,null)));
 
 
     }

@@ -1,8 +1,8 @@
-package com.ifx.client.app.pane.message;
+package com.ifx.client.app.pane.viewMain.message;
 
-import com.ifx.account.vo.session.SessionInfoVo;
 import com.ifx.client.util.FontUtil;
 import javafx.scene.control.Label;
+import org.springframework.stereotype.Component;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -12,6 +12,7 @@ import java.util.ResourceBundle;
  * @description
  * @date 2023/7/22
  */
+@Component
 public class DefaultMessagePane extends MessagePane{
 
     private Label label ;
@@ -19,17 +20,14 @@ public class DefaultMessagePane extends MessagePane{
 
 
 
-    public DefaultMessagePane(SessionInfoVo vo) {
-        super(vo);
-    }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
+        label = FontUtil.defaultLabel(20,"No message try to start new session ");
 
-        label = new Label("No message try to start new session ");
-        label.setFont(FontUtil.ArialFont);
-//        super.initialize(location, resources);
+
+        this.getChildren().add(label);
     }
 
 

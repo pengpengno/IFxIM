@@ -1,4 +1,4 @@
-package com.ifx.client.app.pane.message;
+package com.ifx.client.app.pane.viewMain.message;
 
 import cn.hutool.core.date.DateUtil;
 import com.alibaba.fastjson2.JSON;
@@ -10,6 +10,7 @@ import com.ifx.client.api.SessionApi;
 import com.ifx.client.app.event.SessionEvent;
 import com.ifx.client.app.event.handler.ReceiveChatMessageEventHandler;
 import com.ifx.client.app.event.handler.SwitchMainChatPaneHandler;
+import com.ifx.client.util.FontUtil;
 import com.ifx.client.util.FxApplicationThreadUtil;
 import com.ifx.common.context.AccountContext;
 import com.jfoenix.controls.JFXButton;
@@ -39,7 +40,6 @@ public class ChatMainPane extends FlowPane implements SwitchMainChatPaneHandler,
 
     private JFXTextArea messageArea;
 
-
     private JFXButton sendButton;
 
     private JFXScrollPane jfxScrollPane;
@@ -48,8 +48,10 @@ public class ChatMainPane extends FlowPane implements SwitchMainChatPaneHandler,
     private SessionApi sessionApi;
 
     @Autowired
-    private ChatApi chatApi;
+    private DefaultMessagePane defaultMessagePane;
 
+    @Autowired
+    private ChatApi chatApi;
 
     private final Map<Long,MessagePane> messagePanes = new HashMap<>(); // key sessionId
 
@@ -58,8 +60,15 @@ public class ChatMainPane extends FlowPane implements SwitchMainChatPaneHandler,
         FxApplicationThreadUtil.invoke(()-> EventUtil.fireEvent(sessionEvent,this));
     }
 
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        initPane();
+        initEvent();
+    }
+
     private void initEvent(){
-        switchPaneHandler2();
+        switchPaneHandler();
         sendMessageEvent();
     }
 
@@ -68,28 +77,38 @@ public class ChatMainPane extends FlowPane implements SwitchMainChatPaneHandler,
     /***
      * sessionInfoPane switch EventHandler
      */
-    private  void switchPaneHandler2 (){
+    private  void switchPaneHandler (){
        this.addEventHandler(SessionEvent.SESSION_SWITCH, event-> {
+           log.info("session switch event");
            event.getSessionInfoVo()
-                   .flatMap(e -> Mono.justOrEmpty(Optional.ofNullable(messagePanes.get(e.getSessionId())))
-                           .switchIfEmpty(
-                                   Mono.just(new MessagePane(Mono.from(sessionApi.sessionInfoBySessionId(e.getSessionId())).block()))
-                                           .doOnNext(k -> {
-                                               log.info("add MessagePane");
-                                               addMessagePane(k);
-                                           }))
-                   ).doOnNext(e -> {
-                       log.info("set e {}  as currentMessagePane ", JSON.toJSONString(e.sessionInfoVo()));
-                       int componentIndex = this.getChildren().indexOf(currentMessagePane);
-                       this.getChildren().remove(componentIndex);
-                       currentMessagePane = e;
-                       this.getChildren().add(componentIndex, currentMessagePane);
-                   })
-                   .doOnNext(l -> this.requestFocus())
-                   .subscribe()
-           ;
+                   .flatMap(e -> {
+                       return Mono.justOrEmpty(Optional.ofNullable(messagePanes.get(e.getSessionId())))
+                               .switchIfEmpty(
+                                       sessionApi.sessionInfoBySessionId(e.getSessionId())
+                                               .map(k-> {
+                                                   MessagePane messagePane = new MessagePane();
+                                                   messagePane.wiredSessionInfo(k);
+                                                   return messagePane;
+                                               }));
+                           })
+                               .doOnNext(messagePane -> {
+                                   FxApplicationThreadUtil.invoke(()-> {
+                                       log.info("set e {}  as currentMessagePane ", JSON.toJSONString(messagePane.sessionInfoVo()));
+                                       addMessagePane(messagePane);
+                                       switchPane(messagePane);
+                                   });
+                               })
+//                               .doOnNext(l -> this.requestFocus())
+                               .subscribe();
        });
+    }
 
+    public void switchPane(MessagePane e){
+        e.prefWidthProperty().bind(this.widthProperty());
+        int componentIndex = this.getChildren().indexOf(currentMessagePane);
+        this.getChildren().remove(componentIndex);
+        currentMessagePane = e;
+        this.getChildren().add(componentIndex, currentMessagePane);
     }
 
 
@@ -152,54 +171,53 @@ public class ChatMainPane extends FlowPane implements SwitchMainChatPaneHandler,
     }
 
 
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-        initPane();
-        initEvent();
-    }
 
 
 
     private void initPane() {
 
+        defaultMessagePane.prefWidthProperty().bind(this.widthProperty());
+        defaultMessagePane.prefHeightProperty().bind(this.heightProperty());
 
+        currentMessagePane = defaultMessagePane;
 
-        currentMessagePane = new MessagePane(null);
+        currentMessagePane.prefWidthProperty().bind(this.widthProperty());
 
         jfxScrollPane = new JFXScrollPane();
 
         jfxScrollPane.setContent(currentMessagePane);
 
-        sendButton = new JFXButton();
+        messageArea = new JFXTextArea();
 
-        sendButton.setButtonType(JFXButton.ButtonType.FLAT);
+        sendButton = new JFXButton("send");
 
-        this.getChildren().add(jfxScrollPane);
+        sendButton.setButtonType(JFXButton.ButtonType.RAISED);
+        sendButton.setFont(FontUtil.ArialFont);
+
+//        sendButton.setLayoutX(500);
+//
+//        messageArea.prefWidthProperty().bind(this.widthProperty());
+//        messageArea.setPrefHeight(300);
+//        messageArea.setLayoutX(400);
 
         this.addMessagePane(currentMessagePane);
 
-        this.setWidth(300);
-        this.setHeight(300);
-
         this.setBackground(new Background(new BackgroundFill(Color.rgb(161,100,100),null,null)));
-
+//        messageArea.setBackground(new Background(new BackgroundFill(Color.rgb(61,100,10),null,null)));
 
         this.getChildren().add(currentMessagePane);
 
+
+        this.getChildren().add(sendButton);
+
+
+        this.getChildren().add(messageArea);
+
+//        this.getChildren().add(jfxScrollPane);
+
+
+
     }
-
-
-    public Mono<Void> switchMessagePane(SessionInfoVo sessionInfoVo){
-
-        if (sessionInfoVo == null){
-            throw new IllegalArgumentException("SessionInfo is valid.");
-        }
-
-        return Mono.justOrEmpty(Optional.ofNullable(messagePanes.get(sessionInfoVo.getSessionId())))
-                .doOnNext(messagePane -> currentMessagePane = messagePane)
-                .then();
-    }
-
 
 
 

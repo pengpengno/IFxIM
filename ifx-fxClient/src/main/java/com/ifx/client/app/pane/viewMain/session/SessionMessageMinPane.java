@@ -1,8 +1,9 @@
-package com.ifx.client.app.pane.session;
+package com.ifx.client.app.pane.viewMain.session;
 
 import com.ifx.account.vo.session.SessionInfoVo;
 import com.ifx.client.app.event.SessionEvent;
-import com.ifx.client.app.pane.message.ChatMainPane;
+import com.ifx.client.app.pane.viewMain.message.ChatMainPane;
+import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Background;
@@ -23,6 +24,9 @@ public class SessionMessageMinPane extends Pane {
 
     private Label unReadMessages;
 
+    public static Long HEIGHT = 100l;
+    public static Long WIDTH = 190l;
+
 
 
     public SessionMessageMinPane (SessionInfoVo sessionInfoVo){
@@ -32,6 +36,8 @@ public class SessionMessageMinPane extends Pane {
         }
 
         sessionNameLabel = new Label(sessionInfoVo.getSessionName());
+
+        sessionNameLabel.setAlignment(Pos.CENTER);
 
         Font customFontBoldItalic = Font.font("Arial", FontWeight.BOLD, FontPosture.ITALIC, 20);
 
@@ -43,7 +49,8 @@ public class SessionMessageMinPane extends Pane {
         this.getChildren().add(sessionNameLabel);
 
         this.addEventHandler(MouseEvent.MOUSE_CLICKED,event -> {
-            log.info("click sessionMinPane");
+
+            log.info("click min pane");
             SessionEvent sessionEvent = new SessionEvent(SessionEvent.SESSION_SWITCH, sessionInfoVo);
 
             ChatMainPane.getInstance().switchSessionEvent(sessionEvent);
@@ -52,14 +59,12 @@ public class SessionMessageMinPane extends Pane {
 
         this.setBackground(new Background(new BackgroundFill(Color.rgb(51,100,100),null,null)));
 
-
-        this.setPrefHeight(100);
-        this.setPrefWidth(190);
-        this.setHeight(600);
-        this.setWidth(190);
+//        this.setPrefHeight(WIDTH);
+//        this.setPrefWidth(HEIGHT);
 
 
     }
+
 
 
 

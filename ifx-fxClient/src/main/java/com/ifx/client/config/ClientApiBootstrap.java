@@ -1,7 +1,7 @@
 package com.ifx.client.config;
 
 import com.ifx.client.app.pane.dashbord.DashBoardPane;
-import com.ifx.client.app.pane.message.ChatMainPane;
+import com.ifx.client.app.pane.viewMain.message.ChatMainPane;
 import com.ifx.client.app.pane.viewMain.MainView;
 import com.ifx.connect.properties.ServerRouteConfigProperties;
 import lombok.extern.slf4j.Slf4j;

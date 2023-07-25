@@ -4,7 +4,7 @@ import cn.hutool.core.lang.Assert;
 import com.ifx.client.api.SessionApi;
 import com.ifx.client.app.enums.APPEnum;
 import com.ifx.client.app.pane.viewMain.MainView;
-import com.ifx.client.app.pane.viewMain.SessionMainView;
+import com.ifx.client.app.pane.viewMain.SessionView;
 import com.ifx.common.base.AccountInfo;
 import com.ifx.common.context.AccountContext;
 import com.jfoenix.controls.JFXButton;
@@ -45,7 +45,7 @@ public class SessionApp extends Pane implements MiniApplication, Initializable {
     private Image applicationIcon ;
 
     @Autowired
-    private SessionMainView sessionMainView;
+    private SessionView sessionMainView;
 
 
 

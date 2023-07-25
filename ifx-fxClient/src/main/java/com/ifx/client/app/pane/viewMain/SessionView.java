@@ -6,8 +6,8 @@ import com.ifx.account.vo.ChatMsgVo;
 import com.ifx.account.vo.session.SessionInfoVo;
 import com.ifx.client.app.enums.APPEnum;
 import com.ifx.client.app.event.ChatEvent;
-import com.ifx.client.app.pane.message.ChatMainPane;
-import com.ifx.client.app.pane.session.SessionListPane;
+import com.ifx.client.app.pane.viewMain.message.ChatMainPane;
+import com.ifx.client.app.pane.viewMain.session.SessionListPane;
 import com.ifx.client.util.FxApplicationThreadUtil;
 import com.ifx.connect.proto.Chat;
 import javafx.scene.layout.Background;
@@ -31,7 +31,7 @@ import java.util.ResourceBundle;
  */
 @Component
 @Slf4j
-public class SessionMainView extends Pane implements MainViewAction  {
+public class SessionView extends Pane implements ViewAction {
 
     @Autowired
     private SessionListPane sessionListPane;
@@ -49,15 +49,10 @@ public class SessionMainView extends Pane implements MainViewAction  {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         log.info("init SessionMainView");
+
+        this.setBackground(new Background(new BackgroundFill(Color.rgb(98,109,160),null,null)));
+
         initPane();
-
-        chatMainPane.initialize(null,null);
-        chatMainPane.prefHeightProperty().bind(this.heightProperty());
-        chatMainPane.prefWidthProperty().set(this.getWidth()-200);
-        sessionListPane.prefWidthProperty().set(200);
-        sessionListPane.prefHeightProperty().bind(this.heightProperty());
-
-        sessionListPane.initialize(null,null);
 
         initChatHandler()
             .subscribe();
@@ -70,19 +65,26 @@ public class SessionMainView extends Pane implements MainViewAction  {
         ;
     }
 
+    @Override
+    public void size(Long width, Long height) {
+        ViewAction.super.size(width, height);
+        this.setPrefSize(width,height);
+    }
 
     public void initPane(){
-
-        this.setBackground(new Background(new BackgroundFill(Color.rgb(36,10,160),null,null)));
+        sessionListPane.initialize(null,null);
+        chatMainPane.initialize(null,null);
 
         sessionListPane.prefHeightProperty().bind(this.heightProperty());
         sessionListPane.prefWidthProperty().set(200);
 
         chatMainPane.prefHeightProperty().bind(this.heightProperty());
-        chatMainPane.prefWidthProperty().set(this.getWidth()-200);
+        chatMainPane.prefWidthProperty().set(this.getWidth());
         chatMainPane.setLayoutX(200);
 
+
         this.getChildren().add(sessionListPane);
+
         this.getChildren().add(chatMainPane);
 
     }
