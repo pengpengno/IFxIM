@@ -125,6 +125,7 @@ public class ReactiveAccountServiceImpl implements ReactiveAccountService {
 
     public Mono<AccountInfo> register(AccountVo accountVo) {
         Assert.notNull(accountVo,"注册账户不可为空！");
+
         return Mono.defer(()-> accountRepository.findByAccount(accountVo.getAccount())
                 .hasElement()
                 .flatMap((hasEle)-> {

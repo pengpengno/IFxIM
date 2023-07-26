@@ -12,4 +12,5 @@ public interface ChatRoute {
 
 
     static String CHAT = "chat";
+    static String HISTORY = "/history";
 }

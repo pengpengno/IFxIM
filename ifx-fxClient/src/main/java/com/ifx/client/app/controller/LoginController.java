@@ -1,9 +1,11 @@
 package com.ifx.client.app.controller;
 
 
+import cn.hutool.core.net.url.UrlBuilder;
 import com.ifx.account.vo.AccountVo;
 import com.ifx.client.api.AccountApi;
 import com.ifx.client.util.FxmlLoader;
+import com.ifx.common.base.AccountInfo;
 import com.ifx.common.context.AccountContext;
 import com.ifx.connect.connection.client.ReactiveClientAction;
 import com.ifx.connect.mapstruct.ProtoBufMapper;
@@ -79,6 +81,7 @@ public class LoginController  implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         passwordField.setText("wangpeng");
         accountField.setText("wangpeng");
+        URL url = UrlBuilder.of("icon/menu/icomoon.svg").toURL();
         log.debug ("initialing login controller ");
     }
 
@@ -86,7 +89,6 @@ public class LoginController  implements Initializable {
     public void login(MouseEvent event) {
         AccountVo accountVo = AccountVo.builder().account(accountField.getText())
                 .password(accountField.getText()).build();
-
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("登录状态");
         accountApi.login(accountVo)

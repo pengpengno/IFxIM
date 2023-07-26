@@ -19,6 +19,8 @@
     <!--系统日志文件保存路径-->
     <property name="LOG_SYS_HOME" value="${LOG_HOME}/${APP_NAME}/sys"/>
 
+    <logger name="io.r2dbc" level="INFO" />
+
     <!-- 控制台输出日志 -->
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
 <!--            <layout class="ch.qos.logback.classic.PatternLayout">-->
@@ -54,7 +56,7 @@
     <!--============================ 按照每天生成日志文件：VENUS系统日志：默认配置 ==========================-->
 
     <!--===============================  日志输出: 默认主业务日志 ======================================-->
-    <root level="info">
+    <root level="debug">
         <appender-ref ref="APP" />
         <appender-ref ref="STDOUT" />
     </root>

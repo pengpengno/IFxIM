@@ -1,19 +1,14 @@
 package com.ifx.client.api;
 
 import cn.hutool.core.exceptions.ExceptionUtil;
-import com.ifx.account.route.chat.ChatRoute;
 import com.ifx.account.route.chat.SessionRoute;
 import com.ifx.account.vo.session.SessionInfoVo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatusCode;
-import org.springframework.http.MediaType;
 import org.springframework.http.ProblemDetail;
 import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.reactive.function.client.WebClient;
-import org.springframework.web.util.UriComponentsBuilder;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
@@ -25,7 +20,6 @@ public class SessionApi {
     @Autowired
     WebClient webClient;
     public Flux<SessionInfoVo> sessionInfo(Long userId){
-//        UriComponentsBuilder.queryParam("userId", userId)
         return webClient
                 .get()
                 .uri(uriBuilder -> uriBuilder
@@ -48,7 +42,6 @@ public class SessionApi {
 
 
     public Mono<SessionInfoVo> sessionInfoBySessionId(Long sessionId){
-//        UriComponentsBuilder.queryParam("userId", userId)
         return webClient
                 .get()
                 .uri(uriBuilder -> uriBuilder

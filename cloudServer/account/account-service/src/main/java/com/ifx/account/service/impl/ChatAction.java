@@ -5,6 +5,7 @@ import cn.hutool.core.exceptions.ExceptionUtil;
 import cn.hutool.core.util.ObjectUtil;
 import com.ifx.account.mapstruct.ChatMsgRecordMapper;
 import com.ifx.account.repository.ChatMsgRecordRepository;
+import com.ifx.account.repository.ChatMsgRepository;
 import com.ifx.account.service.ChatMsgService;
 import com.ifx.account.service.IChatAction;
 import com.ifx.account.service.ISessionLifeStyle;
@@ -26,8 +27,6 @@ import reactor.core.publisher.Mono;
 import reactor.util.retry.Retry;
 
 import java.time.Duration;
-import java.time.Period;
-import java.time.temporal.TemporalUnit;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -59,9 +58,12 @@ public class ChatAction implements IChatAction {
 
     @Autowired
     private ChatMsgRecordRepository chatMsgRecordRepository;
+    @Autowired
+    private ChatMsgRepository chatMsgRepository;
 
     @Autowired
     private ReactiveChatMsgRecord reactiveChatMsgRecord;
+
     @Autowired
     ChatMsgService chatMsgService;
 
@@ -109,14 +111,8 @@ public class ChatAction implements IChatAction {
     }
 
     @Override
-    public List<ChatMsgVo> pullMsg(PullChatMsgVo pullChatMsgVo) {
-        ValidatorUtil.validateThrows(pullChatMsgVo);
-        Long sessionId = pullChatMsgVo.getSessionId();
-        PullChatMsgVo.TimeRange timeRange = pullChatMsgVo.getTimeRange();
-        Period period = timeRange.period();
-        List<TemporalUnit> units = period.getUnits();
-
-        return null;
+    public Flux<ChatMsgVo> pullMsg(PullChatMsgVo pullChatMsgVo) {
+        return chatMsgService.pullMsgOrderByCreateTimeDesc(pullChatMsgVo);
     }
 
     @Override

@@ -72,8 +72,8 @@ services:
       MYSQL_ROOT_HOST: '%'
       default-authentication-plugin: mysql_native_password
 #      MYSQL_SSL: "true"
-#    ports:
-#      - "3306:3306"
+    ports:
+      - "3306:3306"
     volumes:
       - ./sql:/docker-entrypoint-initdb.d
 

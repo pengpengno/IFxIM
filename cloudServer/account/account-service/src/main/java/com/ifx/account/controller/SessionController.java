@@ -7,7 +7,6 @@ import com.ifx.account.service.reactive.SessionService;
 import com.ifx.account.vo.session.SessionAccountContextVo;
 import com.ifx.account.vo.session.SessionAccountVo;
 import com.ifx.account.vo.session.SessionInfoVo;
-import com.ifx.account.vo.session.SessionSearchVo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
@@ -28,7 +27,6 @@ public class SessionController {
     private ISessionAccountService sessionAccountService;
 
 
-
     @Autowired
     private SessionService sessionService;
 
@@ -47,7 +45,6 @@ public class SessionController {
 
     @GetMapping("/info")
     public Mono<SessionInfoVo> sessionInfoById(@RequestParam Long sessionId){
-//        return sessionLifeStyle.findSessionInfoByUserId(userId);
         return sessionService.selectSession(sessionId);
     }
 
