@@ -1,6 +1,7 @@
 package com.ifx.account.service.impl.reactive;
 
 import com.ifx.account.bo.ChatMsgBo;
+import com.ifx.account.entity.ChatMsg;
 import com.ifx.account.mapstruct.ChatMsgMapper;
 import com.ifx.account.repository.ChatMsgRecordRepository;
 import com.ifx.account.repository.ChatMsgRepository;
@@ -15,6 +16,8 @@ import org.springframework.amqp.core.Message;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -62,12 +65,13 @@ public class ChatMsgServiceImpl  implements ChatMsgService {
 
 
     @Override
-    public Flux<ChatMsgVo> pullMsg(PullChatMsgVo pullChatMsgVo) {
+    public Flux<ChatMsgVo> pullMsgOrderByCreateTimeDesc(PullChatMsgVo pullChatMsgVo) {
         ValidatorUtil.validateThrows(pullChatMsgVo);
+        ValidatorUtil.validateThrows(pullChatMsgVo.getPageVo());
         Long sessionId = pullChatMsgVo.getSessionId();
-        PullChatMsgVo.TimeRange timeRange = pullChatMsgVo.getTimeRange();
-        return chatMsgRepository.findByIdAndCreateTimeBetween(sessionId, timeRange.getStartTime(), timeRange.getEndTime())
-                .map(ChatMsgMapper.INSTANCE::tran2MsgVo);
+        Sort descCreateTime = Sort.sort(ChatMsg.class).by(ChatMsg::getCreateTime).descending();
+        PageRequest pageRequest = Optional.ofNullable(pullChatMsgVo.getPageRequest()).orElse(PageRequest.of(1, 100, descCreateTime));
+        return chatMsgRepository.findBySessionId(sessionId,pageRequest.withSort(descCreateTime)).map(ChatMsgMapper.INSTANCE::tran2MsgVo);
     }
 
     @Override

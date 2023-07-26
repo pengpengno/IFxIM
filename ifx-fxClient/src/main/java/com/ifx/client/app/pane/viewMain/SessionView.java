@@ -54,8 +54,8 @@ public class SessionView extends Pane implements ViewAction {
 
         initPane();
 
-        initChatHandler()
-            .subscribe();
+        initChatHandler();
+
     }
 
     public Mono<Void> initSessionRefresh(Flux<SessionInfoVo> sessionInfoVo){
@@ -76,11 +76,11 @@ public class SessionView extends Pane implements ViewAction {
         chatMainPane.initialize(null,null);
 
         sessionListPane.prefHeightProperty().bind(this.heightProperty());
-        sessionListPane.prefWidthProperty().set(200);
+        sessionListPane.prefWidthProperty().setValue(ViewSize.SESSION_LIST_PANE_PREFWIDTH);
 
         chatMainPane.prefHeightProperty().bind(this.heightProperty());
-        chatMainPane.prefWidthProperty().set(this.getWidth());
-        chatMainPane.setLayoutX(200);
+        chatMainPane.prefWidthProperty().bind(this.prefWidthProperty());
+        chatMainPane.setLayoutX(ViewSize.SESSION_LIST_PANE_PREFWIDTH.doubleValue());
 
 
         this.getChildren().add(sessionListPane);
@@ -89,26 +89,30 @@ public class SessionView extends Pane implements ViewAction {
 
     }
 
-    private Mono<Void> initChatHandler (){
-        log.info("init chat handler");
-        return Mono.just(this)
-                .doOnNext(obj-> {
-                    obj.addEventHandler(ChatEvent.RECEIVE_CHAT , (chat)-> {
-                        log.info("client receive message");
-                        Chat.ChatMessage chatMessage = chat.getChatMessage();
-                        ChatMsgVo chatMsgVo = AccProtoBufMapper.INSTANCE.tran2ProtoChat(chatMessage);
-                        Mono.justOrEmpty(Optional.ofNullable(chatMainPane.currentSessionInfo()))
-                                .filter(e-> ObjectUtil.equal(chatMsgVo.getSessionId(),e.getSessionId()))
-                                .hasElement()
-                                .flatMap(isCurrentSessionMessage-> {
-                                    if (isCurrentSessionMessage) {
-                                        return chatMainPane.getMessagePane().doOnNext(e->e.addMessage(chatMsgVo));
-                                    }
-                                    return Mono.empty();
-                                })
-                                .subscribe();
-                    });
-                }).then();
+    private void initChatHandler (){
+        if (log.isDebugEnabled()){
+            log.debug("init chat handler");
+        }
+
+        this.addEventHandler(ChatEvent.RECEIVE_CHAT , (chat)-> {
+            log.info("client receive message");
+            Chat.ChatMessage chatMessage = chat.getChatMessage();
+            ChatMsgVo chatMsgVo = AccProtoBufMapper.INSTANCE.tran2ProtoChat(chatMessage);
+            Mono.justOrEmpty(Optional.ofNullable(chatMainPane.currentSessionInfo()))
+                    .filter(e -> ObjectUtil.equal(chatMsgVo.getSessionId(), e.getSessionId()))
+                    .hasElement()
+                    .flatMap(isCurrentSessionMessage -> {
+                        if (isCurrentSessionMessage) {
+                            if (log.isDebugEnabled()){
+                                log.debug("receive chat message {} add it to  messagePane {}",chatMsgVo.getContent(),chatMainPane.getMessagePane().block().sessionInfoVo().getSessionId());
+                            }
+                            return chatMainPane.getMessagePane()
+                                    .doOnNext(e -> e.addChatBubblePane(chatMsgVo));
+                        }
+                        return Mono.empty();
+                    })
+                    .subscribe();
+        });
     }
 
 

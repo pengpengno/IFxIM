@@ -1,15 +1,16 @@
-package com.ifx.account.webflux;
+package com.ifx.account.webflux.service;
 
-import com.alibaba.fastjson2.JSON;
 import com.ifx.account.AccountApplication;
 import com.ifx.account.entity.Account;
 import com.ifx.account.repository.AccountRepository;
 import lombok.extern.slf4j.Slf4j;
+import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.r2dbc.core.R2dbcEntityTemplate;
 import reactor.core.publisher.Mono;
+import reactor.test.StepVerifier;
 
 /**
  * @author pengpeng
@@ -32,7 +33,8 @@ public class RepositoryTest {
     public void r2dbcEntity(){
 //        new
         Mono<Account> pengpeng = accountRepository.findByAccount("pengpeng");
-        System.out.println(pengpeng.block());
-        pengpeng.doOnNext(s-> log.info(JSON.toJSONString(s))).subscribe();
+        StepVerifier.create(pengpeng.hasElement())
+                        .expectNext(Boolean.TRUE);
+        Assert.assertTrue(pengpeng.hasElement().block());
     }
 }

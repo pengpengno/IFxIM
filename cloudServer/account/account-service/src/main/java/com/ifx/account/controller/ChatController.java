@@ -6,6 +6,7 @@ import com.ifx.account.vo.ChatMsgVo;
 import com.ifx.account.vo.chat.PullChatMsgVo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -36,8 +37,8 @@ public class ChatController {
 
 
     @PostMapping(ChatRoute.HISTORY)
-    public Flux<ChatMsgVo> pullMsg(@RequestBody PullChatMsgVo pullChatMsgVo){
-        return chatAction.pullMsg(pullChatMsgVo);
+    public ResponseEntity<Flux<ChatMsgVo>> pullMsg(@RequestBody PullChatMsgVo pullChatMsgVo){
+        return ResponseEntity.ok(chatAction.pullMsg(pullChatMsgVo));
     }
 
 

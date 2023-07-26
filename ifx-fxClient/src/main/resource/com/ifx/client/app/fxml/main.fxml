@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.FlowPane?>
 <?import javafx.scene.layout.Pane?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="773.0" prefWidth="1373.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ifx.client.app.controller.MainController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="780.0" prefWidth="1400.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ifx.client.app.controller.MainController">
    <children>
       <ToolBar fx:id="toolBar" layoutX="1220.0" layoutY="2.0" prefHeight="40.0" prefWidth="153.0">
         <items>
@@ -16,7 +16,7 @@
         </items>
       </ToolBar>
       <TextField fx:id="searchField" layoutX="556.0" layoutY="10.0" onInputMethodTextChanged="#searchAcc" prefHeight="40.0" prefWidth="405.0" />
-      <Pane fx:id="viewMainPane" layoutX="240.0" layoutY="68.0" prefHeight="705.0" prefWidth="1133.0" />
-      <FlowPane fx:id="dashBoardFlowPane" layoutX="-3.0" layoutY="88.0" prefHeight="685.0" prefWidth="238.0" />
+      <Pane fx:id="viewMainPane" layoutX="250.0" layoutY="70.0" prefHeight="710.0" prefWidth="1150.0" />
+      <FlowPane fx:id="dashBoardFlowPane"  layoutY="70.0" prefHeight="710.0" prefWidth="250.0" />
    </children>
 </Pane>

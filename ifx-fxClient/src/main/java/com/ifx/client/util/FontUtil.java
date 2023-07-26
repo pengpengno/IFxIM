@@ -23,4 +23,23 @@ public interface FontUtil {
     }
 
 
+
+    public static Font bigFont(){
+        return defaultFont(30);
+    }
+
+
+    public static Font defaultFont(Integer size)  {
+       return Font.font("Arial", FontWeight.BOLD, FontPosture.ITALIC, size);
+    }
+//    public static <T extends Region>  T defaultLabel(int size, String label, Class<T> tClass) throws ClassNotFoundException {
+//        Label l = new Label(label);
+//        return Class.forName(tClass.getName());
+//
+//        l.setFont(Font.font("Arial", FontWeight.BOLD, FontPosture.ITALIC, 20));
+//        l.setStyle("-fx-text-fill: white;");
+//        return l ;
+//    }
+
+
 }

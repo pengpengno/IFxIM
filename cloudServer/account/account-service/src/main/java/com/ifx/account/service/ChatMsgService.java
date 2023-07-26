@@ -23,7 +23,7 @@ public interface ChatMsgService  {
     public Mono<Void> pushMsg(ChatMsgBo chatMsgBo);  //写扩散
 
 
-    public Flux<ChatMsgVo> pullMsg(PullChatMsgVo pullChatMsgVo);
+    public Flux<ChatMsgVo> pullMsgOrderByCreateTimeDesc(PullChatMsgVo pullChatMsgVo);
 
 
 

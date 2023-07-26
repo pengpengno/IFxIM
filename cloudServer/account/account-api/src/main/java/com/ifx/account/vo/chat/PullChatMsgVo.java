@@ -1,8 +1,11 @@
 package com.ifx.account.vo.chat;
 
+import com.ifx.account.vo.page.PageVo;
 import lombok.Data;
+import org.springframework.data.domain.PageRequest;
 
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 import java.time.Period;
 
 /**
@@ -11,13 +14,27 @@ import java.time.Period;
  * @date 2023/7/2
  */
 @Data
-public class PullChatMsgVo {
+public class PullChatMsgVo implements Serializable {
 
     @NotNull(message = "sessionId could not be null, type legal value!")
     private Long sessionId ;
 
-    @NotNull(message = "timeRange could not be null")
-    private TimeRange timeRange;
+//    @NotNull(message = "timeRange could not be null")
+
+    private PageVo pageVo;
+
+
+
+    public PageRequest getPageRequest(){
+        if (pageVo != null  &&  getPageVo().pageSize() > 0 && getPageVo().pageNumber() >= 0){
+            PageRequest of = PageRequest.of(getPageVo().pageNumber(), getPageVo().pageSize());
+            return of;
+        }
+        return null;
+    }
+
+
+
 
 
      @Data

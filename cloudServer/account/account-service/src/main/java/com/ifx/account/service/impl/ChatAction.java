@@ -27,7 +27,6 @@ import reactor.core.publisher.Mono;
 import reactor.util.retry.Retry;
 
 import java.time.Duration;
-import java.time.Period;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -113,8 +112,7 @@ public class ChatAction implements IChatAction {
 
     @Override
     public Flux<ChatMsgVo> pullMsg(PullChatMsgVo pullChatMsgVo) {
-
-        return chatMsgService.pullMsg(pullChatMsgVo);
+        return chatMsgService.pullMsgOrderByCreateTimeDesc(pullChatMsgVo);
     }
 
     @Override

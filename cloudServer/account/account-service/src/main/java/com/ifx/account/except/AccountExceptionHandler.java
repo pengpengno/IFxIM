@@ -2,6 +2,7 @@ package com.ifx.account.except;
 
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.exceptions.ExceptionUtil;
+import com.ifx.exec.ex.valid.ValidationException;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
 import lombok.extern.slf4j.Slf4j;
@@ -58,6 +59,14 @@ public class AccountExceptionHandler {
             return Mono.just(ResponseEntity.badRequest().body(sb.toString()));
         }
         return Mono.just(ResponseEntity.badRequest().body(exception.getLocalizedMessage()));
+    }
+
+    @ExceptionHandler({ValidationException.class})
+    public  Mono<ResponseEntity<ProblemDetail>> validException(ValidationException exception){
+        log.error("bind  error {}",ExceptionUtil.stacktraceToString(exception));
+        ProblemDetail problemDetail = ProblemDetail.forStatus(HttpStatus.BAD_REQUEST);
+        problemDetail.setDetail(exception.getMessage());
+        return Mono.just(ResponseEntity.of(problemDetail).build());
     }
 
 

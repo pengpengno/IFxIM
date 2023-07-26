@@ -19,7 +19,7 @@ while true; do
         else
             echo "Command encountered an error. Exit status: $exit_status"
       fi
-
+      break
 done
 
 
