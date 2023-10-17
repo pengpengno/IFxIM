@@ -26,7 +26,7 @@ public class Demo {
                 if (frame == null) {
                     break;
                 }
-                frame.data
+//                frame.data
 
                 // Process the frame (e.g., perform some OpenCV operations)
                 // Modify the frame here as needed
