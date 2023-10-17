@@ -2,12 +2,12 @@ package com.ifx.account.vo;
 
 import com.ifx.account.validator.ACCOUNTLOGIN;
 import com.ifx.common.acc.AccountSPI;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 /***

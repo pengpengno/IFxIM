@@ -23,6 +23,5 @@ public class ConnectionModule extends AbstractModule {
         bind(IConnectContextAction.class).to(IConnectContext.class).in(Singleton.class);
         bind(IConnection.class).to(ReactorConnection.class);
         bind(ReactiveServer.class).annotatedWith(Names.named("ReactorTcpServer")).toInstance(ReactorTcpServer.getInstance());
-        // other bindings here
     }
 }

@@ -106,10 +106,6 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-validation</artifactId>
         </dependency>
-<!--        <dependency>-->
-<!--            <groupId>com.github.jasync-sql</groupId>-->
-<!--            <artifactId>jasync-r2dbc-mysql</artifactId>-->
-<!--        </dependency>-->
 
 
         <dependency>

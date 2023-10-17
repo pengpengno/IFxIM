@@ -3,9 +3,9 @@ package com.ifx.connect.connection.server.context;
 import com.ifx.connect.enums.ConnectionStatus;
 import com.ifx.connect.proto.Account;
 import io.netty.channel.Channel;
+import jakarta.validation.constraints.NotNull;
 import reactor.netty.Connection;
 
-import javax.validation.constraints.NotNull;
 
 /**
  * 服务端使用的 connection 抽象接口

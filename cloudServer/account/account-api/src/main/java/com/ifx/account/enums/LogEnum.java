@@ -1,8 +1,8 @@
 package com.ifx.account.enums;
 
+import jakarta.validation.constraints.NotNull;
 import lombok.extern.slf4j.Slf4j;
 
-import javax.validation.constraints.NotNull;
 import java.util.function.Function;
 
 /**

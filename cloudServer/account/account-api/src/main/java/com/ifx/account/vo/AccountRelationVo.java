@@ -2,11 +2,11 @@ package com.ifx.account.vo;
 
 import com.ifx.account.validator.ACCOUNTLOGIN;
 import com.ifx.account.validator.ACCOUTRELATIONINSERT;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
 import lombok.Builder;
 import lombok.Data;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
 import java.util.Set;
 
 /**

@@ -1,9 +1,9 @@
 package com.ifx.account.vo.session;
 
 import com.ifx.common.base.AccountInfo;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
-import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 /***

@@ -1,10 +1,10 @@
 package com.ifx.account.vo.chat;
 
 import com.ifx.account.vo.page.PageVo;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import org.springframework.data.domain.PageRequest;
 
-import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.time.Period;
 

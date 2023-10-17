@@ -29,12 +29,6 @@
             <groupId>com.ifx.connect</groupId>
             <artifactId>ifx-connect-spring-boot-starter</artifactId>
             <version>1.0</version>
-            <exclusions>
-                <exclusion>
-                    <artifactId>spring-cloud-starter-stream-rabbit</artifactId>
-                    <groupId>org.springframework.cloud</groupId>
-                </exclusion>
-            </exclusions>
         </dependency>
 
         <dependency>

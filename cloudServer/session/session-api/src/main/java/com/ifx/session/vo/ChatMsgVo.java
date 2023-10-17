@@ -2,8 +2,9 @@ package com.ifx.session.vo;
 
 import com.ifx.common.base.AccountInfo;
 import com.ifx.session.valiator.ChatPush;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
-import javax.validation.constraints.NotNull;
+
 import java.io.Serializable;
 @Data
 public class ChatMsgVo implements Serializable {

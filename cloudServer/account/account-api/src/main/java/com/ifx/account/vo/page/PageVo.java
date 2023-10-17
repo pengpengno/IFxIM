@@ -1,6 +1,8 @@
 package com.ifx.account.vo.page;
 
-import javax.validation.constraints.Min;
+//import javax.validation.constraints.Min;
+
+import jakarta.validation.constraints.Min;
 
 /**
  * @author pengpeng
