@@ -13,9 +13,7 @@
     <version>1.0</version>
     <groupId>com.ifx.client</groupId>
     <properties>
-        <javafx-plus.version>1.2.1-RELEASE</javafx-plus.version>
         <javafx.version>21</javafx.version>
-<!--        <spring.core.version>6.0.2</spring.core.version>-->
     </properties>
     <dependencies>
         <!-- https://mvnrepository.com/artifact/org.openjfx/javafx-base -->
@@ -29,7 +27,6 @@
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-controls</artifactId>
             <version>${javafx.version}</version>
-            <!--            <scope>runtime</scope>-->
         </dependency>
         <!-- https://mvnrepository.com/artifact/org.openjfx/javafx-fxml -->
         <dependency>
@@ -50,10 +47,10 @@
             <artifactId>javafx-web</artifactId>
             <version>${javafx.version}</version>
         </dependency>
-<!--        <dependency>-->
-<!--            <groupId>com.google.inject</groupId>-->
-<!--            <artifactId>guice</artifactId>-->
-<!--        </dependency>-->
+        <dependency>
+            <groupId>com.google.inject</groupId>
+            <artifactId>guice</artifactId>
+        </dependency>
         <dependency>
             <groupId>io.projectreactor.addons</groupId>
             <artifactId>reactor-extra</artifactId>
@@ -82,10 +79,6 @@
             <artifactId>protobuf-java-util</artifactId>
         </dependency>
 
-<!--        <dependency>-->
-<!--            <groupId>cglib</groupId>-->
-<!--            <artifactId>cglib</artifactId>-->
-<!--        </dependency>-->
         <dependency>
             <groupId>com.alibaba.fastjson2</groupId>
             <artifactId>fastjson2</artifactId>
@@ -121,11 +114,6 @@
             <artifactId>spring-boot-starter-test</artifactId>
         </dependency>
 
-<!--        <dependency>-->
-<!--            <groupId>org.springframework.boot</groupId>-->
-<!--            <artifactId>spring-boot-starter</artifactId>-->
-<!--        </dependency>-->
-
         <dependency>
             <groupId>com.ifx.session</groupId>
             <artifactId>session-api</artifactId>
@@ -156,6 +144,7 @@
             <groupId>com.squareup.retrofit2</groupId>
             <artifactId>retrofit</artifactId>
         </dependency>
+
         <dependency>
             <groupId>com.ifx.connect</groupId>
             <artifactId>ifx-connect-spring-boot-starter</artifactId>
@@ -176,6 +165,8 @@
 
 
     <build>
+        <sourceDirectory>src/main/java</sourceDirectory>
+        <testSourceDirectory>src/main/test</testSourceDirectory>
         <resources>
             <resource>
                 <directory>src/main/resources</directory>
@@ -183,6 +174,7 @@
                     <include>**/*</include>
                 </includes>
             </resource>
+
         </resources>
         <plugins>
 
@@ -209,21 +201,6 @@
             </plugin>
 
 
-<!--            <plugin>-->
-<!--                <groupId>org.springframework.boot</groupId>-->
-<!--                <artifactId>spring-boot-maven-plugin</artifactId>-->
-<!--                <version>${spring.starter.version}</version>-->
-<!--                <configuration>-->
-<!--                    <mainClass>com.ifx.client.APP</mainClass>-->
-<!--                </configuration>-->
-<!--                <executions>-->
-<!--                    <execution>-->
-<!--                        <goals>-->
-<!--                            <goal>repackage</goal>-->
-<!--                        </goals>-->
-<!--                    </execution>-->
-<!--                </executions>-->
-<!--            </plugin>-->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>

@@ -20,6 +20,7 @@ public class SessionApi {
     @Autowired
     WebClient webClient;
     public Flux<SessionInfoVo> sessionInfo(Long userId){
+
         return webClient
                 .get()
                 .uri(uriBuilder -> uriBuilder

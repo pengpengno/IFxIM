@@ -4,7 +4,6 @@ import com.ifx.client.app.event.SessionEvent;
 
 public interface SwitchSessionPaneHandler {
 
-
     void switchSessionEvent(SessionEvent sessionEvent);
 
 }
