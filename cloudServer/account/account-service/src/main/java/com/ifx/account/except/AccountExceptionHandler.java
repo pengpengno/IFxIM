@@ -2,7 +2,7 @@ package com.ifx.account.except;
 
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.exceptions.ExceptionUtil;
-import com.ifx.exec.ex.valid.ValidationException;
+import com.ifx.common.ex.valid.ValidationException;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
 import lombok.extern.slf4j.Slf4j;

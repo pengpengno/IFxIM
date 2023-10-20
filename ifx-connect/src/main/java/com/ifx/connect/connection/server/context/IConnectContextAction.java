@@ -1,6 +1,6 @@
 package com.ifx.connect.connection.server.context;
 
-import com.ifx.exec.ex.connect.ConnectException;
+import com.ifx.common.ex.connect.ConnectException;
 import reactor.netty.Connection;
 
 /**
@@ -18,7 +18,7 @@ public interface IConnectContextAction {
      * 获取指定 account 对应的connection
      * @param account
      * @return  返回指定账户的 connection 如果不存在则返回空
-     * @throws  ConnectException 异常抛出指定IErrorMsg {@link com.ifx.exec.errorMsg.connect.ConnectErrorMsg#NOT_FOUND_CONNECTION}
+     * @throws  ConnectException 异常抛出指定IErrorMsg {@link com.ifx.common.errorMsg.connect.ConnectErrorMsg#NOT_FOUND_CONNECTION}
      */
     public IConnection applyConnection(String account) throws ConnectException;
 

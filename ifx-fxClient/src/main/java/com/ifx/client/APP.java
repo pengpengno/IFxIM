@@ -8,6 +8,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.WebApplicationType;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 
 /**
  * 使用此启动类启动
@@ -15,9 +16,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @description
  * @date 2023/2/23
  */
-@SpringBootApplication(scanBasePackages = {"com.ifx","cn.hutool.extra.spring"})
+@SpringBootApplication(scanBasePackages = {"com.ifx","cn.hutool.extra.spring"}
+,exclude = {DataSourceAutoConfiguration.class})
 @Slf4j
-public class APP  implements CommandLineRunner {
+public class APP implements CommandLineRunner {
 
 
     @Autowired

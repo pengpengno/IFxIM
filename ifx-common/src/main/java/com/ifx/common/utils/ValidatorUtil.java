@@ -1,8 +1,7 @@
 package com.ifx.common.utils;
 
 import cn.hutool.core.collection.CollectionUtil;
-import com.ifx.exec.ex.valid.ValidationException;
-import lombok.extern.slf4j.Slf4j;
+import com.ifx.common.ex.valid.ValidationException;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
@@ -17,7 +16,7 @@ import java.util.Set;
  * @description
  * @date 2023/1/12
  */
-@Slf4j
+//@Slf4j
 public class ValidatorUtil {
 
     static Validator validator = Validation.buildDefaultValidatorFactory().getValidator();

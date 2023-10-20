@@ -5,7 +5,7 @@ import com.ifx.account.service.reactive.ReactiveAccountService;
 import com.ifx.common.base.AccountInfo;
 import com.ifx.common.utils.IdUtil;
 import com.ifx.common.utils.ValidatorUtil;
-import com.ifx.exec.ex.valid.ValidationException;
+import com.ifx.common.ex.valid.ValidationException;
 import com.ifx.session.entity.BaseEntity;
 import com.ifx.session.entity.Session;
 import com.ifx.session.entity.SessionAccount;

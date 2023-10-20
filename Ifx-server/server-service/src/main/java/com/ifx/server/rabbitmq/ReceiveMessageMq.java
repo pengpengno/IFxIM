@@ -6,7 +6,7 @@ import com.google.protobuf.InvalidProtocolBufferException;
 import com.ifx.connect.connection.server.ReactiveServerAction;
 import com.ifx.connect.proto.Account;
 import com.ifx.connect.proto.Chat;
-import com.ifx.exec.ex.net.NetException;
+import com.ifx.common.ex.net.NetException;
 import com.rabbitmq.client.Channel;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.core.ExchangeTypes;

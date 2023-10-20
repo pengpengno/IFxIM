@@ -36,7 +36,6 @@ public class GateWayExceptionHandler {
 
 
 
-
     @ExceptionHandler(WebExchangeBindException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public Mono<ResponseEntity<ProblemDetail>> handleBindException(WebExchangeBindException bindException) {

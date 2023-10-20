@@ -24,9 +24,6 @@ import static io.r2dbc.spi.ConnectionFactoryOptions.*;
 public class R2DBCAutoConfigure {
 
 
-
-
-
     @Bean
     @ConditionalOnMissingBean(ConnectionFactory.class)
     @ConditionalOnBean(DataBaseProperties.class)

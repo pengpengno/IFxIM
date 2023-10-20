@@ -9,7 +9,7 @@ import com.ifx.connect.connection.server.ServerToolkit;
 import com.ifx.connect.proto.Account;
 import com.ifx.connect.proto.ProtoParseUtil;
 import com.ifx.connect.spi.ReactiveHandlerSPI;
-import com.ifx.exec.ex.net.NetException;
+import com.ifx.common.ex.net.NetException;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.ByteBufAllocator;
 import io.netty.handler.logging.LogLevel;
@@ -30,6 +30,7 @@ import java.util.concurrent.Callable;
  * @date 2023/1/8
  */
 @Slf4j
+//@Component
 public class ReactorTcpClient implements ClientLifeStyle , ReactiveClientAction {
 
     private Connection connection = null;
@@ -37,7 +38,7 @@ public class ReactorTcpClient implements ClientLifeStyle , ReactiveClientAction 
     private TcpClient client;
 
     @Override
-    public void init(InetSocketAddress address) {
+    public void config(InetSocketAddress address) {
         this.address = address;
         client = TcpClient
                     .create()
@@ -58,7 +59,7 @@ public class ReactorTcpClient implements ClientLifeStyle , ReactiveClientAction 
 
     @Override
     public Boolean connect(InetSocketAddress address) throws  NetException {
-        init(address);
+        config(address);
         try{
             connection = client.connectNow();
         }catch (Exception exception){

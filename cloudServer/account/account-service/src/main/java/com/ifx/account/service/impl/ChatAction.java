@@ -14,7 +14,7 @@ import com.ifx.account.vo.ChatMsgVo;
 import com.ifx.account.vo.chat.ChatMsgRecordVo;
 import com.ifx.account.vo.chat.PullChatMsgVo;
 import com.ifx.common.utils.ValidatorUtil;
-import com.ifx.exec.ex.bus.acc.AccountException;
+import com.ifx.common.ex.bus.acc.AccountException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.AmqpException;
 import org.springframework.amqp.core.Message;

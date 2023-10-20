@@ -16,7 +16,6 @@
     <module>ifx-connect</module>
     <module>Ifx-server</module>
     <module>ifx-starter</module>
-    <module>ifx-exc</module>
     <module>ifx-connect-spring-boot-starter</module>
   </modules>
   <packaging>pom</packaging>

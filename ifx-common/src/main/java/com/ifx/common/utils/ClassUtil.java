@@ -1,14 +1,15 @@
 package com.ifx.common.utils;
 
-import lombok.extern.slf4j.Slf4j;
 import java.io.File;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
-import java.util.*;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 
 
-@Slf4j
+//@Slf4j
 public class ClassUtil {
     private ClassLoader classLoader;
 
@@ -70,7 +71,7 @@ public class ClassUtil {
             try {
                 return Class.forName(path);
             } catch (ClassNotFoundException ex) {
-                log.error("class  not fount the path is {} ", path);
+//                log.error("class  not fount the path is {} ", path);
                 return null;
             }
         })).orElseThrow(() -> new ClassNotFoundException("class  not fount the path is "+ path));

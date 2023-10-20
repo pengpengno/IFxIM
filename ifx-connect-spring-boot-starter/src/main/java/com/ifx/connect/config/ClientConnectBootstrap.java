@@ -20,15 +20,13 @@ import java.net.InetSocketAddress;
 public class ClientConnectBootstrap {
 
 
-
-
     @Bean
     public ClientLifeStyle connectServer(@Autowired ClientNettyConfigProperties properties){
         ClientLifeStyle lifeStyle = ClientToolkit.clientLifeStyle();
         String serverHost = properties.getServerHost();
         Integer serverPort = properties.getServerPort();
         InetSocketAddress address = new InetSocketAddress(serverHost, serverPort);
-        lifeStyle.init(address);
+        lifeStyle.config(address);
         return lifeStyle;
     }
 

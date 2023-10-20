@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.Pane?>
+
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Label layoutX="96.0" layoutY="118.0" prefHeight="31.0" prefWidth="42.0" text="host" />
+      <Label layoutX="112.0" layoutY="161.0" prefHeight="31.0" prefWidth="51.0" text="port" />
+      <TextField layoutX="225.0" layoutY="122.0" promptText="please enter host" />
+      <TextField layoutX="206.0" layoutY="177.0" promptText="please enter port" />
+   </children>
+</Pane>

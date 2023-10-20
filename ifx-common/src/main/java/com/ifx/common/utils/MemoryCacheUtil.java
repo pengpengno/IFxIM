@@ -1,11 +1,10 @@
 package com.ifx.common.utils;
 
 import cn.hutool.cache.impl.LRUCache;
-import lombok.extern.slf4j.Slf4j;
-//import org.springframework.stereotype.Component;
+
 import java.util.concurrent.TimeUnit;
 
-@Slf4j
+//@Slf4j
 public class MemoryCacheUtil implements CacheUtil{
 
     private LRUCache<String,Object> lruCache;

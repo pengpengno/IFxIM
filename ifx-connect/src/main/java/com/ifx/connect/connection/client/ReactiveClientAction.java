@@ -1,7 +1,7 @@
 package com.ifx.connect.connection.client;
 
 import com.google.protobuf.Message;
-import com.ifx.exec.ex.net.NetException;
+import com.ifx.common.ex.net.NetException;
 import reactor.core.publisher.Mono;
 
 /**
@@ -15,5 +15,5 @@ public interface ReactiveClientAction {
     Mono<Void> sendMessage(Message message);
 
 
-    Mono<Void> sendString(String message) throws NetException ;
+    Mono<Void> sendString(String message) throws NetException;
 }

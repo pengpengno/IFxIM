@@ -1,6 +1,6 @@
 package com.ifx.connect.connection.client;
 
-import com.ifx.exec.ex.net.NetException;
+import com.ifx.common.ex.net.NetException;
 import reactor.core.Exceptions;
 import reactor.core.publisher.Flux;
 import reactor.util.retry.Retry;
@@ -17,7 +17,7 @@ public interface ClientLifeStyle {
 
 
 
-    public void init(InetSocketAddress address) ;
+    public void config(InetSocketAddress address) ;
     /***
      * 连接远程节点
      * @param address

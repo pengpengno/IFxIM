@@ -19,7 +19,8 @@ public class ReactiveConnectionConsumer extends ConnectionConsumer {
     public ReactiveConnectionConsumer(){
         super((nettyInbound, nettyOutbound) -> {
 
-            Flux<byte[]> handle = nettyInbound.receive().handle((byteBuf, sink) -> nettyInbound.withConnection(connection -> {
+            Flux<byte[]> handle = nettyInbound.receive().handle((byteBuf, sink) ->
+                    nettyInbound.withConnection(connection -> {
 
                 int i = byteBuf.readableBytes();
 
@@ -29,7 +30,6 @@ public class ReactiveConnectionConsumer extends ConnectionConsumer {
                         ByteBufProcessService.getInstance().process(connection,byteBuf);
 
                     }catch (Exception exception){
-
 
                         log.error("reactor netty occur error {} ", ExceptionUtil.stacktraceToString(exception));
 
@@ -41,7 +41,6 @@ public class ReactiveConnectionConsumer extends ConnectionConsumer {
             }));
 
             return nettyOutbound.sendByteArray(Flux.concat(handle));
-
         });
         log.debug("The ReactorConnectionConsumer SPI FxReactiveClientHandler service provider has load ! ");
     }

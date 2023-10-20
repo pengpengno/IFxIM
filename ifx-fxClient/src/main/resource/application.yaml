@@ -1,3 +1,7 @@
+spring:
+  main:
+    web-application-type: none
+
 ifx:
   api:
     gateway:

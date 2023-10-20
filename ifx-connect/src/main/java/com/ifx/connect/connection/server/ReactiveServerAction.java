@@ -2,7 +2,7 @@ package com.ifx.connect.connection.server;
 
 import com.google.protobuf.Message;
 import com.ifx.connect.connection.server.context.IConnection;
-import com.ifx.exec.ex.net.NetException;
+import com.ifx.common.ex.net.NetException;
 import reactor.core.publisher.Mono;
 
 /**
@@ -24,7 +24,7 @@ public interface ReactiveServerAction {
      * @param account
      * @param message
      * @return
-     * @throws com.ifx.exec.ex.net.NetException
+     * @throws com.ifx.common.ex.net.NetException
      */
     Mono<Void>  sendMessage(String account , Message message) throws NetException;
 

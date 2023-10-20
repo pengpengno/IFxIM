@@ -5,7 +5,7 @@ import com.github.benmanes.caffeine.cache.Caffeine;
 import com.ifx.common.utils.ValidatorUtil;
 import com.ifx.connect.connection.ConnectionConstants;
 import com.ifx.connect.proto.Account;
-import com.ifx.exec.ex.connect.ConnectException;
+import com.ifx.common.ex.connect.ConnectException;
 import lombok.extern.slf4j.Slf4j;
 import reactor.netty.Connection;
 
@@ -48,11 +48,6 @@ public class IConnectContext implements IConnectContextAction {
     @Override
     public IConnection putConnection(IConnection connection) {
          ValidatorUtil.validateThrows(connection, IConnection.Create.class);
-//        Assert.notNull(connection,"connection could not be null , when put new connection in cache");
-//        Assert.notNull(connection.accountInfo(),"connection accountInfo could not be null , when put new connection in cache");
-//        Assert.notNull(connection.accountInfo().getAccount(),"connection accountInfo  accout could not be null , when put new connection in cache");
-//        Assert.notNull(connection.channel(),"connection channel could not be null , when put new connection in cache");
-//        Assert.notNull(connection.connection(),"connection connection could not be null , when put new connection in cache");
         String account = connection.accountInfo().getAccount();
         connectionCache.put(account,connection);
         return connection;
